@@ -1,25 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { ReactElement } from 'react';
+import { Layout } from 'antd';
+import HeaderButton from './components/header';
 import './App.less';
+import SiderTree from './components/sider';
 
-function App() {
+const { Header, Footer, Sider, Content } = Layout;
+
+
+const siderStyle: React.CSSProperties = {
+  backgroundColor: '#fff',
+};
+
+function App(): ReactElement {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout style={{ width: '100vw', height: '100vh' }}>
+      <Header className='app-header'><HeaderButton /></Header>
+      <Layout hasSider>
+        <Sider style={siderStyle}><SiderTree /></Sider>
+        <Content className='app-content'>Content</Content>
+      </Layout>
+      <Footer className='app-footer'>Footer</Footer>
+    </Layout>
   );
 }
 

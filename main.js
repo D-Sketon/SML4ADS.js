@@ -1,17 +1,70 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require('electron')
-const path = require('path')
+const { app, BrowserWindow, Menu } = require('electron');
+const path = require('path');
+
+const generateTree = require("./node/generateTree");
+const { ipcMain } = require('electron')
+const excludeFiles = ["node_modules", ".git", "yarn.lock"]; // 添加你想要排除的文件名
+
+const handleGenerateFile = () => {
+  return generateTree("./", excludeFiles);
+}
 
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1000,
+    height: 700,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
     }
   })
+
+  const menuTemplate = [
+    {
+      label: 'File',
+      submenu: [
+        {
+          label: 'New',
+          submenu: [
+            {
+              label: 'Directory',
+            },
+            {
+              label: 'Model',
+            },
+            {
+              label: 'Tree',
+            }
+          ]
+        },
+        {
+          type: 'separator',
+        },
+        {
+          label: 'Settings',
+        },
+        {
+          label: 'Close project',
+        }
+      ]
+    },
+    {
+      label: 'Edit',
+      submenu: [
+        {
+          label: 'Delete',
+        }
+      ]
+    },
+    {
+      label: 'Help',
+    }
+  ]
+
+  const menu = Menu.buildFromTemplate(menuTemplate)
+  Menu.setApplicationMenu(menu)
 
   const startUrl =
     process.env.NODE_ENV === 'development'
@@ -20,13 +73,14 @@ function createWindow() {
   mainWindow.loadURL(startUrl);
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+  ipcMain.handle('file:generateTree', handleGenerateFile);
   const interfaces = require('os').networkInterfaces();
 
   console.log("Mac================" + JSON.stringify(interfaces));
@@ -46,5 +100,3 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
