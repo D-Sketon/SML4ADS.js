@@ -1,25 +1,27 @@
-import React, { ReactElement } from 'react';
-import { Layout } from 'antd';
-import HeaderButton from './components/header';
-import './App.less';
-import SiderTree from './components/sider';
+import React, { ReactElement } from "react";
+import { Layout } from "antd";
+import HeaderButton from "./components/header";
+import "./App.less";
+import SiderTree from "./components/sider";
 
-const { Header, Footer, Sider, Content } = Layout;
+import AntdResizeableSidebar from "./components/common/AntdResizeableSidebar";
+import ContentCore from "./components/content";
 
-
-const siderStyle: React.CSSProperties = {
-  backgroundColor: '#fff',
-};
+const { Header, Footer, Content } = Layout;
 
 function App(): ReactElement {
   return (
-    <Layout style={{ width: '100vw', height: '100vh' }}>
-      <Header className='app-header'><HeaderButton /></Header>
+    <Layout style={{ width: "100vw", height: "100vh" }}>
+      <Header className="app-header">
+        <HeaderButton />
+      </Header>
       <Layout hasSider>
-        <Sider style={siderStyle}><SiderTree /></Sider>
-        <Content className='app-content'>Content</Content>
+        <AntdResizeableSidebar theme="light" style={{ overflow: 'auto' }}>
+          <SiderTree />
+        </AntdResizeableSidebar>
+        <Content className="app-content"><ContentCore /></Content>
       </Layout>
-      <Footer className='app-footer'>Footer</Footer>
+      <Footer className="app-footer">Footer</Footer>
     </Layout>
   );
 }
