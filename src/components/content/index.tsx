@@ -1,17 +1,22 @@
 import React, { ReactElement, useRef, useState } from "react";
 import { Button, Tabs } from "antd";
 import Model from "./model";
+import Tree from "./tree";
 
 type TargetKey = React.MouseEvent | React.KeyboardEvent | string;
 
-const defaultPanes = new Array(2).fill(null).map((_, index) => {
-  const id = String(index + 1);
-  return {
-    label: `Tab ${id}`,
+const defaultPanes = [
+  {
+    label: "Tab 1",
     children: <Model />,
-    key: id,
-  };
-});
+    key: "1",
+  },
+  {
+    label: "Tab 2",
+    children: <Tree />,
+    key: "2",
+  },
+]
 
 function ContentCore(): ReactElement {
   const [activeKey, setActiveKey] = useState(defaultPanes[0].key);
@@ -53,7 +58,7 @@ function ContentCore(): ReactElement {
   };
 
   return (
-    <div>
+    <div style={{ height: '100%' }}>
       {/* <div style={{ marginBottom: 16 }}>
         <Button onClick={add}>ADD</Button>
       </div> */}
@@ -64,6 +69,7 @@ function ContentCore(): ReactElement {
         type="editable-card"
         onEdit={onEdit}
         items={items}
+        style={{ height: '100%' }}
       />
     </div>
   );

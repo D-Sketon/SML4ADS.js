@@ -28,6 +28,152 @@ interface CarInformationProps {
   simulatorType: string;
 }
 
+function globalPosition(): ReactElement {
+  return (
+    <>
+      <Form.Item<BasicFieldType> label="x" name="x" labelCol={{ span: 6 }}>
+        <InputNumber style={{ width: 150 }} />
+      </Form.Item>
+      <Form.Item<BasicFieldType> label="y" name="y" labelCol={{ span: 6 }}>
+        <InputNumber style={{ width: 150 }} />
+      </Form.Item>
+    </>
+  );
+}
+
+function lanePosition(): ReactElement {
+  return (
+    <>
+      <Form.Item<BasicFieldType>
+        label="roadId"
+        name="roadId"
+        labelCol={{ span: 6 }}
+      >
+        <Input style={{ width: 150 }} />
+      </Form.Item>
+      <Form.Item<BasicFieldType>
+        label="laneId"
+        name="laneId"
+        labelCol={{ span: 6 }}
+      >
+        <Input style={{ width: 150 }} />
+      </Form.Item>
+      <Form.Item<BasicFieldType>
+        label="minLateralOffset"
+        name="minLateralOffset"
+        labelCol={{ span: 6 }}
+      >
+        <InputNumber style={{ width: 150 }} />
+      </Form.Item>
+      <Form.Item<BasicFieldType>
+        label="maxLateralOffset"
+        name="maxLateralOffset"
+        labelCol={{ span: 6 }}
+      >
+        <InputNumber style={{ width: 150 }} />
+      </Form.Item>
+      <Form.Item<BasicFieldType>
+        label="minLongitudinalOffset"
+        name="minLongitudinalOffset"
+        labelCol={{ span: 6 }}
+      >
+        <InputNumber style={{ width: 150 }} />
+      </Form.Item>
+      <Form.Item<BasicFieldType>
+        label="maxLongitudinalOffset"
+        name="maxLongitudinalOffset"
+        labelCol={{ span: 6 }}
+      >
+        <InputNumber style={{ width: 150 }} />
+      </Form.Item>
+    </>
+  );
+}
+
+function roadPosition(): ReactElement {
+  return (
+    <>
+      <Form.Item<BasicFieldType>
+        label="roadId"
+        name="roadId"
+        labelCol={{ span: 6 }}
+      >
+        <Input style={{ width: 150 }} />
+      </Form.Item>
+      <Form.Item<BasicFieldType>
+        label="minLateralOffset"
+        name="minLateralOffset"
+        labelCol={{ span: 6 }}
+      >
+        <InputNumber style={{ width: 150 }} />
+      </Form.Item>
+      <Form.Item<BasicFieldType>
+        label="maxLateralOffset"
+        name="maxLateralOffset"
+        labelCol={{ span: 6 }}
+      >
+        <InputNumber style={{ width: 150 }} />
+      </Form.Item>
+      <Form.Item<BasicFieldType>
+        label="minLongitudinalOffset"
+        name="minLongitudinalOffset"
+        labelCol={{ span: 6 }}
+      >
+        <InputNumber style={{ width: 150 }} />
+      </Form.Item>
+      <Form.Item<BasicFieldType>
+        label="maxLongitudinalOffset"
+        name="maxLongitudinalOffset"
+        labelCol={{ span: 6 }}
+      >
+        <InputNumber style={{ width: 150 }} />
+      </Form.Item>
+    </>
+  );
+}
+
+function relatedPosition(): ReactElement {
+  return (
+    <>
+      <Form.Item<BasicFieldType>
+        label="actorRef"
+        name="actorRef"
+        labelCol={{ span: 6 }}
+      >
+        <Input style={{ width: 150 }} />
+      </Form.Item>
+      <Form.Item<BasicFieldType>
+        label="minLateralOffset"
+        name="minLateralOffset"
+        labelCol={{ span: 6 }}
+      >
+        <InputNumber style={{ width: 150 }} />
+      </Form.Item>
+      <Form.Item<BasicFieldType>
+        label="maxLateralOffset"
+        name="maxLateralOffset"
+        labelCol={{ span: 6 }}
+      >
+        <InputNumber style={{ width: 150 }} />
+      </Form.Item>
+      <Form.Item<BasicFieldType>
+        label="minLongitudinalOffset"
+        name="minLongitudinalOffset"
+        labelCol={{ span: 6 }}
+      >
+        <InputNumber style={{ width: 150 }} />
+      </Form.Item>
+      <Form.Item<BasicFieldType>
+        label="maxLongitudinalOffset"
+        name="maxLongitudinalOffset"
+        labelCol={{ span: 6 }}
+      >
+        <InputNumber style={{ width: 150 }} />
+      </Form.Item>
+    </>
+  );
+}
+
 function CarInformation(props: CarInformationProps): ReactElement {
   const { simulatorType } = props;
   const [carForm] = Form.useForm();
@@ -41,152 +187,6 @@ function CarInformation(props: CarInformationProps): ReactElement {
         setDynamic(res.filePaths[0]);
       }
     });
-  }
-
-  function globalPosition(): ReactElement {
-    return (
-      <>
-        <Form.Item<BasicFieldType> label="x" name="x" labelCol={{ span: 6 }}>
-          <InputNumber style={{ width: 150 }} />
-        </Form.Item>
-        <Form.Item<BasicFieldType> label="y" name="y" labelCol={{ span: 6 }}>
-          <InputNumber style={{ width: 150 }} />
-        </Form.Item>
-      </>
-    );
-  }
-
-  function lanePosition(): ReactElement {
-    return (
-      <>
-        <Form.Item<BasicFieldType>
-          label="roadId"
-          name="roadId"
-          labelCol={{ span: 6 }}
-        >
-          <Input style={{ width: 150 }} />
-        </Form.Item>
-        <Form.Item<BasicFieldType>
-          label="laneId"
-          name="laneId"
-          labelCol={{ span: 6 }}
-        >
-          <Input style={{ width: 150 }} />
-        </Form.Item>
-        <Form.Item<BasicFieldType>
-          label="minLateralOffset"
-          name="minLateralOffset"
-          labelCol={{ span: 6 }}
-        >
-          <InputNumber style={{ width: 150 }} />
-        </Form.Item>
-        <Form.Item<BasicFieldType>
-          label="maxLateralOffset"
-          name="maxLateralOffset"
-          labelCol={{ span: 6 }}
-        >
-          <InputNumber style={{ width: 150 }} />
-        </Form.Item>
-        <Form.Item<BasicFieldType>
-          label="minLongitudinalOffset"
-          name="minLongitudinalOffset"
-          labelCol={{ span: 6 }}
-        >
-          <InputNumber style={{ width: 150 }} />
-        </Form.Item>
-        <Form.Item<BasicFieldType>
-          label="maxLongitudinalOffset"
-          name="maxLongitudinalOffset"
-          labelCol={{ span: 6 }}
-        >
-          <InputNumber style={{ width: 150 }} />
-        </Form.Item>
-      </>
-    );
-  }
-
-  function roadPosition(): ReactElement {
-    return (
-      <>
-        <Form.Item<BasicFieldType>
-          label="roadId"
-          name="roadId"
-          labelCol={{ span: 6 }}
-        >
-          <Input style={{ width: 150 }} />
-        </Form.Item>
-        <Form.Item<BasicFieldType>
-          label="minLateralOffset"
-          name="minLateralOffset"
-          labelCol={{ span: 6 }}
-        >
-          <InputNumber style={{ width: 150 }} />
-        </Form.Item>
-        <Form.Item<BasicFieldType>
-          label="maxLateralOffset"
-          name="maxLateralOffset"
-          labelCol={{ span: 6 }}
-        >
-          <InputNumber style={{ width: 150 }} />
-        </Form.Item>
-        <Form.Item<BasicFieldType>
-          label="minLongitudinalOffset"
-          name="minLongitudinalOffset"
-          labelCol={{ span: 6 }}
-        >
-          <InputNumber style={{ width: 150 }} />
-        </Form.Item>
-        <Form.Item<BasicFieldType>
-          label="maxLongitudinalOffset"
-          name="maxLongitudinalOffset"
-          labelCol={{ span: 6 }}
-        >
-          <InputNumber style={{ width: 150 }} />
-        </Form.Item>
-      </>
-    );
-  }
-
-  function relatedPosition(): ReactElement {
-    return (
-      <>
-        <Form.Item<BasicFieldType>
-          label="actorRef"
-          name="actorRef"
-          labelCol={{ span: 6 }}
-        >
-          <Input style={{ width: 150 }} />
-        </Form.Item>
-        <Form.Item<BasicFieldType>
-          label="minLateralOffset"
-          name="minLateralOffset"
-          labelCol={{ span: 6 }}
-        >
-          <InputNumber style={{ width: 150 }} />
-        </Form.Item>
-        <Form.Item<BasicFieldType>
-          label="maxLateralOffset"
-          name="maxLateralOffset"
-          labelCol={{ span: 6 }}
-        >
-          <InputNumber style={{ width: 150 }} />
-        </Form.Item>
-        <Form.Item<BasicFieldType>
-          label="minLongitudinalOffset"
-          name="minLongitudinalOffset"
-          labelCol={{ span: 6 }}
-        >
-          <InputNumber style={{ width: 150 }} />
-        </Form.Item>
-        <Form.Item<BasicFieldType>
-          label="maxLongitudinalOffset"
-          name="maxLongitudinalOffset"
-          labelCol={{ span: 6 }}
-        >
-          <InputNumber style={{ width: 150 }} />
-        </Form.Item>
-      </>
-    );
   }
 
   function getPositionComponent(): ReactElement {
@@ -277,14 +277,18 @@ function CarInformation(props: CarInformationProps): ReactElement {
           <InputNumber min={0} max={360} style={{ width: 150 }} />
         </Form.Item>
         <Form.Item<BasicFieldType> label="dynamic">
-          <Button
-            type="primary"
-            onClick={handleChooseFile}
-            style={{ marginRight: "10px" }}
-          >
-            Select File
-          </Button>
-          {dynamic}
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Button
+              type="primary"
+              onClick={handleChooseFile}
+              style={{ marginRight: "10px" }}
+            >
+              Select File
+            </Button>
+            <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
+              {dynamic}
+            </span>
+          </div>
         </Form.Item>
       </Form>
     </Card>

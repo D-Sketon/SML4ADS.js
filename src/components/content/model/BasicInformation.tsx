@@ -63,10 +63,14 @@ function BasicInformation(props: BasicInformationProps): ReactElement {
               ]}
             />
           </Form.Item>
-          <Button type="primary" style={{ marginRight: "20px", width: 120 }}>
-            Choose File
-          </Button>
-          C:\Users\Jack\Desktop\SML4ADS\Examples\OvertakingScenario
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Button type="primary" style={{ marginRight: "20px", width: 120 }}>
+              Choose File
+            </Button>
+            <span style={{ overflow: "hidden", textOverflow: 'ellipsis' }}>
+              C:\Users\Jack\Desktop\SML4ADS\Examples\OvertakingScenario
+            </span>
+          </div>
         </Form.Item>
 
         <Form.Item<BasicFieldType> label="weather" name="weather">

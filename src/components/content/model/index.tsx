@@ -8,12 +8,12 @@ function Model(): ReactElement {
   // get init data here
 
   return (
-    <div style={{ overflow: "auto", height: "100%" }}>
+    <div>
       <BasicInformation changeSimulatorType={setSimulatorType} />
       <CarInformation simulatorType={simulatorType} />
       <CarInformation simulatorType={simulatorType} />
       <CarInformation simulatorType={simulatorType} />
-      <div style={{ margin: "0 10px 10px 0", boxSizing: "border-box" }}>
+      <div style={{ padding: "0 10px 10px 0", boxSizing: "border-box" }}>
         <Button type="primary" block>
           + Add
         </Button>
