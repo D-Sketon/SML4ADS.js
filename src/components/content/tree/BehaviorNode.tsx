@@ -1,4 +1,4 @@
-import { Form, Input, InputNumber, Select } from "antd";
+import { Form, InputNumber, Select } from "antd";
 import { ReactElement, memo, useState } from "react";
 import { Handle, Position } from "reactflow";
 import { BehaviorType } from "./constant";
@@ -164,7 +164,7 @@ function BehaviorNode({ data, isConnectable }: any): ReactElement {
         name="behavior"
         labelCol={{ span: 10 }}
         wrapperCol={{ span: 14 }}
-        // initialValues={data.initialValues}
+        initialValues={data.initialValues}
         autoComplete="off"
         form={form}
       >
@@ -177,7 +177,7 @@ function BehaviorNode({ data, isConnectable }: any): ReactElement {
             className="nodrag nopan"
             style= {{ width: 150 }}
             onChange={handleBehaviorChange}
-            
+            getPopupContainer={triggerNode => triggerNode.parentElement}
           />
         </Form.Item>
         {getBehaviorComponent()}

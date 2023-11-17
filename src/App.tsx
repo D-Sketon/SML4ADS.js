@@ -7,7 +7,7 @@ import SiderTree from "./components/sider";
 import AntdResizeableSidebar from "./components/common/AntdResizeableSidebar";
 import ContentCore from "./components/content";
 
-const { Header, Footer, Content } = Layout;
+const { Header, Content } = Layout;
 
 function App(): ReactElement {
   return (
@@ -21,7 +21,7 @@ function App(): ReactElement {
         </AntdResizeableSidebar>
         <Content className="app-content"><ContentCore /></Content>
       </Layout>
-      <Footer className="app-footer">Footer</Footer>
+      {/* <Footer className="app-footer">Footer</Footer> */}
     </Layout>
   );
 }
