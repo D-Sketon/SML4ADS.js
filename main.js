@@ -1,16 +1,11 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, Menu } = require('electron');
 const path = require('path');
+const { ipcMain } = require('electron');
 
 const chooseFile = require('./node/chooseFile');
 const generateTree = require("./node/generateTree");
-const { ipcMain } = require('electron');
-
-const excludeFiles = ["node_modules", ".git", "yarn.lock"]; // 添加你想要排除的文件名
-
-const handleGenerateFile = () => {
-  return generateTree("./", excludeFiles);
-}
+const showOpenDialog = require('./node/showOpenDialog');
 
 function createWindow() {
   // Create the browser window.
@@ -82,11 +77,10 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  ipcMain.handle('file:generateTree', handleGenerateFile);
+  ipcMain.handle('file:generateTree', generateTree);
   ipcMain.handle('file:chooseFile', chooseFile);
-  const interfaces = require('os').networkInterfaces();
+  ipcMain.handle('file:showOpenDialog', showOpenDialog);
 
-  console.log("Mac================" + JSON.stringify(interfaces));
   createWindow()
 
   app.on('activate', function () {

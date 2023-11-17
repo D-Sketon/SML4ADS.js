@@ -1,18 +1,21 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useContext, useEffect, useState } from "react";
 import { Tree } from "antd";
 import type { DataNode, DirectoryTreeProps } from "antd/es/tree";
+import AppContext from "../../store/context";
 
 const { DirectoryTree } = Tree;
 
 function SiderTree(): ReactElement {
+  const { state } = useContext(AppContext);
   const [treeData, setTreeData] = useState<DataNode[]>([]);
 
   useEffect(() => {
-    const a = async () => {
-      const data = await window.electronAPI.generateTree();
+    const asyncFn = async () => {
+      const data = await window.electronAPI.generateTree(state.workspacePath);
       setTreeData(data);
-    }
-    a();
+    };
+    asyncFn();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onSelect: DirectoryTreeProps["onSelect"] = (keys, info) => {

@@ -1,18 +1,64 @@
-.app-header {
-  text-align: center;
-  height: 40px;
-  background-color: #f0f0f0;
-  padding: 0 10px;
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.app-content {
-  color: #fff;
-  overflow: auto;
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+aside::-webkit-scrollbar {
+  width: 8px;
+}
+
+aside::-webkit-scrollbar-track {
+  background: rgb(239, 239, 239);
+  border-radius: 2px;
+}
+
+aside::-webkit-scrollbar-thumb {
+  background: #40a0ff49;
+  border-radius: 10px;
+}
+aside::-webkit-scrollbar-thumb:hover {
+  background: #40a0ff;
+}
+
+main::-webkit-scrollbar {
+  width: 8px;
+}
+
+main::-webkit-scrollbar-track {
+  background: rgb(239, 239, 239);
+  border-radius: 2px;
+}
+
+main::-webkit-scrollbar-thumb {
+  background: #40a0ff49;
+  border-radius: 10px;
+}
+main::-webkit-scrollbar-thumb:hover {
+  background: #40a0ff;
+}
+
+.ant-tabs-top >.ant-tabs-nav {
+  margin: 0;
+}
+
+.ant-form-item {
+  margin-bottom: 16px;
+}
+
+.ant-tabs-content {
   height: 100%;
 }
 
-.app-footer {
-  text-align: center;
-  color: #fff;
-  background-color: #1890ff;
+.ant-tabs-tabpane {
+  height: 100%;
 }

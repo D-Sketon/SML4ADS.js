@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const Crypto = require('crypto');
 
-function generateTree(folderPath, excludeFiles = []) {
+function generateTree(_e, folderPath, excludeFiles = []) {
   const result = [];
 
   const files = fs.readdirSync(folderPath);
@@ -17,7 +17,7 @@ function generateTree(folderPath, excludeFiles = []) {
     const hash = Crypto.createHash('md5').update(filePath).digest('hex');
 
     if (stats.isDirectory()) {
-      const children = generateTree(filePath, excludeFiles);
+      const children = generateTree(null, filePath, excludeFiles);
       result.push({
         title: file,
         key: hash,
@@ -31,7 +31,8 @@ function generateTree(folderPath, excludeFiles = []) {
       });
     }
   });
-
+  console.log(result);
   return result;
 }
+
 module.exports = generateTree;

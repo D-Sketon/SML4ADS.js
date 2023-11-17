@@ -1,6 +1,6 @@
 const { dialog } = require('electron');
 
-async function chooseFile(filter) {
+async function chooseFile(_e, filter) {
   return await dialog.showOpenDialog({
     title: 'Please choose a tree file', 
     defaultPath: '/',

@@ -1,27 +1,24 @@
-import React, { ReactElement } from "react";
-import { Layout } from "antd";
-import HeaderButton from "./components/header";
-import SiderTree from "./components/sider";
-import AntdResizeableSidebar from "./components/common/AntdResizeableSidebar";
-import ContentCore from "./components/content";
+import React, { ReactElement, useReducer } from "react";
 
-import "./App.less";
-
-const { Header, Content } = Layout;
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Welcome from "./components/Welcome";
+import AppContext from "./store/context";
+import Home from "./components/Home";
+import { initialState, reducer } from "./store/reducer";
+import './App.less';
 
 function App(): ReactElement {
+  const [state, dispatch] = useReducer(reducer, initialState);
   return (
-    <Layout style={{ width: "100vw", height: "100vh" }}>
-      <Header className="app-header">
-        <HeaderButton />
-      </Header>
-      <Layout hasSider>
-        <AntdResizeableSidebar theme="light" style={{ overflow: 'auto' }}>
-          <SiderTree />
-        </AntdResizeableSidebar>
-        <Content className="app-content"><ContentCore /></Content>
-      </Layout>
-    </Layout>
+    <AppContext.Provider value={{ state, dispatch }}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/home" element={<Home />} />
+          <Route path="/welcome" element={<Welcome />} />
+          <Route path="/" element={<Navigate to="/welcome" />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </AppContext.Provider>
   );
 }
 
