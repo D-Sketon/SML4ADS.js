@@ -2,7 +2,8 @@
 export interface IElectronAPI {
   generateTree: (folderPath: string, excludeFiles?: string[]) => Promise<any>;
   chooseFile: (filter: string[]) => Promise<any>;
-  showOpenDialog: () => Promise<any>;
+  chooseDirectory: () => Promise<any>;
+  readFile: (path: string) => Promise<string>;
 }
 
 declare global {

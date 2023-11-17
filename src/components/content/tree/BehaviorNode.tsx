@@ -183,7 +183,6 @@ function BehaviorNode({ data, isConnectable }: any): ReactElement {
       <Handle
         type="source"
         position={Position.Bottom}
-        id="b"
         style={{ background: "#555" }}
         isConnectable={isConnectable}
       />

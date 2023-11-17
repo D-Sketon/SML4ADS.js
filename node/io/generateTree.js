@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const Crypto = require('crypto');
 
 function generateTree(_e, folderPath, excludeFiles = []) {
   const result = [];
@@ -14,24 +13,22 @@ function generateTree(_e, folderPath, excludeFiles = []) {
 
     const filePath = path.join(folderPath, file);
     const stats = fs.statSync(filePath);
-    const hash = Crypto.createHash('md5').update(filePath).digest('hex');
 
     if (stats.isDirectory()) {
       const children = generateTree(null, filePath, excludeFiles);
       result.push({
         title: file,
-        key: hash,
+        key: filePath,
         children,
       });
     } else {
       result.push({
         title: file,
-        key: hash,
+        key: filePath,
         isLeaf: true,
       });
     }
   });
-  console.log(result);
   return result;
 }
 

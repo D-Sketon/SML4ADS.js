@@ -8,13 +8,11 @@ function BehaviorNode({ data, isConnectable }: any): ReactElement {
         type="target"
         position={Position.Top}
         style={{ background: "#555" }}
-        onConnect={(params) => console.log("handle onConnect", params)}
         isConnectable={isConnectable}
       />
       <Handle
         type="source"
         position={Position.Bottom}
-        id="b"
         style={{ background: "#555" }}
         isConnectable={isConnectable}
       />

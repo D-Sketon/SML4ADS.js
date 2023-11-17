@@ -3,9 +3,10 @@ const { app, BrowserWindow, Menu } = require('electron');
 const path = require('path');
 const { ipcMain } = require('electron');
 
-const chooseFile = require('./node/chooseFile');
-const generateTree = require("./node/generateTree");
-const showOpenDialog = require('./node/showOpenDialog');
+const chooseFile = require('./node/io/chooseFile');
+const generateTree = require("./node/io/generateTree");
+const chooseDirectory = require('./node/io/chooseDirectory');
+const readFile = require('./node/io/readFile');
 
 function createWindow() {
   // Create the browser window.
@@ -79,7 +80,8 @@ function createWindow() {
 app.whenReady().then(() => {
   ipcMain.handle('file:generateTree', generateTree);
   ipcMain.handle('file:chooseFile', chooseFile);
-  ipcMain.handle('file:showOpenDialog', showOpenDialog);
+  ipcMain.handle('file:chooseDirectory', chooseDirectory);
+  ipcMain.handle('file:readFile', readFile);
 
   createWindow()
 

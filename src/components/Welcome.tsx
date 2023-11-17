@@ -1,4 +1,4 @@
-import { ReactElement, useContext } from "react";
+import { ReactElement, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./Welcome.less";
@@ -10,10 +10,14 @@ import { setWorkspacePath } from "../store/action";
 function Welcome(): ReactElement {
   const navigate = useNavigate();
   const { dispatch } = useContext(AppContext);
+  const [disableOpenButton, setDisableOpenButton] = useState(false);
+
   function handleNew() {}
 
   function handleOpen() {
-    window.electronAPI.showOpenDialog().then((res) => {
+    setDisableOpenButton(true);
+    window.electronAPI.chooseDirectory().then((res) => {
+      setDisableOpenButton(false);
       if (res.filePaths.length) {
         dispatch(setWorkspacePath(res.filePaths[0]));
         navigate("/home");
@@ -28,7 +32,7 @@ function Welcome(): ReactElement {
           <Button type="link" size="large" onClick={handleNew}>
             New Project
           </Button>
-          <Button type="link" size="large" onClick={handleOpen}>
+          <Button type="link" size="large" onClick={handleOpen} disabled={disableOpenButton}>
             Open
           </Button>
         </div>
