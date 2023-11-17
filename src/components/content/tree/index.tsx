@@ -23,7 +23,7 @@ import ProbabilityTransition from "./ProbabilityTransition";
 import "./index.less";
 import ElementProvider from "./ElementProvider";
 import { BehaviorType } from "./constant";
-import { Col, Drawer, Input, InputNumber, Row } from "antd";
+import { Col, Drawer, InputNumber, Row } from "antd";
 import TextArea from "antd/es/input/TextArea";
 
 const nodeTypes = {
@@ -237,7 +237,7 @@ function Tree(): ReactElement {
   }
 
   return (
-    <div style={{ overflow: "auto", height: "100%", backgroundColor: "#fff" }}>
+    <div style={{ overflow: "hidden", height: "100%", backgroundColor: "#fff", position: 'relative' }}>
       <ReactFlowProvider>
         <ElementProvider />
         <ReactFlow

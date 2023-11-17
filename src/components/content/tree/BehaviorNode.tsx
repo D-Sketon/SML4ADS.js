@@ -16,7 +16,6 @@ function keepBehavior(): ReactElement {
     <Form.Item<BehaviorFieldType>
       label="duration"
       name="duration"
-      rules={[{ required: true, message: "Please input your username!" }]}
     >
       <InputNumber min={0} style= {{ width: 150 }}/>
     </Form.Item>
@@ -157,7 +156,6 @@ function BehaviorNode({ data, isConnectable }: any): ReactElement {
         type="target"
         position={Position.Top}
         style={{ background: "#555" }}
-        onConnect={(params) => console.log("handle onConnect", params)}
         isConnectable={isConnectable}
       />
       <Form<BehaviorFieldType>

@@ -1,11 +1,11 @@
 import React, { ReactElement } from "react";
 import { Layout } from "antd";
 import HeaderButton from "./components/header";
-import "./App.less";
 import SiderTree from "./components/sider";
-
 import AntdResizeableSidebar from "./components/common/AntdResizeableSidebar";
 import ContentCore from "./components/content";
+
+import "./App.less";
 
 const { Header, Content } = Layout;
 
@@ -21,7 +21,6 @@ function App(): ReactElement {
         </AntdResizeableSidebar>
         <Content className="app-content"><ContentCore /></Content>
       </Layout>
-      {/* <Footer className="app-footer">Footer</Footer> */}
     </Layout>
   );
 }

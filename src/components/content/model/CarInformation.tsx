@@ -2,7 +2,7 @@ import { Card, Form, Select, Button, InputNumber, Input } from "antd";
 import { ReactElement, useState } from "react";
 import { VEHICLE_TYPES_CARLA, VEHICLE_TYPES_LGSVL } from "./constant";
 
-export type BasicFieldType = {
+type BasicFieldType = {
   name?: string;
   model?: string;
   maxSpeed?: string;
@@ -232,7 +232,11 @@ function CarInformation(props: CarInformationProps): ReactElement {
         }}
         autoComplete="off"
       >
-        <Form.Item<BasicFieldType> label="name" name="name">
+        <Form.Item<BasicFieldType>
+          label="name"
+          name="name"
+          rules={[{ required: true, message: "car.name is required" }]}
+        >
           <Input />
         </Form.Item>
         <Form.Item<BasicFieldType> label="model" name="model">
@@ -245,10 +249,18 @@ function CarInformation(props: CarInformationProps): ReactElement {
             }
           />
         </Form.Item>
-        <Form.Item<BasicFieldType> label="maxSpeed" name="maxSpeed">
+        <Form.Item<BasicFieldType>
+          label="maxSpeed"
+          name="maxSpeed"
+          rules={[{ required: true, message: "car.maxSpeed is required" }]}
+        >
           <InputNumber min={0} max={180} style={{ width: 150 }} />
         </Form.Item>
-        <Form.Item<BasicFieldType> label="initialSpeed" name="initialSpeed">
+        <Form.Item<BasicFieldType>
+          label="initialSpeed"
+          name="initialSpeed"
+          rules={[{ required: true, message: "car.initialSpeed is required" }]}
+        >
           <InputNumber min={0} max={180} style={{ width: 150 }} />
         </Form.Item>
         <Form.Item<BasicFieldType> label="location" name="location">
@@ -273,7 +285,11 @@ function CarInformation(props: CarInformationProps): ReactElement {
             ]}
           />
         </Form.Item>
-        <Form.Item<BasicFieldType> label="roadDeviation" name="roadDeviation">
+        <Form.Item<BasicFieldType>
+          label="roadDeviation"
+          name="roadDeviation"
+          rules={[{ required: true, message: "car.roadDeviation is required" }]}
+        >
           <InputNumber min={0} max={360} style={{ width: 150 }} />
         </Form.Item>
         <Form.Item<BasicFieldType> label="dynamic">

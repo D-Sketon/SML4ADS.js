@@ -8,7 +8,15 @@ function ElementProvider(): ReactElement {
   };
 
   return (
-    <div style={{ display: "flex", gap: "10px", margin: '5px 10px' }}>
+    <div
+      style={{
+        display: "flex",
+        gap: "10px",
+        margin: "5px 10px",
+        position: "absolute",
+        zIndex: "1051",
+      }}
+    >
       <Button
         type="primary"
         onDragStart={(event) => onDragStart(event, "BehaviorNode")}
