@@ -1,6 +1,7 @@
 import { Card, Form, Select, Button, InputNumber, Input } from "antd";
 import { ReactElement, useState } from "react";
 import { VEHICLE_TYPES_CARLA, VEHICLE_TYPES_LGSVL } from "./constant";
+import { FILE_SUFFIX } from "../../../constants";
 
 type BasicFieldType = {
   name?: string;
@@ -182,7 +183,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
   const [dynamic, setDynamic] = useState("");
 
   function handleChooseFile(): void {
-    window.electronAPI.chooseFile(["tree"]).then((res) => {
+    window.electronAPI.chooseFile([FILE_SUFFIX.TREE]).then((res) => {
       if (res.filePaths.length) {
         setDynamic(res.filePaths[0]);
       }

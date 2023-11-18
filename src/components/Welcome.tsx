@@ -8,6 +8,7 @@ import AppContext from "../store/context";
 import { setConfig, setWorkspacePath } from "../store/action";
 import NewProjectModal from "./modal/NewProjectModal";
 import { MConfig, defaultConfig } from "../model/Config";
+import { GLOBAL_CONSTANTS } from "../constants";
 
 function Welcome(): ReactElement {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ function Welcome(): ReactElement {
   }
 
   async function validateConfig(path: string) {
-    const configPath = `${path}/.adsml/config.json`;
+    const configPath = `${path}/${GLOBAL_CONSTANTS.CONFIG_FILE_DIR}/${GLOBAL_CONSTANTS.CONFIG_FILE_NAME}`;
     try {
       const content = await window.electronAPI.readFile(configPath);
       const config: MConfig = JSON.parse(content);

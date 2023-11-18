@@ -11,6 +11,7 @@ import AppContext from "../../store/context";
 import DeleteConfirmModal from "../modal/DeleteConfirmModal";
 import NewDirectoryModal from "../modal/NewDirectoryModal";
 import NewFileDirectory from "../modal/NewFileModal";
+import { FILE_OPERATION, FILE_SUFFIX, FILE_TYPE } from "../../constants";
 
 const { DirectoryTree } = Tree;
 
@@ -63,21 +64,21 @@ function SiderTree(): ReactElement {
       children: [
         {
           label: "Directory",
-          key: "directory",
+          key: FILE_TYPE.DIRECTORY,
         },
         {
           label: "Model",
-          key: "model",
+          key: FILE_SUFFIX.MODEL,
         },
         {
           label: "Tree",
-          key: "tree",
+          key: FILE_SUFFIX.TREE,
         },
       ],
     },
     {
       label: "Delete",
-      key: "delete",
+      key: FILE_OPERATION.DELETE,
     },
   ];
 
@@ -91,7 +92,7 @@ function SiderTree(): ReactElement {
         info = rightSelectInfo;
       }
       switch (key) {
-        case "directory":
+        case FILE_TYPE.DIRECTORY:
           if (info?.isLeaf || info === void 0) {
             notification.error({
               message: "Error",
@@ -101,7 +102,7 @@ function SiderTree(): ReactElement {
           }
           setNewDirectoryModalVisible(true);
           break;
-        case "model":
+        case FILE_SUFFIX.MODEL:
           if (info?.isLeaf || info === void 0) {
             notification.error({
               message: "Error",
@@ -109,10 +110,10 @@ function SiderTree(): ReactElement {
             });
             return;
           }
-          setNewFileExt("model");
+          setNewFileExt(FILE_SUFFIX.MODEL);
           setNewFileModalVisible(true);
           break;
-        case "tree":
+        case FILE_SUFFIX.TREE:
           if (info?.isLeaf || info === void 0) {
             notification.error({
               message: "Error",
@@ -120,10 +121,10 @@ function SiderTree(): ReactElement {
             });
             return;
           }
-          setNewFileExt("tree");
+          setNewFileExt(FILE_SUFFIX.TREE);
           setNewFileModalVisible(true);
           break;
-        case "delete":
+        case FILE_OPERATION.DELETE:
           setDeleteConfirmModalVisible(true);
           break;
         default:
@@ -139,10 +140,10 @@ function SiderTree(): ReactElement {
       onClick({ key: "directory" }, true);
     };
     const onNewFileCallback = (_e: any, ext: string) => {
-      if (ext === "tree") {
-        onClick({ key: "tree" }, true);
-      } else if (ext === "model") {
-        onClick({ key: "model" }, true);
+      if (ext === FILE_SUFFIX.TREE) {
+        onClick({ key: FILE_SUFFIX.TREE }, true);
+      } else if (ext === FILE_SUFFIX.MODEL) {
+        onClick({ key: FILE_SUFFIX.MODEL }, true);
       }
     };
     const onDeleteFileCallback = (_e: any) => {
