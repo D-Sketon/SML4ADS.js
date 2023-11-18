@@ -13,5 +13,19 @@ contextBridge.exposeInMainWorld('electronAPI', {
   chooseFile: (filter) => ipcRenderer.invoke('ui:chooseFile', filter),
   chooseDirectory: () => ipcRenderer.invoke('ui:chooseDirectory'),
 
-  openNotification: (callback) => ipcRenderer.on('ui:openNotification', callback)
+  onOpenNotification: (callback) => ipcRenderer.on('ui:onOpenNotification', callback),
+  onNewDirectory: (callback) => ipcRenderer.on('ui:onNewDirectory', callback),
+  onNewFile: (callback) => ipcRenderer.on('ui:onNewFile', callback),
+  onDeleteFile: (callback) => ipcRenderer.on('ui:onDeleteFile', callback),
+  onShowSettings: (callback) => ipcRenderer.on('ui:onShowSettings', callback),
+  onClearStore: (callback) => ipcRenderer.on('chore:onClearStore', callback),
+  onChangeRoute: (callback) => ipcRenderer.on('chore:onChangeRoute', callback),
+
+  offAllOpenNotification: () => ipcRenderer.removeAllListeners('ui:onOpenNotification'),
+  offAllNewDirectory: () => ipcRenderer.removeAllListeners('ui:onNewDirectory'),
+  offAllNewFile: () => ipcRenderer.removeAllListeners('ui:onNewFile'),
+  offAllDeleteFile: () => ipcRenderer.removeAllListeners('ui:onDeleteFile'),
+  offAllShowSettings: () => ipcRenderer.removeAllListeners('ui:onShowSettings'),
+  offAllClearStore: () => ipcRenderer.removeAllListeners('chore:onClearStore'),
+  offAllChangeRoute: () => ipcRenderer.removeAllListeners('chore:onChangeRoute'),
 });

@@ -2,11 +2,12 @@ import { ReactElement, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./Welcome.less";
-import { Button } from "antd";
+import { Button, notification } from "antd";
 import Title from "antd/es/typography/Title";
 import AppContext from "../store/context";
-import { setWorkspacePath } from "../store/action";
+import { setConfig, setWorkspacePath } from "../store/action";
 import NewProjectModal from "./modal/NewProjectModal";
+import { MConfig, defaultConfig } from "../model/Config";
 
 function Welcome(): ReactElement {
   const navigate = useNavigate();
@@ -15,19 +16,40 @@ function Welcome(): ReactElement {
   const [NewProjectModalVisible, setNewProjectModalVisible] = useState(false);
 
   function handleNew() {
-    setNewProjectModalVisible(true)
+    setNewProjectModalVisible(true);
   }
 
-  function handleOpen() {
+  async function handleOpen() {
     setDisableOpenButton(true);
-    window.electronAPI.chooseDirectory().then((res) => {
-      setDisableOpenButton(false);
-      if (res.filePaths.length) {
-        dispatch(setWorkspacePath(res.filePaths[0]));
-        navigate("/home");
-      }
-    });
+    const res = await window.electronAPI.chooseDirectory();
+    setDisableOpenButton(false);
+    if (res.filePaths.length) {
+      dispatch(setWorkspacePath(res.filePaths[0]));
+      await validateConfig(res.filePaths[0]);
+      navigate("/home");
+    }
   }
+
+  async function validateConfig(path: string) {
+    const configPath = `${path}/.adsml/config.json`;
+    try {
+      const content = await window.electronAPI.readFile(configPath);
+      const config: MConfig = JSON.parse(content);
+      if (!config) {
+        throw new Error("Invalid config file");
+      }
+      dispatch(setConfig(config));
+    } catch (error: any) {
+      notification.error({
+        message: "Error",
+        description: error.message,
+      });
+      // write default config
+      await window.electronAPI.writeJson(configPath, defaultConfig);
+      dispatch(setConfig(JSON.parse(JSON.stringify(defaultConfig))));
+    }
+  }
+
   return (
     <>
       <div className="welcome-wrapper">

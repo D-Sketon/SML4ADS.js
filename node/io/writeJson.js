@@ -5,7 +5,7 @@ async function writeJson(_e, path, object) {
   try {
     await fs.writeFile(path, json);
   } catch (error) {
-    _e?.sender.send('ui:openNotification', 'error', 'Error', error.message);
+    _e?.sender.send('ui:onOpenNotification', 'error', 'Error', error.message);
     return false;
   }
   return true;

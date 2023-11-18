@@ -19,10 +19,10 @@ function deleteFile(_e, path) {
       }
       fs.rmdirSync(path);
     }
-    _e?.sender.send('ui:openNotification', 'success', 'Success', 'Files deleted successfully!');
+    _e?.sender.send('ui:onOpenNotification', 'success', 'Success', 'Files deleted successfully!');
     return true;
   } catch (error) {
-    _e?.sender.send('ui:openNotification', 'error', 'Error', error.message);
+    _e?.sender.send('ui:onOpenNotification', 'error', 'Error', error.message);
     return false;
   }
 }

@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, BrowserWindow, Menu, shell } = require('electron');
 const path = require('path');
 const { ipcMain } = require('electron');
 
@@ -34,12 +34,21 @@ function createWindow() {
           submenu: [
             {
               label: 'Directory',
+              click() {
+                mainWindow.webContents.send('ui:onNewDirectory');
+              }
             },
             {
               label: 'Model',
+              click() {
+                mainWindow.webContents.send('ui:onNewFile', 'model');
+              }
             },
             {
               label: 'Tree',
+              click() {
+                mainWindow.webContents.send('ui:onNewFile', 'tree');
+              }
             }
           ]
         },
@@ -48,9 +57,16 @@ function createWindow() {
         },
         {
           label: 'Settings',
+          click() {
+            mainWindow.webContents.send('ui:onShowSettings');
+          }
         },
         {
           label: 'Close project',
+          click() {
+            mainWindow.webContents.send('chore:onClearStore');
+            mainWindow.webContents.send('chore:onChangeRoute', '/welcome');
+          }
         }
       ]
     },
@@ -59,11 +75,17 @@ function createWindow() {
       submenu: [
         {
           label: 'Delete',
+          click() {
+            mainWindow.webContents.send('ui:onDeleteFile');
+          }
         }
       ]
     },
     {
       label: 'Help',
+      click() {
+        shell.openExternal("https://github.com/D-Sketon/SML4ADS.js")
+      }
     }
   ]
 

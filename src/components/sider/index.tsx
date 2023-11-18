@@ -1,4 +1,10 @@
-import React, { ReactElement, useContext, useEffect, useState } from "react";
+import React, {
+  ReactElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { Dropdown, MenuProps, Tree, notification } from "antd";
 import type { DataNode, DirectoryTreeProps, EventDataNode } from "antd/es/tree";
 import AppContext from "../../store/context";
@@ -17,6 +23,7 @@ function SiderTree(): ReactElement {
     useState(false);
   const [newFileModalVisible, setNewFileModalVisible] = useState(false);
 
+  const [selectedPath, setSelectedPath] = useState("");
   const [rightSelectedPath, setRightSelectedPath] = useState("");
   const [newFileExt, setNewFileExt] = useState("");
 
@@ -35,6 +42,7 @@ function SiderTree(): ReactElement {
 
   const onSelect: DirectoryTreeProps["onSelect"] = (_keys, info) => {
     setSelectInfo(info.node);
+    setSelectedPath(info.node.key as string);
   };
 
   const onDoubleClick = async () => {
@@ -73,12 +81,18 @@ function SiderTree(): ReactElement {
     },
   ];
 
-  const onClick: MenuProps["onClick"] = ({ key }) => {
-    setTimeout(() => {
-      console.log(rightSelectInfo);
+  const onClick = useCallback(
+    ({ key }: any, isFromMenu?: boolean) => {
+      let info: EventDataNode<DataNode> | undefined;
+      if (isFromMenu) {
+        info = selectInfo;
+        setRightSelectedPath(selectedPath);
+      } else {
+        info = rightSelectInfo;
+      }
       switch (key) {
         case "directory":
-          if (rightSelectInfo?.isLeaf) {
+          if (info?.isLeaf || info === void 0) {
             notification.error({
               message: "Error",
               description: "Please select a directory",
@@ -88,7 +102,7 @@ function SiderTree(): ReactElement {
           setNewDirectoryModalVisible(true);
           break;
         case "model":
-          if (rightSelectInfo?.isLeaf) {
+          if (info?.isLeaf || info === void 0) {
             notification.error({
               message: "Error",
               description: "Please select a directory",
@@ -99,7 +113,7 @@ function SiderTree(): ReactElement {
           setNewFileModalVisible(true);
           break;
         case "tree":
-          if (rightSelectInfo?.isLeaf) {
+          if (info?.isLeaf || info === void 0) {
             notification.error({
               message: "Error",
               description: "Please select a directory",
@@ -115,8 +129,34 @@ function SiderTree(): ReactElement {
         default:
           break;
       }
-    });
-  };
+    },
+    [rightSelectInfo, selectInfo, selectedPath]
+  );
+
+  // Listen for New Folder, New File, Delete File from the menu.
+  useEffect(() => {
+    const onNewDirectoryCallback = (_e: any) => {
+      onClick({ key: "directory" }, true);
+    };
+    const onNewFileCallback = (_e: any, ext: string) => {
+      if (ext === "tree") {
+        onClick({ key: "tree" }, true);
+      } else if (ext === "model") {
+        onClick({ key: "model" }, true);
+      }
+    };
+    const onDeleteFileCallback = (_e: any) => {
+      onClick({ key: "delete" }, true);
+    };
+    window.electronAPI.onNewDirectory(onNewDirectoryCallback);
+    window.electronAPI.onNewFile(onNewFileCallback);
+    window.electronAPI.onDeleteFile(onDeleteFileCallback);
+    return () => {
+      window.electronAPI.offAllNewDirectory();
+      window.electronAPI.offAllNewFile();
+      window.electronAPI.offAllDeleteFile();
+    };
+  }, [onClick]);
 
   return (
     <>

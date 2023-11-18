@@ -11,10 +11,24 @@ export interface IElectronAPI {
   chooseFile: (filter: string[]) => Promise<any>;
   chooseDirectory: () => Promise<any>;
 
-  openNotification: (callback: (event: any,
+  onOpenNotification: (callback: (event: any,
     type: 'success' | 'info' | 'warning' | 'error',
     title: string,
     content: string) => any) => any;
+  onNewDirectory: (callback: (event: any) => any) => any;
+  onNewFile: (callback: (event: any, ext: string) => any) => any;
+  onDeleteFile: (callback: (event: any) => any) => any;
+  onShowSettings: (callback: (event: any) => any) => any;
+  onClearStore: (callback: (event: any) => any) => any;
+  onChangeRoute: (callback: (event: any, route: string) => any) => any;
+
+  offAllOpenNotification: () => any;
+  offAllNewDirectory: () => any;
+  offAllNewFile: () => any;
+  offAllDeleteFile: () => any;
+  offAllShowSettings: () => any;
+  offAllClearStore: () => any;
+  offAllChangeRoute: () => any;
 }
 
 declare global {
