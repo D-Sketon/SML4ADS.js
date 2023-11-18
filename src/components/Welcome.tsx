@@ -6,7 +6,7 @@ import { Button } from "antd";
 import Title from "antd/es/typography/Title";
 import AppContext from "../store/context";
 import { setWorkspacePath } from "../store/action";
-import NewProjectModal from "./modal/NewProjectModal/index.";
+import NewProjectModal from "./modal/NewProjectModal";
 
 function Welcome(): ReactElement {
   const navigate = useNavigate();

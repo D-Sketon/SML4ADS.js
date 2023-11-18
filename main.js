@@ -5,7 +5,10 @@ const { ipcMain } = require('electron');
 
 const generateTree = require("./node/io/generateTree");
 const newProject = require('./node/io/newProject');
+const newDirectory = require('./node/io/newDirectory');
+const newFile = require('./node/io/newFile');
 const readFile = require('./node/io/readFile');
+const deleteFile = require('./node/io/deleteFile');
 const writeJson = require('./node/io/writeJson');
 
 const chooseDirectory = require('./node/ui/chooseDirectory');
@@ -83,7 +86,10 @@ function createWindow() {
 app.whenReady().then(() => {
   ipcMain.handle('io:generateTree', generateTree);
   ipcMain.handle('io:newProject', newProject);
+  ipcMain.handle('io:newDirectory', newDirectory);
+  ipcMain.handle('io:newFile', newFile);
   ipcMain.handle('io:readFile', readFile);
+  ipcMain.handle('io:deleteFile', deleteFile);
   ipcMain.handle('io:writeJson', writeJson);
 
   ipcMain.handle('ui:chooseFile', chooseFile);

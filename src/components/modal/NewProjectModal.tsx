@@ -1,8 +1,8 @@
 import { Button, Col, Input, Modal, Row } from "antd";
 import { ReactElement, useContext, useState } from "react";
 import { BaseModalProps } from "./types";
-import { setWorkspacePath } from "../../../store/action";
-import AppContext from "../../../store/context";
+import { setWorkspacePath } from "../../store/action";
+import AppContext from "../../store/context";
 import { useNavigate } from "react-router-dom";
 
 function NewProjectModal(props: BaseModalProps): ReactElement {

@@ -16,14 +16,14 @@ async function newProject(_e, path, name) {
   try {
     await fs.mkdir(pathName);
   } catch (error) {
-    _e?.sender.send('ui:openNotification', 'error', 'Error', error);
+    _e?.sender.send('ui:openNotification', 'error', 'Error', error.message);
     return false;
   }
 
   try {
     await fs.mkdir(`${pathName}/.adsml`);
   } catch (error) {
-    _e?.sender.send('ui:openNotification', 'error', 'Error', error);
+    _e?.sender.send('ui:openNotification', 'error', 'Error', error.message);
     return false;
   }
 
@@ -31,7 +31,7 @@ async function newProject(_e, path, name) {
   try {
     await writeJson(_e, `${pathName}/.adsml/config.json`, defaultConfig);
   } catch (error) {
-    _e?.sender.send('ui:openNotification', 'error', 'Error', error);
+    _e?.sender.send('ui:openNotification', 'error', 'Error', error.message);
     return false;
   }
   _e?.sender.send('ui:openNotification', 'success', 'Success', 'Project created successfully!');
