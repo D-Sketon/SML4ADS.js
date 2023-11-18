@@ -6,13 +6,17 @@ import { Button } from "antd";
 import Title from "antd/es/typography/Title";
 import AppContext from "../store/context";
 import { setWorkspacePath } from "../store/action";
+import NewProjectModal from "./modal/NewProjectModal/index.";
 
 function Welcome(): ReactElement {
   const navigate = useNavigate();
   const { dispatch } = useContext(AppContext);
   const [disableOpenButton, setDisableOpenButton] = useState(false);
+  const [NewProjectModalVisible, setNewProjectModalVisible] = useState(false);
 
-  function handleNew() {}
+  function handleNew() {
+    setNewProjectModalVisible(true)
+  }
 
   function handleOpen() {
     setDisableOpenButton(true);
@@ -32,11 +36,20 @@ function Welcome(): ReactElement {
           <Button type="link" size="large" onClick={handleNew}>
             New Project
           </Button>
-          <Button type="link" size="large" onClick={handleOpen} disabled={disableOpenButton}>
+          <Button
+            type="link"
+            size="large"
+            onClick={handleOpen}
+            disabled={disableOpenButton}
+          >
             Open
           </Button>
         </div>
       </div>
+      <NewProjectModal
+        isModalOpen={NewProjectModalVisible}
+        handleCancel={() => setNewProjectModalVisible(false)}
+      />
     </>
   );
 }

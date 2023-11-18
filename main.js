@@ -3,10 +3,13 @@ const { app, BrowserWindow, Menu } = require('electron');
 const path = require('path');
 const { ipcMain } = require('electron');
 
-const chooseFile = require('./node/io/chooseFile');
 const generateTree = require("./node/io/generateTree");
-const chooseDirectory = require('./node/io/chooseDirectory');
+const newProject = require('./node/io/newProject');
 const readFile = require('./node/io/readFile');
+const writeJson = require('./node/io/writeJson');
+
+const chooseDirectory = require('./node/ui/chooseDirectory');
+const chooseFile = require('./node/ui/chooseFile');
 
 function createWindow() {
   // Create the browser window.
@@ -78,10 +81,13 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  ipcMain.handle('file:generateTree', generateTree);
-  ipcMain.handle('file:chooseFile', chooseFile);
-  ipcMain.handle('file:chooseDirectory', chooseDirectory);
-  ipcMain.handle('file:readFile', readFile);
+  ipcMain.handle('io:generateTree', generateTree);
+  ipcMain.handle('io:newProject', newProject);
+  ipcMain.handle('io:readFile', readFile);
+  ipcMain.handle('io:writeJson', writeJson);
+
+  ipcMain.handle('ui:chooseFile', chooseFile);
+  ipcMain.handle('ui:chooseDirectory', chooseDirectory);
 
   createWindow()
 
@@ -98,4 +104,3 @@ app.on('window-all-closed', function () {
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') app.quit()
 })
-
