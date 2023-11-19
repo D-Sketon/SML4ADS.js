@@ -7,6 +7,7 @@ export interface IElectronAPI {
   newDirectory: (path: string, name: string) => Promise<boolean>;
   newFile: (path: string, name: string, ext: string, content?: string) => Promise<boolean>;
   writeJson: (path: string, data: any) => Promise<boolean>;
+  getRelativePath: (from: string, to: string) => Promise<string>;
 
   chooseFile: (filter: string[]) => Promise<any>;
   chooseDirectory: () => Promise<any>;

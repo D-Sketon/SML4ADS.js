@@ -1,67 +1,60 @@
-import React, { ReactElement, useRef, useState } from "react";
-import { Button, Tabs } from "antd";
+import React, { ReactElement, useContext, useEffect, useState } from "react";
+import { Tabs } from "antd";
 import Model from "./model";
 import Tree from "./tree";
+import AppContext from "../../store/context";
+import { FILE_SUFFIX } from "../../constants";
+import { activateFilePath, removeFilePath } from "../../store/action";
 
 type TargetKey = React.MouseEvent | React.KeyboardEvent | string;
 
-const defaultPanes = [
-  {
-    label: "Tab 1",
-    children: <Model />,
-    key: "1",
-  },
-  {
-    label: "Tab 2",
-    children: <Tree />,
-    key: "2",
-  },
-]
+function getChildrenComponent(path: string, key: FILE_SUFFIX | string) {
+  switch (key) {
+    case FILE_SUFFIX.MODEL:
+      return <Model path={path}/>;
+    case FILE_SUFFIX.TREE:
+      return <Tree path={path}/>;
+    default:
+      return <></>;
+  }
+}
 
 function ContentCore(): ReactElement {
-  const [activeKey, setActiveKey] = useState(defaultPanes[0].key);
-  const [items, setItems] = useState(defaultPanes);
-  const newTabIndex = useRef(0);
+  const { state, dispatch } = useContext(AppContext);
+  const [activeKey, setActiveKey] = useState<string>();
+  const [items, setItems] = useState<
+    {
+      label: string;
+      children: JSX.Element | string;
+      key: string;
+    }[]
+  >([]);
+
+  useEffect(() => {
+    setItems(
+      state.filePath.map((path, index) => ({
+        label: path.path.split("/").pop()!,
+        children: getChildrenComponent(path.path, path.ext),
+        key: path.path,
+      }))
+    );
+    setActiveKey(state.filePath.find((path) => path.isActive)?.path);
+  }, [state.filePath]);
 
   const onChange = (key: string) => {
-    setActiveKey(key);
-  };
-
-  const add = () => {
-    const newActiveKey = `newTab${newTabIndex.current++}`;
-    setItems([
-      ...items,
-      { label: "New Tab", children: <></>, key: newActiveKey },
-    ]);
-    setActiveKey(newActiveKey);
+    dispatch(activateFilePath(key));
   };
 
   const remove = (targetKey: TargetKey) => {
-    const targetIndex = items.findIndex((pane) => pane.key === targetKey);
-    const newPanes = items.filter((pane) => pane.key !== targetKey);
-    if (newPanes.length && targetKey === activeKey) {
-      const { key } =
-        newPanes[
-          targetIndex === newPanes.length ? targetIndex - 1 : targetIndex
-        ];
-      setActiveKey(key);
-    }
-    setItems(newPanes);
+    dispatch(removeFilePath(targetKey as string));
   };
 
-  const onEdit = (targetKey: TargetKey, action: "add" | "remove") => {
-    if (action === "add") {
-      add();
-    } else {
-      remove(targetKey);
-    }
+  const onEdit = (targetKey: TargetKey, _action: any) => {
+    remove(targetKey);
   };
 
   return (
-    <div style={{ height: '100%' }}>
-      {/* <div style={{ marginBottom: 16 }}>
-        <Button onClick={add}>ADD</Button>
-      </div> */}
+    <div style={{ height: "100%" }}>
       <Tabs
         hideAdd
         onChange={onChange}
@@ -69,7 +62,7 @@ function ContentCore(): ReactElement {
         type="editable-card"
         onEdit={onEdit}
         items={items}
-        style={{ height: '100%' }}
+        style={{ height: "100%" }}
       />
     </div>
   );

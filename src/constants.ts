@@ -3,6 +3,7 @@ export enum FILE_SUFFIX {
   MODEL = 'model',
   JSON = 'json',
   XML = 'xml',
+  XODR = 'xodr',
 }
 
 export enum FILE_TYPE {

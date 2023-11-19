@@ -5,6 +5,9 @@ export enum ActionType {
   SET_WORKSPACE_PATH = "SET_WORKSPACE_PATH",
   SET_CONFIG = "SET_CONFIG",
   REFRESH_TREE = "REFRESH_TREE",
+  ADD_FILE_PATH = "ADD_FILE_PATH",
+  REMOVE_FILE_PATH = "REMOVE_FILE_PATH",
+  ACTIVATE_FILE_PATH = "ACTIVATE_FILE_PATH",
 }
 
 export function setWorkspacePath(workspacePath: string) {
@@ -31,4 +34,32 @@ export function clearStore() {
   return {
     type: ActionType.CLEAR_STORE,
   };
+}
+
+export function addFilePath(path: string) {
+  return {
+    type: ActionType.ADD_FILE_PATH,
+    payload: {
+      path: path.replace(/\\/g,'/'),
+      ext: path.split(".").pop(),
+    },
+  }
+}
+
+export function removeFilePath(path: string) {
+  return {
+    type: ActionType.REMOVE_FILE_PATH,
+    payload: {
+      path: path.replace(/\\/g,'/'),
+    },
+  }
+}
+
+export function activateFilePath(path: string) {
+  return {
+    type: ActionType.ACTIVATE_FILE_PATH,
+    payload: {
+      path: path.replace(/\\/g,'/'),
+    },
+  }
 }

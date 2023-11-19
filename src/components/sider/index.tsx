@@ -12,11 +12,12 @@ import DeleteConfirmModal from "../modal/DeleteConfirmModal";
 import NewDirectoryModal from "../modal/NewDirectoryModal";
 import NewFileDirectory from "../modal/NewFileModal";
 import { FILE_OPERATION, FILE_SUFFIX, FILE_TYPE } from "../../constants";
+import { addFilePath } from "../../store/action";
 
 const { DirectoryTree } = Tree;
 
 function SiderTree(): ReactElement {
-  const { state } = useContext(AppContext);
+  const { state, dispatch } = useContext(AppContext);
   const [treeData, setTreeData] = useState<DataNode[]>([]);
   const [deleteConfirmModalVisible, setDeleteConfirmModalVisible] =
     useState(false);
@@ -48,8 +49,15 @@ function SiderTree(): ReactElement {
 
   const onDoubleClick = async () => {
     if (!selectInfo?.isLeaf) return;
-    const content = await window.electronAPI.readFile(selectInfo.key as string);
     const ext = (selectInfo.key as string).split(".").pop();
+    if (ext === FILE_SUFFIX.MODEL || ext === FILE_SUFFIX.TREE) {
+      dispatch(addFilePath(selectInfo.key as string));
+    } else {
+      notification.warning({
+        message: "Warning",
+        description: "Not supported file type",
+      });
+    }
   };
 
   const onRightClick = (e: any) => {

@@ -9,6 +9,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   newDirectory: (path, name) => ipcRenderer.invoke('io:newDirectory', path, name),
   newFile: (path, name, ext, content) => ipcRenderer.invoke('io:newFile', path, name, ext, content),
   writeJson: (path, object) => ipcRenderer.invoke('io:writeJson', path, object),
+  getRelativePath: (from, to) => ipcRenderer.invoke('io:getRelativePath', from, to),
 
   chooseFile: (filter) => ipcRenderer.invoke('ui:chooseFile', filter),
   chooseDirectory: () => ipcRenderer.invoke('ui:chooseDirectory'),

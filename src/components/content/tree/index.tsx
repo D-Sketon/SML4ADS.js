@@ -112,7 +112,12 @@ let id = 5;
 
 const getId = () => `${id++}`;
 
-function Tree(): ReactElement {
+interface TreeProps {
+  path: string;
+}
+
+function Tree(props: TreeProps): ReactElement {
+  const { path } = props;
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges] = useEdgesState(initialEdges);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
@@ -222,7 +227,9 @@ function Tree(): ReactElement {
     if (selectedEdge) {
       selectedEdge.label = value;
       setEdges((eds) => {
-        return eds.filter((edge) => edge.id !== selectedEdge.id).concat(selectedEdge);
+        return eds
+          .filter((edge) => edge.id !== selectedEdge.id)
+          .concat(selectedEdge);
       });
     }
   }
@@ -231,13 +238,22 @@ function Tree(): ReactElement {
     if (selectedEdge) {
       selectedEdge.label = event.target.value;
       setEdges((eds) => {
-        return eds.filter((edge) => edge.id !== selectedEdge.id).concat(selectedEdge);
+        return eds
+          .filter((edge) => edge.id !== selectedEdge.id)
+          .concat(selectedEdge);
       });
     }
   }
 
   return (
-    <div style={{ overflow: "hidden", height: "100%", backgroundColor: "#fff", position: 'relative' }}>
+    <div
+      style={{
+        overflow: "hidden",
+        height: "100%",
+        backgroundColor: "#fff",
+        position: "relative",
+      }}
+    >
       <ReactFlowProvider>
         <ElementProvider />
         <ReactFlow
@@ -270,7 +286,12 @@ function Tree(): ReactElement {
               <Row style={{ display: "flex", alignItems: "center" }}>
                 <Col span={4}>guard:</Col>
                 <Col span={20}>
-                  <TextArea rows={3} maxLength={1024} defaultValue={selectedEdge?.label?.toString() ?? ''} onChange={handleGuardChange}/>
+                  <TextArea
+                    rows={3}
+                    maxLength={1024}
+                    defaultValue={selectedEdge?.label?.toString() ?? ""}
+                    onChange={handleGuardChange}
+                  />
                 </Col>
               </Row>
             </>
@@ -279,7 +300,16 @@ function Tree(): ReactElement {
               <Row style={{ display: "flex", alignItems: "center" }}>
                 <Col span={6}>weight:</Col>
                 <Col span={18}>
-                  <InputNumber min={0} max={100} defaultValue={selectedEdge?.label?.toString() ? parseInt(selectedEdge?.label?.toString()) : 0} onChange={handleWeightChange}/>
+                  <InputNumber
+                    min={0}
+                    max={100}
+                    defaultValue={
+                      selectedEdge?.label?.toString()
+                        ? parseInt(selectedEdge?.label?.toString())
+                        : 0
+                    }
+                    onChange={handleWeightChange}
+                  />
                 </Col>
               </Row>
             </>
