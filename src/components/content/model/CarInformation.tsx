@@ -26,13 +26,13 @@ interface CarInformationProps {
 function getDefaultCarParams(type: LOCATION_TYPES) {
   switch (type) {
     case LOCATION_TYPES.GLOBAL_POSITION:
-      return defaultGlobalPositionParams;
+      return defaultGlobalPositionParams();
     case LOCATION_TYPES.LANE_POSITION:
-      return defaultLanePositionParams;
+      return defaultLanePositionParams();
     case LOCATION_TYPES.ROAD_POSITION:
-      return defaultRoadPositionParams;
+      return defaultRoadPositionParams();
     case LOCATION_TYPES.RELATED_POSITION:
-      return defaultRelatedPositionParams;
+      return defaultRelatedPositionParams();
     default:
   }
 }

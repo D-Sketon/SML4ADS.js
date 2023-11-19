@@ -10,15 +10,15 @@ type BaseCommonTransition = {
 }
 
 export type MCommonTransition = BaseCommonTransition & {
-  linkPoints: MPosition[];
+  linkPoints?: MPosition[];
   guard: string;
-  treeTextPosition: MPosition;
+  treeTextPosition?: MPosition;
 }
 
 export type CommonTransition = BaseCommonTransition & {
-  linkPoints: Position[];
+  linkPoints?: Position[];
   guard: string[];
-  treeTextPosition: Position;
+  treeTextPosition?: Position;
 } & {
   level: number;
   group: number;

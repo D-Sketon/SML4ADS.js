@@ -6,7 +6,7 @@ export const initialState = {
   workspacePath: "",
   // only for refresh
   refreshId: 0,
-  config: JSON.parse(JSON.stringify(defaultConfig)) as MConfig,
+  config: defaultConfig() as MConfig,
   filePath: [] as {
     path: string,
     ext: FILE_SUFFIX | string,

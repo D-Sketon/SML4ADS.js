@@ -10,13 +10,13 @@ type BaseProbabilityTransition = {
 }
 
 export type MProbabilityTransition = BaseProbabilityTransition & {
-  linkPoints: MPosition[];
-  treeTextPosition: MPosition;
+  linkPoints?: MPosition[];
+  treeTextPosition?: MPosition;
 }
 
 export type ProbabilityTransition = BaseProbabilityTransition & {
-  linkPoints: Position[];
-  treeTextPosition: Position;
+  linkPoints?: Position[];
+  treeTextPosition?: Position;
 } & {
   level: number;
   group: number;

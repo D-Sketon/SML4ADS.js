@@ -46,7 +46,7 @@ export type MModel = {
   parametrics: string[];
 }
 
-export const defaultModel: MModel = (() => ({
+export const defaultModel: () => MModel = () => ({
   simulatorType: SIMULATOR_TYPES.CARLA,
   mapType: MAP_TYPES.DEFAULT,
   map: "",
@@ -58,4 +58,4 @@ export const defaultModel: MModel = (() => ({
   requirements: [],
   parametricStls: [],
   parametrics: [],
-}))();
+});

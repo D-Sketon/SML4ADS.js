@@ -53,10 +53,10 @@ export type GLOBAL_POSITION_PARAMS = {
   y: number;
 }
 
-export const defaultGlobalPositionParams: GLOBAL_POSITION_PARAMS = (() => ({
+export const defaultGlobalPositionParams: () => GLOBAL_POSITION_PARAMS = () => ({
   x: 0,
   y: 0,
-}))()
+});
 
 export type LANE_POSITION_PARAMS = {
   roadId: string;
@@ -67,14 +67,14 @@ export type LANE_POSITION_PARAMS = {
   maxLongitudinalOffset: number;
 }
 
-export const defaultLanePositionParams: LANE_POSITION_PARAMS = (() => ({
+export const defaultLanePositionParams: () => LANE_POSITION_PARAMS = () => ({
   roadId: "",
   laneId: "",
   minLateralOffset: 0,
   maxLateralOffset: 0,
   minLongitudinalOffset: 0,
   maxLongitudinalOffset: 0,
-}))()
+});
 
 export type ROAD_POSITION_PARAMS = {
   roadId: string;
@@ -84,13 +84,13 @@ export type ROAD_POSITION_PARAMS = {
   maxLongitudinalOffset: number;
 }
 
-export const defaultRoadPositionParams: ROAD_POSITION_PARAMS = (() => ({
+export const defaultRoadPositionParams: () => ROAD_POSITION_PARAMS = () => ({
   roadId: "",
   minLateralOffset: 0,
   maxLateralOffset: 0,
   minLongitudinalOffset: 0,
   maxLongitudinalOffset: 0,
-}))()
+});
 
 export type RELATED_POSITION_PARAMS = {
   actorRef: string;
@@ -100,13 +100,13 @@ export type RELATED_POSITION_PARAMS = {
   maxLongitudinalOffset: number;
 }
 
-export const defaultRelatedPositionParams: RELATED_POSITION_PARAMS = (() => ({
+export const defaultRelatedPositionParams: () => RELATED_POSITION_PARAMS = () => ({
   actorRef: "",
   minLateralOffset: 0,
   maxLateralOffset: 0,
   minLongitudinalOffset: 0,
   maxLongitudinalOffset: 0,
-}))()
+});
 
 type BaseCar = {
   name: string;
@@ -150,14 +150,14 @@ export type Car = BaseCar & {
   length: number;
 }
 
-export const defaultCar: MCar = (() => ({
+export const defaultCar: () => MCar = () => ({
   name: "",
   model: VEHICLE_TYPES_CARLA.RANDOM,
   maxSpeed: 0,
   initSpeed: 0,
   locationType: LOCATION_TYPES.GLOBAL_POSITION,
-  locationParams: defaultGlobalPositionParams,
+  locationParams: defaultGlobalPositionParams(),
   heading: false,
   roadDeviation: 0,
   treePath: "",
-}))()
+});

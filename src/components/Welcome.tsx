@@ -46,8 +46,8 @@ function Welcome(): ReactElement {
         description: error.message,
       });
       // write default config
-      await window.electronAPI.writeJson(configPath, defaultConfig);
-      dispatch(setConfig(JSON.parse(JSON.stringify(defaultConfig))));
+      await window.electronAPI.writeJson(configPath, defaultConfig());
+      dispatch(setConfig(defaultConfig()));
     }
   }
 

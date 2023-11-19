@@ -11,7 +11,7 @@ interface ModelProps {
 
 function Model(props: ModelProps): ReactElement {
   const { path } = props;
-  const [model, setModel] = useState<MModel>(defaultModel);
+  const [model, setModel] = useState<MModel>(defaultModel());
 
   const saveHook = useCallback(async () => {
     // TODO CHECK
@@ -41,7 +41,7 @@ function Model(props: ModelProps): ReactElement {
   const handleAdd = () => {
     setModel({
       ...model,
-      cars: [...model.cars, defaultCar],
+      cars: [...model.cars, defaultCar()],
     });
   };
 

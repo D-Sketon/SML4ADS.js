@@ -11,7 +11,7 @@ export type MTree = BaseTree & {
   branchPoints: MBranchPoint[];
   commonTransitions: MCommonTransition[];
   probabilityTransitions: MProbabilityTransition[];
-  errMsg: string;
+  errMsg?: string;
 }
 
 export type Tree = BaseTree & {
@@ -20,3 +20,11 @@ export type Tree = BaseTree & {
   commonTransitions: CommonTransition[];
   probabilityTransitions: ProbabilityTransition[];
 }
+
+export const defaultTree: () => MTree = () => ({
+  rootId: 0,
+  behaviors: [],
+  branchPoints: [],
+  commonTransitions: [],
+  probabilityTransitions: [],
+});
