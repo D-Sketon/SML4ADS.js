@@ -11,6 +11,7 @@ const readFile = require('./node/io/readFile');
 const deleteFile = require('./node/io/deleteFile');
 const writeJson = require('./node/io/writeJson');
 const getRelativePath = require('./node/io/getRelativePath');
+const getAbsolutePath = require('./node/io/getAbsolutePath');
 
 const chooseDirectory = require('./node/ui/chooseDirectory');
 const chooseFile = require('./node/ui/chooseFile');
@@ -115,6 +116,7 @@ app.whenReady().then(() => {
   ipcMain.handle('io:deleteFile', deleteFile);
   ipcMain.handle('io:writeJson', writeJson);
   ipcMain.handle('io:getRelativePath', getRelativePath);
+  ipcMain.handle('io:getAbsolutePath', getAbsolutePath);
 
   ipcMain.handle('ui:chooseFile', chooseFile);
   ipcMain.handle('ui:chooseDirectory', chooseDirectory);

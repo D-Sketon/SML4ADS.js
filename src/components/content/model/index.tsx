@@ -1,10 +1,18 @@
-import React, { ReactElement, useCallback, useEffect, useState } from "react";
+import React, {
+  ReactElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import BasicInformation from "./BasicInformation";
 import CarInformation from "./CarInformation";
 import { Button, notification } from "antd";
 import { MModel, defaultModel } from "../../../model/Model";
 import { defaultCar } from "../../../model/Car";
 import { checkModel } from "./utils";
+import AppContext from "../../../store/context";
+import { setSaveFilePath } from "../../../store/action";
 
 interface ModelProps {
   path: string;
@@ -13,12 +21,26 @@ interface ModelProps {
 function Model(props: ModelProps): ReactElement {
   const { path } = props;
   const [model, setModel] = useState<MModel>(defaultModel());
+  const { state, dispatch } = useContext(AppContext);
+  const { saveFilePath } = state;
 
-  const saveHook = useCallback(async () => {
-    checkModel(model);
-    await window.electronAPI.writeJson(path, model);
-  }, [model, path]);
+  const saveHook = useCallback(
+    async (isManual = false) => {
+      try {
+        checkModel(model);
+        await window.electronAPI.writeJson(path, model);
+      } catch (error: any) {
+        isManual &&
+          notification.error({
+            message: "Error",
+            description: error.message,
+          });
+      }
+    },
+    [model, path]
+  );
 
+  // onMounted
   useEffect(() => {
     const asyncFn = async () => {
       const content = await window.electronAPI.readFile(path);
@@ -40,6 +62,7 @@ function Model(props: ModelProps): ReactElement {
     asyncFn();
   }, [path]);
 
+  // onUnmounted
   useEffect(() => {
     return () => {
       const asyncFn = async () => {
@@ -48,6 +71,18 @@ function Model(props: ModelProps): ReactElement {
       asyncFn();
     };
   }, [saveHook]);
+
+  // preprocess
+  useEffect(() => {
+    if (saveFilePath === path) {
+      const asyncFn = async () => {
+        await saveHook();
+        dispatch(setSaveFilePath("$$\ua265SAVE\ua265$$"));
+      };
+      asyncFn();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [saveFilePath, path, saveHook]);
 
   const handleAdd = () => {
     setModel({
@@ -58,7 +93,7 @@ function Model(props: ModelProps): ReactElement {
 
   const handleKeyDown = async (event: React.KeyboardEvent) => {
     if (event.key === "s" && (event.ctrlKey || event.metaKey)) {
-      await saveHook();
+      await saveHook(true);
       event.preventDefault();
     }
   };

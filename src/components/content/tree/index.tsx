@@ -77,7 +77,6 @@ function Tree(props: TreeProps): ReactElement {
             message: "Error",
             description: error.message,
           });
-        return;
       }
     },
     [nodes, edges, path]

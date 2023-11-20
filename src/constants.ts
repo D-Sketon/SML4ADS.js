@@ -4,6 +4,7 @@ export enum FILE_SUFFIX {
   JSON = 'json',
   XML = 'xml',
   XODR = 'xodr',
+  ADSML = 'adsml',
 }
 
 export enum FILE_TYPE {

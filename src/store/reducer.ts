@@ -1,12 +1,14 @@
 import { FILE_SUFFIX } from "../constants"
-import { MConfig, defaultConfig } from "../model/Config"
+import { defaultConfig } from "../model/Config"
 import { ActionType } from "./action"
 
 export const initialState = {
   workspacePath: "",
   // only for refresh
   refreshId: 0,
-  config: defaultConfig() as MConfig,
+  // only for save
+  saveFilePath: '',
+  config: defaultConfig(),
   filePath: [] as {
     path: string,
     ext: FILE_SUFFIX | string,
@@ -78,6 +80,11 @@ export const reducer = (state: typeof initialState, action: Action) => {
           ...p,
           isActive: p.path === action.payload.path,
         })),
+      }
+    case ActionType.SET_SAVE_FILE_PATH:
+      return {
+        ...state,
+        saveFilePath: action.payload.path,
       }
     default:
       return state
