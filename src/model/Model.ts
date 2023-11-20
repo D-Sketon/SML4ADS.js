@@ -36,7 +36,7 @@ export type MModel = {
   simulatorType: SIMULATOR_TYPES;
   mapType: MAP_TYPES;
   map: string;
-  weather: string;
+  weather: WEATHER_TYPES_CARLA | WEATHER_TYPES_LGSVL;
   timeStep: number;
   simulationTime: number;
   scenarioEndTrigger: string;

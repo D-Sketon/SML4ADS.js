@@ -24,7 +24,10 @@ function BasicInformation(props: BasicInformationProps): ReactElement {
   async function handleChooseFile(): Promise<void> {
     const res = await window.electronAPI.chooseFile([FILE_SUFFIX.XODR]);
     if (res.filePaths.length) {
-      const relativePath = await window.electronAPI.getRelativePath(state.workspacePath, res.filePaths[0]);
+      const relativePath = await window.electronAPI.getRelativePath(
+        state.workspacePath,
+        res.filePaths[0]
+      );
       setModel({ ...model, map: relativePath });
     }
   }
@@ -34,11 +37,7 @@ function BasicInformation(props: BasicInformationProps): ReactElement {
       title="Basic Information"
       style={{ margin: "10px 10px 10px 0", boxSizing: "border-box" }}
     >
-      <Form
-        labelCol={{ span: 4 }}
-        wrapperCol={{ span: 20 }}
-        autoComplete="off"
-      >
+      <Form labelCol={{ span: 4 }} wrapperCol={{ span: 20 }} autoComplete="off">
         <Form.Item label="simulatorType">
           <Select
             style={{ width: 150 }}
@@ -66,18 +65,22 @@ function BasicInformation(props: BasicInformationProps): ReactElement {
               value={model.mapType}
             />
           </Form.Item>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <Button
-              type="primary"
-              style={{ marginRight: "20px", width: 120 }}
-              onClick={handleChooseFile}
-            >
-              Choose File
-            </Button>
-            <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
-              {model.map}
-            </span>
-          </div>
+          {model.map === MAP_TYPES.CUSTOM ? (
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <Button
+                type="primary"
+                style={{ marginRight: "20px", width: 120 }}
+                onClick={handleChooseFile}
+              >
+                Choose File
+              </Button>
+              <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
+                {model.map}
+              </span>
+            </div>
+          ) : (
+            <></>
+          )}
         </Form.Item>
 
         <Form.Item label="weather">

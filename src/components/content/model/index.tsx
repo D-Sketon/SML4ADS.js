@@ -1,9 +1,10 @@
 import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import BasicInformation from "./BasicInformation";
 import CarInformation from "./CarInformation";
-import { Button } from "antd";
+import { Button, notification } from "antd";
 import { MModel, defaultModel } from "../../../model/Model";
 import { defaultCar } from "../../../model/Car";
+import { checkModel } from "./utils";
 
 interface ModelProps {
   path: string;
@@ -14,7 +15,7 @@ function Model(props: ModelProps): ReactElement {
   const [model, setModel] = useState<MModel>(defaultModel());
 
   const saveHook = useCallback(async () => {
-    // TODO CHECK
+    checkModel(model);
     await window.electronAPI.writeJson(path, model);
   }, [model, path]);
 
@@ -23,6 +24,16 @@ function Model(props: ModelProps): ReactElement {
       const content = await window.electronAPI.readFile(path);
       if (content) {
         const model: MModel = JSON.parse(content);
+        // check model
+        try {
+          checkModel(model);
+        } catch (error: any) {
+          notification.error({
+            message: "Error",
+            description: error.message,
+          });
+          return;
+        }
         setModel(model);
       }
     };

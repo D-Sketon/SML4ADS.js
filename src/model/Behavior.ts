@@ -11,8 +11,6 @@ export enum BEHAVIOR_TYPES {
   CHANGE_RIGHT = 'ChangeRight',
   IDLE = 'Idle',
   LANE_OFFSET = 'laneOffset',
-  START = 'Start',
-  END = 'End',
 }
 
 export type KEEP_BEHAVIOR_PARAMS = {
@@ -78,7 +76,7 @@ export type BEHAVIOR_PARAMS =
 
 type BaseBehavior = {
   id: number;
-  name: string;
+  name: BEHAVIOR_TYPES;
   params: BEHAVIOR_PARAMS;
 }
 

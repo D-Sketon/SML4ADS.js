@@ -30,8 +30,12 @@ import "./index.less";
 import ElementProvider from "./ElementProvider";
 import { Col, Drawer, InputNumber, Row, notification } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { MTree, defaultTree } from "../../../model/Tree";
-import { BEHAVIOR_TYPES, defaultKeepBehaviorParams } from "../../../model/Behavior";
+import { MTree } from "../../../model/Tree";
+import {
+  BEHAVIOR_TYPES,
+  defaultKeepBehaviorParams,
+} from "../../../model/Behavior";
+import { checkTree, node2Tree, tree2Node } from "./utils";
 
 const nodeTypes = {
   BehaviorNode,
@@ -41,158 +45,6 @@ const nodeTypes = {
 const edgeTypes = {
   CommonTransition,
   ProbabilityTransition,
-};
-
-type CustomNode = {
-  id: string;
-  type: string;
-  data: any;
-  position: { x: number; y: number };
-};
-
-type CustomEdge = {
-  id: string;
-  source: string;
-  target: string;
-  type: string;
-  label: string;
-  markerEnd: { type: MarkerType };
-};
-
-const tree2Node = (
-  tree: MTree,
-  setNodes: any
-): {
-  maxId: number;
-  nodes: CustomNode[];
-  edges: CustomEdge[];
-} => {
-  const nodes: CustomNode[] = [];
-  const edges: CustomEdge[] = [];
-  let maxId = 0;
-  tree.behaviors.forEach((behavior) => {
-    const newNode = {
-      id: String(behavior.id),
-      type: "BehaviorNode",
-      data: {
-        label: behavior.name,
-        params: behavior.params,
-        setNodes: setNodes,
-        id: String(behavior.id),
-      },
-      position: { x: behavior.position.x, y: behavior.position.y },
-    };
-    maxId = Math.max(maxId, behavior.id);
-    nodes.push(newNode);
-  });
-  tree.branchPoints.forEach((branchPoint) => {
-    const newNode = {
-      id: String(branchPoint.id),
-      type: "BranchNode",
-      data: {
-        setNodes: setNodes,
-        id: String(branchPoint.id),
-      },
-      position: { x: branchPoint.position.x, y: branchPoint.position.y },
-    };
-    maxId = Math.max(maxId, branchPoint.id);
-    nodes.push(newNode);
-  });
-  tree.commonTransitions.forEach((commonTransition) => {
-    const newEdge = {
-      id: String(commonTransition.id),
-      source: String(commonTransition.sourceId),
-      target: String(commonTransition.targetId),
-      type: "CommonTransition",
-      label: commonTransition.guard,
-      markerEnd: { type: MarkerType.ArrowClosed },
-    };
-    maxId = Math.max(maxId, commonTransition.id);
-    edges.push(newEdge);
-  });
-  tree.probabilityTransitions.forEach((probabilityTransition) => {
-    const newEdge = {
-      id: String(probabilityTransition.id),
-      source: String(probabilityTransition.sourceId),
-      target: String(probabilityTransition.targetId),
-      type: "ProbabilityTransition",
-      label: probabilityTransition.weight,
-      markerEnd: { type: MarkerType.ArrowClosed },
-    };
-    maxId = Math.max(maxId, probabilityTransition.id);
-    edges.push(newEdge);
-  });
-  return { maxId, nodes, edges };
-};
-
-const _preprocessParams = (_params: any) => {
-  const params = {
-    ..._params,
-  };
-  for (let key in params) {
-    if (params[key] === null) {
-      params[key] = "";
-    }
-  }
-  return params;
-};
-
-const node2Tree = (nodes: CustomNode[], edges: CustomEdge[]): MTree => {
-  const newTree = defaultTree();
-  nodes.forEach((node) => {
-    if (node.type === "BehaviorNode") {
-      const behavior = {
-        id: parseInt(node.id),
-        name: node.data.label,
-        params: _preprocessParams(node.data.params),
-        position: node.position,
-      };
-      newTree.behaviors.push(behavior);
-    } else if (node.type === "BranchNode") {
-      const branchPoint = {
-        id: parseInt(node.id),
-        position: node.position,
-      };
-      newTree.branchPoints.push(branchPoint);
-    }
-  });
-  // also find the root node
-  const hasTargetRootId = new Set<number>();
-  edges.forEach((edge) => {
-    if (edge.type === "CommonTransition") {
-      const commonTransition = {
-        id: parseInt(edge.id),
-        sourceId: parseInt(edge.source),
-        targetId: parseInt(edge.target),
-        guard: edge.label,
-      };
-      hasTargetRootId.add(parseInt(edge.target));
-      newTree.commonTransitions.push(commonTransition);
-    } else if (edge.type === "ProbabilityTransition") {
-      const probabilityTransition = {
-        id: parseInt(edge.id),
-        sourceId: parseInt(edge.source),
-        targetId: parseInt(edge.target),
-        weight: edge.label,
-      };
-      hasTargetRootId.add(parseInt(edge.target));
-      newTree.probabilityTransitions.push(probabilityTransition);
-    }
-  });
-  // find the root node
-  const rootIds: number[] = [];
-  nodes.forEach((node) => {
-    if (!hasTargetRootId.has(parseInt(node.id))) {
-      rootIds.push(parseInt(node.id));
-    }
-  });
-  if (rootIds.length === 1) {
-    newTree.rootId = rootIds[0];
-  } else {
-    // illegal tree
-    throw new Error("The tree must have only one root node!");
-  }
-  return newTree;
 };
 
 interface TreeProps {
@@ -213,25 +65,39 @@ function Tree(props: TreeProps): ReactElement {
     return `${maxIdRef.current++}`;
   }, []);
 
-  const saveHook = useCallback(async (isManual = false) => {
-    try {
-      const newTree = node2Tree(nodes as any, edges as any);
-      // TODO CHECK
-      await window.electronAPI.writeJson(path, newTree);
-    } catch (error: any) {
-      isManual && notification.error({
-        message: "Error",
-        description: error.message,
-      });
-      return;
-    }
-  }, [nodes, edges, path]);
+  const saveHook = useCallback(
+    async (isManual = false) => {
+      try {
+        const newTree = node2Tree(nodes as any, edges as any);
+        checkTree(newTree);
+        await window.electronAPI.writeJson(path, newTree);
+      } catch (error: any) {
+        isManual &&
+          notification.error({
+            message: "Error",
+            description: error.message,
+          });
+        return;
+      }
+    },
+    [nodes, edges, path]
+  );
 
   useEffect(() => {
     const asyncFn = async () => {
       const content = await window.electronAPI.readFile(path);
       if (content) {
         const tree: MTree = JSON.parse(content);
+        // check tree
+        try {
+          checkTree(tree);
+        } catch (error: any) {
+          notification.error({
+            message: "Error",
+            description: error.message,
+          });
+          return;
+        }
         const { maxId, nodes, edges } = tree2Node(tree, setNodes);
         setNodes(nodes);
         setEdges(edges);
@@ -310,7 +176,7 @@ function Tree(props: TreeProps): ReactElement {
             {
               ...connection,
               type: "CommonTransition",
-              label: '',
+              label: "",
               id,
               markerEnd: { type: MarkerType.ArrowClosed },
             },
@@ -342,25 +208,28 @@ function Tree(props: TreeProps): ReactElement {
         y: event.clientY,
       });
       const id = getId();
-      const newNode = type === "BehaviorNode" ? ({
-        id,
-        type,
-        position,
-        data: {
-          label: BEHAVIOR_TYPES.KEEP,
-          params: defaultKeepBehaviorParams(),
-          setNodes: setNodes,
-          id,
-        },
-      }) : ({
-        id,
-        type,
-        position,
-        data: {
-          setNodes: setNodes,
-          id,
-        },
-      });
+      const newNode =
+        type === "BehaviorNode"
+          ? {
+              id,
+              type,
+              position,
+              data: {
+                label: BEHAVIOR_TYPES.KEEP,
+                params: defaultKeepBehaviorParams(),
+                setNodes: setNodes,
+                id,
+              },
+            }
+          : {
+              id,
+              type,
+              position,
+              data: {
+                setNodes: setNodes,
+                id,
+              },
+            };
 
       setNodes((nds) => nds.concat(newNode));
     },

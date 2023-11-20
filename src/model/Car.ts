@@ -124,7 +124,9 @@ type BaseCar = {
   treePath: string;
 }
 
-export type MCar = BaseCar;
+export type MCar = BaseCar & {
+  mTree?: MTree;
+};
 
 export type Car = BaseCar & {
   mTree: Tree;

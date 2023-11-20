@@ -438,8 +438,6 @@ function CarInformation(props: CarInformationProps): ReactElement {
           rules={[{ required: true, message: "car.roadDeviation is required" }]}
         >
           <InputNumber
-            min={0}
-            max={360}
             style={{ width: 150 }}
             value={car.roadDeviation}
             onChange={(e) => {
