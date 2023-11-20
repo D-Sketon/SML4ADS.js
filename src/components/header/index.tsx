@@ -1,4 +1,4 @@
-import React, { ReactElement, useContext, useEffect } from "react";
+import React, { ReactElement, useContext, useEffect, useState } from "react";
 import { Button, notification } from "antd";
 import "./index.less";
 import AppContext from "../../store/context";
@@ -8,11 +8,13 @@ import { checkModel } from "../content/model/utils";
 import { MTree } from "../../model/Tree";
 import { checkTree } from "../content/tree/utils";
 import { setSaveFilePath } from "../../store/action";
+import VerifyModal from "../modal/VerifyModal";
 
 function HeaderButton(): ReactElement {
   const { state, dispatch } = useContext(AppContext);
   const { filePath, workspacePath, saveFilePath } = state;
   const activatedFile = filePath.find((file) => file.isActive);
+  const [verifyModalVisible, setVerifyModalVisible] = useState(false);
 
   // data flow: "" => realPath => $$\ua265SAVE\ua265$$ => ""
   useEffect(() => {
@@ -73,8 +75,27 @@ function HeaderButton(): ReactElement {
       });
     }
   };
-  const handleVerify = () => {};
-  const handlePstl = () => {};
+  const handleVerify = () => {
+    if (activatedFile && activatedFile.ext === FILE_SUFFIX.MODEL) {
+      dispatch(setSaveFilePath(activatedFile.path));
+      setVerifyModalVisible(true);
+    } else {
+      notification.error({
+        message: "Error",
+        description: "Please select a model file first.",
+      });
+    }
+  };
+  const handlePstl = () => {
+    if (activatedFile && activatedFile.ext === FILE_SUFFIX.MODEL) {
+      // TODO
+    } else {
+      notification.error({
+        message: "Error",
+        description: "Please select a model file first.",
+      });
+    }
+  };
   const handleSimulate = () => {};
   return (
     <>
@@ -86,6 +107,10 @@ function HeaderButton(): ReactElement {
           Simulate
         </Button>
       </div>
+      <VerifyModal
+        isModalOpen={verifyModalVisible}
+        handleCancel={() => setVerifyModalVisible(false)}
+      />
     </>
   );
 }
