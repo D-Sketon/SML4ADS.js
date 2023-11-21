@@ -59,8 +59,8 @@ export const defaultGlobalPositionParams: () => GLOBAL_POSITION_PARAMS = () => (
 });
 
 export type LANE_POSITION_PARAMS = {
-  roadId: string;
-  laneId: string;
+  roadId: number;
+  laneId: number;
   minLateralOffset: number;
   maxLateralOffset: number;
   minLongitudinalOffset: number;
@@ -68,8 +68,8 @@ export type LANE_POSITION_PARAMS = {
 }
 
 export const defaultLanePositionParams: () => LANE_POSITION_PARAMS = () => ({
-  roadId: "",
-  laneId: "",
+  roadId: 0,
+  laneId: 0,
   minLateralOffset: 0,
   maxLateralOffset: 0,
   minLongitudinalOffset: 0,
@@ -77,7 +77,7 @@ export const defaultLanePositionParams: () => LANE_POSITION_PARAMS = () => ({
 });
 
 export type ROAD_POSITION_PARAMS = {
-  roadId: string;
+  roadId: number;
   minLateralOffset: number;
   maxLateralOffset: number;
   minLongitudinalOffset: number;
@@ -85,7 +85,7 @@ export type ROAD_POSITION_PARAMS = {
 }
 
 export const defaultRoadPositionParams: () => ROAD_POSITION_PARAMS = () => ({
-  roadId: "",
+  roadId: 0,
   minLateralOffset: 0,
   maxLateralOffset: 0,
   minLongitudinalOffset: 0,

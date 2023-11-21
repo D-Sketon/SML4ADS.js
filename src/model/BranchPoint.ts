@@ -1,6 +1,5 @@
-import { Position } from "reactflow";
 import { Behavior } from "./Behavior";
-import { MPosition } from "./Position";
+import { MPosition, Position } from "./Position";
 import { ProbabilityTransition } from "./ProbabilityTransition";
 
 type BaseBranchPoint = {

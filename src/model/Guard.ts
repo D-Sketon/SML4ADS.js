@@ -1,0 +1,20 @@
+export enum GUARD_TYPES {
+  DISTANCE_TO_END = "distanceToEnd(.*)",
+  DISTANCE = "distance(.*)",
+  CAN_TURN_LEFT = "canTurnLeft(.*)",
+  CAN_TUEN_RIGHT = "canTurnRight(.*)",
+  CAN_CHANGE_LEFT = "canChangeLft(.*)",
+  CAN_CHANGE_RIGHT = "canChangeRight(.*)",
+  IS_JUNCTION = "isJunction(.*)",
+
+  HAS_OBJ_WITHIN_DIS_IN_LANE = "hasObjWithinDisInLane(.*)",
+  HAS_OBJ_WITHIN_DIS_IN_LEFT_LANE = "hasObjWithinDisInLeftLane(.*)",
+  HAS_OBJ_WITHIN_DIS_IN_RIGHT_LANE = "hasObjWithinDisInRightLane(.*)",
+  WITHIN_DIS_TO_OBJS_IN_LANE = "withinDisToObjsInLane(.*)",
+  WITHIN_DIS_TO_OBJS_IN_ROAD = "withinDisToObjsInRoad(.*)",
+  IS_IN_SAME_LANE = "isInSameLane(.*)",
+  COMPARE_GUARD = ".*[>=<].*",
+  OR_GUARD = ".*||.*",
+  AND_GUARD = ".*&&.*",
+  NOT_GUARD = "!.*",
+}

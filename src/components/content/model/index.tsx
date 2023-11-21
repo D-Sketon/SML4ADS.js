@@ -30,8 +30,12 @@ function Model(props: ModelProps): ReactElement {
         // Prevent overwriting of saved requirements and parametricStls
         // Need to merge the requirements and parametricStls of the current model with the saved model
         const content = await window.electronAPI.readFile(path);
-        if (!content) return;
-        const savedModel: MModel = JSON.parse(content);
+        let savedModel: MModel;
+        if (!content) {
+          savedModel = defaultModel();
+        } else {
+          savedModel = JSON.parse(content);
+        }
         const newModel = {
           ...model,
           requirements: savedModel.requirements,
@@ -57,8 +61,12 @@ function Model(props: ModelProps): ReactElement {
   useEffect(() => {
     const asyncFn = async () => {
       const content = await window.electronAPI.readFile(path);
-      if (!content) return;
-      const model: MModel = JSON.parse(content);
+      let model: MModel;
+      if (!content) {
+        model = defaultModel();
+      } else {
+        model = JSON.parse(content);
+      }
       // check model
       try {
         checkModel(model);

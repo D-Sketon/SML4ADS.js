@@ -82,19 +82,19 @@ function CarInformation(props: CarInformationProps): ReactElement {
     return (
       <>
         <Form.Item label="roadId" labelCol={{ span: 6 }}>
-          <Input
+          <InputNumber
             style={{ width: 150 }}
             onChange={(e) => {
-              simpleSetCarParams("roadId", e.target.value);
+              simpleSetCarParams("roadId", e);
             }}
             value={(car.locationParams as LANE_POSITION_PARAMS).roadId}
           />
         </Form.Item>
         <Form.Item label="laneId" labelCol={{ span: 6 }}>
-          <Input
+          <InputNumber
             style={{ width: 150 }}
             onChange={(e) => {
-              simpleSetCarParams("laneId", e.target.value);
+              simpleSetCarParams("laneId", e);
             }}
             value={(car.locationParams as LANE_POSITION_PARAMS).laneId}
           />
@@ -151,10 +151,10 @@ function CarInformation(props: CarInformationProps): ReactElement {
     return (
       <>
         <Form.Item label="roadId" labelCol={{ span: 6 }}>
-          <Input
+          <InputNumber
             style={{ width: 150 }}
             onChange={(e) => {
-              simpleSetCarParams("roadId", e.target.value);
+              simpleSetCarParams("roadId", e);
             }}
             value={(car.locationParams as ROAD_POSITION_PARAMS).roadId}
           />

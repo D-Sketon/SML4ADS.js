@@ -3,11 +3,16 @@ import { ReactElement, useContext, useState } from "react";
 import { BaseModalProps } from "./types";
 import { refreshTree } from "../../store/action";
 import AppContext from "../../store/context";
+import { FILE_SUFFIX } from "../../constants";
+import { defaultModel } from "../../model/Model";
+import { defaultTree } from "../../model/Tree";
 
-function NewFileDirectory(props: BaseModalProps & {
-  path: string;
-  ext: string;
-}): ReactElement {
+function NewFileDirectory(
+  props: BaseModalProps & {
+    path: string;
+    ext: string;
+  }
+): ReactElement {
   const { isModalOpen, handleCancel = () => {}, path, ext } = props;
 
   const { dispatch } = useContext(AppContext);
@@ -21,7 +26,13 @@ function NewFileDirectory(props: BaseModalProps & {
 
   const handleOk = async (e: React.MouseEvent<HTMLButtonElement>) => {
     setConfirmLoading(true);
-    await window.electronAPI.newFile(path, name, ext);
+    let content = "";
+    if (ext === FILE_SUFFIX.MODEL) {
+      content = JSON.stringify(defaultModel());
+    } else if (ext === FILE_SUFFIX.TREE) {
+      content = JSON.stringify(defaultTree());
+    }
+    await window.electronAPI.newFile(path, name, ext, content);
     // refresh tree
     dispatch(refreshTree());
     setName("");

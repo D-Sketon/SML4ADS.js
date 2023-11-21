@@ -1,3 +1,4 @@
+import { BranchPoint } from "./BranchPoint";
 import { CommonTransition } from "./CommonTransition";
 import { MPosition, Position } from "./Position";
 
@@ -94,5 +95,5 @@ export type Behavior = BaseBehavior & {
   number: number;
   nextTransitions: CommonTransition[];
   nextBehaviors: Behavior[];
-  nextBranchPoints: Behavior[];
+  nextBranchPoints: BranchPoint[];
 }

@@ -85,8 +85,10 @@ const checkLanePositionParams = (locationParams: LANE_POSITION_PARAMS) => {
   const { roadId, laneId, minLateralOffset, maxLateralOffset, minLongitudinalOffset, maxLongitudinalOffset } = locationParams;
 
   _assertRequired(roadId, "roadId is required");
+  _assertNumber(roadId, "roadId should be number");
 
   _assertRequired(laneId, "laneId is required");
+  _assertNumber(laneId, "laneId should be number");
 
   _assertRequired(minLateralOffset, "minLateralOffset is required");
   _assertNumber(minLateralOffset, "minLateralOffset should be number");
@@ -105,6 +107,7 @@ const checkRoadPositionParams = (locationParams: ROAD_POSITION_PARAMS) => {
   const { roadId, minLateralOffset, maxLateralOffset, minLongitudinalOffset, maxLongitudinalOffset } = locationParams;
 
   _assertRequired(roadId, "roadId is required");
+  _assertNumber(roadId, "roadId should be number");
 
   _assertRequired(minLateralOffset, "minLateralOffset is required");
   _assertNumber(minLateralOffset, "minLateralOffset should be number");

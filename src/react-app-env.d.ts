@@ -13,6 +13,9 @@ export interface IElectronAPI {
   chooseFile: (filter: string[]) => Promise<any>;
   chooseDirectory: () => Promise<any>;
 
+  ADSML2Uppaal: (workSpacePath: string, modelPath: string, outputPath: string) => Promise<void>;
+
+
   onOpenNotification: (callback: (event: any,
     type: 'success' | 'info' | 'warning' | 'error',
     title: string,

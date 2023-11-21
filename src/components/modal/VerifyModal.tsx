@@ -133,7 +133,7 @@ type ColumnTypes = Exclude<EditableTableProps["columns"], undefined>;
 function VerifyModal(props: BaseModalProps): ReactElement {
   const { isModalOpen, handleCancel = () => {} } = props;
   const { state, dispatch } = useContext(AppContext);
-  const { filePath, saveFilePath } = state;
+  const { filePath, saveFilePath, workspacePath } = state;
   const activatedFile = filePath.find((file) => file.isActive);
 
   const [dataSource, setDataSource] = useState<DataType[]>([]);
@@ -264,6 +264,11 @@ function VerifyModal(props: BaseModalProps): ReactElement {
     try {
       // Update requirements of the activated model
       await window.electronAPI.writeJson(activatedFile!.path, modelRef.current);
+      await window.electronAPI.ADSML2Uppaal(
+        workspacePath,
+        activatedFile!.path,
+        writePath
+      );
       dispatch(refreshTree());
     } catch (error: any) {
       notification.error({

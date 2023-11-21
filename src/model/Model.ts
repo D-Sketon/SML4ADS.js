@@ -1,4 +1,4 @@
-import { MCar } from "./Car";
+import { Car, MCar } from "./Car";
 
 export enum SIMULATOR_TYPES {
   CARLA = "carla",
@@ -32,7 +32,7 @@ export enum WEATHER_TYPES_LGSVL {
   RAINY = "rainy",
 }
 
-export type MModel = {
+type BaseModel = {
   simulatorType: SIMULATOR_TYPES;
   mapType: MAP_TYPES;
   map: string;
@@ -40,10 +40,17 @@ export type MModel = {
   timeStep: number;
   simulationTime: number;
   scenarioEndTrigger: string;
-  cars: MCar[];
   requirements: string[];
   parametricStls: string[];
   parameters: string[];
+}
+
+export type MModel = BaseModel & {
+  cars: MCar[];
+}
+
+export type Model = BaseModel & {
+  cars: Car[];
 }
 
 export const defaultModel: () => MModel = () => ({

@@ -1,4 +1,4 @@
-import { MBehavior, Behavior } from "./Behavior";
+import { MBehavior, Behavior, BEHAVIOR_TYPES } from "./Behavior";
 import { MBranchPoint, BranchPoint } from "./BranchPoint";
 import { MCommonTransition, CommonTransition } from "./CommonTransition";
 import { MProbabilityTransition, ProbabilityTransition } from "./ProbabilityTransition";
@@ -23,7 +23,17 @@ export type Tree = BaseTree & {
 
 export const defaultTree: () => MTree = () => ({
   rootId: 0,
-  behaviors: [],
+  behaviors: [{
+    id: 0,
+    name: BEHAVIOR_TYPES.KEEP,
+    params: {
+      duration: 10,
+    },
+    position: {
+      x: 200,
+      y: 200,
+    }
+  }],
   branchPoints: [],
   commonTransitions: [],
   probabilityTransitions: [],

@@ -12,6 +12,7 @@ import readFile from '../electron-node/io/readFile';
 import writeJson from '../electron-node/io/writeJson';
 import chooseDirectory from '../electron-node/ui/chooseDirectory';
 import chooseFile from '../electron-node/ui/chooseFile';
+import ADSML2Uppaal from '../electron-node/verifier/index';
 
 
 const createWindow = () => {
@@ -118,6 +119,8 @@ app.whenReady().then(() => {
 
   ipcMain.handle('ui:chooseFile', chooseFile);
   ipcMain.handle('ui:chooseDirectory', chooseDirectory);
+
+  ipcMain.handle('verifier:ADSML2Uppaal', ADSML2Uppaal);
 
   createWindow()
 

@@ -15,6 +15,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   chooseFile: (filter: string[]) => ipcRenderer.invoke('ui:chooseFile', filter),
   chooseDirectory: () => ipcRenderer.invoke('ui:chooseDirectory'),
 
+  ADSML2Uppaal: (workSpacePath: string, modelPath: string, outputPath: string) => ipcRenderer.invoke('verifier:ADSML2Uppaal', workSpacePath, modelPath, outputPath),
+
   onOpenNotification: (callback: (event: any,
     type: 'success' | 'info' | 'warning' | 'error',
     title: string,

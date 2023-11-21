@@ -4,6 +4,9 @@ dependencies:
   antd:
     specifier: ^5.11.1
     version: registry.npmmirror.com/antd@5.11.1(react-dom@18.2.0)(react@18.2.0)
+  fast-xml-parser:
+    specifier: ^4.3.2
+    version: registry.npmmirror.com/fast-xml-parser@4.3.2
   react:
     specifier: ^18.2.0
     version: registry.npmmirror.com/react@18.2.0
@@ -8003,6 +8006,15 @@ packages:
     name: fast-levenshtein
     version: 2.0.6
 
+  registry.npmmirror.com/fast-xml-parser@4.3.2:
+    resolution: {integrity: sha512-rmrXUXwbJedoXkStenj1kkljNF7ugn5ZjR9FJcwmCfcCbtOMDghPajbc+Tck6vE6F5XsDmx+Pr2le9fw8+pXBg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/fast-xml-parser/-/fast-xml-parser-4.3.2.tgz}
+    name: fast-xml-parser
+    version: 4.3.2
+    hasBin: true
+    dependencies:
+      strnum: registry.npmmirror.com/strnum@1.0.5
+    dev: false
+
   registry.npmmirror.com/fastq@1.15.0:
     resolution: {integrity: sha512-wBrocU2LCXXa+lWBt8RoIRD89Fi8OdABODa/kEnyeyjS5aZO5/GNvI5sEINADqP/h8M29UHTHUb53sUu5Ihqdw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/fastq/-/fastq-1.15.0.tgz}
     name: fastq
@@ -15169,6 +15181,12 @@ packages:
     name: strip-json-comments
     version: 3.1.1
     engines: {node: '>=8'}
+
+  registry.npmmirror.com/strnum@1.0.5:
+    resolution: {integrity: sha512-J8bbNyKKXl5qYcR36TIO8W3mVGVHrmmxsd5PAItGkmyzwJvybiw2IVq5nqd0i4LSNSkB/sx9VHllbfFdr9k1JA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/strnum/-/strnum-1.0.5.tgz}
+    name: strnum
+    version: 1.0.5
+    dev: false
 
   registry.npmmirror.com/style-loader@3.3.3(webpack@5.89.0):
     resolution: {integrity: sha512-53BiGLXAcll9maCYtZi2RCQZKa8NQQai5C4horqKyRmHj9H7QmcUyucrH+4KW/gBQbXM2AsB0axoEcFZPlfPcw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/style-loader/-/style-loader-3.3.3.tgz}
