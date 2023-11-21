@@ -1,7 +1,8 @@
-const fs = require('fs');
-const _path = require('path');
 
-function deleteFile(_e, path) {
+import fs from 'fs';
+import _path from 'path';
+
+function deleteFile(_e: any, path: string) {
   try {
     let stat = fs.statSync(path);
     if (!stat.isDirectory()) {
@@ -21,10 +22,10 @@ function deleteFile(_e, path) {
     }
     _e?.sender.send('ui:onOpenNotification', 'success', 'Success', 'Files deleted successfully!');
     return true;
-  } catch (error) {
+  } catch (error: any) {
     _e?.sender.send('ui:onOpenNotification', 'error', 'Error', error.message);
     return false;
   }
 }
 
-module.exports = deleteFile;
+export default deleteFile;

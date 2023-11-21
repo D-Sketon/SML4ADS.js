@@ -1,8 +1,15 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
-function generateTree(_e, folderPath, excludeFiles = []) {
-  const result = [];
+type FileTreeType = {
+  title: string,
+  key: string,
+  isLeaf?: boolean,
+  children?: FileTreeType[],
+};
+
+function generateTree(_e: any, folderPath: string, excludeFiles: string[] = []) {
+  const result: FileTreeType[] = [];
 
   const files = fs.readdirSync(folderPath);
 
@@ -32,4 +39,4 @@ function generateTree(_e, folderPath, excludeFiles = []) {
   return result;
 }
 
-module.exports = generateTree;
+export default generateTree;

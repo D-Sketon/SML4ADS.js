@@ -1,6 +1,6 @@
-const fs = require('fs/promises');
+import fs from 'fs/promises';
 
-async function newFile(_e, path, name, ext, content = '') {
+async function newFile(_e: any, path: string, name: string, ext: string, content = '') {
   try {
     await fs.access(`${path}/${name}`);
     _e?.sender.send('ui:onOpenNotification', 'error', 'Error', `File ${path}/${name} already exists`);
@@ -10,11 +10,11 @@ async function newFile(_e, path, name, ext, content = '') {
   const pathName = `${path}/${name}.${ext}`;
   try {
     await fs.writeFile(pathName, content);
-  } catch (error) {
+  } catch (error: any) {
     _e?.sender.send('ui:onOpenNotification', 'error', 'Error', error.message);
     return false;
   }
   return true;
 }
 
-module.exports = newFile;
+export default newFile;

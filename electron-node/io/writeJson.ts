@@ -1,14 +1,14 @@
-const fs = require('fs/promises');
+import fs from 'fs/promises';
 
-async function writeJson(_e, path, object) {
+async function writeJson(_e: any, path: string, object: any) {
   const json = JSON.stringify(object);
   try {
     await fs.writeFile(path, json);
-  } catch (error) {
+  } catch (error: any) {
     _e?.sender.send('ui:onOpenNotification', 'error', 'Error', error.message);
     return false;
   }
   return true;
 }
 
-module.exports = writeJson;
+export default writeJson;

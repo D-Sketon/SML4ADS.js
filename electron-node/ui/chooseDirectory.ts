@@ -1,4 +1,4 @@
-const { dialog } = require('electron');
+import { dialog } from 'electron';
 
 async function chooseDirectory() {
   return await dialog.showOpenDialog({
@@ -6,4 +6,4 @@ async function chooseDirectory() {
   })
 }
 
-module.exports = chooseDirectory;
+export default chooseDirectory;

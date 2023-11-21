@@ -1,11 +1,11 @@
-const fs = require('fs/promises');
-const writeJson = require('./writeJson');
+import fs from 'fs/promises';
+import writeJson from './writeJson';
 
 const defaultConfig = {
   simulationPort: 20225
 }
 
-async function newProject(_e, path, name) {
+async function newProject(_e: any, path: string, name: string) {
   try {
     await fs.access(`${path}/${name}`);
     _e?.sender.send('ui:onOpenNotification', 'error', 'Error', `Directory ${path}/${name} already exists`);
@@ -15,14 +15,14 @@ async function newProject(_e, path, name) {
   const pathName = `${path}/${name}`;
   try {
     await fs.mkdir(pathName);
-  } catch (error) {
+  } catch (error: any) {
     _e?.sender.send('ui:onOpenNotification', 'error', 'Error', error.message);
     return false;
   }
 
   try {
     await fs.mkdir(`${pathName}/.adsml`);
-  } catch (error) {
+  } catch (error: any) {
     _e?.sender.send('ui:onOpenNotification', 'error', 'Error', error.message);
     return false;
   }
@@ -30,7 +30,7 @@ async function newProject(_e, path, name) {
   // use Default.json as a template
   try {
     await writeJson(_e, `${pathName}/.adsml/config.json`, defaultConfig);
-  } catch (error) {
+  } catch (error: any) {
     _e?.sender.send('ui:onOpenNotification', 'error', 'Error', error.message);
     return false;
   }
@@ -38,4 +38,4 @@ async function newProject(_e, path, name) {
   return true;
 }
 
-module.exports = newProject;
+export default newProject;

@@ -17,13 +17,13 @@ import {
   Button,
   notification,
   Col,
-  InputNumber,
   Row,
 } from "antd";
 import AppContext from "../../store/context";
-import { setSaveFilePath } from "../../store/action";
-import { MModel } from "../../model/Model";
+import { refreshTree, setSaveFilePath } from "../../store/action";
+import { MModel, defaultModel } from "../../model/Model";
 import { checkModel } from "../content/model/utils";
+import { FILE_SUFFIX } from "../../constants";
 
 const EditableContext = React.createContext<FormInstance<any> | null>(null);
 
@@ -133,12 +133,22 @@ type ColumnTypes = Exclude<EditableTableProps["columns"], undefined>;
 function VerifyModal(props: BaseModalProps): ReactElement {
   const { isModalOpen, handleCancel = () => {} } = props;
   const { state, dispatch } = useContext(AppContext);
-  const { filePath, workspacePath, saveFilePath } = state;
+  const { filePath, saveFilePath } = state;
   const activatedFile = filePath.find((file) => file.isActive);
 
   const [dataSource, setDataSource] = useState<DataType[]>([]);
+  const [writePath, setWritePath] = useState<string>(
+    activatedFile?.path.replace(/model$/g, FILE_SUFFIX.XML) ?? ""
+  );
 
+  const modelRef = useRef(defaultModel());
   const [count, setCount] = useState(0);
+
+  // computed
+  useEffect(() => {
+    if (activatedFile?.path)
+      setWritePath(activatedFile.path.replace(/model$/g, FILE_SUFFIX.XML));
+  }, [activatedFile]);
 
   // onMounted
   useEffect(() => {
@@ -158,6 +168,7 @@ function VerifyModal(props: BaseModalProps): ReactElement {
             }));
             setDataSource(source);
             setCount(source.length);
+            modelRef.current = model;
           }
         } catch (error: any) {
           notification.error({
@@ -249,7 +260,17 @@ function VerifyModal(props: BaseModalProps): ReactElement {
 
   const handleOk = async (e: React.MouseEvent<HTMLButtonElement>) => {
     setConfirmLoading(true);
-
+    modelRef.current.requirements = dataSource.map((d) => d.requirements);
+    try {
+      // Update requirements of the activated model
+      await window.electronAPI.writeJson(activatedFile!.path, modelRef.current);
+      dispatch(refreshTree());
+    } catch (error: any) {
+      notification.error({
+        message: "Error",
+        description: error.message,
+      });
+    }
     setConfirmLoading(false);
     handleCancel(e);
   };
@@ -281,7 +302,14 @@ function VerifyModal(props: BaseModalProps): ReactElement {
         >
           <Col span={6}>Ouput file path:</Col>
           <Col span={18}>
-            <Input placeholder="default: ${projectName}/${modelName}.xml" />
+            <Input
+              // eslint-disable-next-line no-template-curly-in-string
+              placeholder="default: ${projectPath}/${modelName}.xml"
+              value={writePath}
+              onChange={(e) => {
+                setWritePath(e.target.value);
+              }}
+            />
           </Col>
         </Row>
       </div>

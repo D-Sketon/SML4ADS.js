@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "sourceMap": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "outDir": "electron-dist",
+    "types": [
+      "node"
+    ]
+  },
+  "include": ["electron-main/**/*.ts", "electron-preload/**/*.ts", "electron-node/**/*.ts"]
+}

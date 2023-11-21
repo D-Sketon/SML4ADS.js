@@ -1,6 +1,6 @@
-const fs = require('fs/promises');
+import fs from 'fs/promises';
 
-async function newDirectory(_e, path, name) {
+async function newDirectory(_e: any, path: string, name: string) {
   try {
     await fs.access(`${path}/${name}`);
     _e?.sender.send('ui:onOpenNotification', 'error', 'Error', `Directory ${path}/${name} already exists`);
@@ -10,11 +10,11 @@ async function newDirectory(_e, path, name) {
   const pathName = `${path}/${name}`;
   try {
     await fs.mkdir(pathName);
-  } catch (error) {
+  } catch (error: any) {
     _e?.sender.send('ui:onOpenNotification', 'error', 'Error', error.message);
     return false;
   }
   return true;
 }
 
-module.exports = newDirectory;
+export default newDirectory;

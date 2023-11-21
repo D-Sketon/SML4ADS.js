@@ -43,7 +43,7 @@ export type MModel = {
   cars: MCar[];
   requirements: string[];
   parametricStls: string[];
-  parametrics: string[];
+  parameters: string[];
 }
 
 export const defaultModel: () => MModel = () => ({
@@ -57,5 +57,5 @@ export const defaultModel: () => MModel = () => ({
   cars: [],
   requirements: [],
   parametricStls: [],
-  parametrics: [],
+  parameters: [],
 });

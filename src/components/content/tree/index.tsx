@@ -85,23 +85,22 @@ function Tree(props: TreeProps): ReactElement {
   useEffect(() => {
     const asyncFn = async () => {
       const content = await window.electronAPI.readFile(path);
-      if (content) {
-        const tree: MTree = JSON.parse(content);
-        // check tree
-        try {
-          checkTree(tree);
-        } catch (error: any) {
-          notification.error({
-            message: "Error",
-            description: error.message,
-          });
-          return;
-        }
-        const { maxId, nodes, edges } = tree2Node(tree, setNodes);
-        setNodes(nodes);
-        setEdges(edges);
-        maxIdRef.current = maxId;
+      if (!content) return;
+      const tree: MTree = JSON.parse(content);
+      // check tree
+      try {
+        checkTree(tree);
+      } catch (error: any) {
+        notification.error({
+          message: "Error",
+          description: error.message,
+        });
+        return;
       }
+      const { maxId, nodes, edges } = tree2Node(tree, setNodes);
+      setNodes(nodes);
+      setEdges(edges);
+      maxIdRef.current = maxId;
     };
     asyncFn();
     // eslint-disable-next-line react-hooks/exhaustive-deps

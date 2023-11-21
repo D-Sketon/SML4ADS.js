@@ -27,8 +27,21 @@ function Model(props: ModelProps): ReactElement {
   const saveHook = useCallback(
     async (isManual = false) => {
       try {
-        checkModel(model);
-        await window.electronAPI.writeJson(path, model);
+        // Prevent overwriting of saved requirements and parametricStls
+        // Need to merge the requirements and parametricStls of the current model with the saved model
+        const content = await window.electronAPI.readFile(path);
+        if (!content) return;
+        const savedModel: MModel = JSON.parse(content);
+        const newModel = {
+          ...model,
+          requirements: savedModel.requirements,
+          parametricStls: savedModel.parametricStls,
+          parameters: savedModel.parameters,
+        };
+        checkModel(newModel);
+        await window.electronAPI.writeJson(path, newModel);
+        // There is no need to update the model because the component does not read the requirements  and parametricStls.
+        // setModel(newModel);
       } catch (error: any) {
         isManual &&
           notification.error({
@@ -44,20 +57,19 @@ function Model(props: ModelProps): ReactElement {
   useEffect(() => {
     const asyncFn = async () => {
       const content = await window.electronAPI.readFile(path);
-      if (content) {
-        const model: MModel = JSON.parse(content);
-        // check model
-        try {
-          checkModel(model);
-        } catch (error: any) {
-          notification.error({
-            message: "Error",
-            description: error.message,
-          });
-          return;
-        }
-        setModel(model);
+      if (!content) return;
+      const model: MModel = JSON.parse(content);
+      // check model
+      try {
+        checkModel(model);
+      } catch (error: any) {
+        notification.error({
+          message: "Error",
+          description: error.message,
+        });
+        return;
       }
+      setModel(model);
     };
     asyncFn();
   }, [path]);
@@ -76,7 +88,7 @@ function Model(props: ModelProps): ReactElement {
   useEffect(() => {
     if (saveFilePath === path) {
       const asyncFn = async () => {
-        await saveHook();
+        await saveHook(true);
         dispatch(setSaveFilePath("$$\ua265SAVE\ua265$$"));
       };
       asyncFn();

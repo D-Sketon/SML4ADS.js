@@ -1,6 +1,6 @@
-const { dialog } = require('electron');
+import { dialog } from 'electron';
 
-async function chooseFile(_e, filter) {
+async function chooseFile(_e: any, filter: string[]) {
   return await dialog.showOpenDialog({
     title: 'Please choose a tree file', 
     defaultPath: '/',
@@ -14,4 +14,4 @@ async function chooseFile(_e, filter) {
   })
 }
 
-module.exports = chooseFile;
+export default chooseFile;
