@@ -100,7 +100,7 @@ function Tree(props: TreeProps): ReactElement {
       const { maxId, nodes, edges } = tree2Node(tree, setNodes);
       setNodes(nodes);
       setEdges(edges);
-      maxIdRef.current = maxId;
+      maxIdRef.current = maxId + 1;
     };
     asyncFn();
     // eslint-disable-next-line react-hooks/exhaustive-deps

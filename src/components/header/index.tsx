@@ -9,12 +9,15 @@ import { MTree } from "../../model/Tree";
 import { checkTree } from "../content/tree/utils";
 import { setSaveFilePath } from "../../store/action";
 import VerifyModal from "../modal/VerifyModal";
+import ParametricStlModal from "../modal/ParametricStlModal";
 
 function HeaderButton(): ReactElement {
   const { state, dispatch } = useContext(AppContext);
   const { filePath, workspacePath, saveFilePath } = state;
   const activatedFile = filePath.find((file) => file.isActive);
   const [verifyModalVisible, setVerifyModalVisible] = useState(false);
+  const [parametricStlModalVisible, setParametricStlModalVisible] =
+    useState(false);
 
   // data flow: "" => realPath => $$\ua265SAVE\ua265$$ => ""
   useEffect(() => {
@@ -88,7 +91,8 @@ function HeaderButton(): ReactElement {
   };
   const handlePstl = () => {
     if (activatedFile && activatedFile.ext === FILE_SUFFIX.MODEL) {
-      // TODO
+      dispatch(setSaveFilePath(activatedFile.path));
+      setParametricStlModalVisible(true);
     } else {
       notification.error({
         message: "Error",
@@ -110,6 +114,10 @@ function HeaderButton(): ReactElement {
       <VerifyModal
         isModalOpen={verifyModalVisible}
         handleCancel={() => setVerifyModalVisible(false)}
+      />
+      <ParametricStlModal
+        isModalOpen={parametricStlModalVisible}
+        handleCancel={() => setParametricStlModalVisible(false)}
       />
     </>
   );
