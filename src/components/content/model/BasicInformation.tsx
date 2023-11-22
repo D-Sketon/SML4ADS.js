@@ -65,7 +65,7 @@ function BasicInformation(props: BasicInformationProps): ReactElement {
               value={model.mapType}
             />
           </Form.Item>
-          {model.map === MAP_TYPES.CUSTOM ? (
+          {model.mapType === MAP_TYPES.CUSTOM ? (
             <div style={{ display: "flex", alignItems: "center" }}>
               <Button
                 type="primary"

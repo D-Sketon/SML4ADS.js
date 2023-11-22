@@ -21,6 +21,7 @@ import { MapDataContainer } from "../xodr/model/MapDataContainer";
 import { Lane } from "../xodr/model/Lane";
 import { LaneSection } from "../xodr/model/LaneSection";
 import { Road } from "../xodr/model/Road";
+import path from "path";
 
 let cars: Car[];
 let map: string;
@@ -46,7 +47,7 @@ const _addDeclaration = (_e: any, wrapper: { buffer: string }) => {
    * 1.1 Add the map data structure that has been defined (including some variable information)
    */
   const _addDefined = () => {
-    const definedContent = readFile(_e, DEFINED_PATH);
+    const definedContent = readFile(_e, path.resolve(__filename, DEFINED_PATH));
     wrapper.buffer += definedContent;
   };
 
@@ -213,7 +214,7 @@ const _addDeclaration = (_e: any, wrapper: { buffer: string }) => {
    * 1.4 Add the well-defined function part: the operation implementation of behavior, map query method, vehicle query method, etc.
    */
   const _addFunction = () => {
-    const definedContent = readFile(_e, FUNCTION_PATH);
+    const definedContent = readFile(_e, path.resolve(__filename, FUNCTION_PATH));
     wrapper.buffer += definedContent;
   };
 
@@ -235,7 +236,7 @@ const _addDeclaration = (_e: any, wrapper: { buffer: string }) => {
  * @param wrapper buffer
  */
 const _addTimer = (_e: any, wrapper: { buffer: string }) => {
-  const definedContent = readFile(_e, AUTOMATON_PATH);
+  const definedContent = readFile(_e, path.resolve(__filename, AUTOMATON_PATH));
   wrapper.buffer += definedContent;
 };
 
@@ -309,7 +310,7 @@ const _addTemplate = (
    */
   const _addLocalDeclaration = () => {
     wrapper.buffer += "\t\t<declaration>\n";
-    const definedContent = readFile(_e, TRANSITION_PATH);
+    const definedContent = readFile(_e, path.resolve(__filename, TRANSITION_PATH));
     wrapper.buffer += definedContent;
     wrapper.buffer += "\t\t</declaration>\n";
   };
@@ -654,7 +655,7 @@ const _addTemplate = (
  * @param wrapper buffer
  */
 const _addEndTrigger = (_e: any, wrapper: { buffer: string }) => {
-  const definedContent = readFile(_e, END_TRIGGER_PATH);
+  const definedContent = readFile(_e, path.resolve(__filename, END_TRIGGER_PATH));
   let endGuard = _resolveGuard(_e, scenarioEndTrigger);
   if (endGuard === "") {
     endGuard = "false";

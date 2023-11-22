@@ -64,13 +64,18 @@ const parseXodr = (input: string) => {
     allowBooleanAttributes: true,
   });
   const xodrObj = parser.parse(input);
-  const openDriveObj = xodrObj.OpenDRIVE;
-  const roadArray = Array.isArray(openDriveObj.road)
-    ? openDriveObj.road
-    : [openDriveObj.road];
-  const junctionArray = Array.isArray(openDriveObj.junction)
-    ? openDriveObj.junction
-    : [openDriveObj.junction];
+  const openDriveObj = xodrObj[1].OpenDRIVE;
+  const roadArray = openDriveObj.road
+    ? Array.isArray(openDriveObj.road)
+      ? openDriveObj.road
+      : [openDriveObj.road]
+    : [];
+  const junctionArray = openDriveObj.junction
+    ? Array.isArray(openDriveObj.junction)
+      ? openDriveObj.junction
+      : [openDriveObj.junction]
+    : [];
+
   for (let i = 0; i < roadArray.length; i++) {
     parseRoad(roadArray[i], roads, laneSections, lanes);
   }
@@ -78,7 +83,14 @@ const parseXodr = (input: string) => {
     parseJunction(junctionArray[i], junctions, connections, laneLinks);
   }
   initIndex(roads, laneSections, lanes, junctions, connections, laneLinks);
-  return new MapDataContainer(roads, junctions, laneSections, lanes, connections, laneLinks);
+  return new MapDataContainer(
+    roads,
+    junctions,
+    laneSections,
+    lanes,
+    connections,
+    laneLinks
+  );
 };
 
 const initIndex = (
@@ -213,7 +225,7 @@ const updatePreLaneIndex = (lane: Lane, preLaneSection: LaneSection) => {
       break;
     }
   }
-}
+};
 
 const updateSucLaneIndex = (lane: Lane, sucLaneSection: LaneSection) => {
   for (const sucLane of sucLaneSection.lanes) {
@@ -223,7 +235,7 @@ const updateSucLaneIndex = (lane: Lane, sucLaneSection: LaneSection) => {
       break;
     }
   }
-}
+};
 
 const initConnection = (
   connections: Connection[],
@@ -250,7 +262,7 @@ const initConnection = (
       }
     }
   }
-}
+};
 
 const parseRoad = (
   roadElement: XODRRoadType,

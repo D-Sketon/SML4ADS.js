@@ -15,11 +15,11 @@ export const INT16_MIN = -32768;
 /**
  * The path of the file that defines the data structure
  */
-export const DEFINED_PATH = "src/main/java/com/ecnu/adsmls/verifier/convert/src/main/resources/uppaal/defined.txt";
-export const FUNCTION_PATH = "src/main/java/com/ecnu/adsmls/verifier/convert/src/main/resources/uppaal/function.txt";
-export const TRANSITION_PATH = "src/main/java/com/ecnu/adsmls/verifier/convert/src/main/resources/uppaal/transition.txt";
-export const AUTOMATON_PATH = "src/main/java/com/ecnu/adsmls/verifier/convert/src/main/resources/uppaal/Timer.txt";
-export const END_TRIGGER_PATH = "src/main/java/com/ecnu/adsmls/verifier/convert/src/main/resources/uppaal/EndTrigger.txt";
+export const DEFINED_PATH = "../../resources/uppaal/defined.txt";
+export const FUNCTION_PATH = "../../resources/uppaal/function.txt";
+export const TRANSITION_PATH = "../../resources/uppaal/transition.txt";
+export const AUTOMATON_PATH = "../../resources/uppaal/Timer.txt";
+export const END_TRIGGER_PATH = "../../resources/uppaal/EndTrigger.txt";
 
 
 /**
