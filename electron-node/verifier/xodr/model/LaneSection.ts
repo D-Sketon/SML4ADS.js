@@ -27,7 +27,7 @@ export class LaneSection {
    * @Deprecated    
    * Just use startPosition
    */
-  length?: number;
+  length: number;
   /**
    * The Lane structure array of the current LaneSection
    */

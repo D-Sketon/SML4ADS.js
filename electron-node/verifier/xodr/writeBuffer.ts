@@ -1,3 +1,4 @@
+import { JUNCTION_CONNECTION, LANESECTION_LANE, ROAD_LANESECTION, f } from "../uppaal/constants";
 import { Connection } from "./model/Connection";
 import { Junction } from "./model/Junction";
 import { Lane } from "./model/Lane";
@@ -41,20 +42,20 @@ const addRoad = (wrapper: { buffer: string }) => {
     wrapper.buffer += `${road.roadId},`;
     wrapper.buffer += `${road.junctionIndex},`;
     wrapper.buffer += `${road.junctionId},`;
-    wrapper.buffer += `${road.length},`;
+    wrapper.buffer += `${f(road.length)},`;
     wrapper.buffer += `${road.predecessorElementType},`;
     wrapper.buffer += `${road.predecessorIndex},`;
     wrapper.buffer += `${road.successorElementType},`;
     wrapper.buffer += `${road.successorIndex},`;
-    wrapper.buffer += `${road.maxSpeed},`;
+    wrapper.buffer += `${f(road.maxSpeed)},`;
     wrapper.buffer += "{";
     const laneSectionsIndex = road.laneSectionsIndex;
-    const countOfLaneSection = Math.min(laneSectionsIndex.length, 2);
+    const countOfLaneSection = Math.min(laneSectionsIndex.length, ROAD_LANESECTION);
     wrapper.buffer += laneSectionsIndex[0];
     for (let i = 1; i < countOfLaneSection; i++) {
       wrapper.buffer += "," + i;
     }
-    for (let i = countOfLaneSection; i < 2; i++) {
+    for (let i = countOfLaneSection; i < ROAD_LANESECTION; i++) {
       wrapper.buffer += "," + (-1);
     }
     wrapper.buffer += "}";
@@ -71,19 +72,19 @@ const addLaneSection = (wrapper: { buffer: string }) => {
     wrapper.buffer += `${laneSection.roadIndex},`;
     wrapper.buffer += `${laneSection.roadId},`;
     wrapper.buffer += `${laneSection.laneSectionId},`;
-    wrapper.buffer += `${laneSection.startPosition},`;
+    wrapper.buffer += `${f(laneSection.startPosition)},`;
     wrapper.buffer += "{";
     const lanesIndex = laneSection.lanesIndex;
-    const countOfLane = Math.min(lanesIndex.length, 3);
+    const countOfLane = Math.min(lanesIndex.length, LANESECTION_LANE);
     wrapper.buffer += lanesIndex[0];
     for (let i = 1; i < countOfLane; i++) {
       wrapper.buffer += "," + i;
     }
-    for (let i = countOfLane; i < 3; i++) {
+    for (let i = countOfLane; i < LANESECTION_LANE; i++) {
       wrapper.buffer += "," + (-1);
     }
     wrapper.buffer += "}";
-    wrapper.buffer += "," + laneSection.length;
+    wrapper.buffer += "," + f(laneSection.length);
     wrapper.buffer += "}" + (index === laneSections.length - 1 ? "" : ",") + "\n";
   });
   wrapper.buffer += "};\n";
@@ -119,12 +120,12 @@ const addJunction = (wrapper: { buffer: string }) => {
     wrapper.buffer += `${junction.junctionId},`;
     wrapper.buffer += "{";
     const connectionsIndex = junction.connectionsIndex;
-    const countOfConnection = Math.min(connectionsIndex.length, 4);
+    const countOfConnection = Math.min(connectionsIndex.length, JUNCTION_CONNECTION);
     wrapper.buffer += connectionsIndex[0];
     for (let i = 1; i < countOfConnection; i++) {
       wrapper.buffer += "," + i;
     }
-    for (let i = countOfConnection; i < 4; i++) {
+    for (let i = countOfConnection; i < JUNCTION_CONNECTION; i++) {
       wrapper.buffer += "," + (-1);
     }
     wrapper.buffer += "}";
@@ -148,12 +149,12 @@ const addConnection = (wrapper: { buffer: string }) => {
     wrapper.buffer += `${connection.connectingRoadIndex},`;
     wrapper.buffer += "{";
     const laneLinksIndex = connection.laneLinksIndex;
-    const countOfLaneLink = Math.min(laneLinksIndex.length, 2);
+    const countOfLaneLink = Math.min(laneLinksIndex.length, JUNCTION_CONNECTION);
     wrapper.buffer += laneLinksIndex[0];
     for (let i = 1; i < countOfLaneLink; i++) {
       wrapper.buffer += "," + i;
     }
-    for (let i = countOfLaneLink; i < 2; i++) {
+    for (let i = countOfLaneLink; i < JUNCTION_CONNECTION; i++) {
       wrapper.buffer += "," + (-1);
     }
     wrapper.buffer += "}";

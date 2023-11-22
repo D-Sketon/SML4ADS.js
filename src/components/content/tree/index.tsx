@@ -72,6 +72,7 @@ function Tree(props: TreeProps): ReactElement {
         checkTree(newTree);
         await window.electronAPI.writeJson(path, newTree);
       } catch (error: any) {
+        console.error(error);
         isManual &&
           notification.error({
             message: "Error",
@@ -91,6 +92,7 @@ function Tree(props: TreeProps): ReactElement {
       try {
         checkTree(tree);
       } catch (error: any) {
+        console.error(error);
         notification.error({
           message: "Error",
           description: error.message,

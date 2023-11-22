@@ -171,6 +171,7 @@ function VerifyModal(props: BaseModalProps): ReactElement {
             modelRef.current = model;
           }
         } catch (error: any) {
+          console.error(error);
           notification.error({
             message: "Error",
             description: error.message,
@@ -271,6 +272,7 @@ function VerifyModal(props: BaseModalProps): ReactElement {
       );
       dispatch(refreshTree());
     } catch (error: any) {
+      console.error(error);
       notification.error({
         message: "Error",
         description: error.message,

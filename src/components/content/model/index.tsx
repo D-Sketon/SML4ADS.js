@@ -47,6 +47,7 @@ function Model(props: ModelProps): ReactElement {
         // There is no need to update the model because the component does not read the requirements  and parametricStls.
         // setModel(newModel);
       } catch (error: any) {
+        console.error(error);
         isManual &&
           notification.error({
             message: "Error",
@@ -71,6 +72,7 @@ function Model(props: ModelProps): ReactElement {
       try {
         checkModel(model);
       } catch (error: any) {
+        console.error(error);
         notification.error({
           message: "Error",
           description: error.message,

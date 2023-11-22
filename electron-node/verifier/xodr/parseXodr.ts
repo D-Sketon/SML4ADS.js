@@ -56,7 +56,6 @@ const parseXodr = (input: string) => {
   laneLinkIndex = 0;
 
   const parser = new XMLParser({
-    preserveOrder: true,
     attributeNamePrefix: "@_",
     textNodeName: "#text",
     ignoreAttributes: false,
@@ -64,7 +63,7 @@ const parseXodr = (input: string) => {
     allowBooleanAttributes: true,
   });
   const xodrObj = parser.parse(input);
-  const openDriveObj = xodrObj[1].OpenDRIVE;
+  const openDriveObj = xodrObj.OpenDRIVE;
   const roadArray = openDriveObj.road
     ? Array.isArray(openDriveObj.road)
       ? openDriveObj.road
@@ -82,7 +81,7 @@ const parseXodr = (input: string) => {
   for (let i = 0; i < junctionArray.length; i++) {
     parseJunction(junctionArray[i], junctions, connections, laneLinks);
   }
-  initIndex(roads, laneSections, lanes, junctions, connections, laneLinks);
+  initIndex(roads, laneSections, lanes, junctions, connections);
   return new MapDataContainer(
     roads,
     junctions,
@@ -98,8 +97,7 @@ const initIndex = (
   laneSections: LaneSection[],
   lanes: Lane[],
   junctions: Junction[],
-  connections: Connection[],
-  laneLinks: LaneLink[]
+  connections: Connection[]
 ) => {
   initRoad(roads);
   initLane(lanes, laneSections, roads);
@@ -168,7 +166,7 @@ const initLane = (
           }
         }
       }
-      if (preLaneSection !== null) {
+      if (preLaneSection !== null && preLaneSection !== void 0) {
         updatePreLaneIndex(lane, preLaneSection);
       }
     }
@@ -210,7 +208,7 @@ const initLane = (
           }
         }
       }
-      if (sucLaneSection !== null) {
+      if (sucLaneSection !== null && sucLaneSection !== void 0) {
         updateSucLaneIndex(lane, sucLaneSection);
       }
     }
@@ -218,6 +216,7 @@ const initLane = (
 };
 
 const updatePreLaneIndex = (lane: Lane, preLaneSection: LaneSection) => {
+  if (!preLaneSection.lanes) return;
   for (const preLane of preLaneSection.lanes) {
     if (preLane.laneId === lane.predecessorLaneId) {
       lane.predecessorSingleId = preLane.singleId;
@@ -228,6 +227,7 @@ const updatePreLaneIndex = (lane: Lane, preLaneSection: LaneSection) => {
 };
 
 const updateSucLaneIndex = (lane: Lane, sucLaneSection: LaneSection) => {
+  if (!sucLaneSection.lanes) return;
   for (const sucLane of sucLaneSection.lanes) {
     if (sucLane.laneId === lane.successorLaneId) {
       lane.successorSingleId = sucLane.singleId;
@@ -287,8 +287,10 @@ const parseRoad = (
   const link = roadElement.link;
 
   const predecessor = link.predecessor;
-  const elementId = parseInt(predecessor["@_elementId"] + "") ?? -1;
-  const elementType = predecessor["@_elementType"];
+  const elementId = predecessor
+    ? parseInt(predecessor["@_elementId"] + "")
+    : -1;
+  const elementType = predecessor ? predecessor["@_elementType"] : "";
   road.predecessorElementType =
     elementType.toLowerCase() === "road"
       ? ELEMENT_TYPES.ROAD
@@ -298,8 +300,11 @@ const parseRoad = (
   road.predecessorId = elementId;
 
   const successor = link.successor;
-  const successorElementId = parseInt(successor["@_elementId"] + "") ?? -1;
-  const successorElementTypeStr = successor["@_elementType"];
+
+  const successorElementId = successor
+    ? parseInt(successor["@_elementId"] + "")
+    : -1;
+  const successorElementTypeStr = successor ? successor["@_elementType"] : "";
   road.successorElementType =
     successorElementTypeStr.toLowerCase() === "road"
       ? ELEMENT_TYPES.ROAD
@@ -310,7 +315,7 @@ const parseRoad = (
 
   //    int maxSpeed;
   const type = roadElement.type;
-  road.maxSpeed = parseInt(type.speed["@_max"] + "");
+  road.maxSpeed = parseFloat((type?.speed["@_max"] ?? "0") + "");
 
   //    laneSections
   const laneSectionList = roadElement.lanes.laneSection;
@@ -342,7 +347,7 @@ const parseLaneSection = (
     laneSection.roadId = road.roadId;
     //  private int laneSectionId;
     laneSection.laneSectionId = laneSectionId;
-    laneSection.index = laneIndex;
+    laneSection.index = laneSectionIndex;
     laneSectionsIndex.push(laneSectionIndex);
     laneSectionMap.set(laneSectionId++, laneSectionIndex++);
 
@@ -353,9 +358,12 @@ const parseLaneSection = (
     laneSection.length = 0;
 
     // lanes
-    parseLane(laneSectionElement.left.lane, laneSection, lanes);
-    parseLane(laneSectionElement.center.lane, laneSection, lanes);
-    parseLane(laneSectionElement.right.lane, laneSection, lanes);
+    laneSectionElement.left?.lane &&
+      parseLane(laneSectionElement.left.lane, laneSection, lanes);
+    laneSectionElement.center?.lane &&
+      parseLane(laneSectionElement.center.lane, laneSection, lanes);
+    laneSectionElement.right?.lane &&
+      parseLane(laneSectionElement.right.lane, laneSection, lanes);
 
     roadLaneSections.push(laneSection);
     laneSections.push(laneSection);

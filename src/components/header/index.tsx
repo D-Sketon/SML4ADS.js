@@ -59,6 +59,7 @@ function HeaderButton(): ReactElement {
             throw new Error("Read model file failed.");
           }
         } catch (error: any) {
+          console.error(error);
           notification.error({
             message: "Error",
             description: error.message,

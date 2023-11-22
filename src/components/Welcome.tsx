@@ -41,6 +41,7 @@ function Welcome(): ReactElement {
       }
       dispatch(setConfig(config));
     } catch (error: any) {
+      console.error(error);
       notification.error({
         message: "Error",
         description: error.message,

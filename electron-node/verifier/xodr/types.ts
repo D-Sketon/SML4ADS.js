@@ -30,10 +30,10 @@ export type XODRLaneOffsetType = {
 
 export type XODRLaneType = {
   link?: {
-    predecessor: {
+    predecessor?: {
       "@_id": number | string;
     };
-    successor: {
+    successor?: {
       "@_id": number | string;
     };
   };
@@ -73,7 +73,7 @@ export type XODRLaneSectionType = {
 
 export type XODRRoadType = {
   link: XODRLinkType;
-  type: XODRTypeType;
+  type?: XODRTypeType;
   planView: any;
   elevationProfile: any;
   lateralProfile: any;

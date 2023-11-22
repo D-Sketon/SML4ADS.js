@@ -161,8 +161,8 @@ function ParametricStlModal(props: BaseModalProps): ReactElement {
             for (let i = 0; i < model.parametricStls.length; i++) {
               source.push({
                 key: i,
-                parametricStls: model.parametricStls[i],
-                parameters: model.parameters[i],
+                parametricStls: model.parametricStls?.[i] ?? "",
+                parameters: model.parameters?.[i] ?? "",
               });
             }
             setDataSource(source);
@@ -170,6 +170,7 @@ function ParametricStlModal(props: BaseModalProps): ReactElement {
             modelRef.current = model;
           }
         } catch (error: any) {
+          console.error(error);
           notification.error({
             message: "Error",
             description: error.message,
@@ -285,6 +286,7 @@ function ParametricStlModal(props: BaseModalProps): ReactElement {
       // Update requirements of the activated model
       await window.electronAPI.writeJson(activatedFile!.path, modelRef.current);
     } catch (error: any) {
+      console.error(error);
       notification.error({
         message: "Error",
         description: error.message,
