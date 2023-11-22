@@ -13,7 +13,7 @@ import writeJson from '../electron-node/io/writeJson';
 import chooseDirectory from '../electron-node/ui/chooseDirectory';
 import chooseFile from '../electron-node/ui/chooseFile';
 import ADSML2Uppaal from '../electron-node/verifier/index';
-
+import simulate from '../electron-node/rpc/simulate';
 
 const createWindow = () => {
   // Create the browser window.
@@ -121,6 +121,8 @@ app.whenReady().then(() => {
   ipcMain.handle('ui:chooseDirectory', chooseDirectory);
 
   ipcMain.handle('verifier:ADSML2Uppaal', ADSML2Uppaal);
+
+  ipcMain.handle('rpc:simulate', simulate);
 
   createWindow()
 

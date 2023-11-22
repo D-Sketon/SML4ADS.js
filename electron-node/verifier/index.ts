@@ -1,6 +1,6 @@
 import readFile from '../io/readFile';
-import parseModel from './json/parseModel.ts';
-import writeXml from './uppaal/writeXml.ts';
+import parseModel from './json/parseModel';
+import writeXml from './uppaal/writeXml';
 
 const ADSML2Uppaal = (_e: any, workSpacePath: string, modelPath: string, outputPath: string) => {
   const content = readFile(_e, modelPath);

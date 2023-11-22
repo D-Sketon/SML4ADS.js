@@ -249,7 +249,7 @@ const _resolveGuard = (_e: any, guard: string) => {
     if (guard.match(guardType)) {
       isMatch = true;
       let s = guard;
-      for (const name of carNameIndexMap.keys()) {
+      for (const name of [...carNameIndexMap.keys()]) {
         s = s.replace(
           new RegExp(name, "gm"),
           `cars[${carNameIndexMap.get(name)}]`

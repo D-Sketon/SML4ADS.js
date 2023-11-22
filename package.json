@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@hprose/rpc-core": "^3.0.10",
+    "@hprose/rpc-node": "^3.0.12",
     "antd": "^5.11.1",
     "fast-xml-parser": "^4.3.2",
     "react": "^18.2.0",

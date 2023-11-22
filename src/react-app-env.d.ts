@@ -15,6 +15,7 @@ export interface IElectronAPI {
 
   ADSML2Uppaal: (workSpacePath: string, modelPath: string, outputPath: string) => Promise<void>;
 
+  simulate: (params: any, port: number, host?: string) => Promise<void>;
 
   onOpenNotification: (callback: (event: any,
     type: 'success' | 'info' | 'warning' | 'error',

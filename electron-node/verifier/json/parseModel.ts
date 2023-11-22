@@ -1,12 +1,12 @@
-import readFile from '../../io/readFile.ts';
-import getAbsolutePath from '../../io/getAbsolutePath.ts';
-import type { Model } from '../../../src/model/Model.ts';
-import type { Tree } from '../../../src/model/Tree.ts';
-import { LOCATION_TYPES, type Car } from '../../../src/model/Car.ts';
-import type { Behavior } from '../../../src/model/Behavior.ts';
-import type { BranchPoint } from '../../../src/model/BranchPoint.ts';
-import type { CommonTransition } from '../../../src/model/CommonTransition.ts';
-import type { ProbabilityTransition } from '../../../src/model/ProbabilityTransition.ts';
+import readFile from '../../io/readFile';
+import getAbsolutePath from '../../io/getAbsolutePath';
+import type { Model } from '../../../src/model/Model';
+import type { Tree } from '../../../src/model/Tree';
+import { LOCATION_TYPES, type Car } from '../../../src/model/Car';
+import type { Behavior } from '../../../src/model/Behavior';
+import type { BranchPoint } from '../../../src/model/BranchPoint';
+import type { CommonTransition } from '../../../src/model/CommonTransition';
+import type { ProbabilityTransition } from '../../../src/model/ProbabilityTransition';
 
 let nameCarMap: Map<string, Car>;
 

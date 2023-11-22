@@ -1,17 +1,17 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es6",
     "module": "commonjs",
     "sourceMap": true,
     "declaration": true,
     "esModuleInterop": true,
     "outDir": "electron-dist",
-    "types": ["node"],
-    "lib": ["esnext"]
+    "types": ["node"]
   },
   "include": [
     "electron-main/**/*.ts",
     "electron-preload/**/*.ts",
     "electron-node/**/*.ts"
-  ]
+  ],
+  "exclude": ["node_modules"]
 }

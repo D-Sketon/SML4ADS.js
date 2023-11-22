@@ -10,6 +10,7 @@ import { checkTree } from "../content/tree/utils";
 import { setSaveFilePath } from "../../store/action";
 import VerifyModal from "../modal/VerifyModal";
 import ParametricStlModal from "../modal/ParametricStlModal";
+import SimulateModal from "../modal/SimulateModal";
 
 function HeaderButton(): ReactElement {
   const { state, dispatch } = useContext(AppContext);
@@ -18,6 +19,7 @@ function HeaderButton(): ReactElement {
   const [verifyModalVisible, setVerifyModalVisible] = useState(false);
   const [parametricStlModalVisible, setParametricStlModalVisible] =
     useState(false);
+  const [simulateModalVisible, setSimulateModalVisible] = useState(false);
 
   // data flow: "" => realPath => $$\ua265SAVE\ua265$$ => ""
   useEffect(() => {
@@ -49,7 +51,7 @@ function HeaderButton(): ReactElement {
             }
             // change absolutePath's suffix from model to adsml
             const adsmlPath = activatedFile!.path.replace(
-              /model$/g,
+              new RegExp(FILE_SUFFIX.MODEL + "$", "g"),
               FILE_SUFFIX.ADSML
             );
             await window.electronAPI.writeJson(adsmlPath, model);
@@ -100,7 +102,17 @@ function HeaderButton(): ReactElement {
       });
     }
   };
-  const handleSimulate = () => {};
+  const handleSimulate = () => {
+    if (activatedFile && activatedFile.ext === FILE_SUFFIX.MODEL) {
+      dispatch(setSaveFilePath(activatedFile.path));
+      setSimulateModalVisible(true);
+    } else {
+      notification.error({
+        message: "Error",
+        description: "Please select a model file first.",
+      });
+    }
+  };
   return (
     <>
       <div className="header-wrapper">
@@ -118,6 +130,10 @@ function HeaderButton(): ReactElement {
       <ParametricStlModal
         isModalOpen={parametricStlModalVisible}
         handleCancel={() => setParametricStlModalVisible(false)}
+      />
+      <SimulateModal 
+        isModalOpen={simulateModalVisible}
+        handleCancel={() => setSimulateModalVisible(false)}
       />
     </>
   );
