@@ -358,12 +358,29 @@ const parseLaneSection = (
     laneSection.length = 0;
 
     // lanes
-    laneSectionElement.left?.lane &&
-      parseLane(laneSectionElement.left.lane, laneSection, lanes);
-    laneSectionElement.center?.lane &&
-      parseLane(laneSectionElement.center.lane, laneSection, lanes);
-    laneSectionElement.right?.lane &&
-      parseLane(laneSectionElement.right.lane, laneSection, lanes);
+    const _laneList: XODRLaneType[] = [];
+    if (laneSectionElement.left?.lane) {
+      if (Array.isArray(laneSectionElement.left?.lane)) {
+        _laneList.push(...laneSectionElement.left?.lane);
+      } else {
+        _laneList.push(laneSectionElement.left?.lane);
+      }
+    }
+    if (laneSectionElement.center?.lane) {
+      if (Array.isArray(laneSectionElement.center?.lane)) {
+        _laneList.push(...laneSectionElement.center?.lane);
+      } else {
+        _laneList.push(laneSectionElement.center?.lane);
+      }
+    }
+    if (laneSectionElement.right?.lane) {
+      if (Array.isArray(laneSectionElement.right?.lane)) {
+        _laneList.push(...laneSectionElement.right?.lane);
+      } else {
+        _laneList.push(laneSectionElement.right?.lane);
+      }
+    }
+    parseLane(_laneList, laneSection, lanes);
 
     roadLaneSections.push(laneSection);
     laneSections.push(laneSection);
@@ -373,11 +390,10 @@ const parseLaneSection = (
 };
 
 const parseLane = (
-  _laneList: XODRLaneType | XODRLaneType[],
+  laneList: XODRLaneType[],
   laneSection: LaneSection,
   lanes: Lane[]
 ) => {
-  const laneList = Array.isArray(_laneList) ? _laneList : [_laneList];
   const laneSectionLanes: Lane[] = [];
   const lanesIndex: number[] = [];
   for (let laneElement of laneList) {
