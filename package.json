@@ -19,9 +19,9 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "eject": "react-scripts eject",
-    "start-electron": "cross-env NODE_ENV=development electron .",
-    "start-electron-prod": "electron .",
-    "build-electron": "electron-builder"
+    "start-electron": "npm run prebuild && cross-env NODE_ENV=development electron .",
+    "start-electron-prod": "npm run prebuild && electron .",
+    "build-electron": "npm run prebuild && electron-builder"
   },
   "main": "electron-dist/electron-main/main.js",
   "homepage": ".",
@@ -75,7 +75,8 @@
     },
     "files": [
       "build/**/*",
-      "electron-dist/**/*.js"
+      "electron-dist/**/*.js",
+      "electron-dist/**/resources/**/*"
     ],
     "extends": null
   }

@@ -10,28 +10,26 @@
 
 ```bash
 pnpm run prebuild
+# copy electron-node/verifier/resources to electron-dist/electron-node/verifier/resources
 pnpm start
+
 pnpm run start-electron
-```
-
-If you change `electron-node`, `electron-main` or `electron-preload`, please run
-
-```bash
-pnpm run prebuild
 ```
 
 ## Preview
 
 ```bash
-pnpm run prebuild
 pnpm run build
+# copy electron-node/verifier/resources to electron-dist/electron-node/verifier/resources
 pnpm run start-electron-prod
 ```
+
+
 
 ## Build
 
 ```bash
-pnpm run prebuild
 pnpm run build
+# copy electron-node/verifier/resources to electron-dist/electron-node/verifier/resources
 pnpm run build-electron
 ```

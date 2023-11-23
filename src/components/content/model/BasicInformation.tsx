@@ -3,6 +3,7 @@ import TextArea from "antd/es/input/TextArea";
 import { ReactElement, useContext } from "react";
 
 import {
+  DEFAULT_MAP_TYPES,
   MAP_TYPES,
   MModel,
   SIMULATOR_TYPES,
@@ -60,7 +61,15 @@ function BasicInformation(props: BasicInformationProps): ReactElement {
                 label: i,
               }))}
               onChange={(e) => {
-                setModel({ ...model, mapType: e });
+                if (e === MAP_TYPES.CUSTOM) {
+                  setModel({ ...model, mapType: e, map: "" });
+                } else if (e === MAP_TYPES.DEFAULT) {
+                  setModel({
+                    ...model,
+                    mapType: e,
+                    map: DEFAULT_MAP_TYPES.TOWN_01,
+                  });
+                }
               }}
               value={model.mapType}
             />
@@ -79,7 +88,19 @@ function BasicInformation(props: BasicInformationProps): ReactElement {
               </span>
             </div>
           ) : (
-            <></>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <Select
+                style={{ width: 150 }}
+                options={Object.values(DEFAULT_MAP_TYPES).map((i) => ({
+                  value: i,
+                  label: i,
+                }))}
+                onChange={(e) => {
+                  setModel({ ...model, map: e });
+                }}
+                value={model.map}
+              />
+            </div>
           )}
         </Form.Item>
 

@@ -1,12 +1,13 @@
-import readFile from '../../io/readFile';
-import getAbsolutePath from '../../io/getAbsolutePath';
-import type { Model } from '../../../src/model/Model';
-import type { Tree } from '../../../src/model/Tree';
-import { LOCATION_TYPES, type Car } from '../../../src/model/Car';
-import type { Behavior } from '../../../src/model/Behavior';
-import type { BranchPoint } from '../../../src/model/BranchPoint';
-import type { CommonTransition } from '../../../src/model/CommonTransition';
-import type { ProbabilityTransition } from '../../../src/model/ProbabilityTransition';
+import readFile from "../../io/readFile";
+import getAbsolutePath from "../../io/getAbsolutePath";
+import { MAP_TYPES, type Model } from "../../../src/model/Model";
+import type { Tree } from "../../../src/model/Tree";
+import { LOCATION_TYPES, type Car } from "../../../src/model/Car";
+import type { Behavior } from "../../../src/model/Behavior";
+import type { BranchPoint } from "../../../src/model/BranchPoint";
+import type { CommonTransition } from "../../../src/model/CommonTransition";
+import type { ProbabilityTransition } from "../../../src/model/ProbabilityTransition";
+import path from "path";
 
 let nameCarMap: Map<string, Car>;
 
@@ -20,18 +21,21 @@ const _initFromRelatedCar = (car: Car) => {
     car.minLateralOffset = relatedCar.minLateralOffset + car.minLateralOffset;
     car.maxLateralOffset = relatedCar.maxLateralOffset + car.maxLateralOffset;
   }
-}
+};
 
-const _initProbabilityTransition = (probabilityTransition: ProbabilityTransition) => {
+const _initProbabilityTransition = (
+  probabilityTransition: ProbabilityTransition
+) => {
   if (probabilityTransition.targetBehavior) {
     const targetBehavior = probabilityTransition.targetBehavior;
     // Change the corresponding behavior's triple
     targetBehavior.level = probabilityTransition.level + 1;
-    targetBehavior.group = (probabilityTransition.group - 1) * 3 + probabilityTransition.number;
+    targetBehavior.group =
+      (probabilityTransition.group - 1) * 3 + probabilityTransition.number;
     targetBehavior.number = 0;
     _initBehavior(targetBehavior);
   }
-}
+};
 
 const _initBranchPoint = (branchPoint: BranchPoint) => {
   let number = 1;
@@ -43,25 +47,27 @@ const _initBranchPoint = (branchPoint: BranchPoint) => {
     number++;
     _initProbabilityTransition(probabilityTransition);
   }
-}
+};
 
 const _initCommonTransition = (commonTransition: CommonTransition) => {
   if (commonTransition.targetBehavior) {
     const targetBehavior = commonTransition.targetBehavior;
     // Change the corresponding behavior's triple
     targetBehavior.level = commonTransition.level + 1;
-    targetBehavior.group = (commonTransition.group - 1) * 3 + commonTransition.number;
+    targetBehavior.group =
+      (commonTransition.group - 1) * 3 + commonTransition.number;
     targetBehavior.number = 0;
     _initBehavior(targetBehavior);
   } else if (commonTransition.targetBranchPoint) {
     const targetBranchPoint = commonTransition.targetBranchPoint;
     // Change the corresponding branchPoint's triple
     targetBranchPoint.level = commonTransition.level + 1;
-    targetBranchPoint.group = (commonTransition.group - 1) * 3 + commonTransition.number;
+    targetBranchPoint.group =
+      (commonTransition.group - 1) * 3 + commonTransition.number;
     targetBranchPoint.number = 0;
     _initBranchPoint(targetBranchPoint);
   }
-}
+};
 
 const _initBehavior = (sourceBehavior: Behavior) => {
   let number = 1;
@@ -74,7 +80,7 @@ const _initBehavior = (sourceBehavior: Behavior) => {
     number++;
     _initCommonTransition(commonTransition);
   }
-}
+};
 
 const initLocationParams = (car: Car) => {
   const { locationParams }: { locationParams: any } = car;
@@ -87,11 +93,12 @@ const initLocationParams = (car: Car) => {
   car.roadId = locationParams.roadId ?? 0;
   car.laneId = locationParams.laneId ?? 0;
   car.actorRef = locationParams.actorRef ?? "";
-}
+};
 
 const initEdge = (car: Car) => {
   const { mTree } = car;
-  const { behaviors, branchPoints, commonTransitions, probabilityTransitions } = mTree;
+  const { behaviors, branchPoints, commonTransitions, probabilityTransitions } =
+    mTree;
 
   const idBehaviorMap = new Map<number, Behavior>();
   const idBranchPointMap = new Map<number, BranchPoint>();
@@ -112,11 +119,15 @@ const initEdge = (car: Car) => {
       if (behavior.id === commonTransition.sourceId) {
         commonTransition.sourceBehavior = behavior;
         if (idBehaviorMap.has(commonTransition.targetId)) {
-          const targetBehavior = idBehaviorMap.get(commonTransition.targetId) as Behavior;
+          const targetBehavior = idBehaviorMap.get(
+            commonTransition.targetId
+          ) as Behavior;
           commonTransition.targetBehavior = targetBehavior;
           behavior.nextBehaviors.push(targetBehavior);
         } else {
-          const branchPoint = idBranchPointMap.get(commonTransition.targetId) as BranchPoint;
+          const branchPoint = idBranchPointMap.get(
+            commonTransition.targetId
+          ) as BranchPoint;
           commonTransition.targetBranchPoint = branchPoint;
           behavior.nextBranchPoints.push(branchPoint);
         }
@@ -131,7 +142,9 @@ const initEdge = (car: Car) => {
         if (branchPoint.id === probabilityTransition.sourceId) {
           probabilityTransition.sourceBranchPoint = branchPoint;
           if (idBehaviorMap.has(probabilityTransition.targetId)) {
-            const targetBehavior = idBehaviorMap.get(probabilityTransition.targetId) as Behavior;
+            const targetBehavior = idBehaviorMap.get(
+              probabilityTransition.targetId
+            ) as Behavior;
             probabilityTransition.targetBehavior = targetBehavior;
             branchPoint.nextBehaviors.push(targetBehavior);
           }
@@ -150,7 +163,7 @@ const initEdge = (car: Car) => {
       }
     }
   }
-}
+};
 
 const modifyId = (car: Car) => {
   let id = 1;
@@ -187,16 +200,24 @@ const modifyId = (car: Car) => {
   for (const probabilityTransition of car.mTree.probabilityTransitions) {
     ids.set(probabilityTransition.id, id);
     probabilityTransition.id = id++;
-    probabilityTransition.sourceId = ids.get(probabilityTransition.sourceId) as number;
-    probabilityTransition.targetId = ids.get(probabilityTransition.targetId) as number;
+    probabilityTransition.sourceId = ids.get(
+      probabilityTransition.sourceId
+    ) as number;
+    probabilityTransition.targetId = ids.get(
+      probabilityTransition.targetId
+    ) as number;
   }
-}
+};
 
 const parseModel = (_e: any, content: string, workSpacePath: string) => {
   nameCarMap = new Map<string, Car>();
   const model: Model = JSON.parse(content);
   // Change from relative path to absolute path
-  model.map = getAbsolutePath(_e, workSpacePath, model.map);
+  if (model.mapType === MAP_TYPES.CUSTOM) {
+    model.map = getAbsolutePath(_e, workSpacePath, model.map);
+  } else {
+    model.map = path.resolve(__filename, "../../resources/map/" + model.map);
+  }
 
   const cars: Car[] = [];
   for (const car of model.cars) {
@@ -217,6 +238,6 @@ const parseModel = (_e: any, content: string, workSpacePath: string) => {
 
   model.cars = cars;
   return model;
-}
+};
 
 export default parseModel;

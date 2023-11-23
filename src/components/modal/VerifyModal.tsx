@@ -270,6 +270,10 @@ function VerifyModal(props: BaseModalProps): ReactElement {
         activatedFile!.path,
         writePath
       );
+      notification.success({
+        message: "Success",
+        description: `Verify successfully!\nPlease check ${writePath}`,
+      })
       dispatch(refreshTree());
     } catch (error: any) {
       console.error(error);
