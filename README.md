@@ -9,10 +9,8 @@
 ## Develop
 
 ```bash
-pnpm run prebuild
 # copy electron-node/verifier/resources to electron-dist/electron-node/verifier/resources
 pnpm start
-
 pnpm run start-electron
 ```
 
