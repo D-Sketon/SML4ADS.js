@@ -92,10 +92,10 @@ const checkManualSpeedParams = (speedParams: MANUAL_SPEED_PARAMS) => {
   const { maxSpeed, initSpeed } = speedParams;
 
   _assertRequired(maxSpeed, "maxSpeed is required");
-  _assertNumber(maxSpeed, "maxSpeed should be number");
+  _assertNumberGE(maxSpeed, 0, "maxSpeed should >= 0");
 
   _assertRequired(initSpeed, "initSpeed is required");
-  _assertNumber(initSpeed, "initSpeed should be number");
+  _assertNumberGE(initSpeed, 0, "initSpeed should >= 0");
   // initSpeed should <= maxSpeed
   if (Number(initSpeed) > Number(maxSpeed)) {
     throw new Error("initSpeed should <= maxSpeed");
@@ -108,10 +108,10 @@ const checkUniformDistributionSpeedParams = (
   const { a, b } = speedParams;
 
   _assertRequired(a, "a is required");
-  _assertNumber(a, "a should be number");
+  _assertNumberGE(a, 0, "a should >= 0");
 
   _assertRequired(b, "b is required");
-  _assertNumber(b, "b should be number");
+  _assertNumberGE(b, 0, "b should >= 0");
   // a should <= b
   if (Number(a) > Number(b)) {
     throw new Error("a should <= b");
@@ -124,7 +124,7 @@ const checkNormalDistributionSpeedParams = (
   const { mean, std } = speedParams;
 
   _assertRequired(mean, "mean is required");
-  _assertNumber(mean, "mean should be number");
+  _assertNumberGE(mean, 0, "mean should >= 0");
 
   _assertRequired(std, "std is required");
   _assertNumber(std, "std should be number");
