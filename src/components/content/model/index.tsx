@@ -67,8 +67,8 @@ function Model(props: ModelProps): ReactElement {
         const newModel = {
           ...model,
           requirements: savedModel.requirements,
-          parametricStls: savedModel.parametricStls,
-          parameters: savedModel.parameters,
+          parametricStls: savedModel.parametricStls ?? [],
+          parameters: savedModel.parameters ?? [],
         };
         checkModel(newModel);
         await window.electronAPI.writeJson(path, newModel);
