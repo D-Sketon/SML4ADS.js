@@ -67,7 +67,7 @@ export type Model = BaseModel & {
 export const defaultModel: () => MModel = () => ({
   simulatorType: SIMULATOR_TYPES.CARLA,
   mapType: MAP_TYPES.DEFAULT,
-  map: "",
+  map: DEFAULT_MAP_TYPES.TOWN_01,
   weather: WEATHER_TYPES_CARLA.CLEAR_NOON,
   timeStep: 0.1,
   simulationTime: 40,

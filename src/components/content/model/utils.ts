@@ -1,11 +1,9 @@
 import { GLOBAL_POSITION_PARAMS, LANE_POSITION_PARAMS, LOCATION_TYPES, MCar, RELATED_POSITION_PARAMS, ROAD_POSITION_PARAMS } from "../../../model/Car";
-import { MAP_TYPES, MModel } from "../../../model/Model";
+import { MModel } from "../../../model/Model";
 
 export const checkModel = (model: MModel) => {
-  const { mapType, map, timeStep, simulationTime, cars } = model;
-  if (mapType === MAP_TYPES.CUSTOM && (map === null || map === void 0 || map === '')) {
-    throw new Error("Map path is required");
-  }
+  const { map, timeStep, simulationTime, cars } = model;
+  _assertRequired(map, "MapType is required");
 
   _assertRequired(timeStep, "TimeStep is required");
   _assertNumberGE(timeStep, 0.1, "TimeStep should be >=0.1");

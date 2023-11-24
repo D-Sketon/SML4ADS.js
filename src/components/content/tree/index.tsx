@@ -35,7 +35,8 @@ import {
   BEHAVIOR_TYPES,
   defaultKeepBehaviorParams,
 } from "../../../model/Behavior";
-import { checkTree, node2Tree, tree2Node } from "./utils";
+import { checkTree } from "./utils/check";
+import { node2Tree, tree2Node } from "./utils/convert";
 
 const nodeTypes = {
   BehaviorNode,

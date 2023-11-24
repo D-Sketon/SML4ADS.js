@@ -38,3 +38,11 @@ export const defaultTree: () => MTree = () => ({
   commonTransitions: [],
   probabilityTransitions: [],
 });
+
+export const defaultEmptyTree: () => MTree = () => ({
+  rootId: -1,
+  behaviors: [],
+  branchPoints: [],
+  commonTransitions: [],
+  probabilityTransitions: [],
+});
