@@ -51,12 +51,13 @@ export enum VEHICLE_TYPES_LGSVL {
 export type GLOBAL_POSITION_PARAMS = {
   x: number;
   y: number;
-}
+};
 
-export const defaultGlobalPositionParams: () => GLOBAL_POSITION_PARAMS = () => ({
-  x: 0,
-  y: 0,
-});
+export const defaultGlobalPositionParams: () => GLOBAL_POSITION_PARAMS =
+  () => ({
+    x: 0,
+    y: 0,
+  });
 
 export type LANE_POSITION_PARAMS = {
   roadId: number;
@@ -65,7 +66,7 @@ export type LANE_POSITION_PARAMS = {
   maxLateralOffset: number;
   minLongitudinalOffset: number;
   maxLongitudinalOffset: number;
-}
+};
 
 export const defaultLanePositionParams: () => LANE_POSITION_PARAMS = () => ({
   roadId: 0,
@@ -82,7 +83,7 @@ export type ROAD_POSITION_PARAMS = {
   maxLateralOffset: number;
   minLongitudinalOffset: number;
   maxLongitudinalOffset: number;
-}
+};
 
 export const defaultRoadPositionParams: () => ROAD_POSITION_PARAMS = () => ({
   roadId: 0,
@@ -98,31 +99,76 @@ export type RELATED_POSITION_PARAMS = {
   maxLateralOffset: number;
   minLongitudinalOffset: number;
   maxLongitudinalOffset: number;
+};
+
+export const defaultRelatedPositionParams: () => RELATED_POSITION_PARAMS =
+  () => ({
+    actorRef: "",
+    minLateralOffset: 0,
+    maxLateralOffset: 0,
+    minLongitudinalOffset: 0,
+    maxLongitudinalOffset: 0,
+  });
+
+export enum SPEED_TYPES {
+  MANUAL = "Manual",
+  PROBABILISTIC = "Probabilistic",
+  UNIFORM_DISTRIBUTION = "Uniform Distribution",
+  NORMAL_DISTRIBUTION = "Normal Distribution",
 }
 
-export const defaultRelatedPositionParams: () => RELATED_POSITION_PARAMS = () => ({
-  actorRef: "",
-  minLateralOffset: 0,
-  maxLateralOffset: 0,
-  minLongitudinalOffset: 0,
-  maxLongitudinalOffset: 0,
+export type MANUAL_SPEED_PARAMS = {
+  maxSpeed: number;
+  initSpeed: number;
+};
+
+export const defaultManualSpeedParams: () => MANUAL_SPEED_PARAMS = () => ({
+  maxSpeed: 0,
+  initSpeed: 0,
 });
+
+export type UNIFORM_DISTRIBUTION_SPEED_PARAMS = {
+  a: number;
+  b: number;
+};
+
+export const defaultUniformDistributionSpeedParams: () => UNIFORM_DISTRIBUTION_SPEED_PARAMS =
+  () => ({
+    a: 0,
+    b: 0,
+  });
+
+export type NORMAL_DISTRIBUTION_SPEED_PARAMS = {
+  mean: number;
+  std: number;
+};
+
+export const defaultNormalDistributionSpeedParams: () => NORMAL_DISTRIBUTION_SPEED_PARAMS =
+  () => ({
+    mean: 0,
+    std: 0,
+  });
 
 type BaseCar = {
   name: string;
   model: VEHICLE_TYPES_CARLA | VEHICLE_TYPES_LGSVL;
-  maxSpeed: number;
-  initSpeed: number;
+  speedType: SPEED_TYPES;
+  speedParams:
+    | MANUAL_SPEED_PARAMS
+    | UNIFORM_DISTRIBUTION_SPEED_PARAMS
+    | NORMAL_DISTRIBUTION_SPEED_PARAMS;
   locationType: LOCATION_TYPES;
+  initSpeed?: number;  // support old version
+  maxSpeed?: number;  // support old version
   locationParams:
-  | GLOBAL_POSITION_PARAMS
-  | LANE_POSITION_PARAMS
-  | ROAD_POSITION_PARAMS
-  | RELATED_POSITION_PARAMS;
+    | GLOBAL_POSITION_PARAMS
+    | LANE_POSITION_PARAMS
+    | ROAD_POSITION_PARAMS
+    | RELATED_POSITION_PARAMS;
   heading: boolean;
   roadDeviation: number;
   treePath: string;
-}
+};
 
 export type MCar = BaseCar & {
   mTree?: MTree;
@@ -150,13 +196,13 @@ export type Car = BaseCar & {
   roadIndex: number;
   width: number;
   length: number;
-}
+};
 
 export const defaultCar: () => MCar = () => ({
   name: "",
   model: VEHICLE_TYPES_CARLA.RANDOM,
-  maxSpeed: 0,
-  initSpeed: 0,
+  speedType: SPEED_TYPES.MANUAL,
+  speedParams: defaultManualSpeedParams(),
   locationType: LOCATION_TYPES.GLOBAL_POSITION,
   locationParams: defaultGlobalPositionParams(),
   heading: false,

@@ -1,4 +1,4 @@
-import { Card, Form, Select, Button, InputNumber, Input } from "antd";
+import { Card, Form, Select, Button, InputNumber, Input, Cascader } from "antd";
 import { ReactElement, useContext } from "react";
 import { FILE_SUFFIX } from "../../../constants";
 import { MModel, SIMULATOR_TYPES } from "../../../model/Model";
@@ -6,14 +6,21 @@ import {
   GLOBAL_POSITION_PARAMS,
   LANE_POSITION_PARAMS,
   LOCATION_TYPES,
+  MANUAL_SPEED_PARAMS,
+  NORMAL_DISTRIBUTION_SPEED_PARAMS,
   RELATED_POSITION_PARAMS,
   ROAD_POSITION_PARAMS,
+  SPEED_TYPES,
+  UNIFORM_DISTRIBUTION_SPEED_PARAMS,
   VEHICLE_TYPES_CARLA,
   VEHICLE_TYPES_LGSVL,
   defaultGlobalPositionParams,
   defaultLanePositionParams,
+  defaultManualSpeedParams,
+  defaultNormalDistributionSpeedParams,
   defaultRelatedPositionParams,
   defaultRoadPositionParams,
+  defaultUniformDistributionSpeedParams,
 } from "../../../model/Car";
 import AppContext from "../../../store/context";
 
@@ -23,7 +30,7 @@ interface CarInformationProps {
   index: number;
 }
 
-function getDefaultCarParams(type: LOCATION_TYPES) {
+function getDefaultLocationParams(type: LOCATION_TYPES) {
   switch (type) {
     case LOCATION_TYPES.GLOBAL_POSITION:
       return defaultGlobalPositionParams();
@@ -33,6 +40,18 @@ function getDefaultCarParams(type: LOCATION_TYPES) {
       return defaultRoadPositionParams();
     case LOCATION_TYPES.RELATED_POSITION:
       return defaultRelatedPositionParams();
+    default:
+  }
+}
+
+function getDefaultSpeedParams(type: SPEED_TYPES) {
+  switch (type) {
+    case SPEED_TYPES.MANUAL:
+      return defaultManualSpeedParams();
+    case SPEED_TYPES.UNIFORM_DISTRIBUTION:
+      return defaultUniformDistributionSpeedParams();
+    case SPEED_TYPES.NORMAL_DISTRIBUTION:
+      return defaultNormalDistributionSpeedParams();
     default:
   }
 }
@@ -53,6 +72,14 @@ function CarInformation(props: CarInformationProps): ReactElement {
     }
   }
 
+  function handleDelete() {
+    setModel({
+      ...model,
+      cars: model.cars.filter((_, i) => i !== index),
+    });
+  }
+
+  // location
   function globalPosition(): ReactElement {
     return (
       <>
@@ -60,7 +87,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
           <InputNumber
             style={{ width: 150 }}
             onChange={(e) => {
-              simpleSetCarParams("x", e);
+              simpleSetLocationParams("x", e);
             }}
             value={(car.locationParams as GLOBAL_POSITION_PARAMS).x}
           />
@@ -69,7 +96,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
           <InputNumber
             style={{ width: 150 }}
             onChange={(e) => {
-              simpleSetCarParams("y", e);
+              simpleSetLocationParams("y", e);
             }}
             value={(car.locationParams as GLOBAL_POSITION_PARAMS).y}
           />
@@ -85,7 +112,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
           <InputNumber
             style={{ width: 150 }}
             onChange={(e) => {
-              simpleSetCarParams("roadId", e);
+              simpleSetLocationParams("roadId", e);
             }}
             value={(car.locationParams as LANE_POSITION_PARAMS).roadId}
           />
@@ -94,7 +121,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
           <InputNumber
             style={{ width: 150 }}
             onChange={(e) => {
-              simpleSetCarParams("laneId", e);
+              simpleSetLocationParams("laneId", e);
             }}
             value={(car.locationParams as LANE_POSITION_PARAMS).laneId}
           />
@@ -103,7 +130,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
           <InputNumber
             style={{ width: 150 }}
             onChange={(e) => {
-              simpleSetCarParams("minLateralOffset", e);
+              simpleSetLocationParams("minLateralOffset", e);
             }}
             value={
               (car.locationParams as LANE_POSITION_PARAMS).minLateralOffset
@@ -114,7 +141,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
           <InputNumber
             style={{ width: 150 }}
             onChange={(e) => {
-              simpleSetCarParams("maxLateralOffset", e);
+              simpleSetLocationParams("maxLateralOffset", e);
             }}
             value={
               (car.locationParams as LANE_POSITION_PARAMS).maxLateralOffset
@@ -125,7 +152,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
           <InputNumber
             style={{ width: 150 }}
             onChange={(e) => {
-              simpleSetCarParams("minLongitudinalOffset", e);
+              simpleSetLocationParams("minLongitudinalOffset", e);
             }}
             value={
               (car.locationParams as LANE_POSITION_PARAMS).minLongitudinalOffset
@@ -136,7 +163,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
           <InputNumber
             style={{ width: 150 }}
             onChange={(e) => {
-              simpleSetCarParams("maxLongitudinalOffset", e);
+              simpleSetLocationParams("maxLongitudinalOffset", e);
             }}
             value={
               (car.locationParams as LANE_POSITION_PARAMS).maxLongitudinalOffset
@@ -154,7 +181,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
           <InputNumber
             style={{ width: 150 }}
             onChange={(e) => {
-              simpleSetCarParams("roadId", e);
+              simpleSetLocationParams("roadId", e);
             }}
             value={(car.locationParams as ROAD_POSITION_PARAMS).roadId}
           />
@@ -163,7 +190,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
           <InputNumber
             style={{ width: 150 }}
             onChange={(e) => {
-              simpleSetCarParams("minLateralOffset", e);
+              simpleSetLocationParams("minLateralOffset", e);
             }}
             value={
               (car.locationParams as ROAD_POSITION_PARAMS).minLateralOffset
@@ -174,7 +201,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
           <InputNumber
             style={{ width: 150 }}
             onChange={(e) => {
-              simpleSetCarParams("maxLateralOffset", e);
+              simpleSetLocationParams("maxLateralOffset", e);
             }}
             value={
               (car.locationParams as ROAD_POSITION_PARAMS).maxLateralOffset
@@ -185,7 +212,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
           <InputNumber
             style={{ width: 150 }}
             onChange={(e) => {
-              simpleSetCarParams("minLongitudinalOffset", e);
+              simpleSetLocationParams("minLongitudinalOffset", e);
             }}
             value={
               (car.locationParams as ROAD_POSITION_PARAMS).minLongitudinalOffset
@@ -196,7 +223,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
           <InputNumber
             style={{ width: 150 }}
             onChange={(e) => {
-              simpleSetCarParams("maxLongitudinalOffset", e);
+              simpleSetLocationParams("maxLongitudinalOffset", e);
             }}
             value={
               (car.locationParams as ROAD_POSITION_PARAMS).maxLongitudinalOffset
@@ -214,7 +241,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
           <Input
             style={{ width: 150 }}
             onChange={(e) => {
-              simpleSetCarParams("actorRef", e.target.value);
+              simpleSetLocationParams("actorRef", e.target.value);
             }}
             value={(car.locationParams as RELATED_POSITION_PARAMS).actorRef}
           />
@@ -223,7 +250,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
           <InputNumber
             style={{ width: 150 }}
             onChange={(e) => {
-              simpleSetCarParams("minLateralOffset", e);
+              simpleSetLocationParams("minLateralOffset", e);
             }}
             value={
               (car.locationParams as RELATED_POSITION_PARAMS).minLateralOffset
@@ -234,7 +261,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
           <InputNumber
             style={{ width: 150 }}
             onChange={(e) => {
-              simpleSetCarParams("maxLateralOffset", e);
+              simpleSetLocationParams("maxLateralOffset", e);
             }}
             value={
               (car.locationParams as RELATED_POSITION_PARAMS).maxLateralOffset
@@ -245,7 +272,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
           <InputNumber
             style={{ width: 150 }}
             onChange={(e) => {
-              simpleSetCarParams("minLongitudinalOffset", e);
+              simpleSetLocationParams("minLongitudinalOffset", e);
             }}
             value={
               (car.locationParams as RELATED_POSITION_PARAMS)
@@ -257,7 +284,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
           <InputNumber
             style={{ width: 150 }}
             onChange={(e) => {
-              simpleSetCarParams("maxLongitudinalOffset", e);
+              simpleSetLocationParams("maxLongitudinalOffset", e);
             }}
             value={
               (car.locationParams as RELATED_POSITION_PARAMS)
@@ -299,7 +326,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
     });
   }
 
-  function simpleSetCarParams(key: string, value: any) {
+  function simpleSetLocationParams(key: string, value: any) {
     setModel({
       ...model,
       cars: model.cars.map((c, i) => {
@@ -317,11 +344,142 @@ function CarInformation(props: CarInformationProps): ReactElement {
     });
   }
 
-  function handleDelete() {
+  function simpleSetSpeedParams(key: string, value: any) {
     setModel({
       ...model,
-      cars: model.cars.filter((_, i) => i !== index),
+      cars: model.cars.map((c, i) => {
+        if (i === index) {
+          return {
+            ...c,
+            speedParams: {
+              ...c.speedParams,
+              [key]: value,
+            },
+          };
+        }
+        return c;
+      }),
     });
+  }
+
+  // speed
+  const cascaderOptions = [
+    {
+      label: SPEED_TYPES.MANUAL,
+      value: SPEED_TYPES.MANUAL,
+    },
+    {
+      label: SPEED_TYPES.PROBABILISTIC,
+      value: SPEED_TYPES.PROBABILISTIC,
+      children: [
+        {
+          label: SPEED_TYPES.UNIFORM_DISTRIBUTION,
+          value: SPEED_TYPES.UNIFORM_DISTRIBUTION,
+        },
+        {
+          label: SPEED_TYPES.NORMAL_DISTRIBUTION,
+          value: SPEED_TYPES.NORMAL_DISTRIBUTION,
+        },
+      ],
+    },
+  ];
+
+  // Just show the latest item.
+  const displayRender = (labels: string[]) => labels[labels.length - 1];
+
+  function manualSpeed(): ReactElement {
+    return (
+      <>
+        <Form.Item label="maxSpeed" labelCol={{ span: 6 }}>
+          <InputNumber
+            min={0}
+            max={180}
+            style={{ width: 150 }}
+            value={(car.speedParams as MANUAL_SPEED_PARAMS).maxSpeed}
+            onChange={(e) => {
+              simpleSetSpeedParams("maxSpeed", e);
+            }}
+          />
+        </Form.Item>
+        <Form.Item label="initialSpeed" labelCol={{ span: 6 }}>
+          <InputNumber
+            min={0}
+            max={180}
+            style={{ width: 150 }}
+            value={(car.speedParams as MANUAL_SPEED_PARAMS).initSpeed}
+            onChange={(e) => {
+              simpleSetSpeedParams("initSpeed", e);
+            }}
+          />
+        </Form.Item>
+      </>
+    );
+  }
+
+  function uniformDistributionSpeed(): ReactElement {
+    return (
+      <>
+        <Form.Item label="a" labelCol={{ span: 6 }}>
+          <InputNumber
+            min={0}
+            style={{ width: 150 }}
+            value={(car.speedParams as UNIFORM_DISTRIBUTION_SPEED_PARAMS).a}
+            onChange={(e) => {
+              simpleSetSpeedParams("a", e);
+            }}
+          />
+        </Form.Item>
+        <Form.Item label="b" labelCol={{ span: 6 }}>
+          <InputNumber
+            min={0}
+            style={{ width: 150 }}
+            value={(car.speedParams as UNIFORM_DISTRIBUTION_SPEED_PARAMS).b}
+            onChange={(e) => {
+              simpleSetSpeedParams("b", e);
+            }}
+          />
+        </Form.Item>
+      </>
+    );
+  }
+
+  function normalDistributionSpeed(): ReactElement {
+    return (
+      <>
+        <Form.Item label="mean" labelCol={{ span: 6 }}>
+          <InputNumber
+            min={0}
+            style={{ width: 150 }}
+            value={(car.speedParams as NORMAL_DISTRIBUTION_SPEED_PARAMS).mean}
+            onChange={(e) => {
+              simpleSetSpeedParams("mean", e);
+            }}
+          />
+        </Form.Item>
+        <Form.Item label="std" labelCol={{ span: 6 }}>
+          <InputNumber
+            style={{ width: 150 }}
+            value={(car.speedParams as NORMAL_DISTRIBUTION_SPEED_PARAMS).std}
+            onChange={(e) => {
+              simpleSetSpeedParams("std", e);
+            }}
+          />
+        </Form.Item>
+      </>
+    );
+  }
+
+  function getSpeedComponent(): ReactElement {
+    switch (car.speedType) {
+      case SPEED_TYPES.MANUAL:
+        return manualSpeed();
+      case SPEED_TYPES.UNIFORM_DISTRIBUTION:
+        return uniformDistributionSpeed();
+      case SPEED_TYPES.NORMAL_DISTRIBUTION:
+        return normalDistributionSpeed();
+      default:
+        return <></>;
+    }
   }
 
   return (
@@ -336,10 +494,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
       style={{ margin: "10px 10px 10px 0", boxSizing: "border-box" }}
     >
       <Form labelCol={{ span: 4 }} wrapperCol={{ span: 20 }} autoComplete="off">
-        <Form.Item
-          label="name"
-          rules={[{ required: true, message: "car.name is required" }]}
-        >
+        <Form.Item label="name">
           <Input
             value={car.name}
             onChange={(e) => {
@@ -366,34 +521,36 @@ function CarInformation(props: CarInformationProps): ReactElement {
             }}
           />
         </Form.Item>
-        <Form.Item
-          label="maxSpeed"
-          rules={[{ required: true, message: "car.maxSpeed is required" }]}
-        >
-          <InputNumber
-            min={0}
-            max={180}
-            style={{ width: 150 }}
-            value={car.maxSpeed}
+        <Form.Item label="speedType(alpha)">
+          <Cascader
+            style={{ width: 180 }}
+            allowClear={false}
+            options={cascaderOptions}
+            expandTrigger="hover"
+            value={
+              car.speedType === SPEED_TYPES.MANUAL
+                ? [SPEED_TYPES.MANUAL]
+                : [SPEED_TYPES.PROBABILISTIC, car.speedType]
+            }
+            displayRender={displayRender}
             onChange={(e) => {
-              simpleSetCar("maxSpeed", e);
+              setModel({
+                ...model,
+                cars: model.cars.map((c, i) => {
+                  if (i === index) {
+                    return {
+                      ...c,
+                      speedType: e[e.length - 1],
+                      speedParams: getDefaultSpeedParams(e[e.length - 1] as any),
+                    };
+                  }
+                  return c;
+                }),
+              });
             }}
           />
         </Form.Item>
-        <Form.Item
-          label="initialSpeed"
-          rules={[{ required: true, message: "car.initialSpeed is required" }]}
-        >
-          <InputNumber
-            min={0}
-            max={180}
-            style={{ width: 150 }}
-            value={car.initSpeed}
-            onChange={(e) => {
-              simpleSetCar("initSpeed", e);
-            }}
-          />
-        </Form.Item>
+        {getSpeedComponent()}
         <Form.Item label="location">
           <Select
             style={{ width: 150 }}
@@ -410,7 +567,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
                     return {
                       ...c,
                       locationType: e,
-                      locationParams: getDefaultCarParams(e),
+                      locationParams: getDefaultLocationParams(e),
                     };
                   }
                   return c;
@@ -433,10 +590,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
             }}
           />
         </Form.Item>
-        <Form.Item
-          label="roadDeviation"
-          rules={[{ required: true, message: "car.roadDeviation is required" }]}
-        >
+        <Form.Item label="roadDeviation">
           <InputNumber
             style={{ width: 150 }}
             value={car.roadDeviation}
