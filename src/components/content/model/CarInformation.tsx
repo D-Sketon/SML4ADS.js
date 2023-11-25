@@ -20,11 +20,21 @@ import {
   defaultManualSpeedParams,
   defaultUniformDistributionSpeedParams,
   defaultNormalDistributionSpeedParams,
+  defaultBernoulliDistributionSpeedParams,
+  defaultBinomialDistributionSpeedParams,
+  defaultPoissonDistributionSpeedParams,
+  defaultChiSquaredDistributionSpeedParams,
+  defaultCustomizedDistributionSpeedParams,
   MANUAL_SPEED_PARAMS,
   UNIFORM_DISTRIBUTION_SPEED_PARAMS,
   NORMAL_DISTRIBUTION_SPEED_PARAMS,
+  BERNOULLI_DISTRIBUTION_SPEED_PARAMS,
+  BINOMIAL_DISTRIBUTION_SPEED_PARAMS,
+  POISSON_DISTRIBUTION_SPEED_PARAMS,
+  CHI_SQUARED_DISTRIBUTION_SPEED_PARAMS,
+  CUSTOMIZED_DISTRIBUTION_SPEED_PARAMS,
 } from "../../../model/params/ParamSpeed";
-
+import TextArea from "antd/es/input/TextArea";
 interface CarInformationProps {
   model: MModel;
   setModel: (value: any) => void;
@@ -53,6 +63,16 @@ function getDefaultSpeedParams(type: SPEED_TYPES) {
       return defaultUniformDistributionSpeedParams();
     case SPEED_TYPES.NORMAL_DISTRIBUTION:
       return defaultNormalDistributionSpeedParams();
+    case SPEED_TYPES.BERNOULLI_DISTRIBUTION:
+      return defaultBernoulliDistributionSpeedParams();
+    case SPEED_TYPES.BINOMIAL_DISTRIBUTION:
+      return defaultBinomialDistributionSpeedParams();
+    case SPEED_TYPES.POISSON_DISTRIBUTION:
+      return defaultPoissonDistributionSpeedParams();
+    case SPEED_TYPES.CHI_SQUARED_DISTRIBUTION:
+      return defaultChiSquaredDistributionSpeedParams();
+    case SPEED_TYPES.CUSTOMIZED_DISTRIBUTION:
+      return defaultCustomizedDistributionSpeedParams();
     default:
   }
 }
@@ -381,6 +401,26 @@ function CarInformation(props: CarInformationProps): ReactElement {
           label: SPEED_TYPES.NORMAL_DISTRIBUTION,
           value: SPEED_TYPES.NORMAL_DISTRIBUTION,
         },
+        {
+          label: SPEED_TYPES.BERNOULLI_DISTRIBUTION,
+          value: SPEED_TYPES.BERNOULLI_DISTRIBUTION,
+        },
+        {
+          label: SPEED_TYPES.BINOMIAL_DISTRIBUTION,
+          value: SPEED_TYPES.BINOMIAL_DISTRIBUTION,
+        },
+        {
+          label: SPEED_TYPES.POISSON_DISTRIBUTION,
+          value: SPEED_TYPES.POISSON_DISTRIBUTION,
+        },
+        {
+          label: SPEED_TYPES.CHI_SQUARED_DISTRIBUTION,
+          value: SPEED_TYPES.CHI_SQUARED_DISTRIBUTION,
+        },
+        {
+          label: SPEED_TYPES.CUSTOMIZED_DISTRIBUTION,
+          value: SPEED_TYPES.CUSTOMIZED_DISTRIBUTION,
+        },
       ],
     },
   ];
@@ -470,6 +510,106 @@ function CarInformation(props: CarInformationProps): ReactElement {
     );
   }
 
+  function bernoulliDistributionSpeed(): ReactElement {
+    return (
+      <>
+        <Form.Item label="p" labelCol={{ span: 6 }}>
+          <InputNumber
+            min={0}
+            max={1}
+            style={{ width: 150 }}
+            value={(car.speedParams as BERNOULLI_DISTRIBUTION_SPEED_PARAMS).p}
+            onChange={(e) => {
+              simpleSetSpeedParams("p", e);
+            }}
+          />
+        </Form.Item>
+      </>
+    );
+  }
+
+  function binomialDistributionSpeed(): ReactElement {
+    return (
+      <>
+        <Form.Item label="n" labelCol={{ span: 6 }}>
+          <InputNumber
+            min={0}
+            style={{ width: 150 }}
+            value={(car.speedParams as BINOMIAL_DISTRIBUTION_SPEED_PARAMS).n}
+            onChange={(e) => {
+              simpleSetSpeedParams("n", e);
+            }}
+          />
+        </Form.Item>
+        <Form.Item label="p" labelCol={{ span: 6 }}>
+          <InputNumber
+            min={0}
+            max={1}
+            style={{ width: 150 }}
+            value={(car.speedParams as BINOMIAL_DISTRIBUTION_SPEED_PARAMS).p}
+            onChange={(e) => {
+              simpleSetSpeedParams("p", e);
+            }}
+          />
+        </Form.Item>
+      </>
+    );
+  }
+
+  function poissonDistributionSpeed(): ReactElement {
+    return (
+      <>
+        <Form.Item label="lambda" labelCol={{ span: 6 }}>
+          <InputNumber
+            min={0}
+            style={{ width: 150 }}
+            value={
+              (car.speedParams as POISSON_DISTRIBUTION_SPEED_PARAMS).lambda
+            }
+            onChange={(e) => {
+              simpleSetSpeedParams("lambda", e);
+            }}
+          />
+        </Form.Item>
+      </>
+    );
+  }
+
+  function chiSquareDistributionSpeed(): ReactElement {
+    return (
+      <>
+        <Form.Item label="k" labelCol={{ span: 6 }}>
+          <InputNumber
+            min={0}
+            style={{ width: 150 }}
+            value={(car.speedParams as CHI_SQUARED_DISTRIBUTION_SPEED_PARAMS).k}
+            onChange={(e) => {
+              simpleSetSpeedParams("k", e);
+            }}
+          />
+        </Form.Item>
+      </>
+    );
+  }
+
+  function customizedDistributionSpeed(): ReactElement {
+    return (
+      <>
+        <Form.Item label="formula" labelCol={{ span: 6 }}>
+          <TextArea
+            rows={2}
+            value={
+              (car.speedParams as CUSTOMIZED_DISTRIBUTION_SPEED_PARAMS).formula
+            }
+            onChange={(e) => {
+              simpleSetSpeedParams("formula", e);
+            }}
+          />
+        </Form.Item>
+      </>
+    );
+  }
+
   function getSpeedComponent(): ReactElement {
     switch (car.speedType) {
       case SPEED_TYPES.MANUAL:
@@ -478,6 +618,16 @@ function CarInformation(props: CarInformationProps): ReactElement {
         return uniformDistributionSpeed();
       case SPEED_TYPES.NORMAL_DISTRIBUTION:
         return normalDistributionSpeed();
+      case SPEED_TYPES.BERNOULLI_DISTRIBUTION:
+        return bernoulliDistributionSpeed();
+      case SPEED_TYPES.BINOMIAL_DISTRIBUTION:
+        return binomialDistributionSpeed();
+      case SPEED_TYPES.POISSON_DISTRIBUTION:
+        return poissonDistributionSpeed();
+      case SPEED_TYPES.CHI_SQUARED_DISTRIBUTION:
+        return chiSquareDistributionSpeed();
+      case SPEED_TYPES.CUSTOMIZED_DISTRIBUTION:
+        return customizedDistributionSpeed();
       default:
         return <></>;
     }

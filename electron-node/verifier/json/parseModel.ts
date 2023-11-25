@@ -1,8 +1,9 @@
 import readFile from "../../io/readFile";
 import getAbsolutePath from "../../io/getAbsolutePath";
 import { MAP_TYPES, type Model } from "../../../src/model/Model";
+import { LOCATION_TYPES } from "../../../src/model/params/ParamLocation";
 import type { Tree } from "../../../src/model/Tree";
-import { LOCATION_TYPES, type Car } from "../../../src/model/Car";
+import { type Car } from "../../../src/model/Car";
 import type { Behavior } from "../../../src/model/Behavior";
 import type { BranchPoint } from "../../../src/model/BranchPoint";
 import type { CommonTransition } from "../../../src/model/CommonTransition";
