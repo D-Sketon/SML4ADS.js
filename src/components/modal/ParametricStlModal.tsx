@@ -21,7 +21,7 @@ import {
 } from "antd";
 import { MModel, defaultModel } from "../../model/Model";
 import { setSaveFilePath } from "../../store/action";
-import { checkModel } from "../content/model/utils";
+import { checkModel } from "../content/model/utils/check";
 import ParametricStlEditModal from "./ParametricStlEditModal";
 
 const EditableContext = React.createContext<FormInstance<any> | null>(null);

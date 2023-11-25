@@ -8,19 +8,6 @@ A tool for autonomous driving scenario modeling, simulation and analysis
 🧪 Working in Progress
 </pre>
 
-## RoadMap
-
-- [x] Change from JavaFx to Electron
-- [ ] PSTL (WIP)
-- [ ] ODD 2 PSTL
-- [ ] natural language 2 PSTL
-- [ ] generate OPENscenario
-- [ ] modeling enhancement
-- [ ] generating enhancement
-- [ ] simulation enhancement
-- [ ] verification enhancement
-- [ ] testing enhancement
-
 ## Develop
 
 ```bash

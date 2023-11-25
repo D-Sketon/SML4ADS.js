@@ -22,7 +22,7 @@ import {
 import AppContext from "../../store/context";
 import { refreshTree, setSaveFilePath } from "../../store/action";
 import { MModel, defaultModel } from "../../model/Model";
-import { checkModel } from "../content/model/utils";
+import { checkModel } from "../content/model/utils/check";
 import { FILE_SUFFIX } from "../../constants";
 
 const EditableContext = React.createContext<FormInstance<any> | null>(null);

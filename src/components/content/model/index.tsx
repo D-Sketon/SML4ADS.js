@@ -10,12 +10,41 @@ import CarInformation from "./CarInformation";
 import { Button, notification } from "antd";
 import { MModel, defaultModel } from "../../../model/Model";
 import { defaultCar } from "../../../model/Car";
-import { checkModel } from "./utils";
 import AppContext from "../../../store/context";
 import { setSaveFilePath } from "../../../store/action";
+import { SPEED_TYPES } from "../../../model/params/ParamSpeed";
+import { checkModel } from "./utils/check";
 
 interface ModelProps {
   path: string;
+}
+
+/**
+ * support old version
+ * @param model Old model
+ * @returns New model
+ */
+function compatibleOldModel(model: MModel): MModel {
+  const newModel = { ...model };
+  if (!newModel.parametricStls) {
+    newModel.parametricStls = [];
+  }
+  if (!newModel.parameters) {
+    newModel.parameters = [];
+  }
+  newModel.cars.forEach((car) => {
+    if(car.maxSpeed !== void 0 && car.initSpeed !== void 0 && car.speedParams === void 0 && car.speedType === void 0) {
+      // old version
+      car.speedType = SPEED_TYPES.MANUAL;
+      car.speedParams = {
+        maxSpeed: car.maxSpeed,
+        initSpeed: car.initSpeed,
+      };
+      car.maxSpeed = void 0;
+      car.initSpeed = void 0;
+    }
+  });
+  return newModel;
 }
 
 function Model(props: ModelProps): ReactElement {
@@ -67,6 +96,7 @@ function Model(props: ModelProps): ReactElement {
         model = defaultModel();
       } else {
         model = JSON.parse(content);
+        model = compatibleOldModel(model);
       }
       // check model
       try {

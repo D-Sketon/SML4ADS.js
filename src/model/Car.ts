@@ -1,11 +1,14 @@
 import { MTree, Tree } from "./Tree";
-
-export enum LOCATION_TYPES {
-  GLOBAL_POSITION = "Global Position",
-  LANE_POSITION = "Lane Position",
-  ROAD_POSITION = "Road Position",
-  RELATED_POSITION = "Related Position",
-}
+import {
+  defaultGlobalPositionParams,
+  LOCATION_TYPES,
+  LOCATION_PARAMS,
+} from "./params/ParamLocation";
+import {
+  SPEED_TYPES,
+  defaultManualSpeedParams,
+  SPEED_PARAMS,
+} from "./params/ParamSpeed";
 
 export enum VEHICLE_TYPES_CARLA {
   RANDOM = "random",
@@ -48,81 +51,19 @@ export enum VEHICLE_TYPES_LGSVL {
   RANDOM = "random",
 }
 
-export type GLOBAL_POSITION_PARAMS = {
-  x: number;
-  y: number;
-}
-
-export const defaultGlobalPositionParams: () => GLOBAL_POSITION_PARAMS = () => ({
-  x: 0,
-  y: 0,
-});
-
-export type LANE_POSITION_PARAMS = {
-  roadId: number;
-  laneId: number;
-  minLateralOffset: number;
-  maxLateralOffset: number;
-  minLongitudinalOffset: number;
-  maxLongitudinalOffset: number;
-}
-
-export const defaultLanePositionParams: () => LANE_POSITION_PARAMS = () => ({
-  roadId: 0,
-  laneId: 0,
-  minLateralOffset: 0,
-  maxLateralOffset: 0,
-  minLongitudinalOffset: 0,
-  maxLongitudinalOffset: 0,
-});
-
-export type ROAD_POSITION_PARAMS = {
-  roadId: number;
-  minLateralOffset: number;
-  maxLateralOffset: number;
-  minLongitudinalOffset: number;
-  maxLongitudinalOffset: number;
-}
-
-export const defaultRoadPositionParams: () => ROAD_POSITION_PARAMS = () => ({
-  roadId: 0,
-  minLateralOffset: 0,
-  maxLateralOffset: 0,
-  minLongitudinalOffset: 0,
-  maxLongitudinalOffset: 0,
-});
-
-export type RELATED_POSITION_PARAMS = {
-  actorRef: string;
-  minLateralOffset: number;
-  maxLateralOffset: number;
-  minLongitudinalOffset: number;
-  maxLongitudinalOffset: number;
-}
-
-export const defaultRelatedPositionParams: () => RELATED_POSITION_PARAMS = () => ({
-  actorRef: "",
-  minLateralOffset: 0,
-  maxLateralOffset: 0,
-  minLongitudinalOffset: 0,
-  maxLongitudinalOffset: 0,
-});
-
 type BaseCar = {
   name: string;
   model: VEHICLE_TYPES_CARLA | VEHICLE_TYPES_LGSVL;
-  maxSpeed: number;
-  initSpeed: number;
+  speedType: SPEED_TYPES;
+  speedParams: SPEED_PARAMS;
   locationType: LOCATION_TYPES;
-  locationParams:
-  | GLOBAL_POSITION_PARAMS
-  | LANE_POSITION_PARAMS
-  | ROAD_POSITION_PARAMS
-  | RELATED_POSITION_PARAMS;
+  initSpeed?: number; // support old version
+  maxSpeed?: number; // support old version
+  locationParams: LOCATION_PARAMS;
   heading: boolean;
   roadDeviation: number;
   treePath: string;
-}
+};
 
 export type MCar = BaseCar & {
   mTree?: MTree;
@@ -150,13 +91,13 @@ export type Car = BaseCar & {
   roadIndex: number;
   width: number;
   length: number;
-}
+};
 
 export const defaultCar: () => MCar = () => ({
   name: "",
   model: VEHICLE_TYPES_CARLA.RANDOM,
-  maxSpeed: 0,
-  initSpeed: 0,
+  speedType: SPEED_TYPES.MANUAL,
+  speedParams: defaultManualSpeedParams(),
   locationType: LOCATION_TYPES.GLOBAL_POSITION,
   locationParams: defaultGlobalPositionParams(),
   heading: false,
