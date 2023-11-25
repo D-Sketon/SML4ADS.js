@@ -84,6 +84,7 @@ function Tree(props: TreeProps): ReactElement {
     [nodes, edges, path]
   );
 
+  // onMounted
   useEffect(() => {
     const asyncFn = async () => {
       const content = await window.electronAPI.readFile(path);
@@ -109,14 +110,16 @@ function Tree(props: TreeProps): ReactElement {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [path]);
 
-  useEffect(() => {
-    return () => {
-      const asyncFn = async () => {
-        await saveHook();
-      };
-      asyncFn();
-    };
-  }, [saveHook]);
+  // onUnmounted
+  // has bug, so ignore
+  // useEffect(() => {
+  //   return () => {
+  //     const asyncFn = async () => {
+  //       await saveHook();
+  //     };
+  //     asyncFn();
+  //   };
+  // }, [saveHook]);
 
   const handleKeyDown = async (event: React.KeyboardEvent) => {
     if (event.key === "s" && (event.ctrlKey || event.metaKey)) {

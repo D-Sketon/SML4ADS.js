@@ -95,8 +95,7 @@ function Model(props: ModelProps): ReactElement {
       if (!content) {
         model = defaultModel();
       } else {
-        model = JSON.parse(content);
-        model = compatibleOldModel(model);
+        model = compatibleOldModel(JSON.parse(content));
       }
       // check model
       try {
@@ -115,14 +114,15 @@ function Model(props: ModelProps): ReactElement {
   }, [path]);
 
   // onUnmounted
-  useEffect(() => {
-    return () => {
-      const asyncFn = async () => {
-        await saveHook();
-      };
-      asyncFn();
-    };
-  }, [saveHook]);
+  // has bug, so ignore
+  // useEffect(() => {
+  //   return () => {
+  //     const asyncFn = async () => {
+  //       await saveHook();
+  //     };
+  //     asyncFn();
+  //   };
+  // }, [saveHook]);
 
   // preprocess
   useEffect(() => {
