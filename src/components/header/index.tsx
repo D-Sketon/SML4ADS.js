@@ -11,6 +11,7 @@ import ParametricStlModal from "../modal/ParametricStlModal";
 import SimulateModal from "../modal/SimulateModal";
 import { checkTree } from "../content/tree/utils/check";
 import { checkModel } from "../content/model/utils/check";
+import ParametricStlMonitorModal from "../modal/ParametricStlMonitorModal";
 
 function HeaderButton(): ReactElement {
   const { state, dispatch } = useContext(AppContext);
@@ -18,6 +19,8 @@ function HeaderButton(): ReactElement {
   const activatedFile = filePath.find((file) => file.isActive);
   const [verifyModalVisible, setVerifyModalVisible] = useState(false);
   const [parametricStlModalVisible, setParametricStlModalVisible] =
+    useState(false);
+  const [ParametricStlMonitorModalVisible, setParametricStlMonitorModalVisible] =
     useState(false);
   const [simulateModalVisible, setSimulateModalVisible] = useState(false);
 
@@ -103,6 +106,17 @@ function HeaderButton(): ReactElement {
       });
     }
   };
+  const handlePstlMonitor = () => {
+    if (activatedFile && activatedFile.ext === FILE_SUFFIX.MODEL) {
+      dispatch(setSaveFilePath(activatedFile.path));
+      setParametricStlMonitorModalVisible(true);
+    } else {
+      notification.error({
+        message: "Error",
+        description: "Please select a model file first.",
+      });
+    }
+  };
   const handleSimulate = () => {
     if (activatedFile && activatedFile.ext === FILE_SUFFIX.MODEL) {
       dispatch(setSaveFilePath(activatedFile.path));
@@ -120,6 +134,7 @@ function HeaderButton(): ReactElement {
         <Button onClick={handlePreprocess}>Preprocess</Button>
         <Button onClick={handleVerify}>Verify</Button>
         <Button onClick={handlePstl}>PSTL</Button>
+        <Button onClick={handlePstlMonitor}>PSTL Monitor</Button>
         <Button type="primary" onClick={handleSimulate}>
           Simulate
         </Button>
@@ -132,7 +147,11 @@ function HeaderButton(): ReactElement {
         isModalOpen={parametricStlModalVisible}
         handleCancel={() => setParametricStlModalVisible(false)}
       />
-      <SimulateModal 
+      <ParametricStlMonitorModal 
+        isModalOpen={ParametricStlMonitorModalVisible}
+        handleCancel={() => setParametricStlMonitorModalVisible(false)}
+      />
+      <SimulateModal
         isModalOpen={simulateModalVisible}
         handleCancel={() => setSimulateModalVisible(false)}
       />

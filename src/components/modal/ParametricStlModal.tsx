@@ -130,7 +130,7 @@ type ColumnTypes = Exclude<EditableTableProps["columns"], undefined>;
 function ParametricStlModal(props: BaseModalProps): ReactElement {
   const { isModalOpen, handleCancel = () => {} } = props;
   const { state, dispatch } = useContext(AppContext);
-  const { filePath, saveFilePath, workspacePath } = state;
+  const { filePath, saveFilePath } = state;
   const activatedFile = filePath.find((file) => file.isActive);
 
   const [dataSource, setDataSource] = useState<DataType[]>([]);
@@ -148,7 +148,7 @@ function ParametricStlModal(props: BaseModalProps): ReactElement {
   // onMounted
   useEffect(() => {
     const asyncFn = async () => {
-      if (saveFilePath === "$$\ua265SAVE\ua265$$") {
+      if (isModalOpen && saveFilePath === "$$\ua265SAVE\ua265$$") {
         dispatch(setSaveFilePath(""));
         try {
           const modelContent = await window.electronAPI.readFile(
@@ -179,8 +179,7 @@ function ParametricStlModal(props: BaseModalProps): ReactElement {
       }
     };
     asyncFn();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activatedFile, saveFilePath]);
+  }, [activatedFile, dispatch, isModalOpen, saveFilePath]);
 
   const [confirmLoading, setConfirmLoading] = useState(false);
 
