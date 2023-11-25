@@ -7,8 +7,8 @@ import { FILE_SUFFIX } from "../../constants";
 function SimulateModal(props: BaseModalProps): ReactElement {
   const { isModalOpen, handleCancel = () => {} } = props;
 
-  const { state, dispatch } = useContext(AppContext);
-  const { workspacePath, config, filePath } = state;
+  const { state } = useContext(AppContext);
+  const { config, filePath } = state;
   const activatedFile = filePath.find((file) => file.isActive);
   const [confirmLoading, setConfirmLoading] = useState(false);
 
