@@ -4,13 +4,13 @@ import "./index.less";
 import AppContext from "../../store/context";
 import { FILE_SUFFIX } from "../../constants";
 import { MModel } from "../../model/Model";
-import { checkModel } from "../content/model/utils";
 import { MTree } from "../../model/Tree";
 import { setSaveFilePath } from "../../store/action";
 import VerifyModal from "../modal/VerifyModal";
 import ParametricStlModal from "../modal/ParametricStlModal";
 import SimulateModal from "../modal/SimulateModal";
 import { checkTree } from "../content/tree/utils/check";
+import { checkModel } from "../content/model/utils/check";
 
 function HeaderButton(): ReactElement {
   const { state, dispatch } = useContext(AppContext);

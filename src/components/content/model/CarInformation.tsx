@@ -2,27 +2,28 @@ import { Card, Form, Select, Button, InputNumber, Input, Cascader } from "antd";
 import { ReactElement, useContext } from "react";
 import { FILE_SUFFIX } from "../../../constants";
 import { MModel, SIMULATOR_TYPES } from "../../../model/Model";
+import AppContext from "../../../store/context";
 import {
   GLOBAL_POSITION_PARAMS,
   LANE_POSITION_PARAMS,
   LOCATION_TYPES,
-  MANUAL_SPEED_PARAMS,
-  NORMAL_DISTRIBUTION_SPEED_PARAMS,
   RELATED_POSITION_PARAMS,
   ROAD_POSITION_PARAMS,
-  SPEED_TYPES,
-  UNIFORM_DISTRIBUTION_SPEED_PARAMS,
-  VEHICLE_TYPES_CARLA,
-  VEHICLE_TYPES_LGSVL,
   defaultGlobalPositionParams,
   defaultLanePositionParams,
-  defaultManualSpeedParams,
-  defaultNormalDistributionSpeedParams,
   defaultRelatedPositionParams,
   defaultRoadPositionParams,
+} from "../../../model/params/ParamLocation";
+import { VEHICLE_TYPES_CARLA, VEHICLE_TYPES_LGSVL } from "../../../model/Car";
+import {
+  SPEED_TYPES,
+  defaultManualSpeedParams,
   defaultUniformDistributionSpeedParams,
-} from "../../../model/Car";
-import AppContext from "../../../store/context";
+  defaultNormalDistributionSpeedParams,
+  MANUAL_SPEED_PARAMS,
+  UNIFORM_DISTRIBUTION_SPEED_PARAMS,
+  NORMAL_DISTRIBUTION_SPEED_PARAMS,
+} from "../../../model/params/ParamSpeed";
 
 interface CarInformationProps {
   model: MModel;
@@ -541,7 +542,9 @@ function CarInformation(props: CarInformationProps): ReactElement {
                     return {
                       ...c,
                       speedType: e[e.length - 1],
-                      speedParams: getDefaultSpeedParams(e[e.length - 1] as any),
+                      speedParams: getDefaultSpeedParams(
+                        e[e.length - 1] as any
+                      ),
                     };
                   }
                   return c;

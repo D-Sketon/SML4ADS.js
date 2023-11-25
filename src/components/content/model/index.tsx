@@ -9,10 +9,11 @@ import BasicInformation from "./BasicInformation";
 import CarInformation from "./CarInformation";
 import { Button, notification } from "antd";
 import { MModel, defaultModel } from "../../../model/Model";
-import { SPEED_TYPES, defaultCar } from "../../../model/Car";
-import { checkModel } from "./utils";
+import { defaultCar } from "../../../model/Car";
 import AppContext from "../../../store/context";
 import { setSaveFilePath } from "../../../store/action";
+import { SPEED_TYPES } from "../../../model/params/ParamSpeed";
+import { checkModel } from "./utils/check";
 
 interface ModelProps {
   path: string;
