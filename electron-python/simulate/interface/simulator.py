@@ -208,7 +208,7 @@ class Simulator:
         scene.mapType = json_data['mapType']
         if scene.mapType == 'custom':
             print(f'map type: custom; file path:{path}')
-            scene.map = path[:path.rfind('/') + 1] + json_data['map']
+            scene.map = os.path.normpath(os.path.join(path[:path.rfind('/') + 1], json_data['map'].replace('\\', '/')))
         else:
             scene.map = json_data['map']
         scene.time_step = json_data['timeStep']
@@ -227,8 +227,8 @@ class Simulator:
             location_params = json_car['locationParams']
             car.name = json_car['name']
             car.heading = bool(json_car['heading'])
-            car.init_speed = float(json_car['initSpeed'])
-            car.max_speed = float(json_car['maxSpeed'])
+            car.init_speed = float(json_car['speedParams']['initSpeed'])
+            car.max_speed = float(json_car['speedParams']['maxSpeed'])
             if 'minSpeed' in json_car.keys():
                 car.min_speed = float(json_car['minSpeed'])
             car.model = json_car['model']
@@ -245,8 +245,8 @@ class Simulator:
             elif car.location_type == 'Related Position':
                 car.actor_ref = location_params['actorRef']
             else:
-                car.x = float(json_car['x'])
-                car.y = float(json_car['y'])
+                car.x = float(location_params['x'])
+                car.y = float(location_params['y'])
             if json_car['locationType'] != 'Global Position':
                 car.min_lateral_offset = float(location_params['minLateralOffset'])
                 car.max_lateral_offset = float(location_params['maxLateralOffset'])
@@ -313,8 +313,8 @@ class Simulation:
         for obj in objs:
             if obj is None:
                 continue
-        #     object_ = self.create_obj_in_simulation(obj, is_test)
-        # vehicles = self.create_cars_in_simulation(cars, is_test)
+            self.create_obj_in_simulation(obj, is_test)
+        self.create_cars_in_simulation(cars, is_test)
 
     def run(self):
         """

@@ -8,7 +8,18 @@ type FileTreeType = {
   children?: FileTreeType[],
 };
 
-function generateTree(_e: any, folderPath: string, excludeFiles: string[] = []) {
+function generateTree(_e: any,folderPath: string, excludeFiles?: string[]) {
+  const result: FileTreeType[] = [];
+  const folderName = path.basename(folderPath);
+  result.push({
+    title: folderName,
+    key: folderPath,
+    children: _generateTree(_e, folderPath, excludeFiles),
+  });
+  return result;
+}
+
+function _generateTree(_e: any, folderPath: string, excludeFiles: string[] = []) {
   const result: FileTreeType[] = [];
 
   const files = fs.readdirSync(folderPath);
@@ -22,7 +33,7 @@ function generateTree(_e: any, folderPath: string, excludeFiles: string[] = []) 
     const stats = fs.statSync(filePath);
 
     if (stats.isDirectory()) {
-      const children = generateTree(null, filePath, excludeFiles);
+      const children = _generateTree(null, filePath, excludeFiles);
       result.push({
         title: file,
         key: filePath,

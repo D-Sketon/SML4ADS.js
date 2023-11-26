@@ -5,7 +5,7 @@ import AppContext from "../../store/context";
 import { FILE_SUFFIX } from "../../constants";
 import { MModel } from "../../model/Model";
 import { MTree } from "../../model/Tree";
-import { setSaveFilePath } from "../../store/action";
+import { refreshTree, setSaveFilePath } from "../../store/action";
 import VerifyModal from "../modal/VerifyModal";
 import ParametricStlModal from "../modal/ParametricStlModal";
 import SimulateModal from "../modal/SimulateModal";
@@ -58,6 +58,7 @@ function HeaderButton(): ReactElement {
               FILE_SUFFIX.ADSML
             );
             await window.electronAPI.writeJson(adsmlPath, model);
+            dispatch(refreshTree());
           } else {
             throw new Error("Read model file failed.");
           }

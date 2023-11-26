@@ -28,8 +28,8 @@ from simulate.carla_simulator.CarInfo import CarInfo
 from simulate.carla_simulator.controller.action import Action
 from simulate.carla_simulator.controller.agent import Agent
 from simulate.interface.GuardFunction import set_guard_args
-from simulate.interface.simulator import (Simulation, SimulationResult, Simulator,
-                                          TestResult)
+from simulate.interface.simulator import (Simulation, SimulationResult,
+                                          Simulator, TestResult)
 from simulate.parsers.map_filter import MapFilter
 from simulate.parsers.map_parser import MapParser
 
@@ -524,7 +524,7 @@ class CarlaSimulation(Simulation):
         :return:
         """
         print('read config')
-        with open(os.path.abspath('./carla_simulator/config.json'), 'r', encoding='utf-8') as file:
+        with open(os.path.abspath('./simulate/carla_simulator/config.json'), 'r', encoding='utf-8') as file:
             json_file = json.load(file)
             self.models = json_file['models']
         print('read config finished')

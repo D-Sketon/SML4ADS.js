@@ -9,7 +9,7 @@ async function simulate(
 ) {
   try {
     const client = new Client(`http://${host}:${port}/RPC`);
-    await client.invoke("run", [params]);
+    await client.invoke("simulate", [params]);
   } catch (error: any) {
     console.error(error);
     _e?.sender.send("ui:onOpenNotification", "error", "Error", error.message);

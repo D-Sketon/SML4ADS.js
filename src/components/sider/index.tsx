@@ -12,7 +12,7 @@ import DeleteConfirmModal from "../modal/DeleteConfirmModal";
 import NewDirectoryModal from "../modal/NewDirectoryModal";
 import NewFileDirectory from "../modal/NewFileModal";
 import { FILE_OPERATION, FILE_SUFFIX, FILE_TYPE } from "../../constants";
-import { addFilePath } from "../../store/action";
+import { addFilePath, refreshTree } from "../../store/action";
 
 const { DirectoryTree } = Tree;
 
@@ -31,12 +31,12 @@ function SiderTree(): ReactElement {
 
   useEffect(() => {
     const asyncFn = async () => {
+      if(state.workspacePath === "") return;
       const data = await window.electronAPI.generateTree(state.workspacePath);
       setTreeData(data);
     };
     asyncFn();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.refreshId]);
+  }, [state.refreshId, state.workspacePath]);
 
   const [selectInfo, setSelectInfo] = useState<EventDataNode<DataNode>>();
   const [rightSelectInfo, setRightSelectInfo] =
@@ -167,8 +167,15 @@ function SiderTree(): ReactElement {
     };
   }, [onClick]);
 
+  const handleKeyDown = async (event: React.KeyboardEvent) => {
+    if (event.key === "F5" ) {
+      dispatch(refreshTree());
+      event.preventDefault();
+    }
+  };
+
   return (
-    <>
+    <div onKeyDown={handleKeyDown} tabIndex={0}>
       <Dropdown menu={{ items, onClick }} trigger={["contextMenu"]}>
         <DirectoryTree
           multiple
@@ -196,7 +203,7 @@ function SiderTree(): ReactElement {
         ext={newFileExt}
         handleCancel={() => setNewFileModalVisible(false)}
       />
-    </>
+    </div>
   );
 }
 
