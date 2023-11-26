@@ -14,6 +14,7 @@ import chooseDirectory from '../electron-node/ui/chooseDirectory';
 import chooseFile from '../electron-node/ui/chooseFile';
 import ADSML2Uppaal from '../electron-node/verifier/index';
 import simulate from '../electron-node/rpc/simulate';
+import pstlMonitor from '../electron-node/rpc/pstlMonitor';
 
 const createWindow = () => {
   // Create the browser window.
@@ -123,6 +124,7 @@ app.whenReady().then(() => {
   ipcMain.handle('verifier:ADSML2Uppaal', ADSML2Uppaal);
 
   ipcMain.handle('rpc:simulate', simulate);
+  ipcMain.handle('rpc:pstlMonitor', pstlMonitor);
 
   createWindow()
 

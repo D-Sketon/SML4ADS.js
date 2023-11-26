@@ -5,16 +5,12 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import rtamt
 
-try:
-    curr_dir = os.getcwd()
-    parent_dir = curr_dir[:curr_dir.rfind(os.path.sep)]
-    sys.path.append(parent_dir)
-except IndexError:
-    print('append path error!')
+curr_dir = os.getcwd()
 
 
 def monitor():
-    df = pd.read_csv('signal1.csv', header=0)
+    print(curr_dir)
+    df = pd.read_csv(os.path.join(curr_dir, 'pstl', 'signal1.csv'), header=0)
     times = df['time'].tolist()
     signal = df['signal'].tolist()
 

@@ -10,14 +10,14 @@ function ParametricStlMonitorModal(props: BaseModalProps): ReactElement {
   const { isModalOpen, handleCancel = () => {} } = props;
 
   const { state, dispatch } = useContext(AppContext);
-  const { filePath, saveFilePath } = state;
+  const { filePath, saveFilePath, config } = state;
   const activatedFile = filePath.find((file) => file.isActive);
 
   const [confirmLoading, setConfirmLoading] = useState(false);
 
   const [parameters, setParameters] = useState<string[][]>([]);
   const [parametricStls, setParametricStls] = useState<string[]>([]);
-  const parametersMap = useRef<Map<string, string>>(new Map());
+  const [parametersMap, setParametersMap] = useState<Record<string, string>>({});
 
   // onMounted
   useEffect(() => {
@@ -34,12 +34,13 @@ function ParametricStlMonitorModal(props: BaseModalProps): ReactElement {
             const source = model.parameters.map((p) => p.split(" "));
             setParameters(source ?? []);
             setParametricStls(model.parametricStls ?? []);
-            parametersMap.current = new Map();
+            const map: Record<string, string> = {};
             [...new Set(source.flat())]
               .filter((i) => i)
               .forEach((parameter) => {
-                parametersMap.current.set(parameter, "");
+                map[parameter] = "";
               });
+            setParametersMap(map);
           }
         } catch (error: any) {
           console.error(error);
@@ -55,7 +56,7 @@ function ParametricStlMonitorModal(props: BaseModalProps): ReactElement {
 
   const handleOk = async (e: React.MouseEvent<HTMLButtonElement>) => {
     setConfirmLoading(true);
-    for (const [key, value] of parametersMap.current) {
+    for (const [key, value] of Object.entries(parametersMap)) {
       if (!value) {
         notification.error({
           message: "Error",
@@ -71,18 +72,18 @@ function ParametricStlMonitorModal(props: BaseModalProps): ReactElement {
       for (const p of parameters[index]) {
         replacedPstl = replacedPstl.replace(
           new RegExp(p, "g"),
-          parametersMap.current.get(p) ?? ""
+          parametersMap[p] ?? ""
         );
       }
       return replacedPstl;
     });
-    console.log(replacedParametricStls);
+    await window.electronAPI.pstlMonitor(replacedParametricStls, config.simulationPort);
     setConfirmLoading(false);
     handleCancel(e);
   };
 
   const handleInput = (key: string, value: string) => {
-    parametersMap.current.set(key, value);
+    setParametersMap((prev) => ({ ...prev, [key]: value }));
   };
 
   return (
@@ -108,6 +109,7 @@ function ParametricStlMonitorModal(props: BaseModalProps): ReactElement {
               <Col span={6}>{parameter}:</Col>
               <Col span={18}>
                 <Input
+                  value={parametersMap[parameter] ?? ""}
                   onChange={(e) => {
                     handleInput(parameter, e.target.value);
                   }}

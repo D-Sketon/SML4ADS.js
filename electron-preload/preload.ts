@@ -18,6 +18,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   ADSML2Uppaal: (workSpacePath: string, modelPath: string, outputPath: string) => ipcRenderer.invoke('verifier:ADSML2Uppaal', workSpacePath, modelPath, outputPath),
 
   simulate: (params: any, port: number, host?: string) => ipcRenderer.invoke('rpc:simulate', params, port, host),
+  pstlMonitor: (params: any, port: number, host?: string) => ipcRenderer.invoke('rpc:pstlMonitor', params, port, host),
 
   onOpenNotification: (callback: (event: any,
     type: 'success' | 'info' | 'warning' | 'error',
