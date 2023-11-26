@@ -8,8 +8,7 @@ import rtamt
 curr_dir = os.getcwd()
 
 
-def monitor():
-    print(curr_dir)
+def monitor(args):
     df = pd.read_csv(os.path.join(curr_dir, 'pstl', 'signal1.csv'), header=0)
     times = df['time'].tolist()
     signal = df['signal'].tolist()
@@ -24,7 +23,7 @@ def monitor():
     spec.declare_var('a', 'float')
 
     # 定义STL规范：a的值应始终大于或等于2
-    spec.spec = 'a>=2'
+    spec.spec = args[0]
 
     # 解析STL规范
     try:

@@ -88,7 +88,7 @@ function ParametricStlMonitorModal(props: BaseModalProps): ReactElement {
 
   return (
     <Modal
-      title="New Directory"
+      title="Monitor"
       confirmLoading={confirmLoading}
       open={isModalOpen}
       onOk={handleOk}

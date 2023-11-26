@@ -199,6 +199,7 @@ function ParametricStlModal(props: BaseModalProps): ReactElement {
       // @ts-ignore
       render: (text, record: DataType) => (
         <div
+        style={{ minHeight: "20px" }}
           onClick={() => {
             setParametricStlEditModalVisible(true);
             setParametricStlEditModalText(text);
