@@ -20,7 +20,7 @@ except IndexError:
     print('append path error!')
 
 from simulate.carla_simulator.controller.enums import VehicleState
-from simulate.interface.GuardFunction import GUARD_FUNCTIONS, set_guard_args
+from simulate.interface.GuardFunction import *
 
 
 class BehaviorNode:

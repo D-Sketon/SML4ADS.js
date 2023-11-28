@@ -21,9 +21,9 @@ except IndexError:
 
 from simulate.carla_simulator.controller.action import Action
 from simulate.carla_simulator.controller.enums import VehicleState
-from simulate.carla_simulator.controller.vehicle_controller import VehicleController
+from simulate.carla_simulator.controller.vehicle_controller import \
+    VehicleController
 from simulate.interface.BehaviorTree import BehaviorNode, BehaviorTree
-
 from simulate.utils.utils import get_speed
 
 
