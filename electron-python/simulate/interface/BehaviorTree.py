@@ -21,6 +21,7 @@ except IndexError:
 
 from simulate.carla_simulator.controller.enums import VehicleState
 from simulate.interface.GuardFunction import *
+from simulate.interface.GuardFunction import GUARD_FUNCTIONS, set_guard_args
 
 
 class BehaviorNode:
@@ -73,7 +74,7 @@ class ProbabilityTransition:
         self.id = 0
         self.source_id = 0
         self.target_id = 0
-        self.weight = 0
+        self.weight = {'type': 'Manual', 'params': {'weight': 0}}
 
     def __repr__(self):
         return f'ProbabilityTransition[id={self.id}, source id={self.source_id}, target id={self.target_id}, ' \
@@ -190,7 +191,9 @@ class BehaviorTree:
             transition.id = int(v['id'])
             transition.target_id = int(v['targetId'])
             transition.source_id = int(v['sourceId'])
-            transition.weight = int(v['weight'])
+            # just old version
+            # transition.weight = int(v['weight'])
+            transition.weight = v['weight']
             self.elements[transition.id] = transition
             source_node = self.elements[transition.source_id]
             source_node.transitions.append((transition.target_id, transition.weight))
@@ -280,12 +283,37 @@ class BehaviorTree:
     def __do_probability_trans(self):
         all_weight = 0
         for trans in cast(BranchNode, self.current).transitions:
-            all_weight += trans[1]
+            if trans[1]['type'] == 'Manual':
+                all_weight += float(trans[1]['params']['weight'])
+            elif trans[1]['type'] == 'Uniform Distribution':
+                random_samples = np.random.uniform(trans[1]['params']['a'], trans[1]['params']['b'])
+                trans[1]['params']['weight'] = random_samples
+                all_weight += random_samples
+            elif trans[1]['type'] == 'Normal Distribution':
+                random_samples = np.random.normal(trans[1]['params']['mean'], trans[1]['params']['std'])
+                trans[1]['params']['weight'] = random_samples
+                all_weight += random_samples
+            elif trans[1]['type'] == 'Bernoulli Distribution':
+                random_samples = np.random.binomial(1, trans[1]['params']['p'])
+                trans[1]['params']['weight'] = random_samples
+                all_weight += random_samples
+            elif trans[1]['type'] == 'Binomial Distribution':
+                random_samples = np.random.binomial(trans[1]['params']['n'], trans[1]['params']['p'])
+                trans[1]['params']['weight'] = random_samples
+                all_weight += random_samples
+            elif trans[1]['type'] == 'Poisson Distribution':
+                random_samples = np.random.poisson(trans[1]['params']['lambda'])
+                trans[1]['params']['weight'] = random_samples
+                all_weight += random_samples
+            elif trans[1]['type'] == 'Chi-Squared Distribution':
+                random_samples = np.random.chisquare(trans[1]['params']['k'])
+                trans[1]['params']['weight'] = random_samples
+                all_weight += random_samples
         ids = []
         probabilities = []
         for trans in cast(BranchNode, self.current).transitions:
             ids.append(trans[0])
-            probabilities.append(trans[1] / all_weight)
+            probabilities.append(float(trans[1]['params']['weight']) / all_weight)
         self.current_id = np.random.choice(ids, size=1, p=probabilities)[0]
         self.current = self.elements[self.current_id]
 

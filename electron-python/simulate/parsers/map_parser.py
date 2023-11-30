@@ -18,8 +18,9 @@ try:
 except IndexError:
     print('append path error!')
 
-from simulate.parsers.structs import (Junction, JunctionConnection, JunctionLaneLink,
-                                      Lane, Road, RoadLaneOffset, RoadLanes,
+from simulate.parsers.structs import (Junction, JunctionConnection,
+                                      JunctionLaneLink, Lane, Road,
+                                      RoadLaneOffset, RoadLanes,
                                       RoadLaneSection, RoadLink, RoadType)
 
 
