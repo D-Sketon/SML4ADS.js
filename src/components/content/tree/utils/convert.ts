@@ -74,7 +74,7 @@ export const tree2Node = (
       source: String(probabilityTransition.sourceId),
       target: String(probabilityTransition.targetId),
       type: "ProbabilityTransition",
-      label: probabilityTransition.weight,
+      label: JSON.stringify(probabilityTransition.weight),
       markerEnd: { type: MarkerType.ArrowClosed },
     };
     maxId = Math.max(maxId, probabilityTransition.id);
@@ -131,7 +131,7 @@ export const node2Tree = (nodes: CustomNode[], edges: CustomEdge[]): MTree => {
         id: parseInt(edge.id),
         sourceId: parseInt(edge.source),
         targetId: parseInt(edge.target),
-        weight: edge.label,
+        weight: JSON.parse(edge.label),
       };
       hasTargetRootId.add(parseInt(edge.target));
       newTree.probabilityTransitions.push(probabilityTransition);

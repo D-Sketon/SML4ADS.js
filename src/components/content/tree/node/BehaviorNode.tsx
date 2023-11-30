@@ -14,7 +14,7 @@ import {
   defaultKeepBehaviorParams,
   defaultLaneOffsetBehaviorParams,
   defaultTurnBehaviorParams,
-} from "../../../model/Behavior";
+} from "../../../../model/Behavior";
 
 function getDefaultBehaviorParams(type: BEHAVIOR_TYPES) {
   switch (type) {

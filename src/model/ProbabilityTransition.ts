@@ -1,12 +1,16 @@
 import { Behavior } from "./Behavior";
 import { BranchPoint } from "./BranchPoint";
 import { MPosition, Position } from "./Position";
+import { WEIGHT_PARAMS, WEIGHT_TYPES } from "./params/ParamWeight";
 
 type BaseProbabilityTransition = {
   id: number;
   sourceId: number;
   targetId: number;
-  weight: string;
+  weight: {
+    type: WEIGHT_TYPES,
+    params: WEIGHT_PARAMS,
+  };
 }
 
 export type MProbabilityTransition = BaseProbabilityTransition & {

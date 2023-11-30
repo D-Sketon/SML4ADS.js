@@ -98,3 +98,26 @@ export type SPEED_PARAMS =
   | POISSON_DISTRIBUTION_SPEED_PARAMS
   | CHI_SQUARED_DISTRIBUTION_SPEED_PARAMS
   | CUSTOMIZED_DISTRIBUTION_SPEED_PARAMS;
+
+export const defaultSpeedParams: (type: SPEED_TYPES) => SPEED_PARAMS = (type) => {
+  switch (type) {
+    case SPEED_TYPES.MANUAL:
+      return defaultManualSpeedParams();
+    case SPEED_TYPES.UNIFORM_DISTRIBUTION:
+      return defaultUniformDistributionSpeedParams();
+    case SPEED_TYPES.NORMAL_DISTRIBUTION:
+      return defaultNormalDistributionSpeedParams();
+    case SPEED_TYPES.BERNOULLI_DISTRIBUTION:
+      return defaultBernoulliDistributionSpeedParams();
+    case SPEED_TYPES.BINOMIAL_DISTRIBUTION:
+      return defaultBinomialDistributionSpeedParams();
+    case SPEED_TYPES.POISSON_DISTRIBUTION:
+      return defaultPoissonDistributionSpeedParams();
+    case SPEED_TYPES.CHI_SQUARED_DISTRIBUTION:
+      return defaultChiSquaredDistributionSpeedParams();
+    case SPEED_TYPES.CUSTOMIZED_DISTRIBUTION:
+      return defaultCustomizedDistributionSpeedParams();
+    default:
+      return defaultManualSpeedParams();
+  }
+}

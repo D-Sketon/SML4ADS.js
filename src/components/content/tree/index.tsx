@@ -21,15 +21,14 @@ import ReactFlow, {
   useNodesState,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import BehaviorNode from "./BehaviorNode";
-import BranchNode from "./BranchNode";
-import CommonTransition from "./CommonTransition";
-import ProbabilityTransition from "./ProbabilityTransition";
+import BehaviorNode from "./node/BehaviorNode";
+import BranchNode from "./node/BranchNode";
+import CommonTransition from "./transition/CommonTransition";
+import ProbabilityTransition from "./transition/ProbabilityTransition";
 
 import "./index.less";
 import ElementProvider from "./ElementProvider";
-import { Col, Drawer, InputNumber, Row, notification } from "antd";
-import TextArea from "antd/es/input/TextArea";
+import { notification, Drawer } from "antd";
 import { MTree } from "../../../model/Tree";
 import {
   BEHAVIOR_TYPES,
@@ -37,6 +36,9 @@ import {
 } from "../../../model/Behavior";
 import { checkTree } from "./utils/check";
 import { node2Tree, tree2Node } from "./utils/convert";
+import GuardDrawer from "./drawer/GuardDrawer";
+import WeightDrawer from "./drawer/WeightDrawer";
+import { WEIGHT_TYPES } from "../../../model/params/ParamWeight";
 
 const nodeTypes = {
   BehaviorNode,
@@ -50,6 +52,27 @@ const edgeTypes = {
 
 interface TreeProps {
   path: string;
+}
+
+/**
+ * support old version
+ * @param tree Old tree
+ * @returns New tree
+ */
+function compatibleOldTree(tree: MTree): MTree {
+  const newTree = { ...tree };
+  newTree.probabilityTransitions.forEach((edge) => {
+    if (typeof edge.weight === "number" || typeof edge.weight === "string") {
+      // old version
+      edge.weight = {
+        type: WEIGHT_TYPES.MANUAL,
+        params: {
+          weight: parseInt(edge.weight),
+        },
+      };
+    }
+  });
+  return newTree;
 }
 
 function Tree(props: TreeProps): ReactElement {
@@ -89,7 +112,7 @@ function Tree(props: TreeProps): ReactElement {
     const asyncFn = async () => {
       const content = await window.electronAPI.readFile(path);
       if (!content) return;
-      const tree: MTree = JSON.parse(content);
+      const tree: MTree = compatibleOldTree(JSON.parse(content));
       // check tree
       try {
         checkTree(tree);
@@ -241,28 +264,6 @@ function Tree(props: TreeProps): ReactElement {
     [reactFlowInstance]
   );
 
-  function handleWeightChange(value: number | null) {
-    if (selectedEdge) {
-      selectedEdge.label = value;
-      setEdges((eds) => {
-        return eds
-          .filter((edge) => edge.id !== selectedEdge.id)
-          .concat(selectedEdge);
-      });
-    }
-  }
-
-  function handleGuardChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
-    if (selectedEdge) {
-      selectedEdge.label = event.target.value;
-      setEdges((eds) => {
-        return eds
-          .filter((edge) => edge.id !== selectedEdge.id)
-          .concat(selectedEdge);
-      });
-    }
-  }
-
   return (
     <div
       style={{
@@ -302,37 +303,9 @@ function Tree(props: TreeProps): ReactElement {
           onClose={() => setDrawerVisible(false)}
         >
           {drawerTitle === "CommonTransition" ? (
-            <>
-              <Row style={{ display: "flex", alignItems: "center" }}>
-                <Col span={4}>guard:</Col>
-                <Col span={20}>
-                  <TextArea
-                    rows={3}
-                    maxLength={1024}
-                    value={selectedEdge?.label?.toString() ?? ""}
-                    onChange={handleGuardChange}
-                  />
-                </Col>
-              </Row>
-            </>
+            <GuardDrawer selectedEdge={selectedEdge} setEdges={setEdges} />
           ) : (
-            <>
-              <Row style={{ display: "flex", alignItems: "center" }}>
-                <Col span={6}>weight:</Col>
-                <Col span={18}>
-                  <InputNumber
-                    min={0}
-                    max={100}
-                    value={
-                      selectedEdge?.label?.toString()
-                        ? parseInt(selectedEdge?.label?.toString())
-                        : 0
-                    }
-                    onChange={handleWeightChange}
-                  />
-                </Col>
-              </Row>
-            </>
+            <WeightDrawer selectedEdge={selectedEdge} setEdges={setEdges} />
           )}
         </Drawer>
       </ReactFlowProvider>

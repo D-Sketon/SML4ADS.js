@@ -9,72 +9,26 @@ import {
   LOCATION_TYPES,
   RELATED_POSITION_PARAMS,
   ROAD_POSITION_PARAMS,
-  defaultGlobalPositionParams,
-  defaultLanePositionParams,
-  defaultRelatedPositionParams,
-  defaultRoadPositionParams,
+  defaultLocationParams,
 } from "../../../model/params/ParamLocation";
 import { VEHICLE_TYPES_CARLA, VEHICLE_TYPES_LGSVL } from "../../../model/Car";
 import {
-  SPEED_TYPES,
-  defaultManualSpeedParams,
-  defaultUniformDistributionSpeedParams,
-  defaultNormalDistributionSpeedParams,
-  defaultBernoulliDistributionSpeedParams,
-  defaultBinomialDistributionSpeedParams,
-  defaultPoissonDistributionSpeedParams,
-  defaultChiSquaredDistributionSpeedParams,
-  defaultCustomizedDistributionSpeedParams,
-  MANUAL_SPEED_PARAMS,
-  UNIFORM_DISTRIBUTION_SPEED_PARAMS,
-  NORMAL_DISTRIBUTION_SPEED_PARAMS,
   BERNOULLI_DISTRIBUTION_SPEED_PARAMS,
   BINOMIAL_DISTRIBUTION_SPEED_PARAMS,
-  POISSON_DISTRIBUTION_SPEED_PARAMS,
   CHI_SQUARED_DISTRIBUTION_SPEED_PARAMS,
   CUSTOMIZED_DISTRIBUTION_SPEED_PARAMS,
+  MANUAL_SPEED_PARAMS,
+  NORMAL_DISTRIBUTION_SPEED_PARAMS,
+  POISSON_DISTRIBUTION_SPEED_PARAMS,
+  SPEED_TYPES,
+  UNIFORM_DISTRIBUTION_SPEED_PARAMS,
+  defaultSpeedParams,
 } from "../../../model/params/ParamSpeed";
 import TextArea from "antd/es/input/TextArea";
 interface CarInformationProps {
   model: MModel;
   setModel: (value: any) => void;
   index: number;
-}
-
-function getDefaultLocationParams(type: LOCATION_TYPES) {
-  switch (type) {
-    case LOCATION_TYPES.GLOBAL_POSITION:
-      return defaultGlobalPositionParams();
-    case LOCATION_TYPES.LANE_POSITION:
-      return defaultLanePositionParams();
-    case LOCATION_TYPES.ROAD_POSITION:
-      return defaultRoadPositionParams();
-    case LOCATION_TYPES.RELATED_POSITION:
-      return defaultRelatedPositionParams();
-    default:
-  }
-}
-
-function getDefaultSpeedParams(type: SPEED_TYPES) {
-  switch (type) {
-    case SPEED_TYPES.MANUAL:
-      return defaultManualSpeedParams();
-    case SPEED_TYPES.UNIFORM_DISTRIBUTION:
-      return defaultUniformDistributionSpeedParams();
-    case SPEED_TYPES.NORMAL_DISTRIBUTION:
-      return defaultNormalDistributionSpeedParams();
-    case SPEED_TYPES.BERNOULLI_DISTRIBUTION:
-      return defaultBernoulliDistributionSpeedParams();
-    case SPEED_TYPES.BINOMIAL_DISTRIBUTION:
-      return defaultBinomialDistributionSpeedParams();
-    case SPEED_TYPES.POISSON_DISTRIBUTION:
-      return defaultPoissonDistributionSpeedParams();
-    case SPEED_TYPES.CHI_SQUARED_DISTRIBUTION:
-      return defaultChiSquaredDistributionSpeedParams();
-    case SPEED_TYPES.CUSTOMIZED_DISTRIBUTION:
-      return defaultCustomizedDistributionSpeedParams();
-    default:
-  }
 }
 
 function CarInformation(props: CarInformationProps): ReactElement {
@@ -460,7 +414,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
   function uniformDistributionSpeed(): ReactElement {
     return (
       <>
-        <Form.Item label="a" labelCol={{ span: 6 }}>
+        <Form.Item label="min" labelCol={{ span: 6 }}>
           <InputNumber
             min={0}
             style={{ width: 150 }}
@@ -470,7 +424,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
             }}
           />
         </Form.Item>
-        <Form.Item label="b" labelCol={{ span: 6 }}>
+        <Form.Item label="max" labelCol={{ span: 6 }}>
           <InputNumber
             min={0}
             style={{ width: 150 }}
@@ -691,10 +645,8 @@ function CarInformation(props: CarInformationProps): ReactElement {
                   if (i === index) {
                     return {
                       ...c,
-                      speedType: e[e.length - 1],
-                      speedParams: getDefaultSpeedParams(
-                        e[e.length - 1] as any
-                      ),
+                      speedType: e[e.length - 1] as SPEED_TYPES,
+                      speedParams: defaultSpeedParams(e[e.length - 1] as SPEED_TYPES),
                     };
                   }
                   return c;
@@ -720,7 +672,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
                     return {
                       ...c,
                       locationType: e,
-                      locationParams: getDefaultLocationParams(e),
+                      locationParams: defaultLocationParams(e),
                     };
                   }
                   return c;
