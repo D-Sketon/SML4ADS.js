@@ -25,6 +25,7 @@ import {
   defaultSpeedParams,
 } from "../../../model/params/ParamSpeed";
 import TextArea from "antd/es/input/TextArea";
+
 interface CarInformationProps {
   model: MModel;
   setModel: (value: any) => void;
@@ -385,17 +386,6 @@ function CarInformation(props: CarInformationProps): ReactElement {
   function manualSpeed(): ReactElement {
     return (
       <>
-        <Form.Item label="maxSpeed" labelCol={{ span: 6 }}>
-          <InputNumber
-            min={0}
-            max={180}
-            style={{ width: 150 }}
-            value={(car.speedParams as MANUAL_SPEED_PARAMS).maxSpeed}
-            onChange={(e) => {
-              simpleSetSpeedParams("maxSpeed", e);
-            }}
-          />
-        </Form.Item>
         <Form.Item label="initialSpeed" labelCol={{ span: 6 }}>
           <InputNumber
             min={0}
@@ -609,7 +599,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
         </Form.Item>
         <Form.Item label="model">
           <Select
-            style={{ width: 150 }}
+            style={{ width: 180 }}
             options={
               model.simulatorType === SIMULATOR_TYPES.CARLA
                 ? Object.values(VEHICLE_TYPES_CARLA).map((i) => ({
@@ -626,7 +616,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
             }}
           />
         </Form.Item>
-        <Form.Item label="speedType(alpha)">
+        <Form.Item label="speedType">
           <Cascader
             style={{ width: 180 }}
             allowClear={false}
@@ -656,6 +646,28 @@ function CarInformation(props: CarInformationProps): ReactElement {
           />
         </Form.Item>
         {getSpeedComponent()}
+        <Form.Item label="maxSpeed">
+          <InputNumber
+            min={0}
+            max={180}
+            style={{ width: 150 }}
+            value={car.maxSpeed}
+            onChange={(e) => {
+              simpleSetCar("maxSpeed", e);
+            }}
+          />
+        </Form.Item>
+        <Form.Item label="minSpeed">
+          <InputNumber
+            min={0}
+            max={180}
+            style={{ width: 150 }}
+            value={car.minSpeed}
+            onChange={(e) => {
+              simpleSetCar("minSpeed", e);
+            }}
+          />
+        </Form.Item>
         <Form.Item label="location">
           <Select
             style={{ width: 150 }}

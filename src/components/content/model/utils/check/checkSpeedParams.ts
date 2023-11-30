@@ -19,11 +19,17 @@ import {
 
 export const checkSpeedParams = (
   speedType: SPEED_TYPES,
-  speedParams: SPEED_PARAMS
+  speedParams: SPEED_PARAMS,
+  maxSpeed: number,
+  minSpeed: number | null
 ) => {
   switch (speedType) {
     case SPEED_TYPES.MANUAL:
-      checkManualSpeedParams(speedParams as MANUAL_SPEED_PARAMS);
+      checkManualSpeedParams(
+        speedParams as MANUAL_SPEED_PARAMS,
+        maxSpeed,
+        minSpeed
+      );
       break;
     case SPEED_TYPES.UNIFORM_DISTRIBUTION:
       checkUniformDistributionSpeedParams(
@@ -65,17 +71,22 @@ export const checkSpeedParams = (
   }
 };
 
-const checkManualSpeedParams = (speedParams: MANUAL_SPEED_PARAMS) => {
-  const { maxSpeed, initSpeed } = speedParams;
-
-  _assertRequired(maxSpeed, "maxSpeed is required");
-  _assertNumberGE(maxSpeed, 0, "maxSpeed should >= 0");
+const checkManualSpeedParams = (
+  speedParams: MANUAL_SPEED_PARAMS,
+  maxSpeed: number,
+  minSpeed: number | null
+) => {
+  const { initSpeed } = speedParams;
 
   _assertRequired(initSpeed, "initSpeed is required");
   _assertNumberGE(initSpeed, 0, "initSpeed should >= 0");
   // initSpeed should <= maxSpeed
   if (Number(initSpeed) > Number(maxSpeed)) {
     throw new Error("initSpeed should <= maxSpeed");
+  }
+  // initSpeed should >= minSpeed
+  if (minSpeed !== null && Number(initSpeed) < Number(minSpeed)) {
+    throw new Error("initSpeed should >= minSpeed");
   }
 };
 

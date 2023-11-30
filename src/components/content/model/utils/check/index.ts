@@ -33,25 +33,20 @@ export const checkModel = (model: MModel) => {
 
 export const checkCars = (cars: MCar[]) => {
   for (const car of cars) {
-    const { name, speedType, speedParams, roadDeviation, treePath } = car;
+    const { name, speedType, speedParams, roadDeviation, treePath, maxSpeed, minSpeed } = car;
     _assertRequired(name, "Car name is required");
 
-    // old version, need remove
-    // _assertRequired(maxSpeed, "Car maxSpeed is required");
-    // _assertNumberGE(maxSpeed, 0, "Car maxSpeed should >= 0");
+    _assertRequired(maxSpeed, "Car maxSpeed is required");
+    _assertNumberGE(maxSpeed, 0, "Car maxSpeed should >= 0");
 
-    // _assertRequired(initSpeed, "Car initSpeed is required");
-    // _assertNumber(initSpeed, "Car initSpeed should be number");
-    // _assertNumberGE(initSpeed, 0, "Car initSpeed should >= 0");
-    // // initSpeed should <= maxSpeed
-    // if (Number(initSpeed) > Number(maxSpeed)) {
-    //   throw new Error("Car initSpeed should <= maxSpeed");
-    // }
+    if(minSpeed !== null && minSpeed !== void 0) {
+      _assertNumberGE(minSpeed, 0, "Car minSpeed should >= 0");
+    } 
 
     _assertRequired(roadDeviation, "Car roadDeviation is required");
     _assertNumber(roadDeviation, "Car roadDeviation should be number");
 
-    checkSpeedParams(speedType, speedParams);
+    checkSpeedParams(speedType, speedParams, maxSpeed, minSpeed);
 
     checkLocationParams(car.locationType, car.locationParams);
 

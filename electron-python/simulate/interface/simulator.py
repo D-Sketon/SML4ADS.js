@@ -9,6 +9,8 @@ import os
 import sys
 from typing import Optional
 
+import numpy as np
+
 try:
     curr_dir = os.getcwd()
     parent_dir = curr_dir[:curr_dir.rfind(os.path.sep)]
@@ -227,8 +229,27 @@ class Simulator:
             location_params = json_car['locationParams']
             car.name = json_car['name']
             car.heading = bool(json_car['heading'])
-            car.init_speed = float(json_car['speedParams']['initSpeed'])
-            car.max_speed = float(json_car['speedParams']['maxSpeed'])
+            if json_car['speedType'] == 'Manual':
+                car.init_speed = float(json_car['speedParams']['initSpeed'])
+            elif json_car['speedType'] == 'Uniform Distribution':
+                car.init_speed = np.random.uniform(float(json_car['speedParams']['a']),
+                                                   float(json_car['speedParams']['b']))
+            elif json_car['speedType'] == 'Normal Distribution':
+                car.init_speed = np.random.normal(float(json_car['speedParams']['mean']),
+                                                  float(json_car['speedParams']['std']))
+            elif json_car['speedType'] == 'Bernoulli Distribution':
+                car.init_speed = np.random.binomial(1,
+                                                    float(json_car['speedParams']['p']))
+            elif json_car['speedType'] == 'Binomial Distribution':
+                car.init_speed = np.random.binomial(int(json_car['speedParams']['n']),
+                                                    float(json_car['speedParams']['p']))
+            elif json_car['speedType'] == 'Poisson Distribution':
+                car.init_speed = np.random.poisson(float(json_car['speedParams']['lambda']))
+            elif json_car['speedType'] == 'Chi-Squared Distribution':
+                car.init_speed = np.random.chisquare(float(json_car['speedParams']['k']))
+            elif json_car['speedType'] == 'Customized Distribution':
+                raise RuntimeError('current version does not support customized distribution')
+            car.max_speed = float(json_car['maxSpeed'])
             if 'minSpeed' in json_car.keys():
                 car.min_speed = float(json_car['minSpeed'])
             car.model = json_car['model']

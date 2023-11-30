@@ -58,7 +58,8 @@ type BaseCar = {
   speedParams: SPEED_PARAMS;
   locationType: LOCATION_TYPES;
   initSpeed?: number; // support old version
-  maxSpeed?: number; // support old version
+  maxSpeed: number;
+  minSpeed: number | null;
   locationParams: LOCATION_PARAMS;
   heading: boolean;
   roadDeviation: number;
@@ -98,6 +99,8 @@ export const defaultCar: () => MCar = () => ({
   model: VEHICLE_TYPES_CARLA.RANDOM,
   speedType: SPEED_TYPES.MANUAL,
   speedParams: defaultManualSpeedParams(),
+  maxSpeed: 0,
+  minSpeed: null,
   locationType: LOCATION_TYPES.GLOBAL_POSITION,
   locationParams: defaultGlobalPositionParams(),
   heading: false,

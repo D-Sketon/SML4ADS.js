@@ -33,15 +33,61 @@ function compatibleOldModel(model: MModel): MModel {
     newModel.parameters = [];
   }
   newModel.cars.forEach((car) => {
-    if(car.maxSpeed !== void 0 && car.initSpeed !== void 0 && car.speedParams === void 0 && car.speedType === void 0) {
+    // version 0.1.0
+    /**
+     * from
+     * 
+     * maxSpeed: number
+     * initSpeed: number
+     * 
+     * to
+     * 
+     * speedType: SPEED_TYPES.MANUAL
+     * speedParams: {
+     *  initSpeed: number
+     * }
+     * maxSpeed: number
+     */
+    if (
+      car.initSpeed !== void 0 &&
+      car.speedParams === void 0 &&
+      car.speedType === void 0
+    ) {
       // old version
       car.speedType = SPEED_TYPES.MANUAL;
       car.speedParams = {
-        maxSpeed: car.maxSpeed,
         initSpeed: car.initSpeed,
       };
-      car.maxSpeed = void 0;
       car.initSpeed = void 0;
+    }
+    // version 0.2.0
+    /**
+     * from
+     * 
+     * speedType: SPEED_TYPES.MANUAL
+     * speedParams: {
+     *  initSpeed: number
+     *  maxSpeed: number
+     * }
+     * 
+     * to
+     * 
+     * speedType: SPEED_TYPES.MANUAL
+     * speedParams: {
+     *  initSpeed: number
+     * }
+     * maxSpeed: number
+     */
+    if (
+      car.speedParams !== void 0 &&
+      car.speedType === SPEED_TYPES.MANUAL &&
+      (car.speedParams as any).maxSpeed !== void 0 &&
+      (car.speedParams as any).initSpeed !== void 0
+    ) {
+      car.maxSpeed = (car.speedParams as any).maxSpeed;
+      car.speedParams = {
+        initSpeed: (car.speedParams as any).initSpeed,
+      };
     }
   });
   return newModel;
