@@ -19,8 +19,8 @@ import pstlMonitor from '../electron-node/rpc/pstlMonitor';
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1000,
-    height: 700,
+    width: 1280,
+    height: 720,
     webPreferences: {
       preload: path.resolve(__dirname, '../electron-preload/preload.js'),
       nodeIntegration: true,

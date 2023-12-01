@@ -27,10 +27,10 @@ function ProbabilityTransition({
     }
     return (
       <>
-        {buffer.map((b) => (
-          <p>{b}</p>
+        {buffer.map((b, index) => (
+          <p key={index}>{b}</p>
         ))}
-      </>
+      </>  
     );
   };
 

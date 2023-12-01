@@ -11,6 +11,7 @@ function LocationParamsDesc(props: LocationParamsDescProps): ReactElement {
     <>
       <Descriptions
         title="Location Params"
+        column={2}
         items={Object.keys(props.params).map((k) => ({
           label: k,
           key: k,

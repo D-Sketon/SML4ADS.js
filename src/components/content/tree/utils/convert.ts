@@ -19,7 +19,8 @@ export type CustomEdge = {
 
 export const tree2Node = (
   tree: MTree,
-  setNodes: any
+  setNodes: any,
+  nodeType = "BehaviorNode"
 ): {
   maxId: number;
   nodes: CustomNode[];
@@ -31,7 +32,7 @@ export const tree2Node = (
   tree.behaviors.forEach((behavior) => {
     const newNode = {
       id: String(behavior.id),
-      type: "BehaviorNode",
+      type: nodeType,
       data: {
         label: behavior.name,
         params: behavior.params,

@@ -75,6 +75,25 @@ export type BEHAVIOR_PARAMS =
   | TURN_BEHAVIOR_PARAMS
   | LANE_OFFSET_BEHAVIOR_PARAMS
 
+export const defaultBehaviorParams: (type: BEHAVIOR_TYPES) => BEHAVIOR_PARAMS = (type) => {
+  switch (type) {
+    case BEHAVIOR_TYPES.KEEP:
+      return defaultKeepBehaviorParams();
+    case BEHAVIOR_TYPES.ACCELERATE:
+      return defaultAccelerateBehaviorParams();
+    case BEHAVIOR_TYPES.CHANGE_LEFT:
+    case BEHAVIOR_TYPES.CHANGE_RIGHT:
+      return defaultChangeBehaviorParams();
+    case BEHAVIOR_TYPES.TURN_LEFT:
+    case BEHAVIOR_TYPES.TURN_RIGHT:
+      return defaultTurnBehaviorParams();
+    case BEHAVIOR_TYPES.LANE_OFFSET:
+      return defaultLaneOffsetBehaviorParams();
+    default:
+      return defaultKeepBehaviorParams();
+  }
+}
+
 type BaseBehavior = {
   id: number;
   name: BEHAVIOR_TYPES;

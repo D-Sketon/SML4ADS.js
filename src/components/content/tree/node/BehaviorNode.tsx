@@ -9,32 +9,8 @@ import {
   KEEP_BEHAVIOR_PARAMS,
   LANE_OFFSET_BEHAVIOR_PARAMS,
   TURN_BEHAVIOR_PARAMS,
-  defaultAccelerateBehaviorParams,
-  defaultChangeBehaviorParams,
-  defaultKeepBehaviorParams,
-  defaultLaneOffsetBehaviorParams,
-  defaultTurnBehaviorParams,
+  defaultBehaviorParams,
 } from "../../../../model/Behavior";
-
-function getDefaultBehaviorParams(type: BEHAVIOR_TYPES) {
-  switch (type) {
-    case BEHAVIOR_TYPES.KEEP:
-    case BEHAVIOR_TYPES.IDLE:
-      return defaultKeepBehaviorParams();
-    case BEHAVIOR_TYPES.ACCELERATE:
-    case BEHAVIOR_TYPES.DECELERATE:
-      return defaultAccelerateBehaviorParams();
-    case BEHAVIOR_TYPES.CHANGE_LEFT:
-    case BEHAVIOR_TYPES.CHANGE_RIGHT:
-      return defaultChangeBehaviorParams();
-    case BEHAVIOR_TYPES.TURN_LEFT:
-    case BEHAVIOR_TYPES.TURN_RIGHT:
-      return defaultTurnBehaviorParams();
-    case BEHAVIOR_TYPES.LANE_OFFSET:
-      return defaultLaneOffsetBehaviorParams();
-    default:
-  }
-}
 
 function BehaviorNode({ data, isConnectable }: any): ReactElement {
   const {
@@ -76,7 +52,7 @@ function BehaviorNode({ data, isConnectable }: any): ReactElement {
       const index = newNodes.findIndex((item) => item.id === id);
       newNodes[index].data = {
         ...newNodes[index].data,
-        params: getDefaultBehaviorParams(value),
+        params: defaultBehaviorParams(value),
         label: value,
       };
       return newNodes;

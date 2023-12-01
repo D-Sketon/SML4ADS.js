@@ -11,6 +11,7 @@ function SpeedParamsDesc(props: SpeedParamsDescProps): ReactElement {
     <>
       <Descriptions
         title="Speed Params"
+        column={2}
         items={Object.keys(props.params).map((k) => ({
           label: k,
           key: k,
