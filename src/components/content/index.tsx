@@ -2,21 +2,26 @@ import React, { ReactElement, useContext, useEffect, useState } from "react";
 import { Tabs } from "antd";
 import Model from "./model";
 import Tree from "./tree";
+import Adsml from "./adsml";
+import Text from "./text";
 import AppContext from "../../store/context";
 import { FILE_SUFFIX } from "../../constants";
 import { activateFilePath, removeFilePath } from "../../store/action";
-import Adsml from "./adsml";
 
 type TargetKey = React.MouseEvent | React.KeyboardEvent | string;
 
 function getChildrenComponent(path: string, key: FILE_SUFFIX | string) {
   switch (key) {
     case FILE_SUFFIX.MODEL:
-      return <Model path={path}/>;
+      return <Model path={path} />;
     case FILE_SUFFIX.TREE:
-      return <Tree path={path}/>;
+      return <Tree path={path} />;
     case FILE_SUFFIX.ADSML:
-      return <Adsml path={path}/>;
+      return <Adsml path={path} />;
+    case FILE_SUFFIX.JSON:
+    case FILE_SUFFIX.XML:
+    case FILE_SUFFIX.XODR:
+      return <Text path={path} ext={key}/>;
     default:
       return <></>;
   }

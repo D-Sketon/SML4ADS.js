@@ -49,7 +49,6 @@ function Adsml(props: AdsmlProps): ReactElement {
         model = defaultModel();
       } else {
         model = JSON.parse(content);
-        console.log(model);
       }
       // check model
       try {

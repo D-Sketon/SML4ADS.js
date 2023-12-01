@@ -53,7 +53,10 @@ function SiderTree(): ReactElement {
     if (
       ext === FILE_SUFFIX.MODEL ||
       ext === FILE_SUFFIX.TREE ||
-      ext === FILE_SUFFIX.ADSML
+      ext === FILE_SUFFIX.ADSML ||
+      ext === FILE_SUFFIX.XML ||
+      ext === FILE_SUFFIX.XODR ||
+      ext === FILE_SUFFIX.JSON
     ) {
       dispatch(addFilePath(selectInfo.key as string));
     } else {
