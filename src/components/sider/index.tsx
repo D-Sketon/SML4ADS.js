@@ -31,7 +31,7 @@ function SiderTree(): ReactElement {
 
   useEffect(() => {
     const asyncFn = async () => {
-      if(state.workspacePath === "") return;
+      if (state.workspacePath === "") return;
       const data = await window.electronAPI.generateTree(state.workspacePath);
       setTreeData(data);
     };
@@ -50,7 +50,11 @@ function SiderTree(): ReactElement {
   const onDoubleClick = async () => {
     if (!selectInfo?.isLeaf) return;
     const ext = (selectInfo.key as string).split(".").pop();
-    if (ext === FILE_SUFFIX.MODEL || ext === FILE_SUFFIX.TREE) {
+    if (
+      ext === FILE_SUFFIX.MODEL ||
+      ext === FILE_SUFFIX.TREE ||
+      ext === FILE_SUFFIX.ADSML
+    ) {
       dispatch(addFilePath(selectInfo.key as string));
     } else {
       notification.warning({
@@ -168,7 +172,7 @@ function SiderTree(): ReactElement {
   }, [onClick]);
 
   const handleKeyDown = async (event: React.KeyboardEvent) => {
-    if (event.key === "F5" ) {
+    if (event.key === "F5") {
       dispatch(refreshTree());
       event.preventDefault();
     }

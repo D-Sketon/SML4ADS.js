@@ -5,6 +5,7 @@ import Tree from "./tree";
 import AppContext from "../../store/context";
 import { FILE_SUFFIX } from "../../constants";
 import { activateFilePath, removeFilePath } from "../../store/action";
+import Adsml from "./adsml";
 
 type TargetKey = React.MouseEvent | React.KeyboardEvent | string;
 
@@ -14,6 +15,8 @@ function getChildrenComponent(path: string, key: FILE_SUFFIX | string) {
       return <Model path={path}/>;
     case FILE_SUFFIX.TREE:
       return <Tree path={path}/>;
+    case FILE_SUFFIX.ADSML:
+      return <Adsml path={path}/>;
     default:
       return <></>;
   }
