@@ -5,6 +5,7 @@ import {
   _assertNumberGE,
   _assertNumberLE,
   _assertNumber,
+  _assertArrayLength,
 } from "../../../../../utils/assert";
 import { checkLocationParams } from "./checkLocationParams";
 import { checkSpeedParams } from "./checkSpeedParams";
@@ -33,18 +34,40 @@ export const checkModel = (model: MModel) => {
 
 export const checkCars = (cars: MCar[]) => {
   for (const car of cars) {
-    const { name, speedType, speedParams, roadDeviation, treePath, maxSpeed, minSpeed } = car;
+    const {
+      name,
+      speedType,
+      speedParams,
+      roadDeviation,
+      treePath,
+      maxSpeed,
+      minSpeed,
+    } = car;
     _assertRequired(name, "Car name is required");
 
     _assertRequired(maxSpeed, "Car maxSpeed is required");
     _assertNumberGE(maxSpeed, 0, "Car maxSpeed should >= 0");
 
-    if(minSpeed !== null && minSpeed !== void 0) {
+    if (minSpeed !== null && minSpeed !== void 0) {
       _assertNumberGE(minSpeed, 0, "Car minSpeed should >= 0");
-    } 
+    }
 
-    _assertRequired(roadDeviation, "Car roadDeviation is required");
-    _assertNumber(roadDeviation, "Car roadDeviation should be number");
+    _assertArrayLength(
+      roadDeviation,
+      2,
+      "Car roadDeviation should have length of 2"
+    );
+
+    for (const rd of roadDeviation) {
+      _assertRequired(rd, "Car roadDeviation is required");
+      _assertNumber(rd, "Car roadDeviation should be number");
+    }
+
+    _assertNumberGE(
+      roadDeviation[1],
+      roadDeviation[0],
+      "Car roadDeviation[1] should >= roadDeviation[0]"
+    );
 
     checkSpeedParams(speedType, speedParams, maxSpeed, minSpeed);
 

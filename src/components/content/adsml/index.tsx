@@ -16,7 +16,7 @@ import CommonTransition from "../tree/transition/CommonTransition";
 import ProbabilityTransition from "../tree/transition/ProbabilityTransition";
 import BranchNode from "../tree/node/BranchNode";
 import ImmutableBehaviorNode from "./ImmutableBehaviorNode";
-import { tree2Node } from "../tree/utils/convert";
+import treeNodeAdapter from "../tree/utils/adapter/treeNodeAdapter";
 
 import "./index.less";
 
@@ -81,7 +81,7 @@ function Adsml(props: AdsmlProps): ReactElement {
 
   function handleCarClick(index: number): void {
     const tree = model.cars[index].mTree!;
-    const { nodes, edges } = tree2Node(tree, setNodes, "ImmutableBehaviorNode");
+    const { nodes, edges } = treeNodeAdapter(tree, setNodes, "ImmutableBehaviorNode");
     setNodes(nodes);
     setEdges(edges);
   }

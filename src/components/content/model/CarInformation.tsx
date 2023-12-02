@@ -636,7 +636,9 @@ function CarInformation(props: CarInformationProps): ReactElement {
                     return {
                       ...c,
                       speedType: e[e.length - 1] as SPEED_TYPES,
-                      speedParams: defaultSpeedParams(e[e.length - 1] as SPEED_TYPES),
+                      speedParams: defaultSpeedParams(
+                        e[e.length - 1] as SPEED_TYPES
+                      ),
                     };
                   }
                   return c;
@@ -708,13 +710,23 @@ function CarInformation(props: CarInformationProps): ReactElement {
           />
         </Form.Item>
         <Form.Item label="roadDeviation">
-          <InputNumber
-            style={{ width: 150 }}
-            value={car.roadDeviation}
-            onChange={(e) => {
-              simpleSetCar("roadDeviation", e);
-            }}
-          />
+          <div>
+            <InputNumber
+              style={{ width: 62 }}
+              value={car.roadDeviation[0]}
+              onChange={(e) => {
+                simpleSetCar("roadDeviation", [e, car.roadDeviation[1]]);
+              }}
+            />
+            <span style={{ margin: "0 10px" }}>-</span>
+            <InputNumber
+              style={{ width: 62 }}
+              value={car.roadDeviation[1]}
+              onChange={(e) => {
+                simpleSetCar("roadDeviation", [car.roadDeviation[0], e]);
+              }}
+            />
+          </div>
         </Form.Item>
         <Form.Item label="dynamic">
           <div style={{ display: "flex", alignItems: "center" }}>

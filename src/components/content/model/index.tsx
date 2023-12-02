@@ -12,85 +12,11 @@ import { MModel, defaultModel } from "../../../model/Model";
 import { defaultCar } from "../../../model/Car";
 import AppContext from "../../../store/context";
 import { setSaveFilePath } from "../../../store/action";
-import { SPEED_TYPES } from "../../../model/params/ParamSpeed";
 import { checkModel } from "./utils/check";
+import oldModelAdapter from "./utils/adapter/oldModelAdapter";
 
 interface ModelProps {
   path: string;
-}
-
-/**
- * support old version
- * @param model Old model
- * @returns New model
- */
-function compatibleOldModel(model: MModel): MModel {
-  const newModel = { ...model };
-  if (!newModel.parametricStls) {
-    newModel.parametricStls = [];
-  }
-  if (!newModel.parameters) {
-    newModel.parameters = [];
-  }
-  newModel.cars.forEach((car) => {
-    // version 0.1.0
-    /**
-     * from
-     * 
-     * maxSpeed: number
-     * initSpeed: number
-     * 
-     * to
-     * 
-     * speedType: SPEED_TYPES.MANUAL
-     * speedParams: {
-     *  initSpeed: number
-     * }
-     * maxSpeed: number
-     */
-    if (
-      car.initSpeed !== void 0 &&
-      car.speedParams === void 0 &&
-      car.speedType === void 0
-    ) {
-      // old version
-      car.speedType = SPEED_TYPES.MANUAL;
-      car.speedParams = {
-        initSpeed: car.initSpeed,
-      };
-      car.initSpeed = void 0;
-    }
-    // version 0.2.0
-    /**
-     * from
-     * 
-     * speedType: SPEED_TYPES.MANUAL
-     * speedParams: {
-     *  initSpeed: number
-     *  maxSpeed: number
-     * }
-     * 
-     * to
-     * 
-     * speedType: SPEED_TYPES.MANUAL
-     * speedParams: {
-     *  initSpeed: number
-     * }
-     * maxSpeed: number
-     */
-    if (
-      car.speedParams !== void 0 &&
-      car.speedType === SPEED_TYPES.MANUAL &&
-      (car.speedParams as any).maxSpeed !== void 0 &&
-      (car.speedParams as any).initSpeed !== void 0
-    ) {
-      car.maxSpeed = (car.speedParams as any).maxSpeed;
-      car.speedParams = {
-        initSpeed: (car.speedParams as any).initSpeed,
-      };
-    }
-  });
-  return newModel;
 }
 
 function Model(props: ModelProps): ReactElement {
@@ -141,7 +67,7 @@ function Model(props: ModelProps): ReactElement {
       if (!content) {
         model = defaultModel();
       } else {
-        model = compatibleOldModel(JSON.parse(content));
+        model = oldModelAdapter(JSON.parse(content));
       }
       // check model
       try {

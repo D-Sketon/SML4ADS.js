@@ -62,7 +62,7 @@ type BaseCar = {
   minSpeed: number | null;
   locationParams: LOCATION_PARAMS;
   heading: boolean;
-  roadDeviation: number;
+  roadDeviation: [number, number];
   treePath: string;
 };
 
@@ -104,6 +104,6 @@ export const defaultCar: () => MCar = () => ({
   locationType: LOCATION_TYPES.GLOBAL_POSITION,
   locationParams: defaultGlobalPositionParams(),
   heading: false,
-  roadDeviation: 0,
+  roadDeviation: [0, 0],
   treePath: "",
 });

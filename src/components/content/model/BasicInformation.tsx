@@ -41,7 +41,7 @@ function BasicInformation(props: BasicInformationProps): ReactElement {
       <Form labelCol={{ span: 4 }} wrapperCol={{ span: 20 }} autoComplete="off">
         <Form.Item label="simulatorType">
           <Select
-            style={{ width: 150 }}
+            style={{ width: 180 }}
             options={Object.values(SIMULATOR_TYPES).map((i) => ({
               value: i,
               label: i,
@@ -55,7 +55,7 @@ function BasicInformation(props: BasicInformationProps): ReactElement {
         <Form.Item label="map">
           <Form.Item>
             <Select
-              style={{ width: 150 }}
+              style={{ width: 180 }}
               options={Object.values(MAP_TYPES).map((i) => ({
                 value: i,
                 label: i,
@@ -106,7 +106,8 @@ function BasicInformation(props: BasicInformationProps): ReactElement {
 
         <Form.Item label="weather">
           <Select
-            style={{ width: 150 }}
+            style={{ width: 180 }}
+            mode="multiple"
             options={
               model.simulatorType === SIMULATOR_TYPES.CARLA
                 ? Object.values(WEATHER_TYPES_CARLA).map((i) => ({

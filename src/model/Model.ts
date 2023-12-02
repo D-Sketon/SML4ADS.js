@@ -47,7 +47,7 @@ type BaseModel = {
   simulatorType: SIMULATOR_TYPES;
   mapType: MAP_TYPES;
   map: string;
-  weather: WEATHER_TYPES_CARLA | WEATHER_TYPES_LGSVL;
+  weather: WEATHER_TYPES_CARLA[] | WEATHER_TYPES_LGSVL[];
   timeStep: number;
   simulationTime: number;
   scenarioEndTrigger: string;
@@ -68,7 +68,7 @@ export const defaultModel: () => MModel = () => ({
   simulatorType: SIMULATOR_TYPES.CARLA,
   mapType: MAP_TYPES.DEFAULT,
   map: DEFAULT_MAP_TYPES.TOWN_01,
-  weather: WEATHER_TYPES_CARLA.CLEAR_NOON,
+  weather: [WEATHER_TYPES_CARLA.CLEAR_NOON],
   timeStep: 0.1,
   simulationTime: 40,
   scenarioEndTrigger: "",

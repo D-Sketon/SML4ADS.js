@@ -23,3 +23,17 @@ export const _assertNumberLE = (value: any, max: number, errMsg: string) => {
     throw new Error(errMsg);
   }
 };
+
+export const _assertArray = (value: any, errMsg: string) => {
+  if (!Array.isArray(value)) {
+    throw new Error(errMsg);
+  }
+}
+
+export const _assertArrayLength = (value: any, length: number, errMsg: string) => {
+  _assertArray(value, errMsg);
+  if (value.length !== length) {
+    throw new Error(errMsg);
+  }
+}
+

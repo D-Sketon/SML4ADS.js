@@ -35,10 +35,11 @@ import {
   defaultKeepBehaviorParams,
 } from "../../../model/Behavior";
 import { checkTree } from "./utils/check";
-import { node2Tree, tree2Node } from "./utils/convert";
 import GuardDrawer from "./drawer/GuardDrawer";
 import WeightDrawer from "./drawer/WeightDrawer";
-import { WEIGHT_TYPES } from "../../../model/params/ParamWeight";
+import oldTreeAdapter from "./utils/adapter/oldTreeAdapter";
+import nodeTreeAdapter from "./utils/adapter/nodeTreeAdapter";
+import treeNodeAdapter from "./utils/adapter/treeNodeAdapter";
 
 const nodeTypes = {
   BehaviorNode,
@@ -54,26 +55,6 @@ interface TreeProps {
   path: string;
 }
 
-/**
- * support old version
- * @param tree Old tree
- * @returns New tree
- */
-function compatibleOldTree(tree: MTree): MTree {
-  const newTree = { ...tree };
-  newTree.probabilityTransitions.forEach((edge) => {
-    if (typeof edge.weight === "number" || typeof edge.weight === "string") {
-      // old version
-      edge.weight = {
-        type: WEIGHT_TYPES.MANUAL,
-        params: {
-          weight: parseInt(edge.weight),
-        },
-      };
-    }
-  });
-  return newTree;
-}
 
 function Tree(props: TreeProps): ReactElement {
   const { path } = props;
@@ -92,7 +73,7 @@ function Tree(props: TreeProps): ReactElement {
   const saveHook = useCallback(
     async (isManual = false) => {
       try {
-        const newTree = node2Tree(nodes as any, edges as any);
+        const newTree = nodeTreeAdapter(nodes as any, edges as any);
         checkTree(newTree);
         await window.electronAPI.writeJson(path, newTree);
       } catch (error: any) {
@@ -112,7 +93,7 @@ function Tree(props: TreeProps): ReactElement {
     const asyncFn = async () => {
       const content = await window.electronAPI.readFile(path);
       if (!content) return;
-      const tree: MTree = compatibleOldTree(JSON.parse(content));
+      const tree: MTree = oldTreeAdapter(JSON.parse(content));
       // check tree
       try {
         checkTree(tree);
@@ -124,7 +105,7 @@ function Tree(props: TreeProps): ReactElement {
         });
         return;
       }
-      const { maxId, nodes, edges } = tree2Node(tree, setNodes);
+      const { maxId, nodes, edges } = treeNodeAdapter(tree, setNodes);
       setNodes(nodes);
       setEdges(edges);
       maxIdRef.current = maxId + 1;
