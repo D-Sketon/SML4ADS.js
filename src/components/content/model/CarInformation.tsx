@@ -61,20 +61,48 @@ function CarInformation(props: CarInformationProps): ReactElement {
       <>
         <Form.Item label="x" labelCol={{ span: 6 }}>
           <InputNumber
-            style={{ width: 150 }}
+            style={{ width: 62 }}
+            value={(car.locationParams as GLOBAL_POSITION_PARAMS).x[0]}
             onChange={(e) => {
-              simpleSetLocationParams("x", e);
+              simpleSetLocationParams("x", [
+                e,
+                (car.locationParams as GLOBAL_POSITION_PARAMS).x[1],
+              ]);
             }}
-            value={(car.locationParams as GLOBAL_POSITION_PARAMS).x}
+          />
+          <span style={{ margin: "0 10px" }}>-</span>
+          <InputNumber
+            style={{ width: 62 }}
+            value={(car.locationParams as GLOBAL_POSITION_PARAMS).x[1]}
+            onChange={(e) => {
+              simpleSetLocationParams("x", [
+                (car.locationParams as GLOBAL_POSITION_PARAMS).x[0],
+                e,
+              ]);
+            }}
           />
         </Form.Item>
         <Form.Item label="y" labelCol={{ span: 6 }}>
           <InputNumber
-            style={{ width: 150 }}
+            style={{ width: 62 }}
+            value={(car.locationParams as GLOBAL_POSITION_PARAMS).y[0]}
             onChange={(e) => {
-              simpleSetLocationParams("y", e);
+              simpleSetLocationParams("y", [
+                e,
+                (car.locationParams as GLOBAL_POSITION_PARAMS).y[1],
+              ]);
             }}
-            value={(car.locationParams as GLOBAL_POSITION_PARAMS).y}
+          />
+          <span style={{ margin: "0 10px" }}>-</span>
+          <InputNumber
+            style={{ width: 62 }}
+            value={(car.locationParams as GLOBAL_POSITION_PARAMS).y[1]}
+            onChange={(e) => {
+              simpleSetLocationParams("y", [
+                (car.locationParams as GLOBAL_POSITION_PARAMS).y[0],
+                e,
+              ]);
+            }}
           />
         </Form.Item>
       </>
@@ -102,48 +130,60 @@ function CarInformation(props: CarInformationProps): ReactElement {
             value={(car.locationParams as LANE_POSITION_PARAMS).laneId}
           />
         </Form.Item>
-        <Form.Item label="minLateralOffset" labelCol={{ span: 6 }}>
+        <Form.Item label="lateralOffset" labelCol={{ span: 6 }}>
           <InputNumber
-            style={{ width: 150 }}
-            onChange={(e) => {
-              simpleSetLocationParams("minLateralOffset", e);
-            }}
+            style={{ width: 62 }}
             value={
-              (car.locationParams as LANE_POSITION_PARAMS).minLateralOffset
+              (car.locationParams as LANE_POSITION_PARAMS).lateralOffset[0]
             }
+            onChange={(e) => {
+              simpleSetLocationParams("lateralOffset", [
+                e,
+                (car.locationParams as LANE_POSITION_PARAMS).lateralOffset[1],
+              ]);
+            }}
+          />
+          <span style={{ margin: "0 10px" }}>-</span>
+          <InputNumber
+            style={{ width: 62 }}
+            value={
+              (car.locationParams as LANE_POSITION_PARAMS).lateralOffset[1]
+            }
+            onChange={(e) => {
+              simpleSetLocationParams("lateralOffset", [
+                (car.locationParams as LANE_POSITION_PARAMS).lateralOffset[0],
+                e,
+              ]);
+            }}
           />
         </Form.Item>
-        <Form.Item label="maxLateralOffset" labelCol={{ span: 6 }}>
+        <Form.Item label="longitudinalOffset" labelCol={{ span: 6 }}>
           <InputNumber
-            style={{ width: 150 }}
-            onChange={(e) => {
-              simpleSetLocationParams("maxLateralOffset", e);
-            }}
+            style={{ width: 62 }}
             value={
-              (car.locationParams as LANE_POSITION_PARAMS).maxLateralOffset
+              (car.locationParams as LANE_POSITION_PARAMS).longitudinalOffset[0]
             }
+            onChange={(e) => {
+              simpleSetLocationParams("longitudinalOffset", [
+                e,
+                (car.locationParams as LANE_POSITION_PARAMS)
+                  .longitudinalOffset[1],
+              ]);
+            }}
           />
-        </Form.Item>
-        <Form.Item label="minLongitudinalOffset" labelCol={{ span: 6 }}>
+          <span style={{ margin: "0 10px" }}>-</span>
           <InputNumber
-            style={{ width: 150 }}
-            onChange={(e) => {
-              simpleSetLocationParams("minLongitudinalOffset", e);
-            }}
+            style={{ width: 62 }}
             value={
-              (car.locationParams as LANE_POSITION_PARAMS).minLongitudinalOffset
+              (car.locationParams as LANE_POSITION_PARAMS).longitudinalOffset[1]
             }
-          />
-        </Form.Item>
-        <Form.Item label="maxLongitudinalOffset" labelCol={{ span: 6 }}>
-          <InputNumber
-            style={{ width: 150 }}
             onChange={(e) => {
-              simpleSetLocationParams("maxLongitudinalOffset", e);
+              simpleSetLocationParams("longitudinalOffset", [
+                (car.locationParams as LANE_POSITION_PARAMS)
+                  .longitudinalOffset[0],
+                e,
+              ]);
             }}
-            value={
-              (car.locationParams as LANE_POSITION_PARAMS).maxLongitudinalOffset
-            }
           />
         </Form.Item>
       </>
@@ -162,48 +202,60 @@ function CarInformation(props: CarInformationProps): ReactElement {
             value={(car.locationParams as ROAD_POSITION_PARAMS).roadId}
           />
         </Form.Item>
-        <Form.Item label="minLateralOffset" labelCol={{ span: 6 }}>
+        <Form.Item label="lateralOffset" labelCol={{ span: 6 }}>
           <InputNumber
-            style={{ width: 150 }}
-            onChange={(e) => {
-              simpleSetLocationParams("minLateralOffset", e);
-            }}
+            style={{ width: 62 }}
             value={
-              (car.locationParams as ROAD_POSITION_PARAMS).minLateralOffset
+              (car.locationParams as ROAD_POSITION_PARAMS).lateralOffset[0]
             }
+            onChange={(e) => {
+              simpleSetLocationParams("lateralOffset", [
+                e,
+                (car.locationParams as ROAD_POSITION_PARAMS).lateralOffset[1],
+              ]);
+            }}
+          />
+          <span style={{ margin: "0 10px" }}>-</span>
+          <InputNumber
+            style={{ width: 62 }}
+            value={
+              (car.locationParams as ROAD_POSITION_PARAMS).lateralOffset[1]
+            }
+            onChange={(e) => {
+              simpleSetLocationParams("lateralOffset", [
+                (car.locationParams as ROAD_POSITION_PARAMS).lateralOffset[0],
+                e,
+              ]);
+            }}
           />
         </Form.Item>
-        <Form.Item label="maxLateralOffset" labelCol={{ span: 6 }}>
+        <Form.Item label="longitudinalOffset" labelCol={{ span: 6 }}>
           <InputNumber
-            style={{ width: 150 }}
-            onChange={(e) => {
-              simpleSetLocationParams("maxLateralOffset", e);
-            }}
+            style={{ width: 62 }}
             value={
-              (car.locationParams as ROAD_POSITION_PARAMS).maxLateralOffset
+              (car.locationParams as ROAD_POSITION_PARAMS).longitudinalOffset[0]
             }
+            onChange={(e) => {
+              simpleSetLocationParams("longitudinalOffset", [
+                e,
+                (car.locationParams as ROAD_POSITION_PARAMS)
+                  .longitudinalOffset[1],
+              ]);
+            }}
           />
-        </Form.Item>
-        <Form.Item label="minLongitudinalOffset" labelCol={{ span: 6 }}>
+          <span style={{ margin: "0 10px" }}>-</span>
           <InputNumber
-            style={{ width: 150 }}
-            onChange={(e) => {
-              simpleSetLocationParams("minLongitudinalOffset", e);
-            }}
+            style={{ width: 62 }}
             value={
-              (car.locationParams as ROAD_POSITION_PARAMS).minLongitudinalOffset
+              (car.locationParams as ROAD_POSITION_PARAMS).longitudinalOffset[1]
             }
-          />
-        </Form.Item>
-        <Form.Item label="maxLongitudinalOffset" labelCol={{ span: 6 }}>
-          <InputNumber
-            style={{ width: 150 }}
             onChange={(e) => {
-              simpleSetLocationParams("maxLongitudinalOffset", e);
+              simpleSetLocationParams("longitudinalOffset", [
+                (car.locationParams as ROAD_POSITION_PARAMS)
+                  .longitudinalOffset[0],
+                e,
+              ]);
             }}
-            value={
-              (car.locationParams as ROAD_POSITION_PARAMS).maxLongitudinalOffset
-            }
           />
         </Form.Item>
       </>
@@ -222,50 +274,60 @@ function CarInformation(props: CarInformationProps): ReactElement {
             value={(car.locationParams as RELATED_POSITION_PARAMS).actorRef}
           />
         </Form.Item>
-        <Form.Item label="minLateralOffset" labelCol={{ span: 6 }}>
+        <Form.Item label="lateralOffset" labelCol={{ span: 6 }}>
           <InputNumber
-            style={{ width: 150 }}
-            onChange={(e) => {
-              simpleSetLocationParams("minLateralOffset", e);
-            }}
+            style={{ width: 62 }}
             value={
-              (car.locationParams as RELATED_POSITION_PARAMS).minLateralOffset
+              (car.locationParams as RELATED_POSITION_PARAMS).lateralOffset[0]
             }
+            onChange={(e) => {
+              simpleSetLocationParams("lateralOffset", [
+                e,
+                (car.locationParams as RELATED_POSITION_PARAMS).lateralOffset[1],
+              ]);
+            }}
+          />
+          <span style={{ margin: "0 10px" }}>-</span>
+          <InputNumber
+            style={{ width: 62 }}
+            value={
+              (car.locationParams as RELATED_POSITION_PARAMS).lateralOffset[1]
+            }
+            onChange={(e) => {
+              simpleSetLocationParams("lateralOffset", [
+                (car.locationParams as RELATED_POSITION_PARAMS).lateralOffset[0],
+                e,
+              ]);
+            }}
           />
         </Form.Item>
-        <Form.Item label="maxLateralOffset" labelCol={{ span: 6 }}>
+        <Form.Item label="longitudinalOffset" labelCol={{ span: 6 }}>
           <InputNumber
-            style={{ width: 150 }}
-            onChange={(e) => {
-              simpleSetLocationParams("maxLateralOffset", e);
-            }}
+            style={{ width: 62 }}
             value={
-              (car.locationParams as RELATED_POSITION_PARAMS).maxLateralOffset
+              (car.locationParams as RELATED_POSITION_PARAMS).longitudinalOffset[0]
             }
+            onChange={(e) => {
+              simpleSetLocationParams("longitudinalOffset", [
+                e,
+                (car.locationParams as RELATED_POSITION_PARAMS)
+                  .longitudinalOffset[1],
+              ]);
+            }}
           />
-        </Form.Item>
-        <Form.Item label="minLongitudinalOffset" labelCol={{ span: 6 }}>
+          <span style={{ margin: "0 10px" }}>-</span>
           <InputNumber
-            style={{ width: 150 }}
-            onChange={(e) => {
-              simpleSetLocationParams("minLongitudinalOffset", e);
-            }}
+            style={{ width: 62 }}
             value={
-              (car.locationParams as RELATED_POSITION_PARAMS)
-                .minLongitudinalOffset
+              (car.locationParams as RELATED_POSITION_PARAMS).longitudinalOffset[1]
             }
-          />
-        </Form.Item>
-        <Form.Item label="maxLongitudinalOffset" labelCol={{ span: 6 }}>
-          <InputNumber
-            style={{ width: 150 }}
             onChange={(e) => {
-              simpleSetLocationParams("maxLongitudinalOffset", e);
+              simpleSetLocationParams("longitudinalOffset", [
+                (car.locationParams as RELATED_POSITION_PARAMS)
+                  .longitudinalOffset[0],
+                e,
+              ]);
             }}
-            value={
-              (car.locationParams as RELATED_POSITION_PARAMS)
-                .maxLongitudinalOffset
-            }
           />
         </Form.Item>
       </>

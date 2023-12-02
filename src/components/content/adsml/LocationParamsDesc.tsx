@@ -15,7 +15,9 @@ function LocationParamsDesc(props: LocationParamsDescProps): ReactElement {
         items={Object.keys(props.params).map((k) => ({
           label: k,
           key: k,
-          children: props.params[k as keyof LOCATION_PARAMS],
+          children: Array.isArray(props.params[k as keyof LOCATION_PARAMS])
+            ? JSON.stringify(props.params[k as keyof LOCATION_PARAMS])
+            : props.params[k as keyof LOCATION_PARAMS],
         }))}
       />
     </>

@@ -9,6 +9,7 @@ import type { BranchPoint } from "../../../src/model/BranchPoint";
 import type { CommonTransition } from "../../../src/model/CommonTransition";
 import type { ProbabilityTransition } from "../../../src/model/ProbabilityTransition";
 import path from "path";
+import random from "random";
 
 let nameCarMap: Map<string, Car>;
 
@@ -83,14 +84,33 @@ const _initBehavior = (sourceBehavior: Behavior) => {
   }
 };
 
+interface ANY_LOCATION_PARAMS {
+  x?: [number, number];
+  y?: [number, number];
+  roadId?: number;
+  laneId?: number;
+  actorRef?: string;
+  lateralOffset?: [number, number];
+  longitudinalOffset?: [number, number];
+}
+
 const initLocationParams = (car: Car) => {
-  const { locationParams }: { locationParams: any } = car;
-  car.x = locationParams.x ?? 0.0;
-  car.y = locationParams.y ?? 0.0;
-  car.minOffset = locationParams.minLongitudinalOffset ?? 0.0;
-  car.maxOffset = locationParams.maxLongitudinalOffset ?? 0.0;
-  car.minLateralOffset = locationParams.minLateralOffset ?? 0.0;
-  car.maxLateralOffset = locationParams.maxLateralOffset ?? 0.0;
+  // only support v0.2.0+
+  const { locationParams }: { locationParams: ANY_LOCATION_PARAMS } = car;
+  if (locationParams.x !== void 0) {
+    car.x = random.int(locationParams.x[0], locationParams.x[1]);
+  } else {
+    car.x = 0;
+  }
+  if (locationParams.y !== void 0) {
+    car.y = random.int(locationParams.y[0], locationParams.y[1]);
+  } else {
+    car.y = 0;
+  }
+  car.minOffset = locationParams.longitudinalOffset?.[0] ?? 0;
+  car.maxOffset = locationParams.longitudinalOffset?.[1] ?? 0;
+  car.minLateralOffset = locationParams.lateralOffset?.[0] ?? 0;
+  car.maxLateralOffset = locationParams.lateralOffset?.[1] ?? 0;
   car.roadId = locationParams.roadId ?? 0;
   car.laneId = locationParams.laneId ?? 0;
   car.actorRef = locationParams.actorRef ?? "";
@@ -153,15 +173,15 @@ const initEdge = (car: Car) => {
         }
       }
     }
+  }
 
-    for (const behavior of behaviors) {
-      if (behavior.id === mTree.rootId) {
-        behavior.level = 1;
-        behavior.group = 1;
-        behavior.number = 0;
-        _initBehavior(behavior);
-        break;
-      }
+  for (const behavior of behaviors) {
+    if (behavior.id === mTree.rootId) {
+      behavior.level = 1;
+      behavior.group = 1;
+      behavior.number = 0;
+      _initBehavior(behavior);
+      break;
     }
   }
 };
@@ -219,6 +239,9 @@ const parseModel = (_e: any, content: string, workSpacePath: string) => {
   } else {
     model.map = path.resolve(__filename, "../../resources/map/" + model.map);
   }
+  if (Array.isArray(model.weather)) {
+    model.weather = model.weather[random.int(0, model.weather.length - 1)];
+  }
 
   const cars: Car[] = [];
   for (const car of model.cars) {
@@ -226,6 +249,12 @@ const parseModel = (_e: any, content: string, workSpacePath: string) => {
     const treeContent = readFile(_e, absolutePath);
     const tree: Tree = JSON.parse(treeContent);
     car.mTree = tree;
+    if (Array.isArray(car.roadDeviation)) {
+      car.roadDeviation = random.int(
+        car.roadDeviation[0],
+        car.roadDeviation[1]
+      );
+    }
     initLocationParams(car);
     initEdge(car);
     modifyId(car);

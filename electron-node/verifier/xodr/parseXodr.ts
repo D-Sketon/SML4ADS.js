@@ -286,7 +286,7 @@ const parseRoad = (
   //    int successorElementType;
   const link = roadElement.link;
 
-  const predecessor = link.predecessor;
+  const predecessor = link?.predecessor;
   const elementId = predecessor
     ? parseInt(predecessor["@_elementId"] + "")
     : -1;
@@ -299,7 +299,7 @@ const parseRoad = (
       : ELEMENT_TYPES.NONE;
   road.predecessorId = elementId;
 
-  const successor = link.successor;
+  const successor = link?.successor;
 
   const successorElementId = successor
     ? parseInt(successor["@_elementId"] + "")

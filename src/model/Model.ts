@@ -47,22 +47,27 @@ type BaseModel = {
   simulatorType: SIMULATOR_TYPES;
   mapType: MAP_TYPES;
   map: string;
-  weather: WEATHER_TYPES_CARLA[] | WEATHER_TYPES_LGSVL[];
   timeStep: number;
   simulationTime: number;
   scenarioEndTrigger: string;
   requirements: string[];
   parametricStls: string[];
   parameters: string[];
-}
+};
 
 export type MModel = BaseModel & {
+  weather: WEATHER_TYPES_CARLA[] | WEATHER_TYPES_LGSVL[];
   cars: MCar[];
-}
+};
 
 export type Model = BaseModel & {
+  weather:
+    | WEATHER_TYPES_CARLA[] // support MModel
+    | WEATHER_TYPES_LGSVL[] // support MModel
+    | WEATHER_TYPES_CARLA
+    | WEATHER_TYPES_LGSVL;
   cars: Car[];
-}
+};
 
 export const defaultModel: () => MModel = () => ({
   simulatorType: SIMULATOR_TYPES.CARLA,

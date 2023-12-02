@@ -62,15 +62,16 @@ type BaseCar = {
   minSpeed: number | null;
   locationParams: LOCATION_PARAMS;
   heading: boolean;
-  roadDeviation: [number, number];
   treePath: string;
 };
 
 export type MCar = BaseCar & {
+  roadDeviation: [number, number];
   mTree?: MTree;
 };
 
 export type Car = BaseCar & {
+  roadDeviation: number | [number, number];
   mTree: Tree;
 } & {
   roadId: number;

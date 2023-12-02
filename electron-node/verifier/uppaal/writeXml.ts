@@ -22,6 +22,17 @@ import { Lane } from "../xodr/model/Lane";
 import { LaneSection } from "../xodr/model/LaneSection";
 import { Road } from "../xodr/model/Road";
 import path from "path";
+import random from "random";
+import {
+  BERNOULLI_DISTRIBUTION_SPEED_PARAMS,
+  BINOMIAL_DISTRIBUTION_SPEED_PARAMS,
+  CHI_SQUARED_DISTRIBUTION_SPEED_PARAMS,
+  MANUAL_SPEED_PARAMS,
+  NORMAL_DISTRIBUTION_SPEED_PARAMS,
+  POISSON_DISTRIBUTION_SPEED_PARAMS,
+  SPEED_TYPES,
+  UNIFORM_DISTRIBUTION_SPEED_PARAMS,
+} from "../../../src/model/params/ParamSpeed";
 
 let cars: Car[];
 let map: string;
@@ -195,10 +206,36 @@ const _addDeclaration = (_e: any, wrapper: { buffer: string }) => {
     for (let i = 0; i < countOfCar; i++) {
       wrapper.buffer += "{";
       wrapper.buffer += `${i}, `;
-      wrapper.buffer += `${f(cars[i].width)}, `;
-      wrapper.buffer += `${f(cars[i].length)}, `;
+      wrapper.buffer += `${f(cars[i].width ?? 0)}, `;
+      wrapper.buffer += `${f(cars[i].length ?? 0)}, `;
       wrapper.buffer += `${cars[i].heading}, `;
-      wrapper.buffer += `${f(cars[i].initSpeed)}, `;
+      if (cars[i].speedType === SPEED_TYPES.MANUAL) {
+        wrapper.buffer += `${f(
+          (cars[i].speedParams as MANUAL_SPEED_PARAMS).initSpeed
+        )}, `;
+      } else if (cars[i].speedType === SPEED_TYPES.UNIFORM_DISTRIBUTION) {
+        const { a, b } = cars[i]
+          .speedParams as UNIFORM_DISTRIBUTION_SPEED_PARAMS;
+        wrapper.buffer += `${f(random.uniformInt(a, b)())}, `;
+      } else if (cars[i].speedType === SPEED_TYPES.NORMAL_DISTRIBUTION) {
+        const { mean, std } = cars[i]
+          .speedParams as NORMAL_DISTRIBUTION_SPEED_PARAMS;
+        wrapper.buffer += `${f(random.normal(mean, std)())}, `;
+      } else if (cars[i].speedType === SPEED_TYPES.BERNOULLI_DISTRIBUTION) {
+        const { p } = cars[i]
+          .speedParams as BERNOULLI_DISTRIBUTION_SPEED_PARAMS;
+        wrapper.buffer += `${f(random.bernoulli(p)())}, `;
+      } else if (cars[i].speedType === SPEED_TYPES.BERNOULLI_DISTRIBUTION) {
+        const { n, p } = cars[i]
+          .speedParams as BINOMIAL_DISTRIBUTION_SPEED_PARAMS;
+        wrapper.buffer += `${f(random.binomial(n, p)())}, `;
+      } else if (cars[i].speedType === SPEED_TYPES.POISSON_DISTRIBUTION) {
+        const { lambda } = cars[i]
+          .speedParams as POISSON_DISTRIBUTION_SPEED_PARAMS;
+        wrapper.buffer += `${f(random.poisson(lambda)())}, `;
+      } else {
+        throw new Error("Current speed type is not supported.");
+      }
       wrapper.buffer += `0, `;
       wrapper.buffer += `${f(cars[i].maxSpeed)}, `;
       wrapper.buffer += `${cars[i].roadId}, `;
@@ -207,7 +244,7 @@ const _addDeclaration = (_e: any, wrapper: { buffer: string }) => {
       wrapper.buffer += `${cars[i].roadIndex}, `;
       wrapper.buffer += `${cars[i].laneSectionIndex}, `;
       wrapper.buffer += `${cars[i].laneIndex}, `;
-      wrapper.buffer += `${f(cars[i].offset)}`;
+      wrapper.buffer += `${f(cars[i].offset ?? 0)}`;
       wrapper.buffer += "}";
 
       wrapper.buffer += i !== countOfCar - 1 ? ",\n" : "\n";
@@ -757,15 +794,11 @@ const initModel = (model: Model) => {
 
 const writeXml = (_e: any, model: Model, outputPath: string) => {
   initModel(model);
-  try {
-    let buffer = "";
-    buffer += XML_HEAD;
-    buffer += UPPAAL_HEAD;
-    buffer = addNta(_e, buffer);
-    writeFileSync(outputPath, buffer);
-  } catch (error: any) {
-    _e?.sender.send("ui:onOpenNotification", "error", "Error", error.message);
-  }
+  let buffer = "";
+  buffer += XML_HEAD;
+  buffer += UPPAAL_HEAD;
+  buffer = addNta(_e, buffer);
+  writeFileSync(outputPath, buffer);
 };
 
 export default writeXml;

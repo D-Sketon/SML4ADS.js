@@ -16,6 +16,9 @@ dependencies:
   fast-xml-parser:
     specifier: ^4.3.2
     version: registry.npmmirror.com/fast-xml-parser@4.3.2
+  random:
+    specifier: ^3.0.6
+    version: registry.npmmirror.com/random@3.0.6
   react:
     specifier: ^18.2.0
     version: registry.npmmirror.com/react@18.2.0
@@ -13061,6 +13064,15 @@ packages:
     dependencies:
       performance-now: registry.npmmirror.com/performance-now@2.1.0
 
+  registry.npmmirror.com/random@3.0.6:
+    resolution: {integrity: sha512-B53pp/8eFBxULg6sfQgjjmy3vZ2CWVt0Nk4OgkSpvmAf3VXfcEUgGASbNWbXiTiExWe8hCIf5HlddNHzrte9jg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/random/-/random-3.0.6.tgz}
+    name: random
+    version: 3.0.6
+    engines: {node: '>=10'}
+    dependencies:
+      seedrandom: registry.npmmirror.com/seedrandom@3.0.5
+    dev: false
+
   registry.npmmirror.com/randombytes@2.1.0:
     resolution: {integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/randombytes/-/randombytes-2.1.0.tgz}
     name: randombytes
@@ -14570,6 +14582,12 @@ packages:
     version: 3.1.0
     dependencies:
       compute-scroll-into-view: registry.npmmirror.com/compute-scroll-into-view@3.1.0
+    dev: false
+
+  registry.npmmirror.com/seedrandom@3.0.5:
+    resolution: {integrity: sha512-8OwmbklUNzwezjGInmZ+2clQmExQPvomqjL7LFqOYqtmuxRgQYqOD3mHaU+MvZn5FLUeVxVfQjwLZW/n/JFuqg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/seedrandom/-/seedrandom-3.0.5.tgz}
+    name: seedrandom
+    version: 3.0.5
     dev: false
 
   registry.npmmirror.com/select-hose@2.0.0:

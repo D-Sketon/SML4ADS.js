@@ -1,4 +1,11 @@
 import { MModel } from "../../../../../model/Model";
+import {
+  GLOBAL_POSITION_PARAMS,
+  LANE_POSITION_PARAMS,
+  LOCATION_TYPES,
+  RELATED_POSITION_PARAMS,
+  ROAD_POSITION_PARAMS,
+} from "../../../../../model/params/ParamLocation";
 import { SPEED_TYPES } from "../../../../../model/params/ParamSpeed";
 
 /**
@@ -82,12 +89,42 @@ function oldModelAdapter(model: MModel): MModel {
     }
     /**
      * from
-     * roadDeviation: number
+     * number
      * to
-     * roadDeviation: [number, number]
+     * [number, number]
      */
     if (car.roadDeviation !== void 0 && !Array.isArray(car.roadDeviation)) {
       car.roadDeviation = [car.roadDeviation, car.roadDeviation];
+    }
+    if (car.locationType === LOCATION_TYPES.GLOBAL_POSITION) {
+      const params = car.locationParams as GLOBAL_POSITION_PARAMS;
+      if (params.x !== void 0 && !Array.isArray(params.x)) {
+        params.x = [params.x, params.x];
+      }
+      if (params.y !== void 0 && !Array.isArray(params.y)) {
+        params.y = [params.y, params.y];
+      }
+    } else {
+      const params = car.locationParams as any;
+      if (
+        params.minLateralOffset !== void 0 &&
+        params.maxLateralOffset !== void 0 &&
+        params.minLongitudinalOffset !== void 0 &&
+        params.maxLongitudinalOffset !== void 0
+      ) {
+        params.lateralOffset = [
+          params.minLateralOffset,
+          params.maxLateralOffset,
+        ];
+        params.longitudinalOffset = [
+          params.minLongitudinalOffset,
+          params.maxLongitudinalOffset,
+        ];
+        params.minLateralOffset = void 0;
+        params.maxLateralOffset = void 0;
+        params.minLongitudinalOffset = void 0;
+        params.maxLongitudinalOffset = void 0;
+      }
     }
   });
   return newModel;

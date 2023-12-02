@@ -74,14 +74,20 @@ function Adsml(props: AdsmlProps): ReactElement {
       return {
         label: k,
         key: k,
-        children: model[k as keyof MModel],
+        children: Array.isArray(model[k as keyof MModel])
+          ? JSON.stringify(model[k as keyof MModel])
+          : model[k as keyof MModel],
       };
     })
     .filter((i) => i) as any;
 
   function handleCarClick(index: number): void {
     const tree = model.cars[index].mTree!;
-    const { nodes, edges } = treeNodeAdapter(tree, setNodes, "ImmutableBehaviorNode");
+    const { nodes, edges } = treeNodeAdapter(
+      tree,
+      setNodes,
+      "ImmutableBehaviorNode"
+    );
     setNodes(nodes);
     setEdges(edges);
   }
@@ -141,7 +147,7 @@ function Adsml(props: AdsmlProps): ReactElement {
                     {
                       label: "roadDeviation",
                       key: "roadDeviation",
-                      children: car.roadDeviation,
+                      children: JSON.stringify(car.roadDeviation),
                     },
                     {
                       label: "treePath",
