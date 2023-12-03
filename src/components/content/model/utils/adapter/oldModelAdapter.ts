@@ -1,10 +1,7 @@
 import { MModel } from "../../../../../model/Model";
 import {
   GLOBAL_POSITION_PARAMS,
-  LANE_POSITION_PARAMS,
   LOCATION_TYPES,
-  RELATED_POSITION_PARAMS,
-  ROAD_POSITION_PARAMS,
 } from "../../../../../model/params/ParamLocation";
 import { SPEED_TYPES } from "../../../../../model/params/ParamSpeed";
 

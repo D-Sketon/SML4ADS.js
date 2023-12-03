@@ -3,79 +3,84 @@ import { CommonTransition } from "./CommonTransition";
 import { MPosition, Position } from "./Position";
 
 export enum BEHAVIOR_TYPES {
-  ACCELERATE = 'Accelerate',
-  DECELERATE = 'Decelerate',
-  KEEP = 'Keep',
-  TURN_LEFT = 'TurnLeft',
-  TURN_RIGHT = 'TurnRight',
-  CHANGE_LEFT = 'ChangeLeft',
-  CHANGE_RIGHT = 'ChangeRight',
-  IDLE = 'Idle',
-  LANE_OFFSET = 'laneOffset',
+  ACCELERATE = "Accelerate",
+  DECELERATE = "Decelerate",
+  KEEP = "Keep",
+  TURN_LEFT = "TurnLeft",
+  TURN_RIGHT = "TurnRight",
+  CHANGE_LEFT = "ChangeLeft",
+  CHANGE_RIGHT = "ChangeRight",
+  IDLE = "Idle",
+  LANE_OFFSET = "laneOffset",
 }
 
 export type KEEP_BEHAVIOR_PARAMS = {
-  duration?: number | null;
-}
+  duration: [number, number] | [null, null];
+};
 
 export const defaultKeepBehaviorParams: () => KEEP_BEHAVIOR_PARAMS = () => ({
-  duration: null
+  duration: [null, null],
 });
 
 export type ACCELERATE_BEHAVIOR_PARAMS = {
-  acceleration: number;
-  targetSpeed: number;
-  duration?: number | null;
-}
+  acceleration: [number, number];
+  targetSpeed: [number, number];
+  duration: [number, number] | [null, null];
+};
 
-export const defaultAccelerateBehaviorParams: () => ACCELERATE_BEHAVIOR_PARAMS = () => ({
-  acceleration: 0,
-  targetSpeed: 0,
-  duration: null,
-});
+export const defaultAccelerateBehaviorParams: () => ACCELERATE_BEHAVIOR_PARAMS =
+  () => ({
+    acceleration: [0, 0],
+    targetSpeed: [0, 0],
+    duration: [null, null],
+  });
 
 export type CHANGE_BEHAVIOR_PARAMS = {
-  acceleration?: number | null;
-  targetSpeed?: number | null;
-}
+  acceleration: [number, number] | [null, null];
+  targetSpeed: [number, number] | [null, null];
+};
 
-export const defaultChangeBehaviorParams: () => CHANGE_BEHAVIOR_PARAMS = () => ({
-  acceleration: null,
-  targetSpeed: null
-});
+export const defaultChangeBehaviorParams: () => CHANGE_BEHAVIOR_PARAMS =
+  () => ({
+    acceleration: [null, null],
+    targetSpeed: [null, null],
+  });
 
 export type TURN_BEHAVIOR_PARAMS = {
-  acceleration: number;
-  targetSpeed: number;
-}
+  acceleration: [number, number];
+  targetSpeed: [number, number];
+};
 
 export const defaultTurnBehaviorParams: () => TURN_BEHAVIOR_PARAMS = () => ({
-  acceleration: 0,
-  targetSpeed: 0,
+  acceleration: [0, 0],
+  targetSpeed: [0, 0],
 });
 
 export type LANE_OFFSET_BEHAVIOR_PARAMS = {
-  offset: number;
-  acceleration?: number | null;
-  targetSpeed?: number | null;
-  duration?: number | null;
-}
+  offset: [number, number];
+  acceleration: [number, number] | [null, null];
+  targetSpeed: [number, number] | [null, null];
+  duration: [number, number] | [null, null];
+};
 
-export const defaultLaneOffsetBehaviorParams: () => LANE_OFFSET_BEHAVIOR_PARAMS = () => ({
-  offset: 0,
-  acceleration: null,
-  targetSpeed: null,
-  duration: null,
-});
+export const defaultLaneOffsetBehaviorParams: () => LANE_OFFSET_BEHAVIOR_PARAMS =
+  () => ({
+    offset: [0, 0],
+    acceleration: [null, null],
+    targetSpeed: [null, null],
+    duration: [null, null],
+  });
 
 export type BEHAVIOR_PARAMS =
   | KEEP_BEHAVIOR_PARAMS
   | ACCELERATE_BEHAVIOR_PARAMS
   | CHANGE_BEHAVIOR_PARAMS
   | TURN_BEHAVIOR_PARAMS
-  | LANE_OFFSET_BEHAVIOR_PARAMS
+  | LANE_OFFSET_BEHAVIOR_PARAMS;
 
-export const defaultBehaviorParams: (type: BEHAVIOR_TYPES) => BEHAVIOR_PARAMS = (type) => {
+export const defaultBehaviorParams: (
+  type: BEHAVIOR_TYPES
+) => BEHAVIOR_PARAMS = (type) => {
   switch (type) {
     case BEHAVIOR_TYPES.KEEP:
       return defaultKeepBehaviorParams();
@@ -92,13 +97,13 @@ export const defaultBehaviorParams: (type: BEHAVIOR_TYPES) => BEHAVIOR_PARAMS = 
     default:
       return defaultKeepBehaviorParams();
   }
-}
+};
 
 type BaseBehavior = {
   id: number;
   name: BEHAVIOR_TYPES;
   params: BEHAVIOR_PARAMS;
-}
+};
 
 export type MBehavior = BaseBehavior & {
   position: MPosition;
@@ -115,4 +120,4 @@ export type Behavior = BaseBehavior & {
   nextTransitions: CommonTransition[];
   nextBehaviors: Behavior[];
   nextBranchPoints: BranchPoint[];
-}
+};

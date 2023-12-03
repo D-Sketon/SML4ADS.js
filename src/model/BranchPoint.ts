@@ -4,11 +4,11 @@ import { ProbabilityTransition } from "./ProbabilityTransition";
 
 type BaseBranchPoint = {
   id: number;
-}
+};
 
 export type MBranchPoint = BaseBranchPoint & {
   position: MPosition;
-}
+};
 
 export type BranchPoint = BaseBranchPoint & {
   position: Position;
@@ -18,4 +18,4 @@ export type BranchPoint = BaseBranchPoint & {
   number: number;
   nextTransitions: ProbabilityTransition[];
   nextBehaviors: Behavior[];
-}
+};

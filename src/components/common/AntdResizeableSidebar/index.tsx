@@ -2,7 +2,6 @@ import { SiderProps } from "antd/lib/layout/Sider";
 import React, { useReducer } from "react";
 import Sider from "antd/lib/layout/Sider";
 
-
 // Cast minwidth as number to allow for % etc.
 function GetWidth(props: SiderProps, xpos: number): number | (string & {}) {
   if (

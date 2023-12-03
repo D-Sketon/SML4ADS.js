@@ -86,8 +86,9 @@ export type WEIGHT_PARAMS =
   | POISSON_DISTRIBUTION_WEIGHT_PARAMS
   | CHI_SQUARED_DISTRIBUTION_WEIGHT_PARAMS;
 
-
-export const defaultWeightParams: (type: WEIGHT_TYPES) => WEIGHT_PARAMS = (type) => {
+export const defaultWeightParams: (type: WEIGHT_TYPES) => WEIGHT_PARAMS = (
+  type
+) => {
   switch (type) {
     case WEIGHT_TYPES.MANUAL:
       return defaultManualWeightParams();

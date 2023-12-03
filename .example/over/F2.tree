@@ -1,1 +1,1 @@
-{"rootId":0,"behaviors":[{"id":0,"name":"Keep","params":{"duration":""},"position":{"x":200,"y":200}}],"branchPoints":[],"commonTransitions":[],"probabilityTransitions":[]}
+{"rootId":0,"behaviors":[{"id":0,"name":"Keep","params":{"duration":[null,null]},"position":{"x":200,"y":200}}],"branchPoints":[],"commonTransitions":[],"probabilityTransitions":[]}

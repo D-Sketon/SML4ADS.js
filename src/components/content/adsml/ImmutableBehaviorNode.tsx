@@ -33,10 +33,11 @@ function ImmutableBehaviorNode({ data, isConnectable }: any): ReactElement {
             return {
               key: k,
               label: k,
-              children:
-                params[k as keyof BEHAVIOR_PARAMS] === ""
-                  ? "N/A"
-                  : params[k as keyof BEHAVIOR_PARAMS],
+              children: JSON.stringify(
+                (params[k as keyof BEHAVIOR_PARAMS] as any).map(
+                  (i: number | null) => i ?? "N/A"
+                )
+              ),
             };
           }),
         ]}

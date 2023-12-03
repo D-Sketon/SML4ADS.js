@@ -97,7 +97,9 @@ export type SPEED_PARAMS =
   | CHI_SQUARED_DISTRIBUTION_SPEED_PARAMS
   | CUSTOMIZED_DISTRIBUTION_SPEED_PARAMS;
 
-export const defaultSpeedParams: (type: SPEED_TYPES) => SPEED_PARAMS = (type) => {
+export const defaultSpeedParams: (type: SPEED_TYPES) => SPEED_PARAMS = (
+  type
+) => {
   switch (type) {
     case SPEED_TYPES.MANUAL:
       return defaultManualSpeedParams();
@@ -118,4 +120,4 @@ export const defaultSpeedParams: (type: SPEED_TYPES) => SPEED_PARAMS = (type) =>
     default:
       return defaultManualSpeedParams();
   }
-}
+};

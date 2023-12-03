@@ -61,7 +61,9 @@ export type LOCATION_PARAMS =
   | ROAD_POSITION_PARAMS
   | RELATED_POSITION_PARAMS;
 
-export const defaultLocationParams: (type: LOCATION_TYPES) => LOCATION_PARAMS = (type) => {
+export const defaultLocationParams: (
+  type: LOCATION_TYPES
+) => LOCATION_PARAMS = (type) => {
   switch (type) {
     case LOCATION_TYPES.GLOBAL_POSITION:
       return defaultGlobalPositionParams();
@@ -72,4 +74,4 @@ export const defaultLocationParams: (type: LOCATION_TYPES) => LOCATION_PARAMS = 
     case LOCATION_TYPES.RELATED_POSITION:
       return defaultRelatedPositionParams();
   }
-}
+};

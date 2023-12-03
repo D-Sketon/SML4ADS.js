@@ -8,15 +8,15 @@ type BaseProbabilityTransition = {
   sourceId: number;
   targetId: number;
   weight: {
-    type: WEIGHT_TYPES,
-    params: WEIGHT_PARAMS,
+    type: WEIGHT_TYPES;
+    params: WEIGHT_PARAMS;
   };
-}
+};
 
 export type MProbabilityTransition = BaseProbabilityTransition & {
   linkPoints?: MPosition[];
   treeTextPosition?: MPosition;
-}
+};
 
 export type ProbabilityTransition = BaseProbabilityTransition & {
   linkPoints?: Position[];
@@ -27,4 +27,4 @@ export type ProbabilityTransition = BaseProbabilityTransition & {
   number: number;
   sourceBranchPoint: BranchPoint;
   targetBehavior: Behavior;
-}
+};

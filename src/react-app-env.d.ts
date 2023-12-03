@@ -5,7 +5,12 @@ export interface IElectronAPI {
   deleteFile: (path: string) => Promise<boolean>;
   newProject: (projectName: string, projectPath: string) => Promise<boolean>;
   newDirectory: (path: string, name: string) => Promise<boolean>;
-  newFile: (path: string, name: string, ext: string, content?: string) => Promise<boolean>;
+  newFile: (
+    path: string,
+    name: string,
+    ext: string,
+    content?: string
+  ) => Promise<boolean>;
   writeJson: (path: string, data: any) => Promise<boolean>;
   getRelativePath: (from: string, to: string) => Promise<string>;
   getAbsolutePath: (root: string, ...paths: string[]) => Promise<string>;
@@ -13,15 +18,23 @@ export interface IElectronAPI {
   chooseFile: (filter: string[]) => Promise<any>;
   chooseDirectory: () => Promise<any>;
 
-  ADSML2Uppaal: (workSpacePath: string, modelPath: string, outputPath: string) => Promise<void>;
+  ADSML2Uppaal: (
+    workSpacePath: string,
+    modelPath: string,
+    outputPath: string
+  ) => Promise<void>;
 
   simulate: (params: any, port: number, host?: string) => Promise<void>;
   pstlMonitor: (params: any, port: number, host?: string) => Promise<void>;
 
-  onOpenNotification: (callback: (event: any,
-    type: 'success' | 'info' | 'warning' | 'error',
-    title: string,
-    content: string) => any) => any;
+  onOpenNotification: (
+    callback: (
+      event: any,
+      type: "success" | "info" | "warning" | "error",
+      title: string,
+      content: string
+    ) => any
+  ) => any;
   onNewDirectory: (callback: (event: any) => any) => any;
   onNewFile: (callback: (event: any, ext: string) => any) => any;
   onDeleteFile: (callback: (event: any) => any) => any;

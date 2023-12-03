@@ -8,8 +8,8 @@ import "codemirror/lib/codemirror.css";
 import "codemirror/theme/panda-syntax.css";
 import "codemirror/mode/javascript/javascript";
 import "codemirror/addon/lint/json-lint";
-import 'codemirror/addon/scroll/simplescrollbars.css'
-import 'codemirror/addon/scroll/simplescrollbars'
+import "codemirror/addon/scroll/simplescrollbars.css";
+import "codemirror/addon/scroll/simplescrollbars";
 
 import "./index.less";
 
@@ -53,10 +53,10 @@ function Text(props: TextProps): ReactElement {
         options={{
           mode: simpleExt,
           lineNumbers: true,
-          scrollbarStyle: 'simple',
+          scrollbarStyle: "simple",
         }}
         editorDidMount={(editor) => {
-          editor.setSize("auto", '100%');
+          editor.setSize("auto", "100%");
         }}
         onBeforeChange={(editor, data, value) => {}}
         onChange={(editor, data, value) => {}}

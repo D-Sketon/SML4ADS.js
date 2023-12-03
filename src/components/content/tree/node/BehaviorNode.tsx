@@ -64,10 +64,25 @@ function BehaviorNode({ data, isConnectable }: any): ReactElement {
       <Form.Item label="duration">
         <InputNumber
           min={0}
-          style={{ width: 150 }}
-          value={(params as KEEP_BEHAVIOR_PARAMS).duration ?? ""}
+          style={{ width: 62 }}
+          value={(params as KEEP_BEHAVIOR_PARAMS).duration[0]}
           onChange={(e) => {
-            handleParamsChange("duration", e);
+            handleParamsChange("duration", [
+              e,
+              (params as KEEP_BEHAVIOR_PARAMS).duration[1],
+            ]);
+          }}
+        />
+        <span style={{ margin: "0 10px" }}>-</span>
+        <InputNumber
+          min={0}
+          style={{ width: 62 }}
+          value={(params as KEEP_BEHAVIOR_PARAMS).duration[1]}
+          onChange={(e) => {
+            handleParamsChange("duration", [
+              (params as KEEP_BEHAVIOR_PARAMS).duration[0],
+              e,
+            ]);
           }}
         />
       </Form.Item>
@@ -80,30 +95,75 @@ function BehaviorNode({ data, isConnectable }: any): ReactElement {
         <Form.Item label="*acceleration" rules={[{ required: true }]}>
           <InputNumber
             min={0}
-            style={{ width: 150 }}
-            value={(params as ACCELERATE_BEHAVIOR_PARAMS).acceleration}
+            style={{ width: 62 }}
+            value={(params as ACCELERATE_BEHAVIOR_PARAMS).acceleration[0]}
             onChange={(e) => {
-              handleParamsChange("acceleration", e);
+              handleParamsChange("acceleration", [
+                e,
+                (params as ACCELERATE_BEHAVIOR_PARAMS).acceleration[1],
+              ]);
+            }}
+          />
+          <span style={{ margin: "0 10px" }}>-</span>
+          <InputNumber
+            min={0}
+            style={{ width: 62 }}
+            value={(params as ACCELERATE_BEHAVIOR_PARAMS).acceleration[1]}
+            onChange={(e) => {
+              handleParamsChange("acceleration", [
+                (params as ACCELERATE_BEHAVIOR_PARAMS).acceleration[0],
+                e,
+              ]);
             }}
           />
         </Form.Item>
         <Form.Item label="*target speed" rules={[{ required: true }]}>
           <InputNumber
             min={0}
-            style={{ width: 150 }}
-            value={(params as ACCELERATE_BEHAVIOR_PARAMS).targetSpeed}
+            style={{ width: 62 }}
+            value={(params as ACCELERATE_BEHAVIOR_PARAMS).targetSpeed[0]}
             onChange={(e) => {
-              handleParamsChange("targetSpeed", e);
+              handleParamsChange("targetSpeed", [
+                e,
+                (params as ACCELERATE_BEHAVIOR_PARAMS).targetSpeed[1],
+              ]);
+            }}
+          />
+          <span style={{ margin: "0 10px" }}>-</span>
+          <InputNumber
+            min={0}
+            style={{ width: 62 }}
+            value={(params as ACCELERATE_BEHAVIOR_PARAMS).targetSpeed[1]}
+            onChange={(e) => {
+              handleParamsChange("targetSpeed", [
+                (params as ACCELERATE_BEHAVIOR_PARAMS).targetSpeed[0],
+                e,
+              ]);
             }}
           />
         </Form.Item>
         <Form.Item label="duration">
+        <InputNumber
+            min={0}
+            style={{ width: 62 }}
+            value={(params as ACCELERATE_BEHAVIOR_PARAMS).duration[0]}
+            onChange={(e) => {
+              handleParamsChange("duration", [
+                e,
+                (params as ACCELERATE_BEHAVIOR_PARAMS).duration[1],
+              ]);
+            }}
+          />
+          <span style={{ margin: "0 10px" }}>-</span>
           <InputNumber
             min={0}
-            style={{ width: 150 }}
-            value={(params as ACCELERATE_BEHAVIOR_PARAMS).duration ?? ""}
+            style={{ width: 62 }}
+            value={(params as ACCELERATE_BEHAVIOR_PARAMS).duration[1]}
             onChange={(e) => {
-              handleParamsChange("duration", e);
+              handleParamsChange("duration", [
+                (params as ACCELERATE_BEHAVIOR_PARAMS).duration[0],
+                e,
+              ]);
             }}
           />
         </Form.Item>
@@ -116,20 +176,49 @@ function BehaviorNode({ data, isConnectable }: any): ReactElement {
       <>
         <Form.Item label="acceleration">
           <InputNumber
-            style={{ width: 150 }}
-            value={(params as CHANGE_BEHAVIOR_PARAMS).acceleration ?? ""}
+            style={{ width: 62 }}
+            value={(params as CHANGE_BEHAVIOR_PARAMS).acceleration[0]}
             onChange={(e) => {
-              handleParamsChange("acceleration", e);
+              handleParamsChange("acceleration", [
+                e,
+                (params as CHANGE_BEHAVIOR_PARAMS).acceleration[1],
+              ]);
+            }}
+          />
+          <span style={{ margin: "0 10px" }}>-</span>
+          <InputNumber
+            style={{ width: 62 }}
+            value={(params as CHANGE_BEHAVIOR_PARAMS).acceleration[1]}
+            onChange={(e) => {
+              handleParamsChange("acceleration", [
+                (params as CHANGE_BEHAVIOR_PARAMS).acceleration[0],
+                e,
+              ]);
             }}
           />
         </Form.Item>
         <Form.Item label="target speed">
           <InputNumber
             min={0}
-            style={{ width: 150 }}
-            value={(params as CHANGE_BEHAVIOR_PARAMS).targetSpeed ?? ""}
+            style={{ width: 62 }}
+            value={(params as CHANGE_BEHAVIOR_PARAMS).targetSpeed[0]}
             onChange={(e) => {
-              handleParamsChange("targetSpeed", e);
+              handleParamsChange("targetSpeed", [
+                e,
+                (params as CHANGE_BEHAVIOR_PARAMS).targetSpeed[1],
+              ]);
+            }}
+          />
+          <span style={{ margin: "0 10px" }}>-</span>
+          <InputNumber
+            min={0}
+            style={{ width: 62 }}
+            value={(params as CHANGE_BEHAVIOR_PARAMS).targetSpeed[1]}
+            onChange={(e) => {
+              handleParamsChange("targetSpeed", [
+                (params as CHANGE_BEHAVIOR_PARAMS).targetSpeed[0],
+                e,
+              ]);
             }}
           />
         </Form.Item>
@@ -142,20 +231,49 @@ function BehaviorNode({ data, isConnectable }: any): ReactElement {
       <>
         <Form.Item label="*acceleration" rules={[{ required: true }]}>
           <InputNumber
-            style={{ width: 150 }}
-            value={(params as TURN_BEHAVIOR_PARAMS).acceleration}
+            style={{ width: 62 }}
+            value={(params as TURN_BEHAVIOR_PARAMS).acceleration[0]}
             onChange={(e) => {
-              handleParamsChange("acceleration", e);
+              handleParamsChange("acceleration", [
+                e,
+                (params as TURN_BEHAVIOR_PARAMS).acceleration[1],
+              ]);
+            }}
+          />
+          <span style={{ margin: "0 10px" }}>-</span>
+          <InputNumber
+            style={{ width: 62 }}
+            value={(params as TURN_BEHAVIOR_PARAMS).acceleration[1]}
+            onChange={(e) => {
+              handleParamsChange("acceleration", [
+                (params as TURN_BEHAVIOR_PARAMS).acceleration[0],
+                e,
+              ]);
             }}
           />
         </Form.Item>
         <Form.Item label="*target speed" rules={[{ required: true }]}>
           <InputNumber
             min={0}
-            style={{ width: 150 }}
-            value={(params as TURN_BEHAVIOR_PARAMS).targetSpeed}
+            style={{ width: 62 }}
+            value={(params as TURN_BEHAVIOR_PARAMS).targetSpeed[0]}
             onChange={(e) => {
-              handleParamsChange("targetSpeed", e);
+              handleParamsChange("targetSpeed", [
+                e,
+                (params as TURN_BEHAVIOR_PARAMS).targetSpeed[1],
+              ]);
+            }}
+          />
+          <span style={{ margin: "0 10px" }}>-</span>
+          <InputNumber
+            min={0}
+            style={{ width: 62 }}
+            value={(params as TURN_BEHAVIOR_PARAMS).targetSpeed[1]}
+            onChange={(e) => {
+              handleParamsChange("targetSpeed", [
+                (params as TURN_BEHAVIOR_PARAMS).targetSpeed[0],
+                e,
+              ]);
             }}
           />
         </Form.Item>
@@ -168,40 +286,97 @@ function BehaviorNode({ data, isConnectable }: any): ReactElement {
       <>
         <Form.Item label="*offset" rules={[{ required: true }]}>
           <InputNumber
-            min={0}
-            style={{ width: 150 }}
-            value={(params as LANE_OFFSET_BEHAVIOR_PARAMS).offset}
+            style={{ width: 62 }}
+            value={(params as LANE_OFFSET_BEHAVIOR_PARAMS).offset[0]}
             onChange={(e) => {
-              handleParamsChange("offset", e);
+              handleParamsChange("offset", [
+                e,
+                (params as LANE_OFFSET_BEHAVIOR_PARAMS).offset[1],
+              ]);
+            }}
+          />
+          <span style={{ margin: "0 10px" }}>-</span>
+          <InputNumber
+            style={{ width: 62 }}
+            value={(params as LANE_OFFSET_BEHAVIOR_PARAMS).offset[1]}
+            onChange={(e) => {
+              handleParamsChange("offset", [
+                (params as LANE_OFFSET_BEHAVIOR_PARAMS).offset[0],
+                e,
+              ]);
             }}
           />
         </Form.Item>
         <Form.Item label="acceleration">
           <InputNumber
-            style={{ width: 150 }}
-            value={(params as LANE_OFFSET_BEHAVIOR_PARAMS).acceleration ?? ""}
+            style={{ width: 62 }}
+            value={(params as LANE_OFFSET_BEHAVIOR_PARAMS).acceleration[0]}
             onChange={(e) => {
-              handleParamsChange("acceleration", e);
+              handleParamsChange("acceleration", [
+                e,
+                (params as LANE_OFFSET_BEHAVIOR_PARAMS).acceleration[1],
+              ]);
+            }}
+          />
+          <span style={{ margin: "0 10px" }}>-</span>
+          <InputNumber
+            style={{ width: 62 }}
+            value={(params as LANE_OFFSET_BEHAVIOR_PARAMS).acceleration[1]}
+            onChange={(e) => {
+              handleParamsChange("acceleration", [
+                (params as LANE_OFFSET_BEHAVIOR_PARAMS).acceleration[0],
+                e,
+              ]);
             }}
           />
         </Form.Item>
         <Form.Item label="target speed">
           <InputNumber
             min={0}
-            style={{ width: 150 }}
-            value={(params as LANE_OFFSET_BEHAVIOR_PARAMS).targetSpeed ?? ""}
+            style={{ width: 62 }}
+            value={(params as LANE_OFFSET_BEHAVIOR_PARAMS).targetSpeed[0]}
             onChange={(e) => {
-              handleParamsChange("targetSpeed", e);
+              handleParamsChange("targetSpeed", [
+                e,
+                (params as LANE_OFFSET_BEHAVIOR_PARAMS).targetSpeed[1],
+              ]);
+            }}
+          />
+          <span style={{ margin: "0 10px" }}>-</span>
+          <InputNumber
+            min={0}
+            style={{ width: 62 }}
+            value={(params as LANE_OFFSET_BEHAVIOR_PARAMS).targetSpeed[1]}
+            onChange={(e) => {
+              handleParamsChange("targetSpeed", [
+                (params as LANE_OFFSET_BEHAVIOR_PARAMS).targetSpeed[0],
+                e,
+              ]);
             }}
           />
         </Form.Item>
         <Form.Item label="duration">
           <InputNumber
             min={0}
-            style={{ width: 150 }}
-            value={(params as LANE_OFFSET_BEHAVIOR_PARAMS).duration ?? ""}
+            style={{ width: 62 }}
+            value={(params as LANE_OFFSET_BEHAVIOR_PARAMS).duration[0]}
             onChange={(e) => {
-              handleParamsChange("duration", e);
+              handleParamsChange("duration", [
+                e,
+                (params as LANE_OFFSET_BEHAVIOR_PARAMS).duration[1],
+              ]);
+            }}
+          />
+          <span style={{ margin: "0 10px" }}>-</span>
+          <InputNumber
+            min={0}
+            style={{ width: 62 }}
+            value={(params as LANE_OFFSET_BEHAVIOR_PARAMS).duration[1]}
+            onChange={(e) => {
+              handleParamsChange("duration", [
+                (params as LANE_OFFSET_BEHAVIOR_PARAMS).duration[0],
+                e,
+              ]);
             }}
           />
         </Form.Item>

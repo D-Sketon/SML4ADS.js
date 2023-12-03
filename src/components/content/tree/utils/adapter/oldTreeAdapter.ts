@@ -19,6 +19,18 @@ function oldTreeAdapter(tree: MTree): MTree {
       };
     }
   });
+  newTree.behaviors.forEach((behavior) => {
+    for (const [key, value] of Object.entries(behavior.params)) {
+      if (!Array.isArray(value)) {
+        // @ts-ignore
+        behavior.params[key] = [value, value];
+      }
+      // @ts-ignore
+      behavior.params[key] = behavior.params[key].map((v) =>
+        v === "" ? null : v
+      );
+    }
+  });
   return newTree;
 }
 

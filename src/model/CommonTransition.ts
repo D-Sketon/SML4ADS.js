@@ -7,13 +7,13 @@ type BaseCommonTransition = {
   id: number;
   sourceId: number;
   targetId: number;
-}
+};
 
 export type MCommonTransition = BaseCommonTransition & {
   linkPoints?: MPosition[];
   guard: string;
   treeTextPosition?: MPosition;
-}
+};
 
 export type CommonTransition = BaseCommonTransition & {
   linkPoints?: Position[];
@@ -26,4 +26,4 @@ export type CommonTransition = BaseCommonTransition & {
   sourceBehavior: Behavior;
   targetBehavior: Behavior;
   targetBranchPoint: BranchPoint;
-}
+};

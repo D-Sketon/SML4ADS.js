@@ -41,35 +41,35 @@ export function addFilePath(path: string) {
   return {
     type: ActionType.ADD_FILE_PATH,
     payload: {
-      path: path.replace(/\\/g,'/'),
+      path: path.replace(/\\/g, "/"),
       ext: path.split(".").pop(),
     },
-  }
+  };
 }
 
 export function removeFilePath(path: string) {
   return {
     type: ActionType.REMOVE_FILE_PATH,
     payload: {
-      path: path.replace(/\\/g,'/'),
+      path: path.replace(/\\/g, "/"),
     },
-  }
+  };
 }
 
 export function activateFilePath(path: string) {
   return {
     type: ActionType.ACTIVATE_FILE_PATH,
     payload: {
-      path: path.replace(/\\/g,'/'),
+      path: path.replace(/\\/g, "/"),
     },
-  }
+  };
 }
 
 export function setSaveFilePath(path: string) {
   return {
     type: ActionType.SET_SAVE_FILE_PATH,
     payload: {
-      path: path.replace(/\\/g,'/'),
+      path: path.replace(/\\/g, "/"),
     },
-  }
+  };
 }
