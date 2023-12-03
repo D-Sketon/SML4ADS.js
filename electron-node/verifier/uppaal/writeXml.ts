@@ -26,7 +26,6 @@ import random from "random";
 import {
   BERNOULLI_DISTRIBUTION_SPEED_PARAMS,
   BINOMIAL_DISTRIBUTION_SPEED_PARAMS,
-  CHI_SQUARED_DISTRIBUTION_SPEED_PARAMS,
   MANUAL_SPEED_PARAMS,
   NORMAL_DISTRIBUTION_SPEED_PARAMS,
   POISSON_DISTRIBUTION_SPEED_PARAMS,
@@ -535,18 +534,40 @@ const _addTemplate = (
     const _operate = (behavior: Behavior) => {
       let buffer = "";
 
-      const params = behavior.params as any;
+      const params = behavior.params as Record<string, [number, number] | [null, null] | undefined>;
       if (params === null) {
         return "";
       }
 
       // If it does not exist, set it to the maximum value
-      let targetSpeed = params.targetSpeed ?? INT16_MAX / K;
-      targetSpeed = targetSpeed === null ? INT16_MAX / K : targetSpeed;
-      let acceleration = params.acceleration ?? 0;
-      acceleration = acceleration === null ? 0 : acceleration;
-      let duration = params.duration ?? INT16_MAX / K;
-      duration = duration === null ? INT16_MAX / K : duration;
+      // Just use radom.int to sampling
+      // only support v0.2.0+
+      let _targetSpeed = params.targetSpeed;
+      if (_targetSpeed === undefined) {
+        _targetSpeed = [INT16_MAX / K, INT16_MAX / K];
+      }
+      if(_targetSpeed[0] === null) {
+        _targetSpeed = [INT16_MAX / K, INT16_MAX / K];
+      }
+      let targetSpeed = random.float(_targetSpeed[0], _targetSpeed[1]);
+
+      let _acceleration = params.acceleration;
+      if (_acceleration === undefined) {
+        _acceleration = [0, 0];
+      } 
+      if(_acceleration[0] === null) {
+        _acceleration = [0, 0];
+      }
+      let acceleration = random.float(_acceleration[0], _acceleration[1]);
+
+      let _duration = params.duration;
+      if (_duration === undefined) {
+        _duration = [INT16_MAX / K, INT16_MAX / K];
+      }
+      if(_duration[0] === null) {
+        _duration = [INT16_MAX / K, INT16_MAX / K];
+      }
+      let duration = random.float(_duration[0], _duration[1]);
 
       if (behavior.name === BEHAVIOR_TYPES.ACCELERATE) {
         // *acceleration, *target speed, duration

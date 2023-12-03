@@ -206,10 +206,10 @@ LaneLink laneLinks[2];
 //id, width, length, heading, speed, acceleration, maxSpeed, ..., offset
 int countOfCars = 4;
 Car cars[4] = {
-{0, 0, 0, true, 88, 0, 200, 0, 0, -2, 0, 0, 2, NaN},
-{1, 0, 0, true, 100, 0, 200, 0, 0, -2, 0, 0, 2, NaN},
-{2, 0, 0, true, 160, 0, 200, 0, 0, -2, 0, 0, 2, NaN},
-{3, 0, 0, true, 120, 0, 200, 0, 0, -2, 0, 0, 2, NaN}
+{0, 0, 0, true, 88, 0, 200, 0, 0, -2, 0, 0, 2, 0},
+{1, 0, 0, true, 100, 0, 200, 0, 0, -2, 0, 0, 2, 0},
+{2, 0, 0, true, 160, 0, 200, 0, 0, -2, 0, 0, 2, 0},
+{3, 0, 0, true, 120, 0, 200, 0, 0, -2, 0, 0, 2, 0}
 };
 
 /************************************* 常用函数 *************************************/
@@ -1011,7 +1011,7 @@ bool lock = true;
 			<label kind="select">i: int[3,3], j:int[2,2]</label>
 			<label kind="guard">level == i &amp;&amp; group == j &amp;&amp; lock</label>
 			<label kind="synchronisation">update?</label>
-			<label kind="assignment">t=t+TIME_STEP, cars[0].acceleration = 0, changeLeft(cars[0], 0), lock = false</label>
+			<label kind="assignment">t=t+TIME_STEP, cars[0].acceleration = 0, changeLeft(cars[0], -1), lock = false</label>
 		</transition>
 		<transition>
 			<source ref="id2"/>
@@ -1051,7 +1051,7 @@ bool lock = true;
 			<label kind="select">i: int[5,5], j:int[10,10]</label>
 			<label kind="guard">level == i &amp;&amp; group == j &amp;&amp; lock</label>
 			<label kind="synchronisation">update?</label>
-			<label kind="assignment">t=t+TIME_STEP, cars[0].acceleration = 0, changeRight(cars[0], 0), lock = false</label>
+			<label kind="assignment">t=t+TIME_STEP, cars[0].acceleration = 0, changeRight(cars[0], -1), lock = false</label>
 		</transition>
 		<transition>
 			<source ref="id1"/>

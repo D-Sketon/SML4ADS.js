@@ -233,12 +233,13 @@ const modifyId = (car: Car) => {
 const parseModel = (_e: any, content: string, workSpacePath: string) => {
   nameCarMap = new Map<string, Car>();
   const model: Model = JSON.parse(content);
-  // Change from relative path to absolute path
+  // Change mapPath from relative path to absolute path
   if (model.mapType === MAP_TYPES.CUSTOM) {
     model.map = getAbsolutePath(_e, workSpacePath, model.map);
   } else {
     model.map = path.resolve(__filename, "../../resources/map/" + model.map);
   }
+  // Change weather from string[] to string
   if (Array.isArray(model.weather)) {
     model.weather = model.weather[random.int(0, model.weather.length - 1)];
   }
@@ -249,6 +250,7 @@ const parseModel = (_e: any, content: string, workSpacePath: string) => {
     const treeContent = readFile(_e, absolutePath);
     const tree: Tree = JSON.parse(treeContent);
     car.mTree = tree;
+    // Change roadDeviation from [number, number] to number
     if (Array.isArray(car.roadDeviation)) {
       car.roadDeviation = random.int(
         car.roadDeviation[0],
