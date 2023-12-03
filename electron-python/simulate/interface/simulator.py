@@ -253,7 +253,8 @@ class Simulator:
             if 'minSpeed' in json_car.keys():
                 car.min_speed = float(json_car['minSpeed'])
             car.model = json_car['model']
-            car.road_deviation = float(json_car['roadDeviation'])
+            car.road_deviation = np.random.uniform(float(json_car['roadDeviation'][0]),
+                                                   float(json_car['roadDeviation'][1]))
             car.behavior_tree_path = json_car['treePath']
             car.behavior_tree = BehaviorTree()
             car.behavior_tree.build_tree_from_json(json_dict=json_car['mTree'])
@@ -266,13 +267,13 @@ class Simulator:
             elif car.location_type == 'Related Position':
                 car.actor_ref = location_params['actorRef']
             else:
-                car.x = float(location_params['x'])
-                car.y = float(location_params['y'])
+                car.x = np.random.uniform(float(location_params['x'][0]), float(location_params['x'][1]))
+                car.y = np.random.uniform(float(location_params['y'][0]), float(location_params['y'][1]))
             if json_car['locationType'] != 'Global Position':
-                car.min_lateral_offset = float(location_params['minLateralOffset'])
-                car.max_lateral_offset = float(location_params['maxLateralOffset'])
-                car.road_min_offset = float(location_params['minLongitudinalOffset'])
-                car.road_max_offset = float(location_params['maxLongitudinalOffset'])
+                car.min_lateral_offset = float(location_params['lateralOffset'][0])
+                car.max_lateral_offset = float(location_params['lateralOffset'][1])
+                car.road_min_offset = float(location_params['longitudinalOffset'][0])
+                car.road_max_offset = float(location_params['longitudinalOffset'][1])
             cars.append(car)
             print(car)
         scene.cars = cars

@@ -135,17 +135,14 @@ class BehaviorTree:
             else:
                 behavior.state = VehicleState[v['name'].upper()]
             params = v['params']
-            if 'duration' in params.keys():
-                if params['duration'] != '':
-                    behavior.duration = int(params['duration'])
-                else:
-                    behavior.duration = -1
+            if 'duration' in params.keys() and params['duration'][0]:
+                behavior.duration = np.random.uniform(params['duration'][0], params['duration'][1])
             else:
                 behavior.duration = -1
-            if 'acceleration' in params.keys() and params['acceleration']:
-                behavior.acc = float(params['acceleration'])
-            if 'target speed' in params.keys() and params['target speed']:
-                behavior.target_vel = float(params['target speed'])
+            if 'acceleration' in params.keys() and params['acceleration'][0]:
+                behavior.acc = np.random.uniform(params['acceleration'][0], params['acceleration'][1])
+            if 'target speed' in params.keys() and params['target speed'][0]:
+                behavior.target_vel = np.random.uniform(params['target speed'][0], params['target speed'][1])
             if v['name'].upper() == 'DECELERATE':
                 behavior.acc *= -1
             self.elements[behavior.id] = behavior
