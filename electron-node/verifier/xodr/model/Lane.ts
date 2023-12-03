@@ -16,7 +16,7 @@ export class Lane {
    */
   laneSectionIndex: number;
   /**
-   * The relative position of the current Lane in the LaneSection    
+   * The relative position of the current Lane in the LaneSection
    * The center line is 0, the left side of the road id decreases one by one, and the right side of the road id increases one by one
    */
   laneId: number;
@@ -37,12 +37,12 @@ export class Lane {
    */
   successorIndex: number = -1;
   /**
-   * Indicates whether the current Lane is allowed to change lanes    
-   * -1 means unknown    
-   * 1 means allowed to change lanes to the left    
-   * 2 means allowed to change lanes to the right    
-   * 3 means allowed to change lanes on both sides    
-   * 4 means not allowed to change lanes on both sides    
+   * Indicates whether the current Lane is allowed to change lanes
+   * -1 means unknown
+   * 1 means allowed to change lanes to the left
+   * 2 means allowed to change lanes to the right
+   * 3 means allowed to change lanes on both sides
+   * 4 means not allowed to change lanes on both sides
    */
   laneChange: LANE_CHANGE_TYPES;
 
@@ -53,18 +53,18 @@ export class Lane {
   singleId: number;
   index: number;
   /**
-   * The relative position of the predecessor Lane   
+   * The relative position of the predecessor Lane
    * 0 means no predecessor Lane
    */
   predecessorLaneId: number;
   /**
-   * The unique id of the predecessor Lane    
+   * The unique id of the predecessor Lane
    * default -1
    */
   predecessorSingleId: number = -1;
   successorLaneId: number;
   /**
-   * The unique id of the successor Lane    
+   * The unique id of the successor Lane
    * default -1
    */
   successorSingleId: number = -1;

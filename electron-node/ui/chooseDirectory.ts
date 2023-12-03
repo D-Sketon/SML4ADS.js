@@ -1,9 +1,9 @@
-import { dialog } from 'electron';
+import { dialog } from "electron";
 
 async function chooseDirectory() {
   return await dialog.showOpenDialog({
-    properties: ['openDirectory']
-  })
+    properties: ["openDirectory"],
+  });
 }
 
 export default chooseDirectory;

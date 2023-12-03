@@ -1,29 +1,34 @@
-import fs from 'fs/promises';
-import writeJson from './writeJson';
+import fs from "fs/promises";
+import writeJson from "./writeJson";
 
 const defaultConfig = {
-  simulationPort: 20225
-}
+  simulationPort: 20225,
+};
 
 async function newProject(_e: any, path: string, name: string) {
   try {
     await fs.access(`${path}/${name}`);
-    _e?.sender.send('ui:onOpenNotification', 'error', 'Error', `Directory ${path}/${name} already exists`);
+    _e?.sender.send(
+      "ui:onOpenNotification",
+      "error",
+      "Error",
+      `Directory ${path}/${name} already exists`
+    );
     return false;
-  } catch (error) { }
+  } catch (error) {}
 
   const pathName = `${path}/${name}`;
   try {
     await fs.mkdir(pathName);
   } catch (error: any) {
-    _e?.sender.send('ui:onOpenNotification', 'error', 'Error', error.message);
+    _e?.sender.send("ui:onOpenNotification", "error", "Error", error.message);
     return false;
   }
 
   try {
     await fs.mkdir(`${pathName}/.adsml`);
   } catch (error: any) {
-    _e?.sender.send('ui:onOpenNotification', 'error', 'Error', error.message);
+    _e?.sender.send("ui:onOpenNotification", "error", "Error", error.message);
     return false;
   }
 
@@ -31,10 +36,15 @@ async function newProject(_e: any, path: string, name: string) {
   try {
     await writeJson(_e, `${pathName}/.adsml/config.json`, defaultConfig);
   } catch (error: any) {
-    _e?.sender.send('ui:onOpenNotification', 'error', 'Error', error.message);
+    _e?.sender.send("ui:onOpenNotification", "error", "Error", error.message);
     return false;
   }
-  _e?.sender.send('ui:onOpenNotification', 'success', 'Success', 'Project created successfully!');
+  _e?.sender.send(
+    "ui:onOpenNotification",
+    "success",
+    "Success",
+    "Project created successfully!"
+  );
   return true;
 }
 

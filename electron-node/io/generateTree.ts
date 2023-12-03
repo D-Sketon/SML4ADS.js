@@ -1,14 +1,14 @@
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
 type FileTreeType = {
-  title: string,
-  key: string,
-  isLeaf?: boolean,
-  children?: FileTreeType[],
+  title: string;
+  key: string;
+  isLeaf?: boolean;
+  children?: FileTreeType[];
 };
 
-function generateTree(_e: any,folderPath: string, excludeFiles?: string[]) {
+function generateTree(_e: any, folderPath: string, excludeFiles?: string[]) {
   const result: FileTreeType[] = [];
   const folderName = path.basename(folderPath);
   result.push({
@@ -19,7 +19,11 @@ function generateTree(_e: any,folderPath: string, excludeFiles?: string[]) {
   return result;
 }
 
-function _generateTree(_e: any, folderPath: string, excludeFiles: string[] = []) {
+function _generateTree(
+  _e: any,
+  folderPath: string,
+  excludeFiles: string[] = []
+) {
   const result: FileTreeType[] = [];
 
   const files = fs.readdirSync(folderPath);

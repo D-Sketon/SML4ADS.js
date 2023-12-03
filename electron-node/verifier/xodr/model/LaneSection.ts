@@ -6,7 +6,7 @@ export class LaneSection {
    */
   elementType: number;
   /**
-   * Index of the Road of the current LaneSection    
+   * Index of the Road of the current LaneSection
    * Can be found in the roads array
    */
   roadIndex: number;
@@ -24,7 +24,7 @@ export class LaneSection {
   startPosition: number;
   lanesIndex: number[];
   /**
-   * @Deprecated    
+   * @Deprecated
    * Just use startPosition
    */
   length: number;

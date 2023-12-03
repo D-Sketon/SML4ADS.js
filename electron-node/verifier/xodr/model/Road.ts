@@ -14,7 +14,7 @@ export class Road {
    */
   junctionIndex: number;
   /**
-   * Id of the Junction of the current Road, showing that the current Road is a connection road in which junction    
+   * Id of the Junction of the current Road, showing that the current Road is a connection road in which junction
    * -1 means not a connection road, not part of any junction
    */
   junctionId: number;
@@ -27,7 +27,7 @@ export class Road {
    */
   predecessorElementType: number;
   /**
-   * Index of the predecessor Road or Junction    
+   * Index of the predecessor Road or Junction
    * -1 means empty
    */
   predecessorIndex: number;
@@ -36,7 +36,7 @@ export class Road {
    */
   successorElementType: number;
   /**
-   * Index of the successor Road or Junction    
+   * Index of the successor Road or Junction
    * -1 means empty
    */
   successorIndex: number;
@@ -50,8 +50,8 @@ export class Road {
   laneSectionsIndex: number[];
 
   /**
-   * Indicates the LaneSection structure array of the current Road    
-   * The order of the LaneSection in the array is the order of the LaneSection in the Road    
+   * Indicates the LaneSection structure array of the current Road
+   * The order of the LaneSection in the array is the order of the LaneSection in the Road
    * There are many different Lanes in the LaneSection
    */
   laneSections: LaneSection[];

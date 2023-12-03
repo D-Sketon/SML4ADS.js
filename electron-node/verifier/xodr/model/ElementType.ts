@@ -5,5 +5,5 @@ export enum ELEMENT_TYPES {
   JUNCTION = 4,
   CONNECTION = 5,
   LANE_LINK = 6,
-  NONE = -1
+  NONE = -1,
 }

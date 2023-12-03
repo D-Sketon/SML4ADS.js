@@ -20,8 +20,10 @@ function HeaderButton(): ReactElement {
   const [verifyModalVisible, setVerifyModalVisible] = useState(false);
   const [parametricStlModalVisible, setParametricStlModalVisible] =
     useState(false);
-  const [ParametricStlMonitorModalVisible, setParametricStlMonitorModalVisible] =
-    useState(false);
+  const [
+    ParametricStlMonitorModalVisible,
+    setParametricStlMonitorModalVisible,
+  ] = useState(false);
   const [simulateModalVisible, setSimulateModalVisible] = useState(false);
 
   // data flow: "" => realPath => $$\ua265SAVE\ua265$$ => ""
@@ -148,7 +150,7 @@ function HeaderButton(): ReactElement {
         isModalOpen={parametricStlModalVisible}
         handleCancel={() => setParametricStlModalVisible(false)}
       />
-      <ParametricStlMonitorModal 
+      <ParametricStlMonitorModal
         isModalOpen={ParametricStlMonitorModalVisible}
         handleCancel={() => setParametricStlMonitorModalVisible(false)}
       />

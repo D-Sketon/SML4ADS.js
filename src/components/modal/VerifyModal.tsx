@@ -272,7 +272,7 @@ function VerifyModal(props: BaseModalProps): ReactElement {
       notification.success({
         message: "Success",
         description: `Verify successfully!\nPlease check ${writePath}`,
-      })
+      });
       dispatch(refreshTree());
     } catch (error: any) {
       console.error(error);

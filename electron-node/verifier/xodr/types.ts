@@ -90,7 +90,7 @@ export type XODRRoadType = {
 export type XODRLaneLinkType = {
   "@_from": number | string;
   "@_to": number | string;
-}
+};
 
 export type XODRConnectionType = {
   laneLink: XODRLaneLinkType | XODRLaneLinkType[];

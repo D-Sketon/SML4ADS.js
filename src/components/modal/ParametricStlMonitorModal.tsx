@@ -1,5 +1,5 @@
 import { Modal, Row, Col, notification, Input } from "antd";
-import { ReactElement, useContext, useEffect, useRef, useState } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import AppContext from "../../store/context";
 import { BaseModalProps } from "./types";
 import { setSaveFilePath } from "../../store/action";
@@ -17,7 +17,9 @@ function ParametricStlMonitorModal(props: BaseModalProps): ReactElement {
 
   const [parameters, setParameters] = useState<string[][]>([]);
   const [parametricStls, setParametricStls] = useState<string[]>([]);
-  const [parametersMap, setParametersMap] = useState<Record<string, string>>({});
+  const [parametersMap, setParametersMap] = useState<Record<string, string>>(
+    {}
+  );
 
   // onMounted
   useEffect(() => {
@@ -77,7 +79,10 @@ function ParametricStlMonitorModal(props: BaseModalProps): ReactElement {
       }
       return replacedPstl;
     });
-    await window.electronAPI.pstlMonitor(replacedParametricStls, config.simulationPort);
+    await window.electronAPI.pstlMonitor(
+      replacedParametricStls,
+      config.simulationPort
+    );
     setConfirmLoading(false);
     handleCancel(e);
   };
