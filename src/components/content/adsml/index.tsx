@@ -175,6 +175,33 @@ function Adsml(props: AdsmlProps): ReactElement {
                       children: (
                         <SpeedParamsDesc
                           params={car.speedParams as SPEED_PARAMS}
+                          title="Speed Params"
+                        />
+                      ),
+                      span: 2,
+                    },
+                    {
+                      label: "accelerationType",
+                      key: "accelerationType",
+                      children: car.accelerationType,
+                    },
+                    {
+                      label: "maxAcceleration",
+                      key: "maxAcceleration",
+                      children: car.maxAcceleration,
+                    },
+                    {
+                      label: "minAcceleration",
+                      key: "minAcceleration",
+                      children: car.minAcceleration ?? "N/A",
+                      span: 2,
+                    },
+                    {
+                      key: "accelerationParams",
+                      children: (
+                        <SpeedParamsDesc
+                          params={car.accelerationParams as SPEED_PARAMS}
+                          title="Acceleration Params"
                         />
                       ),
                       span: 2,

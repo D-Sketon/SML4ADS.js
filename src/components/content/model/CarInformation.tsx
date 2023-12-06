@@ -283,7 +283,8 @@ function CarInformation(props: CarInformationProps): ReactElement {
             onChange={(e) => {
               simpleSetLocationParams("lateralOffset", [
                 e,
-                (car.locationParams as RELATED_POSITION_PARAMS).lateralOffset[1],
+                (car.locationParams as RELATED_POSITION_PARAMS)
+                  .lateralOffset[1],
               ]);
             }}
           />
@@ -295,7 +296,8 @@ function CarInformation(props: CarInformationProps): ReactElement {
             }
             onChange={(e) => {
               simpleSetLocationParams("lateralOffset", [
-                (car.locationParams as RELATED_POSITION_PARAMS).lateralOffset[0],
+                (car.locationParams as RELATED_POSITION_PARAMS)
+                  .lateralOffset[0],
                 e,
               ]);
             }}
@@ -305,7 +307,8 @@ function CarInformation(props: CarInformationProps): ReactElement {
           <InputNumber
             style={{ width: 62 }}
             value={
-              (car.locationParams as RELATED_POSITION_PARAMS).longitudinalOffset[0]
+              (car.locationParams as RELATED_POSITION_PARAMS)
+                .longitudinalOffset[0]
             }
             onChange={(e) => {
               simpleSetLocationParams("longitudinalOffset", [
@@ -319,7 +322,8 @@ function CarInformation(props: CarInformationProps): ReactElement {
           <InputNumber
             style={{ width: 62 }}
             value={
-              (car.locationParams as RELATED_POSITION_PARAMS).longitudinalOffset[1]
+              (car.locationParams as RELATED_POSITION_PARAMS)
+                .longitudinalOffset[1]
             }
             onChange={(e) => {
               simpleSetLocationParams("longitudinalOffset", [
@@ -382,15 +386,19 @@ function CarInformation(props: CarInformationProps): ReactElement {
     });
   }
 
-  function simpleSetSpeedParams(key: string, value: any) {
+  function simpleSetDistributionParams(
+    primaryKey: "speedParams" | "accelerationParams",
+    key: string,
+    value: any
+  ) {
     setModel({
       ...model,
       cars: model.cars.map((c, i) => {
         if (i === index) {
           return {
             ...c,
-            speedParams: {
-              ...c.speedParams,
+            [primaryKey]: {
+              ...c[primaryKey],
               [key]: value,
             },
           };
@@ -445,17 +453,19 @@ function CarInformation(props: CarInformationProps): ReactElement {
   // Just show the latest item.
   const displayRender = (labels: string[]) => labels[labels.length - 1];
 
-  function manualSpeed(): ReactElement {
+  function manualSpeed(
+    key: "speedParams" | "accelerationParams"
+  ): ReactElement {
     return (
       <>
-        <Form.Item label="initialSpeed" labelCol={{ span: 6 }}>
+        <Form.Item label="initialValue" labelCol={{ span: 6 }}>
           <InputNumber
             min={0}
             max={180}
             style={{ width: 150 }}
-            value={(car.speedParams as MANUAL_SPEED_PARAMS).initSpeed}
+            value={(car[key] as MANUAL_SPEED_PARAMS).initValue}
             onChange={(e) => {
-              simpleSetSpeedParams("initSpeed", e);
+              simpleSetDistributionParams(key, "initValue", e);
             }}
           />
         </Form.Item>
@@ -463,16 +473,18 @@ function CarInformation(props: CarInformationProps): ReactElement {
     );
   }
 
-  function uniformDistributionSpeed(): ReactElement {
+  function uniformDistributionSpeed(
+    key: "speedParams" | "accelerationParams"
+  ): ReactElement {
     return (
       <>
         <Form.Item label="min" labelCol={{ span: 6 }}>
           <InputNumber
             min={0}
             style={{ width: 150 }}
-            value={(car.speedParams as UNIFORM_DISTRIBUTION_SPEED_PARAMS).a}
+            value={(car[key] as UNIFORM_DISTRIBUTION_SPEED_PARAMS).a}
             onChange={(e) => {
-              simpleSetSpeedParams("a", e);
+              simpleSetDistributionParams(key, "a", e);
             }}
           />
         </Form.Item>
@@ -480,9 +492,9 @@ function CarInformation(props: CarInformationProps): ReactElement {
           <InputNumber
             min={0}
             style={{ width: 150 }}
-            value={(car.speedParams as UNIFORM_DISTRIBUTION_SPEED_PARAMS).b}
+            value={(car[key] as UNIFORM_DISTRIBUTION_SPEED_PARAMS).b}
             onChange={(e) => {
-              simpleSetSpeedParams("b", e);
+              simpleSetDistributionParams(key, "b", e);
             }}
           />
         </Form.Item>
@@ -490,25 +502,27 @@ function CarInformation(props: CarInformationProps): ReactElement {
     );
   }
 
-  function normalDistributionSpeed(): ReactElement {
+  function normalDistributionSpeed(
+    key: "speedParams" | "accelerationParams"
+  ): ReactElement {
     return (
       <>
         <Form.Item label="mean" labelCol={{ span: 6 }}>
           <InputNumber
             min={0}
             style={{ width: 150 }}
-            value={(car.speedParams as NORMAL_DISTRIBUTION_SPEED_PARAMS).mean}
+            value={(car[key] as NORMAL_DISTRIBUTION_SPEED_PARAMS).mean}
             onChange={(e) => {
-              simpleSetSpeedParams("mean", e);
+              simpleSetDistributionParams(key, "mean", e);
             }}
           />
         </Form.Item>
         <Form.Item label="std" labelCol={{ span: 6 }}>
           <InputNumber
             style={{ width: 150 }}
-            value={(car.speedParams as NORMAL_DISTRIBUTION_SPEED_PARAMS).std}
+            value={(car[key] as NORMAL_DISTRIBUTION_SPEED_PARAMS).std}
             onChange={(e) => {
-              simpleSetSpeedParams("std", e);
+              simpleSetDistributionParams(key, "std", e);
             }}
           />
         </Form.Item>
@@ -516,7 +530,9 @@ function CarInformation(props: CarInformationProps): ReactElement {
     );
   }
 
-  function bernoulliDistributionSpeed(): ReactElement {
+  function bernoulliDistributionSpeed(
+    key: "speedParams" | "accelerationParams"
+  ): ReactElement {
     return (
       <>
         <Form.Item label="p" labelCol={{ span: 6 }}>
@@ -524,9 +540,9 @@ function CarInformation(props: CarInformationProps): ReactElement {
             min={0}
             max={1}
             style={{ width: 150 }}
-            value={(car.speedParams as BERNOULLI_DISTRIBUTION_SPEED_PARAMS).p}
+            value={(car[key] as BERNOULLI_DISTRIBUTION_SPEED_PARAMS).p}
             onChange={(e) => {
-              simpleSetSpeedParams("p", e);
+              simpleSetDistributionParams(key, "p", e);
             }}
           />
         </Form.Item>
@@ -534,16 +550,18 @@ function CarInformation(props: CarInformationProps): ReactElement {
     );
   }
 
-  function binomialDistributionSpeed(): ReactElement {
+  function binomialDistributionSpeed(
+    key: "speedParams" | "accelerationParams"
+  ): ReactElement {
     return (
       <>
         <Form.Item label="n" labelCol={{ span: 6 }}>
           <InputNumber
             min={0}
             style={{ width: 150 }}
-            value={(car.speedParams as BINOMIAL_DISTRIBUTION_SPEED_PARAMS).n}
+            value={(car[key] as BINOMIAL_DISTRIBUTION_SPEED_PARAMS).n}
             onChange={(e) => {
-              simpleSetSpeedParams("n", e);
+              simpleSetDistributionParams(key, "n", e);
             }}
           />
         </Form.Item>
@@ -552,9 +570,9 @@ function CarInformation(props: CarInformationProps): ReactElement {
             min={0}
             max={1}
             style={{ width: 150 }}
-            value={(car.speedParams as BINOMIAL_DISTRIBUTION_SPEED_PARAMS).p}
+            value={(car[key] as BINOMIAL_DISTRIBUTION_SPEED_PARAMS).p}
             onChange={(e) => {
-              simpleSetSpeedParams("p", e);
+              simpleSetDistributionParams(key, "p", e);
             }}
           />
         </Form.Item>
@@ -562,18 +580,18 @@ function CarInformation(props: CarInformationProps): ReactElement {
     );
   }
 
-  function poissonDistributionSpeed(): ReactElement {
+  function poissonDistributionSpeed(
+    key: "speedParams" | "accelerationParams"
+  ): ReactElement {
     return (
       <>
         <Form.Item label="lambda" labelCol={{ span: 6 }}>
           <InputNumber
             min={0}
             style={{ width: 150 }}
-            value={
-              (car.speedParams as POISSON_DISTRIBUTION_SPEED_PARAMS).lambda
-            }
+            value={(car[key] as POISSON_DISTRIBUTION_SPEED_PARAMS).lambda}
             onChange={(e) => {
-              simpleSetSpeedParams("lambda", e);
+              simpleSetDistributionParams(key, "lambda", e);
             }}
           />
         </Form.Item>
@@ -581,16 +599,18 @@ function CarInformation(props: CarInformationProps): ReactElement {
     );
   }
 
-  function chiSquareDistributionSpeed(): ReactElement {
+  function chiSquareDistributionSpeed(
+    key: "speedParams" | "accelerationParams"
+  ): ReactElement {
     return (
       <>
         <Form.Item label="k" labelCol={{ span: 6 }}>
           <InputNumber
             min={0}
             style={{ width: 150 }}
-            value={(car.speedParams as CHI_SQUARED_DISTRIBUTION_SPEED_PARAMS).k}
+            value={(car[key] as CHI_SQUARED_DISTRIBUTION_SPEED_PARAMS).k}
             onChange={(e) => {
-              simpleSetSpeedParams("k", e);
+              simpleSetDistributionParams(key, "k", e);
             }}
           />
         </Form.Item>
@@ -598,17 +618,17 @@ function CarInformation(props: CarInformationProps): ReactElement {
     );
   }
 
-  function customizedDistributionSpeed(): ReactElement {
+  function customizedDistributionSpeed(
+    key: "speedParams" | "accelerationParams"
+  ): ReactElement {
     return (
       <>
         <Form.Item label="formula" labelCol={{ span: 6 }}>
           <TextArea
             rows={2}
-            value={
-              (car.speedParams as CUSTOMIZED_DISTRIBUTION_SPEED_PARAMS).formula
-            }
+            value={(car[key] as CUSTOMIZED_DISTRIBUTION_SPEED_PARAMS).formula}
             onChange={(e) => {
-              simpleSetSpeedParams("formula", e);
+              simpleSetDistributionParams(key, "formula", e);
             }}
           />
         </Form.Item>
@@ -616,24 +636,27 @@ function CarInformation(props: CarInformationProps): ReactElement {
     );
   }
 
-  function getSpeedComponent(): ReactElement {
-    switch (car.speedType) {
+  function getDistributionComponent(
+    key: "speedParams" | "accelerationParams",
+    type: "speedType" | "accelerationType"
+  ): ReactElement {
+    switch (car[type]) {
       case SPEED_TYPES.MANUAL:
-        return manualSpeed();
+        return manualSpeed(key);
       case SPEED_TYPES.UNIFORM_DISTRIBUTION:
-        return uniformDistributionSpeed();
+        return uniformDistributionSpeed(key);
       case SPEED_TYPES.NORMAL_DISTRIBUTION:
-        return normalDistributionSpeed();
+        return normalDistributionSpeed(key);
       case SPEED_TYPES.BERNOULLI_DISTRIBUTION:
-        return bernoulliDistributionSpeed();
+        return bernoulliDistributionSpeed(key);
       case SPEED_TYPES.BINOMIAL_DISTRIBUTION:
-        return binomialDistributionSpeed();
+        return binomialDistributionSpeed(key);
       case SPEED_TYPES.POISSON_DISTRIBUTION:
-        return poissonDistributionSpeed();
+        return poissonDistributionSpeed(key);
       case SPEED_TYPES.CHI_SQUARED_DISTRIBUTION:
-        return chiSquareDistributionSpeed();
+        return chiSquareDistributionSpeed(key);
       case SPEED_TYPES.CUSTOMIZED_DISTRIBUTION:
-        return customizedDistributionSpeed();
+        return customizedDistributionSpeed(key);
       default:
         return <></>;
     }
@@ -709,7 +732,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
             }}
           />
         </Form.Item>
-        {getSpeedComponent()}
+        {getDistributionComponent("speedParams", "speedType")}
         <Form.Item label="maxSpeed">
           <InputNumber
             min={0}
@@ -729,6 +752,56 @@ function CarInformation(props: CarInformationProps): ReactElement {
             value={car.minSpeed}
             onChange={(e) => {
               simpleSetCar("minSpeed", e);
+            }}
+          />
+        </Form.Item>
+        <Form.Item label="accelerationType">
+          <Cascader
+            style={{ width: 180 }}
+            allowClear={false}
+            options={cascaderOptions}
+            expandTrigger="hover"
+            value={
+              car.accelerationType === SPEED_TYPES.MANUAL
+                ? [SPEED_TYPES.MANUAL]
+                : [SPEED_TYPES.PROBABILISTIC, car.accelerationType]
+            }
+            displayRender={displayRender}
+            onChange={(e) => {
+              setModel({
+                ...model,
+                cars: model.cars.map((c, i) => {
+                  if (i === index) {
+                    return {
+                      ...c,
+                      accelerationType: e[e.length - 1] as SPEED_TYPES,
+                      accelerationParams: defaultSpeedParams(
+                        e[e.length - 1] as SPEED_TYPES
+                      ),
+                    };
+                  }
+                  return c;
+                }),
+              });
+            }}
+          />
+        </Form.Item>
+        {getDistributionComponent("accelerationParams", "accelerationType")}
+        <Form.Item label="maxAcceleration">
+          <InputNumber
+            style={{ width: 150 }}
+            value={car.maxAcceleration}
+            onChange={(e) => {
+              simpleSetCar("maxAcceleration", e);
+            }}
+          />
+        </Form.Item>
+        <Form.Item label="minAcceleration">
+          <InputNumber
+            style={{ width: 150 }}
+            value={car.minAcceleration}
+            onChange={(e) => {
+              simpleSetCar("minAcceleration", e);
             }}
           />
         </Form.Item>

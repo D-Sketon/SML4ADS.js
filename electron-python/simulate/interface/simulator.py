@@ -230,7 +230,7 @@ class Simulator:
             car.name = json_car['name']
             car.heading = bool(json_car['heading'])
             if json_car['speedType'] == 'Manual':
-                car.init_speed = float(json_car['speedParams']['initSpeed'])
+                car.init_speed = float(json_car['speedParams']['initValue'])
             elif json_car['speedType'] == 'Uniform Distribution':
                 car.init_speed = np.random.uniform(float(json_car['speedParams']['a']),
                                                    float(json_car['speedParams']['b']))

@@ -38,10 +38,14 @@ export const checkCars = (cars: MCar[]) => {
       name,
       speedType,
       speedParams,
+      accelerationType,
+      accelerationParams,
       roadDeviation,
       treePath,
       maxSpeed,
       minSpeed,
+      maxAcceleration,
+      minAcceleration,
     } = car;
     _assertRequired(name, "Car name is required");
 
@@ -70,6 +74,12 @@ export const checkCars = (cars: MCar[]) => {
     );
 
     checkSpeedParams(speedType, speedParams, maxSpeed, minSpeed);
+    checkSpeedParams(
+      accelerationType,
+      accelerationParams,
+      maxAcceleration,
+      minAcceleration
+    );
 
     checkLocationParams(car.locationType, car.locationParams);
 

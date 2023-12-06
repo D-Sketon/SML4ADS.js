@@ -210,7 +210,7 @@ const _addDeclaration = (_e: any, wrapper: { buffer: string }) => {
       wrapper.buffer += `${cars[i].heading}, `;
       if (cars[i].speedType === SPEED_TYPES.MANUAL) {
         wrapper.buffer += `${f(
-          (cars[i].speedParams as MANUAL_SPEED_PARAMS).initSpeed
+          (cars[i].speedParams as MANUAL_SPEED_PARAMS).initValue
         )}, `;
       } else if (cars[i].speedType === SPEED_TYPES.UNIFORM_DISTRIBUTION) {
         const { a, b } = cars[i]

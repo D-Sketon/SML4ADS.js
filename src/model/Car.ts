@@ -56,10 +56,14 @@ type BaseCar = {
   model: VEHICLE_TYPES_CARLA | VEHICLE_TYPES_LGSVL;
   speedType: SPEED_TYPES;
   speedParams: SPEED_PARAMS;
+  accelerationType: SPEED_TYPES;
+  accelerationParams: SPEED_PARAMS;
   locationType: LOCATION_TYPES;
   initSpeed?: number; // support old version
   maxSpeed: number;
   minSpeed: number | null;
+  maxAcceleration: number;
+  minAcceleration: number;
   locationParams: LOCATION_PARAMS;
   heading: boolean;
   treePath: string;
@@ -102,6 +106,10 @@ export const defaultCar: () => MCar = () => ({
   speedParams: defaultManualSpeedParams(),
   maxSpeed: 0,
   minSpeed: null,
+  accelerationType: SPEED_TYPES.MANUAL,
+  accelerationParams: defaultManualSpeedParams(),
+  maxAcceleration: 0,
+  minAcceleration: 0,
   locationType: LOCATION_TYPES.GLOBAL_POSITION,
   locationParams: defaultGlobalPositionParams(),
   heading: false,

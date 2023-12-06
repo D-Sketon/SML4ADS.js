@@ -4,13 +4,14 @@ import { Descriptions } from "antd";
 
 interface SpeedParamsDescProps {
   params: SPEED_PARAMS;
+  title: string,
 }
 
 function SpeedParamsDesc(props: SpeedParamsDescProps): ReactElement {
   return (
     <>
       <Descriptions
-        title="Speed Params"
+        title={props.title}
         column={2}
         items={Object.keys(props.params).map((k) => ({
           label: k,

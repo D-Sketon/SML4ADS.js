@@ -67,7 +67,7 @@ export const checkSpeedParams = (
       );
       break;
     default:
-      throw new Error("Invalid speed type");
+      throw new Error("Invalid type");
   }
 };
 
@@ -76,17 +76,17 @@ const checkManualSpeedParams = (
   maxSpeed: number,
   minSpeed: number | null
 ) => {
-  const { initSpeed } = speedParams;
+  const { initValue } = speedParams;
 
-  _assertRequired(initSpeed, "initSpeed is required");
-  _assertNumberGE(initSpeed, 0, "initSpeed should >= 0");
-  // initSpeed should <= maxSpeed
-  if (Number(initSpeed) > Number(maxSpeed)) {
-    throw new Error("initSpeed should <= maxSpeed");
+  _assertRequired(initValue, "initValue is required");
+  _assertNumberGE(initValue, 0, "initValue should >= 0");
+  // initValue should <= maxValue
+  if (Number(initValue) > Number(maxSpeed)) {
+    throw new Error("initValue should <= maxValue");
   }
-  // initSpeed should >= minSpeed
-  if (minSpeed !== null && Number(initSpeed) < Number(minSpeed)) {
-    throw new Error("initSpeed should >= minSpeed");
+  // initValue should >= minValue
+  if (minSpeed !== null && Number(initValue) < Number(minSpeed)) {
+    throw new Error("initValue should >= minValue");
   }
 };
 

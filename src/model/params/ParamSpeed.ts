@@ -11,11 +11,11 @@ export enum SPEED_TYPES {
 }
 
 export type MANUAL_SPEED_PARAMS = {
-  initSpeed: number;
+  initValue: number;
 };
 
 export const defaultManualSpeedParams: () => MANUAL_SPEED_PARAMS = () => ({
-  initSpeed: 0,
+  initValue: 0,
 });
 
 export type UNIFORM_DISTRIBUTION_SPEED_PARAMS = {

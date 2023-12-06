@@ -3,7 +3,10 @@ import {
   GLOBAL_POSITION_PARAMS,
   LOCATION_TYPES,
 } from "../../../../../model/params/ParamLocation";
-import { SPEED_TYPES } from "../../../../../model/params/ParamSpeed";
+import {
+  SPEED_TYPES,
+  defaultManualSpeedParams,
+} from "../../../../../model/params/ParamSpeed";
 
 /**
  * support old version
@@ -51,7 +54,7 @@ function oldModelAdapter(model: MModel): MModel {
       // old version
       car.speedType = SPEED_TYPES.MANUAL;
       car.speedParams = {
-        initSpeed: car.initSpeed,
+        initValue: car.initSpeed,
       };
       car.initSpeed = void 0;
     }
@@ -69,7 +72,7 @@ function oldModelAdapter(model: MModel): MModel {
      *
      * speedType: SPEED_TYPES.MANUAL
      * speedParams: {
-     *  initSpeed: number
+     *  initValue: number
      * }
      * maxSpeed: number
      */
@@ -81,7 +84,16 @@ function oldModelAdapter(model: MModel): MModel {
     ) {
       car.maxSpeed = (car.speedParams as any).maxSpeed;
       car.speedParams = {
-        initSpeed: (car.speedParams as any).initSpeed,
+        initValue: (car.speedParams as any).initSpeed,
+      };
+    }
+    if (
+      (car.speedParams as any).initSpeed !== void 0 &&
+      car.speedType === SPEED_TYPES.MANUAL &&
+      (car.speedParams as any).initValue === void 0
+    ) {
+      car.speedParams = {
+        initValue: (car.speedParams as any).initSpeed,
       };
     }
     /**
@@ -122,6 +134,14 @@ function oldModelAdapter(model: MModel): MModel {
         params.minLongitudinalOffset = void 0;
         params.maxLongitudinalOffset = void 0;
       }
+    }
+    // add accelerationType and accelerationParams
+    if (car.accelerationType === void 0) {
+      car.accelerationType = SPEED_TYPES.MANUAL;
+      car.accelerationParams = defaultManualSpeedParams();
+    }
+    if (car.maxAcceleration === void 0) {
+      car.minAcceleration = car.maxAcceleration = 0;
     }
   });
   return newModel;
