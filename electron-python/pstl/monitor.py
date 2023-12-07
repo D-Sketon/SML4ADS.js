@@ -1,5 +1,7 @@
+import base64
 import os
 import sys
+from io import BytesIO
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -8,8 +10,8 @@ import rtamt
 curr_dir = os.getcwd()
 
 
-def monitor(args):
-    df = pd.read_csv(os.path.join(curr_dir, 'pstl', 'signal1.csv'), header=0)
+def monitor(args) -> str:
+    df = pd.read_csv(os.path.join(curr_dir, 'pstl', args[0]) if args[0] == 'signal1.csv' else args[0], header=0)
     times = df['time'].tolist()
     signal = df['signal'].tolist()
 
@@ -23,7 +25,7 @@ def monitor(args):
     spec.declare_var('a', 'float')
 
     # 定义STL规范：a的值应始终大于或等于2
-    spec.spec = args[0]
+    spec.spec = args[1]
 
     # 解析STL规范
     try:
@@ -60,6 +62,7 @@ def monitor(args):
     times.pop()
     signal.pop()
 
+    plt.clf()
     plt.plot(times, rob_values, marker='o', label="Robustness Value")
     plt.plot(times, signal, marker='x', label="Input Signal a")
     plt.xlabel('Time')
@@ -67,4 +70,16 @@ def monitor(args):
     plt.title('Robustness Value and Input Signal Over Time')
     plt.grid(True)
     plt.legend()
-    plt.show()
+
+    if args[2]:
+        # 转base64
+        figfile = BytesIO()
+        plt.savefig(figfile, format='png')
+        figfile.seek(0)
+        figdata_png = base64.b64encode(figfile.getvalue())  # 将图片转为base64
+        figdata_str = str(figdata_png, "utf-8")  # 提取base64的字符串，不然是b'xxx'
+
+        return figdata_str
+    else:
+        plt.show()
+        return ""

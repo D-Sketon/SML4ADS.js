@@ -80,7 +80,9 @@ function ParametricStlMonitorModal(props: BaseModalProps): ReactElement {
       return replacedPstl;
     });
     await window.electronAPI.pstlMonitor(
-      replacedParametricStls,
+      "signal1.csv",
+      replacedParametricStls[0],
+      false,
       config.simulationPort
     );
     setConfirmLoading(false);

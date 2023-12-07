@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^5.2.6",
     "@hprose/rpc-core": "^3.0.10",
     "@hprose/rpc-node": "^3.0.12",
     "antd": "^5.11.1",

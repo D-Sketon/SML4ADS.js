@@ -25,7 +25,7 @@ export interface IElectronAPI {
   ) => Promise<void>;
 
   simulate: (params: any, port: number, host?: string) => Promise<void>;
-  pstlMonitor: (params: any, port: number, host?: string) => Promise<void>;
+  pstlMonitor: (signalPath: string, stlArray: string, isBase64: boolean, port?: number, host?: string) => Promise<string>;
 
   onOpenNotification: (
     callback: (

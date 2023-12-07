@@ -9,6 +9,7 @@ import "./App.less";
 import { notification } from "antd";
 import { clearStore } from "./store/action";
 import SettingsModal from "./components/modal/SettingsModal";
+import OnlineMonitor from "./components/extends/OnlineMonitor";
 
 type NotificationType = "success" | "info" | "warning" | "error";
 
@@ -62,7 +63,8 @@ function App(): ReactElement {
       <Routes>
         <Route path="/home" element={<Home />} />
         <Route path="/welcome" element={<Welcome />} />
-        <Route path="/" element={<Navigate to="/welcome" />}></Route>
+        <Route path="/onlineMonitor" element={<OnlineMonitor />} />
+        <Route path="/" element={<Navigate to="/welcome" />} />
       </Routes>
       <SettingsModal
         isModalOpen={showSettingsModalVisible}

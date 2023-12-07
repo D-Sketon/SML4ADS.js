@@ -1,6 +1,9 @@
 lockfileVersion: '6.0'
 
 dependencies:
+  '@ant-design/icons':
+    specifier: ^5.2.6
+    version: registry.npmmirror.com/@ant-design/icons@5.2.6(react-dom@18.2.0)(react@18.2.0)
   '@hprose/rpc-core':
     specifier: ^3.0.10
     version: registry.npmmirror.com/@hprose/rpc-core@3.0.10

@@ -36,8 +36,13 @@ contextBridge.exposeInMainWorld("electronAPI", {
 
   simulate: (params: any, port: number, host?: string) =>
     ipcRenderer.invoke("rpc:simulate", params, port, host),
-  pstlMonitor: (params: any, port: number, host?: string) =>
-    ipcRenderer.invoke("rpc:pstlMonitor", params, port, host),
+  pstlMonitor: (
+    signalPort: string,
+    stlArray: string,
+    isBase64: boolean,
+    port?: number,
+    host?: string
+  ) => ipcRenderer.invoke("rpc:pstlMonitor", signalPort, stlArray, isBase64, port, host),
 
   onOpenNotification: (
     callback: (

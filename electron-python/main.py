@@ -115,9 +115,9 @@ def simulate(args) -> None:
     print('simulation finished.')
 
 
-def pstl(args) -> None:
+def pstl(args) -> str:
     print(f'args: {args}')
-    monitor.monitor(args)
+    return monitor.monitor(args)
 
 
 def main():
