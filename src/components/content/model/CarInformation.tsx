@@ -25,6 +25,8 @@ import {
   defaultSpeedParams,
 } from "../../../model/params/ParamSpeed";
 import TextArea from "antd/es/input/TextArea";
+import "katex/dist/katex.min.css";
+import TeX from "@matejmazur/react-katex";
 
 interface CarInformationProps {
   model: MModel;
@@ -628,10 +630,16 @@ function CarInformation(props: CarInformationProps): ReactElement {
             rows={2}
             value={(car[key] as CUSTOMIZED_DISTRIBUTION_SPEED_PARAMS).formula}
             onChange={(e) => {
-              simpleSetDistributionParams(key, "formula", e);
+              simpleSetDistributionParams(key, "formula", e.target.value);
             }}
+            spellCheck={false}
+            style={{ fontFamily: 'Consolas, "Courier New", monospace' }}
           />
         </Form.Item>
+        <TeX
+          math={(car[key] as CUSTOMIZED_DISTRIBUTION_SPEED_PARAMS).formula}
+          block
+        />
       </>
     );
   }
