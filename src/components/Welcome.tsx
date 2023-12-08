@@ -1,7 +1,5 @@
 import { ReactElement, useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-
-import "./Welcome.less";
 import { Button, Card, Col, Row, notification } from "antd";
 import Title from "antd/es/typography/Title";
 import AppContext from "../store/context";
@@ -9,6 +7,8 @@ import { setConfig, setWorkspacePath } from "../store/action";
 import NewProjectModal from "./modal/NewProjectModal";
 import { MConfig, defaultConfig } from "../model/Config";
 import { GLOBAL_CONSTANTS } from "../constants";
+
+import "./Welcome.less";
 
 function Welcome(): ReactElement {
   const navigate = useNavigate();
@@ -85,7 +85,7 @@ function Welcome(): ReactElement {
               <Card
                 title="因果推理"
                 hoverable={true}
-                extra={<a href="#">More</a>}
+                extra={<NavLink to="/causalInference">More</NavLink>}
                 style={{ height: "200px" }}
               >
                 从时间序列数据中挖掘因果关系，以提高模型的鲁棒性和可解释性。
@@ -95,7 +95,7 @@ function Welcome(): ReactElement {
               <Card
                 title="抽象自动机"
                 hoverable={true}
-                extra={<a href="#">More</a>}
+                extra={<NavLink to="/intervalizedWFA">More</NavLink>}
                 style={{ height: "200px" }}
               >
                 构建一个抽象自动机（Intervalized Weighted Finite Automaton,
@@ -106,7 +106,7 @@ function Welcome(): ReactElement {
               <Card
                 title="对抗攻击"
                 hoverable={true}
-                extra={<a href="#">More</a>}
+                extra={<NavLink to="/adversarialAttack">More</NavLink>}
                 style={{ height: "200px" }}
               >
                 利用识别出的Vulnerable Negative Samples（VNS）和Target Positive
@@ -119,7 +119,7 @@ function Welcome(): ReactElement {
               <Card
                 title="逻辑场景到关键具体场景生成"
                 hoverable={true}
-                extra={<a href="#">More</a>}
+                extra={<NavLink to="/criticalSpecificScenarios">More</NavLink>}
                 style={{ height: "200px" }}
               >
                 将工具前端生成的逻辑场景模型输入，输出具体初始场景。
@@ -129,7 +129,7 @@ function Welcome(): ReactElement {
               <Card
                 title="逻辑场景到具体场景生成"
                 hoverable={true}
-                extra={<a href="#">More</a>}
+                extra={<NavLink to="/criticalScenarios">More</NavLink>}
                 style={{ height: "200px" }}
               >
                 将工具前端生成的逻辑场景模型输入，输出具体初始场景。
@@ -139,7 +139,7 @@ function Welcome(): ReactElement {
               <Card
                 title="多维时序数据聚类"
                 hoverable={true}
-                extra={<a href="#">More</a>}
+                extra={<NavLink to="/timeSeriesClustering">More</NavLink>}
                 style={{ height: "200px" }}
               >
                 将多维时序数据分类出具有意义的子序列，输出图片。
@@ -151,7 +151,7 @@ function Welcome(): ReactElement {
               <Card
                 title="强化学习建模"
                 hoverable={true}
-                extra={<a href="#">More</a>}
+                extra={<NavLink to="/RLModeling">More</NavLink>}
                 style={{ height: "200px" }}
               >
                 实现对MDP文件的可视化展示，以及模型的动态编辑。
@@ -161,7 +161,7 @@ function Welcome(): ReactElement {
               <Card
                 title="在线监测"
                 hoverable={true}
-                extra={ <NavLink to="/onlineMonitor">More</NavLink>}
+                extra={<NavLink to="/onlineMonitor">More</NavLink>}
                 style={{ height: "200px" }}
               >
                 实现对STL、LTL等规约的在线监测。
@@ -171,7 +171,7 @@ function Welcome(): ReactElement {
               <Card
                 title="仿真测试"
                 hoverable={true}
-                extra={<a href="#">More</a>}
+                extra={<NavLink to="/simulationTest">More</NavLink>}
                 style={{ height: "200px" }}
               >
                 实现对自动驾驶系统进行测试。用户可以选择上传自己的感知、规控模型，拼装成一辆自动驾驶车辆。随后用户选择测试场景，评估指标。最终展示测试报告。

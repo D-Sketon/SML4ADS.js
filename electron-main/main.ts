@@ -13,8 +13,18 @@ import writeJson from "../electron-node/io/writeJson";
 import chooseDirectory from "../electron-node/ui/chooseDirectory";
 import chooseFile from "../electron-node/ui/chooseFile";
 import ADSML2Uppaal from "../electron-node/verifier/index";
-import simulate from "../electron-node/rpc/simulate";
-import pstlMonitor from "../electron-node/rpc/pstlMonitor";
+import {
+  adversarialAttack,
+  causalInference,
+  criticalScenarios,
+  criticalSpecificScenarios,
+  intervalizedWFA,
+  onlineMonitor,
+  rlModeling,
+  simulate,
+  simulationTest,
+  timeSeriesClustering,
+} from "../electron-node/rpc";
 
 const createWindow = () => {
   // Create the browser window.
@@ -123,8 +133,16 @@ app.whenReady().then(() => {
 
   ipcMain.handle("verifier:ADSML2Uppaal", ADSML2Uppaal);
 
+  ipcMain.handle("rpc:adversarialAttack", adversarialAttack);
+  ipcMain.handle("rpc:causalInference", causalInference);
+  ipcMain.handle("rpc:criticalScenarios", criticalScenarios);
+  ipcMain.handle("rpc:criticalSpecificScenarios", criticalSpecificScenarios);
+  ipcMain.handle("rpc:intervalizedWFA", intervalizedWFA);
+  ipcMain.handle("rpc:onlineMonitor", onlineMonitor);
+  ipcMain.handle("rpc:rlModeling", rlModeling);
   ipcMain.handle("rpc:simulate", simulate);
-  ipcMain.handle("rpc:pstlMonitor", pstlMonitor);
+  ipcMain.handle("rpc:simulationTest", simulationTest);
+  ipcMain.handle("rpc:timeSeriesClustering", timeSeriesClustering);
 
   createWindow();
 

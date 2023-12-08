@@ -11,7 +11,7 @@ curr_dir = os.getcwd()
 
 
 def monitor(args) -> str:
-    df = pd.read_csv(os.path.join(curr_dir, 'pstl', args[0]) if args[0] == 'signal1.csv' else args[0], header=0)
+    df = pd.read_csv(os.path.join(curr_dir, 'onlineMonitor', args[0]) if args[0] == 'signal1.csv' else args[0], header=0)
     times = df['time'].tolist()
     signal = df['signal'].tolist()
 

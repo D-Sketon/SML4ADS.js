@@ -24,8 +24,63 @@ export interface IElectronAPI {
     outputPath: string
   ) => Promise<void>;
 
+  adversarialAttack: (
+    csvPath: string,
+    rnnPath: string,
+    pklPath: string,
+    weightPath: string,
+    port?: number,
+    host?: string
+  ) => Promise<any>;
+  causalInference: (
+    csvPath: string,
+    params: Record<string, any>,
+    port?: number,
+    host?: string
+  ) => Promise<any>;
+  criticalScenarios: (
+    carlaPort: number,
+    mapPath: string,
+    modelPath: string,
+    port?: number,
+    host?: string
+  ) => Promise<any>;
+  criticalSpecificScenarios: (
+    carlaPort: number,
+    modelPath: string,
+    outputPath: string,
+    port?: number,
+    host?: string
+  ) => Promise<any>;
+  intervalizedWFA: (
+    csvPath: string,
+    rnnPath: string,
+    pklPath: string,
+    port?: number,
+    host?: string
+  ) => Promise<any>;
+  onlineMonitor: (
+    signalPath: string,
+    stlArray: string,
+    isBase64: boolean,
+    port?: number,
+    host?: string
+  ) => Promise<string>;
+  rlModeling: (csvPath: string, port?: number, host?: string) => Promise<any>;
   simulate: (params: any, port: number, host?: string) => Promise<void>;
-  pstlMonitor: (signalPath: string, stlArray: string, isBase64: boolean, port?: number, host?: string) => Promise<string>;
+  simulationTest: (
+    csvPath: string,
+    scenario: string,
+    metrics: string[],
+    port?: number,
+    host?: string
+  ) => Promise<any>;
+  timeSeriesClustering: (
+    npyPath: string,
+    k: number,
+    port?: number,
+    host?: string
+  ) => Promise<any>;
 
   onOpenNotification: (
     callback: (

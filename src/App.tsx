@@ -10,6 +10,14 @@ import { notification } from "antd";
 import { clearStore } from "./store/action";
 import SettingsModal from "./components/modal/SettingsModal";
 import OnlineMonitor from "./components/extends/OnlineMonitor";
+import CausalInference from "./components/extends/CausalInference";
+import IntervalizedWFA from "./components/extends/IntervalizedWFA";
+import AdversarialAttack from "./components/extends/AdversarialAttack";
+import TimeSeriesClustering from "./components/extends/TimeSeriesClustering";
+import RLModeling from "./components/extends/RLModeling";
+import CriticalSpecificScenarios from "./components/extends/CriticalSpecificScenarios";
+import CriticalScenarios from "./components/extends/CriticalScenarios";
+import SimulationTest from "./components/extends/SimulationTest";
 
 type NotificationType = "success" | "info" | "warning" | "error";
 
@@ -64,6 +72,20 @@ function App(): ReactElement {
         <Route path="/home" element={<Home />} />
         <Route path="/welcome" element={<Welcome />} />
         <Route path="/onlineMonitor" element={<OnlineMonitor />} />
+        <Route path="/causalInference" element={<CausalInference />} />
+        <Route path="/intervalizedWFA" element={<IntervalizedWFA />} />
+        <Route path="/adversarialAttack" element={<AdversarialAttack />} />
+        <Route
+          path="/timeSeriesClustering"
+          element={<TimeSeriesClustering />}
+        />
+        <Route path="/RLModeling" element={<RLModeling />} />
+        <Route
+          path="/criticalSpecificScenarios"
+          element={<CriticalSpecificScenarios />}
+        />
+        <Route path="/criticalScenarios" element={<CriticalScenarios />} />
+        <Route path="/simulationTest" element={<SimulationTest />} />
         <Route path="/" element={<Navigate to="/welcome" />} />
       </Routes>
       <SettingsModal

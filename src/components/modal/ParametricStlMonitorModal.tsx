@@ -79,7 +79,7 @@ function ParametricStlMonitorModal(props: BaseModalProps): ReactElement {
       }
       return replacedPstl;
     });
-    await window.electronAPI.pstlMonitor(
+    await window.electronAPI.onlineMonitor(
       "signal1.csv",
       replacedParametricStls[0],
       false,

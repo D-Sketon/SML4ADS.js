@@ -34,15 +34,114 @@ contextBridge.exposeInMainWorld("electronAPI", {
       outputPath
     ),
 
-  simulate: (params: any, port: number, host?: string) =>
-    ipcRenderer.invoke("rpc:simulate", params, port, host),
-  pstlMonitor: (
+  adversarialAttack: (
+    csvPath: string,
+    rnnPath: string,
+    pklPath: string,
+    weightPath: string,
+    port?: number,
+    host?: string
+  ) =>
+    ipcRenderer.invoke(
+      "rpc:adversarialAttack",
+      csvPath,
+      rnnPath,
+      pklPath,
+      weightPath,
+      port,
+      host
+    ),
+  causalInference: (
+    csvPath: string,
+    params: Record<string, any>,
+    port?: number,
+    host?: string
+  ) => ipcRenderer.invoke("rpc:causalInference", csvPath, params, port, host),
+  criticalScenarios: (
+    carlaPort: number,
+    mapPath: string,
+    modelPath: string,
+    port?: number,
+    host?: string
+  ) =>
+    ipcRenderer.invoke(
+      "rpc:criticalScenarios",
+      carlaPort,
+      mapPath,
+      modelPath,
+      port,
+      host
+    ),
+  criticalSpecificScenarios: (
+    carlaPort: number,
+    modelPath: string,
+    outputPath: string,
+    port?: number,
+    host?: string
+  ) =>
+    ipcRenderer.invoke(
+      "rpc:criticalSpecificScenarios",
+      carlaPort,
+      modelPath,
+      outputPath,
+      port,
+      host
+    ),
+  intervalizedWFA: (
+    csvPath: string,
+    rnnPath: string,
+    pklPath: string,
+    port?: number,
+    host?: string
+  ) =>
+    ipcRenderer.invoke(
+      "rpc:intervalizedWFA",
+      csvPath,
+      rnnPath,
+      pklPath,
+      port,
+      host
+    ),
+  onlineMonitor: (
     signalPort: string,
     stlArray: string,
     isBase64: boolean,
     port?: number,
     host?: string
-  ) => ipcRenderer.invoke("rpc:pstlMonitor", signalPort, stlArray, isBase64, port, host),
+  ) =>
+    ipcRenderer.invoke(
+      "rpc:onlineMonitor",
+      signalPort,
+      stlArray,
+      isBase64,
+      port,
+      host
+    ),
+  rlModeling: (csvPath: string, port?: number, host?: string) =>
+    ipcRenderer.invoke("rpc:rlModeling", csvPath, port, host),
+  simulate: (params: any, port: number, host?: string) =>
+    ipcRenderer.invoke("rpc:simulate", params, port, host),
+  simulationTest: (
+    csvPath: string,
+    scenario: string,
+    metrics: string[],
+    port?: number,
+    host?: string
+  ) =>
+    ipcRenderer.invoke(
+      "rpc:simulationTest",
+      csvPath,
+      scenario,
+      metrics,
+      port,
+      host
+    ),
+  timeSeriesClustering: (
+    npyPath: string,
+    k: number,
+    port?: number,
+    host?: string
+  ) => ipcRenderer.invoke("rpc:timeSeriesClustering", npyPath, k, port, host),
 
   onOpenNotification: (
     callback: (

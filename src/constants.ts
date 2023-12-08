@@ -5,7 +5,9 @@ export enum FILE_SUFFIX {
   XML = "xml",
   XODR = "xodr",
   ADSML = "adsml",
-  CSV = 'csv',
+  CSV = "csv",
+  PKL = "pkl",
+  NPY = "npy",
 }
 
 export enum FILE_TYPE {

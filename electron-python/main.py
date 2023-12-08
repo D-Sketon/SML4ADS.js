@@ -2,7 +2,7 @@ import argparse
 import os
 
 import hprose
-from pstl import monitor
+from onlineMonitor import monitor
 from simulate.carla_simulator.carla_simulator import CarlaSimulator
 
 
@@ -115,15 +115,58 @@ def simulate(args) -> None:
     print('simulation finished.')
 
 
-def pstl(args) -> str:
+# extends area
+
+
+def adversarialAttack(args) -> None:
+    pass
+
+
+def causalInference(args) -> None:
+    pass
+
+
+def criticalScenarios(args) -> None:
+    pass
+
+
+def criticalSpecificScenarios(args) -> None:
+    pass
+
+
+def intervalizedWFA(args) -> None:
+    pass
+
+
+def onlineMonitor(args) -> str:
     print(f'args: {args}')
     return monitor.monitor(args)
+
+
+def rLModeling(args) -> None:
+    pass
+
+
+def simulationTest(args) -> None:
+    pass
+
+
+def timeSeriesClustering(args) -> None:
+    pass
 
 
 def main():
     server = hprose.HttpServer(port=20225)
     server.addFunction(simulate)
-    server.addFunction(pstl)
+    server.addFunction(adversarialAttack)
+    server.addFunction(causalInference)
+    server.addFunction(criticalScenarios)
+    server.addFunction(criticalSpecificScenarios)
+    server.addFunction(intervalizedWFA)
+    server.addFunction(onlineMonitor)
+    server.addFunction(rLModeling)
+    server.addFunction(simulationTest)
+    server.addFunction(timeSeriesClustering)
     server.handle('RPC')
     server.start()
 

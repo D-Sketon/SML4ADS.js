@@ -25,6 +25,9 @@ dependencies:
   katex:
     specifier: ^0.16.9
     version: registry.npmmirror.com/katex@0.16.9
+  papaparse:
+    specifier: ^5.4.1
+    version: registry.npmmirror.com/papaparse@5.4.1
   random:
     specifier: ^3.0.6
     version: registry.npmmirror.com/random@3.0.6
@@ -43,6 +46,9 @@ dependencies:
   react-scripts:
     specifier: 5.0.1
     version: registry.npmmirror.com/react-scripts@5.0.1(@babel/plugin-syntax-flow@7.23.3)(@babel/plugin-transform-react-jsx@7.22.15)(eslint@8.54.0)(react@18.2.0)(typescript@4.9.5)
+  react-vis-graph-wrapper:
+    specifier: ^0.1.3
+    version: registry.npmmirror.com/react-vis-graph-wrapper@0.1.3(@egjs/hammerjs@2.0.17)(component-emitter@1.3.0)(keycharm@0.4.0)(react@18.2.0)(uuid@8.3.2)(vis-util@5.0.7)
   reactflow:
     specifier: ^11.10.1
     version: registry.npmmirror.com/reactflow@11.10.1(@types/react@18.2.37)(react-dom@18.2.0)(react@18.2.0)
@@ -51,6 +57,9 @@ devDependencies:
   '@types/node':
     specifier: ^16.18.61
     version: registry.npmmirror.com/@types/node@16.18.61
+  '@types/papaparse':
+    specifier: ^5.3.14
+    version: registry.npmmirror.com/@types/papaparse@5.3.14
   '@types/react':
     specifier: ^18.2.37
     version: registry.npmmirror.com/@types/react@18.2.37
@@ -2077,6 +2086,15 @@ packages:
       ajv-keywords: registry.npmmirror.com/ajv-keywords@3.5.2(ajv@6.12.6)
     dev: true
 
+  registry.npmmirror.com/@egjs/hammerjs@2.0.17:
+    resolution: {integrity: sha512-XQsZgjm2EcVUiZQf11UBJQfmZeEmOW8DpI1gsFeln6w0ae0ii4dMQEQ0kjl6DspdWX1aGY1/loyXnP0JS06e/A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@egjs/hammerjs/-/hammerjs-2.0.17.tgz}
+    name: '@egjs/hammerjs'
+    version: 2.0.17
+    engines: {node: '>=0.8.0'}
+    dependencies:
+      '@types/hammerjs': registry.npmmirror.com/@types/hammerjs@2.0.45
+    dev: false
+
   registry.npmmirror.com/@electron/asar@3.2.8:
     resolution: {integrity: sha512-cmskk5M06ewHMZAplSiF4AlME3IrnnZhKnWbtwKVLRkdJkKyUVjMLhDIiPIx/+6zQWVlKX/LtmK9xDme7540Sg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@electron/asar/-/asar-3.2.8.tgz}
     name: '@electron/asar'
@@ -3576,6 +3594,12 @@ packages:
     dependencies:
       '@types/node': registry.npmmirror.com/@types/node@16.18.61
 
+  registry.npmmirror.com/@types/hammerjs@2.0.45:
+    resolution: {integrity: sha512-qkcUlZmX6c4J8q45taBKTL3p+LbITgyx7qhlPYOdOHZB7B31K0mXbP5YA7i7SgDeEGuI9MnumiKPEMrxg8j3KQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/hammerjs/-/hammerjs-2.0.45.tgz}
+    name: '@types/hammerjs'
+    version: 2.0.45
+    dev: false
+
   registry.npmmirror.com/@types/html-minifier-terser@6.1.0:
     resolution: {integrity: sha512-oh/6byDPnL1zeNXFrDXFLyZjkr1MsBG667IM792caf1L2UPOOMf65NFzjUH/ltyfwjAGfs1rsX1eftK0jC/KIg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/html-minifier-terser/-/html-minifier-terser-6.1.0.tgz}
     name: '@types/html-minifier-terser'
@@ -3636,6 +3660,12 @@ packages:
       '@types/node': registry.npmmirror.com/@types/node@16.18.61
     dev: true
 
+  registry.npmmirror.com/@types/lodash@4.14.202:
+    resolution: {integrity: sha512-OvlIYQK9tNneDlS0VN54LLd5uiPCBOp7gS5Z0f1mjoJYBrtStzgmJBxONW3U6OZqdtNzZPmn9BS/7WI7BFFcFQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/lodash/-/lodash-4.14.202.tgz}
+    name: '@types/lodash'
+    version: 4.14.202
+    dev: false
+
   registry.npmmirror.com/@types/mime@1.3.5:
     resolution: {integrity: sha512-/pyBZWSLD2n0dcHE3hq8s8ZvcETHtEuF+3E7XVt0Ig2nvsVQXdghHVcEkIWjy9A0wKfTn97a/PSDYohKIlnP/w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/mime/-/mime-1.3.5.tgz}
     name: '@types/mime'
@@ -3670,6 +3700,14 @@ packages:
     version: 18.18.9
     dependencies:
       undici-types: registry.npmmirror.com/undici-types@5.26.5
+    dev: true
+
+  registry.npmmirror.com/@types/papaparse@5.3.14:
+    resolution: {integrity: sha512-LxJ4iEFcpqc6METwp9f6BV6VVc43m6MfH0VqFosHvrUgfXiFe6ww7R3itkOQ+TCK6Y+Iv/+RnnvtRZnkc5Kc9g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/papaparse/-/papaparse-5.3.14.tgz}
+    name: '@types/papaparse'
+    version: 5.3.14
+    dependencies:
+      '@types/node': registry.npmmirror.com/@types/node@16.18.61
     dev: true
 
   registry.npmmirror.com/@types/parse-json@4.0.2:
@@ -6020,7 +6058,6 @@ packages:
     resolution: {integrity: sha512-Rd3se6QB+sO1TwqZjscQrurpEPIfO0/yYnSin6Q/rD3mOutHvUrCAhJub3r90uNb+SESBuE0QYoB90YdfatsRg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/component-emitter/-/component-emitter-1.3.0.tgz}
     name: component-emitter
     version: 1.3.0
-    dev: true
 
   registry.npmmirror.com/compressible@2.0.18:
     resolution: {integrity: sha512-AF3r7P5dWxL8MxyITRMlORQNaOA2IkAFaTr4k7BUumjPtRpGDTZpl0Pb1XCO6JeDCBdp126Cgs9sMxqSjgYyRg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/compressible/-/compressible-2.0.18.tgz}
@@ -10558,6 +10595,12 @@ packages:
       commander: registry.npmmirror.com/commander@8.3.0
     dev: false
 
+  registry.npmmirror.com/keycharm@0.4.0:
+    resolution: {integrity: sha512-TyQTtsabOVv3MeOpR92sIKk/br9wxS+zGj4BG7CR8YbK4jM3tyIBaF0zhzeBUMx36/Q/iQLOKKOT+3jOQtemRQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/keycharm/-/keycharm-0.4.0.tgz}
+    name: keycharm
+    version: 0.4.0
+    dev: false
+
   registry.npmmirror.com/keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/keyv/-/keyv-4.5.4.tgz}
     name: keyv
@@ -10766,6 +10809,12 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       p-locate: registry.npmmirror.com/p-locate@5.0.0
+
+  registry.npmmirror.com/lodash-es@4.17.21:
+    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/lodash-es/-/lodash-es-4.17.21.tgz}
+    name: lodash-es
+    version: 4.17.21
+    dev: false
 
   registry.npmmirror.com/lodash.debounce@4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz}
@@ -11688,6 +11737,12 @@ packages:
     name: pako
     version: 1.0.11
     dev: true
+
+  registry.npmmirror.com/papaparse@5.4.1:
+    resolution: {integrity: sha512-HipMsgJkZu8br23pW15uvo6sib6wne/4woLZPlFf3rpDyMe9ywEXUsuD7+6K9PRkJlVT51j/sCOYDKGGS3ZJrw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/papaparse/-/papaparse-5.4.1.tgz}
+    name: papaparse
+    version: 5.4.1
+    dev: false
 
   registry.npmmirror.com/parallel-transform@1.2.0:
     resolution: {integrity: sha512-P2vSmIu38uIlvdcU7fDkyrxj33gTUy/ABO5ZUbGowxNCopBq/OoD42bP4UmMrJoPyk4Uqf0mu3mtWBhHCZD8yg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/parallel-transform/-/parallel-transform-1.2.0.tgz}
@@ -14000,6 +14055,29 @@ packages:
       - webpack-hot-middleware
       - webpack-plugin-serve
 
+  registry.npmmirror.com/react-vis-graph-wrapper@0.1.3(@egjs/hammerjs@2.0.17)(component-emitter@1.3.0)(keycharm@0.4.0)(react@18.2.0)(uuid@8.3.2)(vis-util@5.0.7):
+    resolution: {integrity: sha512-joKVERnXoruwHNaK9WVguM+RjlQBrwRweimtmKN7qWbJZ39ue+EPMU2Q/KN860qXcWO4YA5VGsUSxVKzZhaucA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/react-vis-graph-wrapper/-/react-vis-graph-wrapper-0.1.3.tgz}
+    id: registry.npmmirror.com/react-vis-graph-wrapper/0.1.3
+    name: react-vis-graph-wrapper
+    version: 0.1.3
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=16'
+    dependencies:
+      '@types/lodash': registry.npmmirror.com/@types/lodash@4.14.202
+      lodash: registry.npmmirror.com/lodash@4.17.21
+      lodash-es: registry.npmmirror.com/lodash-es@4.17.21
+      react: registry.npmmirror.com/react@18.2.0
+      vis-data: registry.npmmirror.com/vis-data@7.1.9(uuid@8.3.2)(vis-util@5.0.7)
+      vis-network: registry.npmmirror.com/vis-network@9.1.9(@egjs/hammerjs@2.0.17)(component-emitter@1.3.0)(keycharm@0.4.0)(uuid@8.3.2)(vis-data@7.1.9)(vis-util@5.0.7)
+    transitivePeerDependencies:
+      - '@egjs/hammerjs'
+      - component-emitter
+      - keycharm
+      - uuid
+      - vis-util
+    dev: false
+
   registry.npmmirror.com/react@18.2.0:
     resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/react/-/react-18.2.0.tgz}
     name: react
@@ -16251,6 +16329,54 @@ packages:
       extsprintf: registry.npmmirror.com/extsprintf@1.4.1
     dev: true
     optional: true
+
+  registry.npmmirror.com/vis-data@7.1.9(uuid@8.3.2)(vis-util@5.0.7):
+    resolution: {integrity: sha512-COQsxlVrmcRIbZMMTYwD+C2bxYCFDNQ2EHESklPiInbD/Pk3JZ6qNL84Bp9wWjYjAzXfSlsNaFtRk+hO9yBPWA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vis-data/-/vis-data-7.1.9.tgz}
+    id: registry.npmmirror.com/vis-data/7.1.9
+    name: vis-data
+    version: 7.1.9
+    peerDependencies:
+      uuid: ^3.4.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
+      vis-util: ^5.0.1
+    dependencies:
+      uuid: registry.npmmirror.com/uuid@8.3.2
+      vis-util: registry.npmmirror.com/vis-util@5.0.7(@egjs/hammerjs@2.0.17)(component-emitter@1.3.0)
+    dev: false
+
+  registry.npmmirror.com/vis-network@9.1.9(@egjs/hammerjs@2.0.17)(component-emitter@1.3.0)(keycharm@0.4.0)(uuid@8.3.2)(vis-data@7.1.9)(vis-util@5.0.7):
+    resolution: {integrity: sha512-Ft+hLBVyiLstVYSb69Q1OIQeh3FeUxHJn0WdFcq+BFPqs+Vq1ibMi2sb//cxgq1CP7PH4yOXnHxEH/B2VzpZYA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vis-network/-/vis-network-9.1.9.tgz}
+    id: registry.npmmirror.com/vis-network/9.1.9
+    name: vis-network
+    version: 9.1.9
+    peerDependencies:
+      '@egjs/hammerjs': ^2.0.0
+      component-emitter: ^1.3.0
+      keycharm: ^0.2.0 || ^0.3.0 || ^0.4.0
+      uuid: ^3.4.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
+      vis-data: ^6.3.0 || ^7.0.0
+      vis-util: ^5.0.1
+    dependencies:
+      '@egjs/hammerjs': registry.npmmirror.com/@egjs/hammerjs@2.0.17
+      component-emitter: registry.npmmirror.com/component-emitter@1.3.0
+      keycharm: registry.npmmirror.com/keycharm@0.4.0
+      uuid: registry.npmmirror.com/uuid@8.3.2
+      vis-data: registry.npmmirror.com/vis-data@7.1.9(uuid@8.3.2)(vis-util@5.0.7)
+      vis-util: registry.npmmirror.com/vis-util@5.0.7(@egjs/hammerjs@2.0.17)(component-emitter@1.3.0)
+    dev: false
+
+  registry.npmmirror.com/vis-util@5.0.7(@egjs/hammerjs@2.0.17)(component-emitter@1.3.0):
+    resolution: {integrity: sha512-E3L03G3+trvc/X4LXvBfih3YIHcKS2WrP0XTdZefr6W6Qi/2nNCqZfe4JFfJU6DcQLm6Gxqj2Pfl+02859oL5A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vis-util/-/vis-util-5.0.7.tgz}
+    id: registry.npmmirror.com/vis-util/5.0.7
+    name: vis-util
+    version: 5.0.7
+    engines: {node: '>=8'}
+    peerDependencies:
+      '@egjs/hammerjs': ^2.0.0
+      component-emitter: ^1.3.0 || ^2.0.0
+    dependencies:
+      '@egjs/hammerjs': registry.npmmirror.com/@egjs/hammerjs@2.0.17
+      component-emitter: registry.npmmirror.com/component-emitter@1.3.0
+    dev: false
 
   registry.npmmirror.com/vm-browserify@1.1.2:
     resolution: {integrity: sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vm-browserify/-/vm-browserify-1.1.2.tgz}

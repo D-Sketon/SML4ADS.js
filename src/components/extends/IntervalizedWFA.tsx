@@ -1,41 +1,38 @@
+import { LeftOutlined } from "@ant-design/icons";
 import { Button, Card, Col, FloatButton, Row, Spin, notification } from "antd";
 import { ReactElement, useState } from "react";
-import { FILE_SUFFIX } from "../../constants";
-import { LeftOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { FILE_SUFFIX } from "../../constants";
 
-
-function OnlineMonitor(): ReactElement {
+function IntervalizedWFA(): ReactElement {
   const [csvPath, setCsvPath] = useState("");
-  const [stlPath, setStlPath] = useState("");
-  const [stlData, setStlData] = useState("");
-  const [imgUrl, setImgUrl] = useState("");
+  const [rnnPath, setRnnPath] = useState("");
+  const [pklPath, setPklPath] = useState("");
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
-  const navigate = useNavigate();
-  
-  async function handleChooseCsvFile(): Promise<void> {
+  const handleChooseCsvFile = async () => {
     const res = await window.electronAPI.chooseFile([FILE_SUFFIX.CSV]);
     if (res.filePaths.length) {
       setCsvPath(res.filePaths[0]);
     }
-  }
+  };
 
-  async function handleChooseStlFile(): Promise<void> {
-    const res = await window.electronAPI.chooseFile([FILE_SUFFIX.JSON]);
+  const handleChooseRnnFile = async () => {
+    const res = await window.electronAPI.chooseFile([]);
     if (res.filePaths.length) {
-      setStlPath(res.filePaths[0]);
-      const json = await window.electronAPI.readFile(res.filePaths[0]);
-      if (json) {
-        const stlData: {
-          stl: string;
-        } = JSON.parse(json);
-        setStlData(stlData.stl);
-      }
+      setRnnPath(res.filePaths[0]);
     }
-  }
+  };
 
-  const handleMonitor = async () => {
+  const handleChoosePklFile = async () => {
+    const res = await window.electronAPI.chooseFile([FILE_SUFFIX.PKL]);
+    if (res.filePaths.length) {
+      setPklPath(res.filePaths[0]);
+    }
+  };
+
+  const handleProcess = async () => {
     if (!csvPath) {
       notification.error({
         message: "Error",
@@ -43,24 +40,23 @@ function OnlineMonitor(): ReactElement {
       });
       return;
     }
-    if (!stlPath) {
+    if (!rnnPath) {
       notification.error({
         message: "Error",
-        description: "Please choose stl file",
+        description: "Please choose rnn file",
+      });
+      return;
+    }
+    if (!pklPath) {
+      notification.error({
+        message: "Error",
+        description: "Please choose pkl file",
       });
       return;
     }
     setIsLoading(true);
-    const base64 = await window.electronAPI.onlineMonitor(csvPath, stlData, true);
-    const byteCharacters = atob(base64);
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-    const blob = new Blob([byteArray], { type: "image/png" });
+    await window.electronAPI.intervalizedWFA(csvPath, rnnPath, pklPath);
     setIsLoading(false);
-    setImgUrl(URL.createObjectURL(blob));
   };
 
   return (
@@ -72,8 +68,8 @@ function OnlineMonitor(): ReactElement {
         <Row
           style={{ display: "flex", alignItems: "center", margin: "15px 0" }}
         >
-          <Col span={2}>csv file:</Col>
-          <Col span={22}>
+          <Col span={4}>time series file:</Col>
+          <Col span={20}>
             <Button
               type="primary"
               style={{ marginRight: "20px", width: 120 }}
@@ -89,46 +85,49 @@ function OnlineMonitor(): ReactElement {
         <Row
           style={{ display: "flex", alignItems: "center", margin: "15px 0" }}
         >
-          <Col span={2}>stl path:</Col>
-          <Col span={22}>
+          <Col span={4}>rnn file:</Col>
+          <Col span={20}>
             <Button
               type="primary"
               style={{ marginRight: "20px", width: 120 }}
-              onClick={handleChooseStlFile}
+              onClick={handleChooseRnnFile}
             >
               Choose File
             </Button>
             <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
-              {stlPath}
+              {rnnPath}
             </span>
           </Col>
         </Row>
         <Row
           style={{ display: "flex", alignItems: "center", margin: "15px 0" }}
         >
-          <Col span={2}>stl:</Col>
-          <Col span={22}>
-            <div>{stlData}</div>
+          <Col span={4}>pkl file:</Col>
+          <Col span={20}>
+            <Button
+              type="primary"
+              style={{ marginRight: "20px", width: 120 }}
+              onClick={handleChoosePklFile}
+            >
+              Choose File
+            </Button>
+            <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
+              {pklPath}
+            </span>
           </Col>
         </Row>
       </Card>
       <div style={{ padding: "0 10px 10px 10px", boxSizing: "border-box" }}>
-        <Button type="primary" block onClick={handleMonitor}>
-          Monitor
+        <Button type="primary" block onClick={handleProcess}>
+          Process
         </Button>
       </div>
       <Card title="Output" style={{ margin: "10px" }} hoverable>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          {isLoading && <Spin />}
-          {imgUrl && <img src={imgUrl} alt="Output" />}
-        </div>
+        {isLoading && <Spin />}
       </Card>
-      <FloatButton
-        icon={<LeftOutlined />}
-        onClick={() => navigate("/")}
-      />
+      <FloatButton icon={<LeftOutlined />} onClick={() => navigate("/")} />
     </div>
   );
 }
 
-export default OnlineMonitor;
+export default IntervalizedWFA;
