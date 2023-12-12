@@ -4,6 +4,7 @@ import os
 import hprose
 from onlineMonitor import monitor
 from simulate.carla_simulator.carla_simulator import CarlaSimulator
+from visualization import visualize
 
 
 def parse_args() -> dict:
@@ -155,6 +156,10 @@ def timeSeriesClustering(args) -> None:
     pass
 
 
+def visualization(args) -> str:
+    return visualize.visualize(args)
+
+
 def main():
     server = hprose.HttpServer(port=20225)
     server.addFunction(simulate)
@@ -167,6 +172,7 @@ def main():
     server.addFunction(rLModeling)
     server.addFunction(simulationTest)
     server.addFunction(timeSeriesClustering)
+    server.addFunction(visualization)
     server.handle('RPC')
     server.start()
 

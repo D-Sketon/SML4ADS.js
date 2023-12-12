@@ -4,8 +4,7 @@ import criticalScenarios from "./criticalScenarios";
 import criticalSpecificScenarios from "./criticalSpecificScenarios";
 import intervalizedWFA from "./intervalizedWFA";
 import onlineMonitor from "./onlineMonitor";
-import rlModeling from "./rlModeling";
-import simulate from "./simulate";
+import rLModeling from "./rLModeling";
 import simulationTest from "./simulationTest";
 import timeSeriesClustering from "./timeSeriesClustering";
 
@@ -16,8 +15,7 @@ export {
   criticalSpecificScenarios,
   intervalizedWFA,
   onlineMonitor,
-  rlModeling,
-  simulate,
+  rLModeling,
   simulationTest,
   timeSeriesClustering,
 };

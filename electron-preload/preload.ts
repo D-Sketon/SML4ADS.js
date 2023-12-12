@@ -117,10 +117,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
       port,
       host
     ),
-  rlModeling: (csvPath: string, port?: number, host?: string) =>
-    ipcRenderer.invoke("rpc:rlModeling", csvPath, port, host),
-  simulate: (params: any, port: number, host?: string) =>
-    ipcRenderer.invoke("rpc:simulate", params, port, host),
+  rLModeling: (csvPath: string, port?: number, host?: string) =>
+    ipcRenderer.invoke("rpc:rLModeling", csvPath, port, host),
   simulationTest: (
     csvPath: string,
     scenario: string,
@@ -142,6 +140,12 @@ contextBridge.exposeInMainWorld("electronAPI", {
     port?: number,
     host?: string
   ) => ipcRenderer.invoke("rpc:timeSeriesClustering", npyPath, k, port, host),
+
+  simulate: (params: any, port: number, host?: string) =>
+    ipcRenderer.invoke("rpc:simulate", params, port, host),
+
+  visualize: (path: string, car: any, port: number, host?: string) =>
+    ipcRenderer.invoke("rpc:visualize", path, car, port, host),
 
   onOpenNotification: (
     callback: (

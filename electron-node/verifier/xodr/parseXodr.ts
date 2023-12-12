@@ -11,9 +11,9 @@ import {
   XODRLaneSectionType,
   XODRLaneType,
   XODRJunctionType,
-  XODRConnectionType,
+  XODRJunctionConnectionType,
   XODRLaneLinkType,
-} from "./types";
+} from "../../XODRTypes";
 import { MapDataContainer } from "./model/MapDataContainer";
 
 // id -> index
@@ -64,12 +64,12 @@ const parseXodr = (input: string) => {
   });
   const xodrObj = parser.parse(input);
   const openDriveObj = xodrObj.OpenDRIVE;
-  const roadArray = openDriveObj.road
+  const roadArray: XODRRoadType[] = openDriveObj.road
     ? Array.isArray(openDriveObj.road)
       ? openDriveObj.road
       : [openDriveObj.road]
     : [];
-  const junctionArray = openDriveObj.junction
+  const junctionArray: XODRJunctionType[] = openDriveObj.junction
     ? Array.isArray(openDriveObj.junction)
       ? openDriveObj.junction
       : [openDriveObj.junction]
@@ -314,8 +314,11 @@ const parseRoad = (
   road.successorId = successorElementId;
 
   //    int maxSpeed;
-  const type = roadElement.type;
-  road.maxSpeed = parseFloat((type?.speed["@_max"] ?? "0") + "");
+  let type = roadElement.type;
+  if (type) {
+    if (!Array.isArray(type)) type = [type];
+    road.maxSpeed = parseFloat((type[0].speed["@_max"] ?? "0") + "");
+  }
 
   //    laneSections
   const laneSectionList = roadElement.lanes.laneSection;
@@ -440,7 +443,9 @@ const parseLane = (
 
     //  private int laneChange;
     const laneChange = laneElement.roadMark?.["@_laneChange"];
-    lane.laneChange = laneChange ? LANE_CHANGE_TYPES[laneChange] ?? 0 : 0;
+    lane.laneChange = laneChange
+      ? LANE_CHANGE_TYPES[laneChange as string] ?? 0
+      : 0;
 
     //  width
     const widthElement = laneElement.width?.["@_a"];
@@ -480,7 +485,7 @@ const parseJunction = (
 };
 
 const parseConnection = (
-  connectionList: XODRConnectionType[],
+  connectionList: XODRJunctionConnectionType[],
   junction: Junction,
   connections: Connection[],
   laneLinks: LaneLink[]

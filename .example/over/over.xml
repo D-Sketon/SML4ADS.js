@@ -206,7 +206,7 @@ LaneLink laneLinks[2];
 //id, width, length, heading, speed, acceleration, maxSpeed, ..., offset
 int countOfCars = 4;
 Car cars[4] = {
-{0, 0, 0, true, 102, 0, 200, 0, 0, -2, 0, 0, 2, 0},
+{0, 0, 0, true, 92, 0, 200, 0, 0, -2, 0, 0, 2, 0},
 {1, 0, 0, true, 100, 0, 200, 0, 0, -2, 0, 0, 2, 0},
 {2, 0, 0, true, 160, 0, 200, 0, 0, -2, 0, 0, 2, 0},
 {3, 0, 0, true, 120, 0, 200, 0, 0, -2, 0, 0, 2, 0}

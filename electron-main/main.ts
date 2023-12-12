@@ -20,11 +20,12 @@ import {
   criticalSpecificScenarios,
   intervalizedWFA,
   onlineMonitor,
-  rlModeling,
-  simulate,
+  rLModeling,
   simulationTest,
   timeSeriesClustering,
-} from "../electron-node/rpc";
+} from "../electron-node/rpc/extends";
+import simulate from "../electron-node/rpc/simulate";
+import visualize from "../electron-node/rpc/visualize";
 
 const createWindow = () => {
   // Create the browser window.
@@ -139,10 +140,13 @@ app.whenReady().then(() => {
   ipcMain.handle("rpc:criticalSpecificScenarios", criticalSpecificScenarios);
   ipcMain.handle("rpc:intervalizedWFA", intervalizedWFA);
   ipcMain.handle("rpc:onlineMonitor", onlineMonitor);
-  ipcMain.handle("rpc:rlModeling", rlModeling);
-  ipcMain.handle("rpc:simulate", simulate);
+  ipcMain.handle("rpc:rLModeling", rLModeling);
   ipcMain.handle("rpc:simulationTest", simulationTest);
   ipcMain.handle("rpc:timeSeriesClustering", timeSeriesClustering);
+
+  ipcMain.handle("rpc:simulate", simulate);
+
+  ipcMain.handle("rpc:visualize", visualize);
 
   createWindow();
 

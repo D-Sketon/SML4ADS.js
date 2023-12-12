@@ -66,8 +66,7 @@ export interface IElectronAPI {
     port?: number,
     host?: string
   ) => Promise<string>;
-  rlModeling: (csvPath: string, port?: number, host?: string) => Promise<any>;
-  simulate: (params: any, port: number, host?: string) => Promise<void>;
+  rLModeling: (csvPath: string, port?: number, host?: string) => Promise<any>;
   simulationTest: (
     csvPath: string,
     scenario: string,
@@ -81,6 +80,9 @@ export interface IElectronAPI {
     port?: number,
     host?: string
   ) => Promise<any>;
+
+  simulate: (params: any, port: number, host?: string) => Promise<void>;
+  visualize: (path: string, cars: any, port: number, host?: string) => Promise<any>;
 
   onOpenNotification: (
     callback: (
