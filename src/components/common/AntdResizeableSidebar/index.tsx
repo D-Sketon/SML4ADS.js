@@ -1,5 +1,5 @@
 import { SiderProps } from "antd/lib/layout/Sider";
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import Sider from "antd/lib/layout/Sider";
 
 // Cast minwidth as number to allow for % etc.
@@ -67,8 +67,14 @@ function AntdResizeableSidebar(props: SiderProps) {
     },
     { down: false, resizable: false, width: 200 }
   );
-  document.addEventListener("mouseup", dispatch);
-  document.addEventListener("mousemove", dispatch);
+  useEffect(() => {
+    document.addEventListener("mouseup", dispatch);
+    document.addEventListener("mousemove", dispatch);
+    return () => {
+      document.removeEventListener("mouseup", dispatch);
+      document.removeEventListener("mousemove", dispatch);
+    };
+  }, [dispatch]);
   return (
     <Sider
       {...props}

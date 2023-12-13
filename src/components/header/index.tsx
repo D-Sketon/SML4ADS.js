@@ -137,7 +137,7 @@ function HeaderButton(): ReactElement {
         <Button onClick={handlePreprocess}>Preprocess</Button>
         <Button onClick={handleVerify}>Verify</Button>
         <Button onClick={handlePstl}>PSTL</Button>
-        <Button onClick={handlePstlMonitor}>PSTL Monitor</Button>
+        <Button onClick={handlePstlMonitor}>STL Monitor</Button>
         <Button type="primary" onClick={handleSimulate}>
           Simulate
         </Button>

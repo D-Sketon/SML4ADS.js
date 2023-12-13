@@ -258,11 +258,16 @@ export class Scene {
     type: string;
     heading: boolean,
     road_deviation: number,
+    name: string,
   }) {
     const x: number = obstacle.center[0];
     const y: number = -obstacle.center[1];
-    const { width, length, orientation: angle, type } = obstacle;
+    let { width, length, orientation: angle, type, heading, road_deviation } = obstacle;
 
+    if(!heading) {
+      angle = -angle;
+    }
+    angle += road_deviation;
     const x1: number =
       x + (length / 2) * Math.cos(angle) - (width / 2) * Math.sin(angle);
     const y1: number =
@@ -298,6 +303,8 @@ export class Scene {
     }
     this.ctx.lineWidth = 0.1;
     this.ctx.fill();
+    this.ctx.font = '3px Arial';
+    this.ctx.fillText(obstacle.name, obstacle.center[0] + 3, -obstacle.center[1]);
 
     this.ctx.beginPath();
     this.ctx.moveTo(x, y);
@@ -326,7 +333,7 @@ export class Scene {
     for (let k = 1; k < center_vertices.length; k++) {
       this.ctx.lineTo(center_vertices[k][0], -center_vertices[k][1]);
     }
-    this.ctx.lineWidth = width + 1;
+    this.ctx.lineWidth = width + 1.5;
     this.ctx.globalAlpha = 0.2;
     this.ctx.stroke();
     this.ctx.globalAlpha = 1;
@@ -334,6 +341,7 @@ export class Scene {
 
   clear() {
     this.canvas.width = this.width;
+    this.canvas.height = this.height;
   }
 
   paint() {

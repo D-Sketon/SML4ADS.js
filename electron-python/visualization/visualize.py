@@ -14,7 +14,7 @@ def complex_object_encoder(obj):
 
 
 def generate_car(json_car, find_lanelet, longitudinal_offset, lateral_offset):
-    car = {'width': 1, 'length': 2, 'type': '',
+    car = {'width': 1.5, 'length': 3, 'type': '',
            'name': json_car['name'],
            'heading': json_car['heading'],
            'road_deviation': np.random.uniform(float(json_car['roadDeviation'][0]),

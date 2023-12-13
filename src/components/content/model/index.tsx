@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import BasicInformation from "./BasicInformation";
 import CarInformation from "./CarInformation";
-import { Button, Spin, notification } from "antd";
+import { Button, FloatButton, Spin, notification } from "antd";
 import { MModel, defaultModel } from "../../../model/Model";
 import { defaultCar } from "../../../model/Car";
 import AppContext from "../../../store/context";
@@ -16,6 +16,8 @@ import { setSaveFilePath } from "../../../store/action";
 import { checkModel } from "./utils/check";
 import oldModelAdapter from "./utils/adapter/oldModelAdapter";
 import { Scene } from "./Scene";
+import { useNavigate } from "react-router-dom";
+import { LeftOutlined } from "@ant-design/icons";
 
 interface ModelProps {
   path: string;
@@ -28,6 +30,7 @@ function Model(props: ModelProps): ReactElement {
   const { saveFilePath, workspacePath, config } = state;
   const [info, setInfo] = useState<string>("");
   const [saveCount, setSaveCount] = useState(1); // only for refresh
+  const navigate = useNavigate();
 
   const canvasRef = useRef(null);
 
@@ -79,7 +82,6 @@ function Model(props: ModelProps): ReactElement {
     };
     const scene = new Scene("mycanvas", info, options);
     scene.paint();
-    window.addEventListener("resize", resizeCanvas, false);
 
     function resizeCanvas() {
       scene.width =
@@ -130,7 +132,7 @@ function Model(props: ModelProps): ReactElement {
       }
     };
     asyncFn();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [path]);
 
   useEffect(() => {
@@ -191,60 +193,79 @@ function Model(props: ModelProps): ReactElement {
   };
 
   return (
-    <div
-      onKeyDown={handleKeyDown}
-      tabIndex={0}
-      style={{ height: "100%", display: "flex" }}
-    >
+    <>
       <div
-        style={{ width: "70%", overflow: "auto" }}
-        className="extend-wrapper"
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
+        style={{ height: "100%", display: "flex" }}
       >
-        {model ? (
-          <>
-            <BasicInformation model={model} setModel={setModel} />
-            {model.cars.map((_, index) => (
-              <CarInformation
-                model={model}
-                setModel={setModel}
-                index={index}
-                key={index}
-              />
-            ))}
-            <div style={{ padding: "0 10px 10px 0", boxSizing: "border-box" }}>
-              <Button type="primary" block onClick={handleAdd}>
-                + Add
-              </Button>
+        <div
+          style={{ width: "70%", overflow: "auto" }}
+          className="extend-wrapper"
+        >
+          {model ? (
+            <>
+              <BasicInformation model={model} setModel={setModel} />
+              {model.cars.map((_, index) => (
+                <CarInformation
+                  model={model}
+                  setModel={setModel}
+                  index={index}
+                  key={index}
+                />
+              ))}
+              <div
+                style={{ padding: "0 10px 10px 0", boxSizing: "border-box" }}
+              >
+                <Button type="primary" block onClick={handleAdd}>
+                  + Add
+                </Button>
+              </div>
+            </>
+          ) : (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
+                height: "100%",
+              }}
+            >
+              <Spin />
             </div>
-          </>
-        ) : (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "100%",
-              height: "100%",
-            }}
-          >
-            <Spin />
-          </div>
-        )}
+          )}
+        </div>
+        <div
+          style={{
+            width: "30%",
+            overflow: "hidden",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: '100%'
+          }}
+          className="extend-wrapper"
+          id="canvas-wrapper"
+        >
+          {info ? <canvas ref={canvasRef} id="mycanvas"></canvas> : <Spin />}
+        </div>
       </div>
-      <div
-        style={{
-          width: "30%",
-          overflow: "hidden",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-        className="extend-wrapper"
-        id="canvas-wrapper"
-      >
-        {info ? <canvas ref={canvasRef} id="mycanvas"></canvas> : <Spin />}
+      <div>
+        <FloatButton
+          type="primary"
+          style={{ right: 94 }}
+          onClick={() => {
+            saveHook(true);
+          }}
+        />
+        <FloatButton
+          icon={<LeftOutlined />}
+          onClick={() => navigate("/")}
+          style={{ right: 24 }}
+        />
       </div>
-    </div>
+    </>
   );
 }
 
