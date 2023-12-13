@@ -1,5 +1,5 @@
 import React, { ReactElement, useContext, useEffect, useState } from "react";
-import { Button, notification } from "antd";
+import { Menu, MenuProps, notification } from "antd";
 import "./index.less";
 import AppContext from "../../store/context";
 import { FILE_SUFFIX } from "../../constants";
@@ -12,6 +12,12 @@ import SimulateModal from "../modal/SimulateModal";
 import { checkTree } from "../content/tree/utils/check";
 import { checkModel } from "../content/model/utils/check";
 import ParametricStlMonitorModal from "../modal/ParametricStlMonitorModal";
+import {
+  ApartmentOutlined,
+  CarOutlined,
+  LineChartOutlined,
+  ReconciliationOutlined,
+} from "@ant-design/icons";
 
 function HeaderButton(): ReactElement {
   const { state, dispatch } = useContext(AppContext);
@@ -131,16 +137,83 @@ function HeaderButton(): ReactElement {
       });
     }
   };
+
+  const items: MenuProps["items"] = [
+    {
+      label: "Modeling",
+      key: "modeling",
+      icon: <ApartmentOutlined />,
+      children: [
+        {
+          label: "preprocess",
+          key: "preprocess",
+        },
+      ],
+    },
+    {
+      label: "Verification",
+      key: "verification",
+      icon: <ReconciliationOutlined />,
+    },
+    {
+      label: "Monitoring",
+      key: "monitoring",
+      icon: <LineChartOutlined />,
+      children: [
+        {
+          type: "group",
+          label: "STL",
+          children: [
+            {
+              label: "PSTL",
+              key: "pstl",
+            },
+            {
+              label: "STL Monitor",
+              key: "stlMonitor",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      label: "Simulation",
+      key: "simulation",
+      icon: <CarOutlined />,
+    },
+  ];
+
+  const onClick: MenuProps["onClick"] = (e) => {
+    switch (e.key) {
+      case "preprocess":
+        handlePreprocess();
+        break;
+      case "verification":
+        handleVerify();
+        break;
+      case 'simulation':
+        handleSimulate()
+        break
+      case 'pstl':
+        handlePstl()
+        break
+      case 'stlMonitor':
+        handlePstlMonitor()
+        break
+      default:
+    }
+  };
+
   return (
     <>
-      <div className="header-wrapper">
-        <Button onClick={handlePreprocess}>Preprocess</Button>
-        <Button onClick={handleVerify}>Verify</Button>
-        <Button onClick={handlePstl}>PSTL</Button>
-        <Button onClick={handlePstlMonitor}>STL Monitor</Button>
-        <Button type="primary" onClick={handleSimulate}>
-          Simulate
-        </Button>
+      <div>
+        <Menu
+          onClick={onClick}
+          selectedKeys={[]}
+          mode="horizontal"
+          items={items}
+          selectable={false}
+        />
       </div>
       <VerifyModal
         isModalOpen={verifyModalVisible}
