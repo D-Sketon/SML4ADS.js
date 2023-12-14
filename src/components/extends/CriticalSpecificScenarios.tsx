@@ -141,7 +141,7 @@ function CriticalSpecificScenarios(): ReactElement {
           }}
         >
           <Card
-            title="Input"
+            title="逻辑场景到关键具体场景生成"
             style={{ margin: "10px", height: "100%" }}
             hoverable
           >
@@ -177,7 +177,7 @@ function CriticalSpecificScenarios(): ReactElement {
                   onClick={handleChooseModelFile}
                   icon={<UploadOutlined />}
                 >
-                  File
+                  Model
                 </Button>
                 <div style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
                   {modelPath}

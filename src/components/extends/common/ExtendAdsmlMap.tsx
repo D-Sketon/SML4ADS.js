@@ -7,16 +7,17 @@ interface ExtendAdsmlMapProps {
   model: MModel;
   modelPath: string;
   saveCount: number; // only for refresh
+  mapPath?: string;
 }
 
 function ExtendAdsmlMap(props: ExtendAdsmlMapProps): ReactElement {
-  const { model, modelPath, saveCount } = props;
+  const { model, modelPath, saveCount, mapPath: mapPropPath } = props;
   const [info, setInfo] = useState<string>("");
 
   useEffect(() => {
     const asyncFn = async () => {
       if (!model) return;
-      const mapPath = await window.electronAPI.getAbsolutePath(
+      const mapPath = mapPropPath ?? await window.electronAPI.getAbsolutePath(
         modelPath,
         model.map
       );
@@ -28,7 +29,7 @@ function ExtendAdsmlMap(props: ExtendAdsmlMapProps): ReactElement {
       setInfo(info);
     };
     asyncFn();
-  }, [model, modelPath]);
+  }, [mapPropPath, model, modelPath]);
 
   useEffect(() => {
     if (!info) return;

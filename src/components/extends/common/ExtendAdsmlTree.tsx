@@ -66,7 +66,7 @@ function ExtendAdsmlTree(props: ExtendAdsmlTreeProps): ReactElement {
         edgeTypes={edgeTypes}
         style={{
           backgroundColor: "#fff",
-          height: "428px",
+          height: "398px",
         }}
       />
     </>
