@@ -230,12 +230,12 @@ const modifyId = (car: Car) => {
   }
 };
 
-const parseModel = (_e: any, content: string, workSpacePath: string) => {
+const parseModel = (_e: any, content: string, modelPath: string) => {
   nameCarMap = new Map<string, Car>();
   const model: Model = JSON.parse(content);
   // Change mapPath from relative path to absolute path
   if (model.mapType === MAP_TYPES.CUSTOM) {
-    model.map = getAbsolutePath(_e, workSpacePath, model.map);
+    model.map = getAbsolutePath(_e, modelPath, model.map);
   } else {
     model.map = path.resolve(__filename, "../../resources/map/" + model.map);
   }
@@ -246,7 +246,7 @@ const parseModel = (_e: any, content: string, workSpacePath: string) => {
 
   const cars: Car[] = [];
   for (const car of model.cars) {
-    const absolutePath = getAbsolutePath(_e, workSpacePath, car.treePath);
+    const absolutePath = getAbsolutePath(_e, modelPath, car.treePath);
     const treeContent = readFile(_e, absolutePath);
     const tree: Tree = JSON.parse(treeContent);
     car.mTree = tree;

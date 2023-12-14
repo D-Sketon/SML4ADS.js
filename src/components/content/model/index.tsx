@@ -3,7 +3,6 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useRef,
   useState,
 } from "react";
 import BasicInformation from "./BasicInformation";
@@ -31,8 +30,6 @@ function Model(props: ModelProps): ReactElement {
   const [info, setInfo] = useState<string>("");
   const [saveCount, setSaveCount] = useState(1); // only for refresh
   const navigate = useNavigate();
-
-  const canvasRef = useRef(null);
 
   const saveHook = useCallback(
     async (isManual = false) => {
@@ -112,12 +109,12 @@ function Model(props: ModelProps): ReactElement {
       try {
         checkModel(model);
         setModel(model);
-        const path = await window.electronAPI.getAbsolutePath(
-          workspacePath,
+        const mapPath = await window.electronAPI.getAbsolutePath(
+          path,
           model.map
         );
         const info = await window.electronAPI.visualize(
-          path,
+          mapPath,
           model.cars,
           config.simulationPort
         );
@@ -137,14 +134,13 @@ function Model(props: ModelProps): ReactElement {
 
   useEffect(() => {
     const asyncFn = async () => {
-      if (workspacePath === "") return;
       if (!model) return;
-      const path = await window.electronAPI.getAbsolutePath(
-        workspacePath,
+      const mapPath = await window.electronAPI.getAbsolutePath(
+        path,
         model.map
       );
       const info = await window.electronAPI.visualize(
-        path,
+        mapPath,
         model.cars,
         config.simulationPort
       );
@@ -205,13 +201,14 @@ function Model(props: ModelProps): ReactElement {
         >
           {model ? (
             <>
-              <BasicInformation model={model} setModel={setModel} />
+              <BasicInformation model={model} setModel={setModel} path={path} />
               {model.cars.map((_, index) => (
                 <CarInformation
                   model={model}
                   setModel={setModel}
                   index={index}
                   key={index}
+                  path={path}
                 />
               ))}
               <div
@@ -248,7 +245,7 @@ function Model(props: ModelProps): ReactElement {
           className="extend-wrapper"
           id="canvas-wrapper"
         >
-          {info ? <canvas ref={canvasRef} id="mycanvas"></canvas> : <Spin />}
+          {info ? <canvas id="mycanvas"></canvas> : <Spin />}
         </div>
       </div>
       <div>

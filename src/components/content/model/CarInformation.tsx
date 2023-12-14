@@ -1,8 +1,7 @@
 import { Card, Form, Select, Button, InputNumber, Input, Cascader } from "antd";
-import { ReactElement, useContext } from "react";
+import { ReactElement } from "react";
 import { FILE_SUFFIX } from "../../../constants";
 import { MModel, SIMULATOR_TYPES } from "../../../model/Model";
-import AppContext from "../../../store/context";
 import {
   GLOBAL_POSITION_PARAMS,
   LANE_POSITION_PARAMS,
@@ -27,23 +26,24 @@ import {
 import TextArea from "antd/es/input/TextArea";
 import "katex/dist/katex.min.css";
 import TeX from "@matejmazur/react-katex";
+import { UploadOutlined } from "@ant-design/icons";
 
 interface CarInformationProps {
   model: MModel;
   setModel: (value: any) => void;
   index: number;
+  path: string,
 }
 
 function CarInformation(props: CarInformationProps): ReactElement {
-  const { model, setModel, index } = props;
-  const { state } = useContext(AppContext);
+  const { model, setModel, index, path } = props;
   const car = model.cars[index];
 
   async function handleChooseFile(): Promise<void> {
     const res = await window.electronAPI.chooseFile([FILE_SUFFIX.TREE]);
     if (res.filePaths.length) {
       const relativePath = await window.electronAPI.getRelativePath(
-        state.workspacePath,
+        path,
         res.filePaths[0]
       );
       simpleSetCar("treePath", relativePath);
@@ -877,8 +877,9 @@ function CarInformation(props: CarInformationProps): ReactElement {
               type="primary"
               onClick={handleChooseFile}
               style={{ marginRight: "10px" }}
+              icon={<UploadOutlined />}
             >
-              Select File
+              Tree File
             </Button>
             <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
               {car.treePath}

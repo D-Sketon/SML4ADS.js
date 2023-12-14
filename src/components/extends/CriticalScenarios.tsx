@@ -11,6 +11,7 @@ import {
 } from "antd";
 import { ReactElement, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FILE_SUFFIX } from "../../constants";
 
 function CriticalScenarios(): ReactElement {
   const [port, setPort] = useState<number | null>(2000);
@@ -20,7 +21,7 @@ function CriticalScenarios(): ReactElement {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChooseModelFile = async () => {
-    const res = await window.electronAPI.chooseFile([]);
+    const res = await window.electronAPI.chooseFile([FILE_SUFFIX.ADSML]);
     if (res.filePaths.length) {
       setModelPath(res.filePaths[0]);
     }
@@ -69,7 +70,7 @@ function CriticalScenarios(): ReactElement {
         <Row
           style={{ display: "flex", alignItems: "center", margin: "15px 0" }}
         >
-          <Col span={4}>port:</Col>
+          <Col span={4}>carla port:</Col>
           <Col span={20}>
             <InputNumber
               min={0}
@@ -82,7 +83,7 @@ function CriticalScenarios(): ReactElement {
         <Row
           style={{ display: "flex", alignItems: "center", margin: "15px 0" }}
         >
-          <Col span={4}>map file:</Col>
+          <Col span={4}>scenario map file:</Col>
           <Col span={20}>
             <Button
               type="primary"
@@ -99,7 +100,7 @@ function CriticalScenarios(): ReactElement {
         <Row
           style={{ display: "flex", alignItems: "center", margin: "15px 0" }}
         >
-          <Col span={4}>model file:</Col>
+          <Col span={4}>scenario model file:</Col>
           <Col span={20}>
             <Button
               type="primary"

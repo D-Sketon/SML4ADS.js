@@ -9,7 +9,7 @@ const ADSML2Uppaal = (
   outputPath: string
 ) => {
   const content = readFile(_e, modelPath);
-  const model = parseModel(_e, content, workSpacePath);
+  const model = parseModel(_e, content, modelPath);
   writeXml(_e, model, outputPath);
 };
 

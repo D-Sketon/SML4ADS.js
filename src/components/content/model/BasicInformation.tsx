@@ -1,6 +1,6 @@
 import { Card, Form, Select, Button, InputNumber } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { ReactElement, useContext } from "react";
+import { ReactElement } from "react";
 
 import {
   DEFAULT_MAP_TYPES,
@@ -11,22 +11,21 @@ import {
   WEATHER_TYPES_LGSVL,
 } from "../../../model/Model";
 import { FILE_SUFFIX } from "../../../constants";
-import AppContext from "../../../store/context";
+import { UploadOutlined } from "@ant-design/icons";
 
 interface BasicInformationProps {
   setModel: (value: any) => void;
   model: MModel;
+  path: string;
 }
 
 function BasicInformation(props: BasicInformationProps): ReactElement {
-  const { model, setModel } = props;
-  const { state } = useContext(AppContext);
-
+  const { model, setModel, path } = props;
   async function handleChooseFile(): Promise<void> {
     const res = await window.electronAPI.chooseFile([FILE_SUFFIX.XODR]);
     if (res.filePaths.length) {
       const relativePath = await window.electronAPI.getRelativePath(
-        state.workspacePath,
+        path,
         res.filePaths[0]
       );
       setModel({ ...model, map: relativePath });
@@ -80,8 +79,9 @@ function BasicInformation(props: BasicInformationProps): ReactElement {
                 type="primary"
                 style={{ marginRight: "20px", width: 120 }}
                 onClick={handleChooseFile}
+                icon={<UploadOutlined />}
               >
-                Choose File
+                Map File
               </Button>
               <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
                 {model.map}

@@ -46,7 +46,7 @@ function HeaderButton(): ReactElement {
             checkModel(model);
             for (const car of model.cars) {
               const absolutePath = await window.electronAPI.getAbsolutePath(
-                workspacePath,
+                activatedFile!.path,
                 car.treePath
               );
               const treeContent = await window.electronAPI.readFile(
