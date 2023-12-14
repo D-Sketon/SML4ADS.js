@@ -3,13 +3,12 @@ import { ReactElement, useContext, useEffect, useState } from "react";
 import { BaseModalProps } from "./types";
 import { setConfig } from "../../store/action";
 import AppContext from "../../store/context";
-import { GLOBAL_CONSTANTS } from "../../constants";
 
 function SettingsModal(props: BaseModalProps): ReactElement {
   const { isModalOpen, handleCancel: _handleCancel = () => {} } = props;
 
   const { state, dispatch } = useContext(AppContext);
-  const { workspacePath, config } = state;
+  const { config } = state;
 
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [localPort, setLocalPort] = useState(config.simulationPort);
@@ -25,13 +24,10 @@ function SettingsModal(props: BaseModalProps): ReactElement {
   const handleOk = async (e: React.MouseEvent<HTMLButtonElement>) => {
     setConfirmLoading(true);
     dispatch(setConfig({ ...config, simulationPort: localPort }));
-    await window.electronAPI.writeJson(
-      `${workspacePath}/${GLOBAL_CONSTANTS.CONFIG_FILE_DIR}/${GLOBAL_CONSTANTS.CONFIG_FILE_NAME}`,
-      {
-        ...config,
-        simulationPort: localPort,
-      }
-    );
+    await window.electronAPI.writeConfig({
+      ...config,
+      simulationPort: localPort,
+    });
     setConfirmLoading(false);
     _handleCancel(e);
   };

@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import BasicInformation from "./BasicInformation";
 import CarInformation from "./CarInformation";
-import { Button, FloatButton, Spin, notification } from "antd";
+import { Button, Spin, notification } from "antd";
 import { MModel, defaultModel } from "../../../model/Model";
 import { defaultCar } from "../../../model/Car";
 import AppContext from "../../../store/context";
@@ -15,8 +15,6 @@ import { setSaveFilePath } from "../../../store/action";
 import { checkModel } from "./utils/check";
 import oldModelAdapter from "./utils/adapter/oldModelAdapter";
 import { Scene } from "./Scene";
-import { useNavigate } from "react-router-dom";
-import { LeftOutlined } from "@ant-design/icons";
 
 interface ModelProps {
   path: string;
@@ -29,7 +27,6 @@ function Model(props: ModelProps): ReactElement {
   const { saveFilePath, workspacePath, config } = state;
   const [info, setInfo] = useState<string>("");
   const [saveCount, setSaveCount] = useState(1); // only for refresh
-  const navigate = useNavigate();
 
   const saveHook = useCallback(
     async (isManual = false) => {
@@ -247,20 +244,6 @@ function Model(props: ModelProps): ReactElement {
         >
           {info ? <canvas id="mycanvas"></canvas> : <Spin />}
         </div>
-      </div>
-      <div>
-        <FloatButton
-          type="primary"
-          style={{ right: 94 }}
-          onClick={() => {
-            saveHook(true);
-          }}
-        />
-        <FloatButton
-          icon={<LeftOutlined />}
-          onClick={() => navigate("/")}
-          style={{ right: 24 }}
-        />
       </div>
     </>
   );

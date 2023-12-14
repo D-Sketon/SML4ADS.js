@@ -145,7 +145,7 @@ function HeaderButton(): ReactElement {
       icon: <ApartmentOutlined />,
       children: [
         {
-          label: "preprocess",
+          label: "generate adsml",
           key: "preprocess",
         },
       ],

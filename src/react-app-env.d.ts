@@ -1,4 +1,7 @@
 /// <reference types="react-scripts" />
+
+import { MConfig } from "./model/Config";
+
 export interface IElectronAPI {
   generateTree: (folderPath: string, excludeFiles?: string[]) => Promise<any>;
   readFile: (path: string) => Promise<string>;
@@ -14,6 +17,8 @@ export interface IElectronAPI {
   writeJson: (path: string, data: any) => Promise<boolean>;
   getRelativePath: (from: string, to: string) => Promise<string>;
   getAbsolutePath: (root: string, ...paths: string[]) => Promise<string>;
+  readConfig: () => Promise<MConfig>;
+  writeConfig: (object: MConfig) => Promise<boolean>;
 
   chooseFile: (filter: string[]) => Promise<any>;
   chooseDirectory: () => Promise<any>;
@@ -82,7 +87,12 @@ export interface IElectronAPI {
   ) => Promise<any>;
 
   simulate: (params: any, port: number, host?: string) => Promise<void>;
-  visualize: (path: string, cars: any, port: number, host?: string) => Promise<any>;
+  visualize: (
+    path: string,
+    cars: any,
+    port: number,
+    host?: string
+  ) => Promise<any>;
 
   onOpenNotification: (
     callback: (

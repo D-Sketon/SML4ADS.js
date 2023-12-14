@@ -78,6 +78,10 @@
       "perMachine": true,
       "allowToChangeInstallationDirectory": true
     },
+    "extraResources": {
+      "from": "./resources/extraResources/",
+      "to": "extraResources"
+    },
     "win": {
       "icon": "./build/favicon.png",
       "target": "nsis"

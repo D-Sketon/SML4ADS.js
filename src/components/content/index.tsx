@@ -1,5 +1,5 @@
 import React, { ReactElement, useContext, useEffect, useState } from "react";
-import { Tabs } from "antd";
+import { FloatButton, Tabs } from "antd";
 import Model from "./model";
 import Tree from "./tree";
 import Adsml from "./adsml";
@@ -7,6 +7,8 @@ import Text from "./text";
 import AppContext from "../../store/context";
 import { FILE_SUFFIX } from "../../constants";
 import { activateFilePath, removeFilePath } from "../../store/action";
+import { LeftOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
 type TargetKey = React.MouseEvent | React.KeyboardEvent | string;
 
@@ -37,6 +39,7 @@ function ContentCore(): ReactElement {
       key: string;
     }[]
   >([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setItems(
@@ -72,6 +75,11 @@ function ContentCore(): ReactElement {
         items={items}
         style={{ height: "100%" }}
       />
+      <FloatButton
+          icon={<LeftOutlined />}
+          onClick={() => navigate("/")}
+          style={{ right: 24 }}
+        />
     </div>
   );
 }

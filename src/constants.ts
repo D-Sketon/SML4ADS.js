@@ -21,8 +21,3 @@ export enum FILE_OPERATION {
   DELETE = "delete",
   RENAME = "rename",
 }
-
-export const GLOBAL_CONSTANTS = {
-  CONFIG_FILE_DIR: ".adsml",
-  CONFIG_FILE_NAME: "config.json",
-};

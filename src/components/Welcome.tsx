@@ -1,12 +1,10 @@
 import { ReactElement, useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Button, Card, Col, Row, notification } from "antd";
+import { Button, Card, Col, Row } from "antd";
 import Title from "antd/es/typography/Title";
 import AppContext from "../store/context";
-import { setConfig, setWorkspacePath } from "../store/action";
+import { setWorkspacePath } from "../store/action";
 import NewProjectModal from "./modal/NewProjectModal";
-import { MConfig, defaultConfig } from "../model/Config";
-import { GLOBAL_CONSTANTS } from "../constants";
 
 import "./Welcome.less";
 
@@ -26,29 +24,7 @@ function Welcome(): ReactElement {
     setDisableOpenButton(false);
     if (res.filePaths.length) {
       dispatch(setWorkspacePath(res.filePaths[0]));
-      await validateConfig(res.filePaths[0]);
       navigate("/home");
-    }
-  }
-
-  async function validateConfig(path: string) {
-    const configPath = `${path}/${GLOBAL_CONSTANTS.CONFIG_FILE_DIR}/${GLOBAL_CONSTANTS.CONFIG_FILE_NAME}`;
-    try {
-      const content = await window.electronAPI.readFile(configPath);
-      const config: MConfig = JSON.parse(content);
-      if (!config) {
-        throw new Error("Invalid config file");
-      }
-      dispatch(setConfig(config));
-    } catch (error: any) {
-      console.error(error);
-      notification.error({
-        message: "Error",
-        description: error.message,
-      });
-      // write default config
-      await window.electronAPI.writeJson(configPath, defaultConfig());
-      dispatch(setConfig(defaultConfig()));
     }
   }
 

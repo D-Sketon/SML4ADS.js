@@ -7,7 +7,7 @@ import Home from "./components/Home";
 import { initialState, reducer } from "./store/reducer";
 import "./App.less";
 import { notification } from "antd";
-import { clearStore } from "./store/action";
+import { clearStore, setConfig } from "./store/action";
 import SettingsModal from "./components/modal/SettingsModal";
 import OnlineMonitor from "./components/extends/OnlineMonitor";
 import CausalInference from "./components/extends/CausalInference";
@@ -18,6 +18,7 @@ import RLModeling from "./components/extends/RLModeling";
 import CriticalSpecificScenarios from "./components/extends/CriticalSpecificScenarios";
 import CriticalScenarios from "./components/extends/CriticalScenarios";
 import SimulationTest from "./components/extends/SimulationTest";
+import { MConfig } from "./model/Config";
 
 type NotificationType = "success" | "info" | "warning" | "error";
 
@@ -43,28 +44,26 @@ function App(): ReactElement {
     window.electronAPI.onChangeRoute((_e, route) => {
       navigate(route);
     });
+    window.electronAPI.onShowSettings((_e) => {
+      setShowSettingsModalVisible(true);
+    });
     return () => {
       window.electronAPI.offAllOpenNotification();
       window.electronAPI.offAllClearStore();
       window.electronAPI.offAllChangeRoute();
+      window.electronAPI.offAllShowSettings();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // read config
   useEffect(() => {
-    window.electronAPI.onShowSettings((_e) => {
-      if (state.workspacePath) setShowSettingsModalVisible(true);
-      else {
-        notification.warning({
-          message: "Warning",
-          description: "Please open a project first",
-        });
-      }
-    });
-    return () => {
-      window.electronAPI.offAllShowSettings();
+    const asyncFn = async () => {
+      const config: MConfig = await window.electronAPI.readConfig();
+      dispatch(setConfig(config));
     };
-  }, [state.workspacePath]);
+    asyncFn();
+  }, []);
 
   return (
     <AppContext.Provider value={{ state, dispatch }}>

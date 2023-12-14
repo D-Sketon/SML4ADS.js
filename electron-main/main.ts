@@ -10,6 +10,8 @@ import newFile from "../electron-node/io/newFile";
 import newProject from "../electron-node/io/newProject";
 import readFile from "../electron-node/io/readFile";
 import writeJson from "../electron-node/io/writeJson";
+import readConfig from "../electron-node/io/readConfig";
+import writeConfig from "../electron-node/io/writeConfig";
 import chooseDirectory from "../electron-node/ui/chooseDirectory";
 import chooseFile from "../electron-node/ui/chooseFile";
 import ADSML2Uppaal from "../electron-node/verifier/index";
@@ -128,6 +130,8 @@ app.whenReady().then(() => {
   ipcMain.handle("io:writeJson", writeJson);
   ipcMain.handle("io:getRelativePath", getRelativePath);
   ipcMain.handle("io:getAbsolutePath", getAbsolutePath);
+  ipcMain.handle("io:readConfig", readConfig);
+  ipcMain.handle("io:writeConfig", writeConfig);
 
   ipcMain.handle("ui:chooseFile", chooseFile);
   ipcMain.handle("ui:chooseDirectory", chooseDirectory);
