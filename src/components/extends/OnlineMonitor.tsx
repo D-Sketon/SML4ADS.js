@@ -1,18 +1,10 @@
-import {
-  Button,
-  Card,
-  Col,
-  FloatButton,
-  Row,
-  Spin,
-  Table,
-  notification,
-} from "antd";
+import { Button, Card, Col, FloatButton, Row, Spin, notification } from "antd";
 import { ReactElement, useState } from "react";
 import { FILE_SUFFIX } from "../../constants";
 import { LeftOutlined, UploadOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import Papa from "papaparse";
+import ExtendCsv from "./common/ExtendCsv";
 
 function OnlineMonitor(): ReactElement {
   const [csvPath, setCsvPath] = useState("");
@@ -20,15 +12,7 @@ function OnlineMonitor(): ReactElement {
   const [stlData, setStlData] = useState("");
   const [imgUrl, setImgUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  const [columns, setColumns] = useState<
-    {
-      title: string;
-      dataIndex: string;
-      key: string;
-    }[]
-  >([]);
-  const [dataSource, setDataSource] = useState<Record<string, string>[]>([]);
+  const [csvArray, setCsvArray] = useState<string[][]>([]);
 
   const navigate = useNavigate();
 
@@ -36,28 +20,10 @@ function OnlineMonitor(): ReactElement {
     const res = await window.electronAPI.chooseFile([FILE_SUFFIX.CSV]);
     if (res.filePaths.length) {
       setCsvPath(res.filePaths[0]);
-      const csvText = (await window.electronAPI.readFile(res.filePaths[0])).trim();
-      const csvArray: string[][] = Papa.parse(csvText).data as string[][];
-      setColumns(
-        csvArray[0].map((head) => {
-          return {
-            title: head,
-            dataIndex: head,
-            key: head,
-          };
-        })
-      );
-      setDataSource(
-        csvArray.slice(1).map((data, index) => {
-          return {
-            key: index + "",
-            ...data.reduce((acc, cur, index) => {
-              acc[csvArray[0][index]] = cur;
-              return acc;
-            }, {} as Record<string, string>),
-          };
-        })
-      );
+      const csvText = (
+        await window.electronAPI.readFile(res.filePaths[0])
+      ).trim();
+      setCsvArray(Papa.parse(csvText).data as string[][]);
     }
   }
 
@@ -92,25 +58,32 @@ function OnlineMonitor(): ReactElement {
     }
     setImgUrl("");
     setIsLoading(true);
-    const base64 = await window.electronAPI.onlineMonitor(
-      csvPath,
-      stlData,
-      true
-    );
-    
-    const byteCharacters = atob(base64);
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    try {
+      const base64 = await window.electronAPI.onlineMonitor(
+        csvPath,
+        stlData,
+        true
+      );
+
+      const byteCharacters = atob(base64);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: "image/png" });
+      setImgUrl(URL.createObjectURL(blob));
+      notification.success({
+        message: "Success",
+        description: "Monitor success",
+      });
+    } catch (e: any) {
+      notification.error({
+        message: "Error",
+        description: e.message,
+      });
     }
-    const byteArray = new Uint8Array(byteNumbers);
-    const blob = new Blob([byteArray], { type: "image/png" });
     setIsLoading(false);
-    notification.success({
-      message: "Success",
-      description: "Monitor success",
-    });
-    setImgUrl(URL.createObjectURL(blob));
   };
 
   return (
@@ -137,13 +110,7 @@ function OnlineMonitor(): ReactElement {
             </div>
           </Col>
         </Row>
-        <Table
-          dataSource={dataSource}
-          columns={columns}
-          pagination={false}
-          size="small"
-          scroll={{ y: 200 }}
-        />
+        <ExtendCsv csvArray={csvArray} />
         <Row
           style={{ display: "flex", alignItems: "center", margin: "15px 0" }}
         >

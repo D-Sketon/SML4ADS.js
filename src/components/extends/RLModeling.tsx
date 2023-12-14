@@ -1,4 +1,4 @@
-import { LeftOutlined } from "@ant-design/icons";
+import { LeftOutlined, UploadOutlined } from "@ant-design/icons";
 import { Button, Card, Col, FloatButton, Row, Spin } from "antd";
 import { ReactElement, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -39,8 +39,6 @@ function RLModeling(): ReactElement {
         });
         return acc;
       }, [] as { from: number; to: number; label?: string }[]);
-      console.log(nodes);
-      console.log(edges);
       setGraph({ nodes, edges });
     }
   };
@@ -88,7 +86,7 @@ function RLModeling(): ReactElement {
       style={{ backgroundColor: "#f6f6f6", height: "100vh", overflow: "auto" }}
       className="extend-wrapper"
     >
-      <Card title="Input" style={{ margin: "10px" }} hoverable>
+      <Card title="强化学习建模" style={{ margin: "10px" }} hoverable>
         <Row
           style={{ display: "flex", alignItems: "center", margin: "15px 0" }}
         >
@@ -98,8 +96,9 @@ function RLModeling(): ReactElement {
               type="primary"
               style={{ marginRight: "20px", width: 120 }}
               onClick={handleChooseCsvFile}
+              icon={<UploadOutlined />}
             >
-              Choose File
+              MDP
             </Button>
             <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
               {csvPath}

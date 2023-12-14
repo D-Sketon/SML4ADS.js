@@ -83,11 +83,22 @@ function CriticalSpecificScenarios(): ReactElement {
       return;
     }
     setIsLoading(true);
-    await window.electronAPI.criticalSpecificScenarios(
-      port,
-      modelPath,
-      outputPath
-    );
+    try {
+      await window.electronAPI.criticalSpecificScenarios(
+        port,
+        modelPath,
+        outputPath
+      );
+      notification.success({
+        message: "Success",
+        description: "Process Success",
+      });
+    } catch (e: any) {
+      notification.error({
+        message: "Error",
+        description: e.message,
+      });
+    }
     setIsLoading(false);
   };
 

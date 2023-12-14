@@ -44,7 +44,6 @@ function CriticalScenarios(): ReactElement {
           message: "Error",
           description: error.message,
         });
-        return;
       }
     }
   };
@@ -79,7 +78,18 @@ function CriticalScenarios(): ReactElement {
       return;
     }
     setIsLoading(true);
-    await window.electronAPI.criticalScenarios(port, mapPath, modelPath);
+    try {
+      await window.electronAPI.criticalScenarios(port, mapPath, modelPath);
+      notification.success({
+        message: "Success",
+        description: "Process Success",
+      });
+    } catch (e: any) {
+      notification.error({
+        message: "Error",
+        description: e.message,
+      });
+    }
     setIsLoading(false);
   };
 

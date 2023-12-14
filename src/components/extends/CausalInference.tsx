@@ -1,19 +1,35 @@
-import { LeftOutlined } from "@ant-design/icons";
-import { Button, Card, Col, FloatButton, Input, Row, Spin, notification } from "antd";
+import { LeftOutlined, UploadOutlined } from "@ant-design/icons";
+import {
+  Button,
+  Card,
+  Col,
+  FloatButton,
+  Input,
+  Row,
+  Spin,
+  notification,
+} from "antd";
 import { ReactElement, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FILE_SUFFIX } from "../../constants";
+import Papa from "papaparse";
+import ExtendCsv from "./common/ExtendCsv";
 
 function CausalInference(): ReactElement {
   const [csvPath, setCsvPath] = useState("");
   const [params, setParams] = useState<Record<string, any>>({});
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [csvArray, setCsvArray] = useState<string[][]>([]);
 
   const handleChooseCsvFile = async () => {
     const res = await window.electronAPI.chooseFile([FILE_SUFFIX.CSV]);
     if (res.filePaths.length) {
       setCsvPath(res.filePaths[0]);
+      const csvText = (
+        await window.electronAPI.readFile(res.filePaths[0])
+      ).trim();
+      setCsvArray(Papa.parse(csvText).data as string[][]);
     }
   };
 
@@ -26,7 +42,18 @@ function CausalInference(): ReactElement {
       return;
     }
     setIsLoading(true);
-    await window.electronAPI.causalInference(csvPath, params);
+    try {
+      await window.electronAPI.causalInference(csvPath, params);
+      notification.success({
+        message: "Success",
+        description: "Process Success",
+      });
+    } catch (e: any) {
+      notification.error({
+        message: "Error",
+        description: e.message,
+      });
+    }
     setIsLoading(false);
   };
 
@@ -35,7 +62,7 @@ function CausalInference(): ReactElement {
       style={{ backgroundColor: "#f6f6f6", height: "100vh", overflow: "auto" }}
       className="extend-wrapper"
     >
-      <Card title="Input" style={{ margin: "10px" }} hoverable>
+      <Card title="因果推理" style={{ margin: "10px" }} hoverable>
         <Row
           style={{ display: "flex", alignItems: "center", margin: "15px 0" }}
         >
@@ -45,14 +72,16 @@ function CausalInference(): ReactElement {
               type="primary"
               style={{ marginRight: "20px", width: 120 }}
               onClick={handleChooseCsvFile}
+              icon={<UploadOutlined />}
             >
-              Choose File
+              Time Series
             </Button>
             <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
               {csvPath}
             </span>
           </Col>
         </Row>
+        <ExtendCsv csvArray={csvArray} />
         <Row
           style={{ display: "flex", alignItems: "center", margin: "15px 0" }}
         >
@@ -65,6 +94,7 @@ function CausalInference(): ReactElement {
                   intensityThreshold: e.target.value,
                 });
               }}
+              style={{ width: "120px" }}
             />
           </Col>
         </Row>
@@ -80,6 +110,7 @@ function CausalInference(): ReactElement {
                   windowSize: e.target.value,
                 });
               }}
+              style={{ width: "120px" }}
             />
           </Col>
         </Row>

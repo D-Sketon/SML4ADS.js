@@ -20,7 +20,7 @@ function TimeSeriesClustering(): ReactElement {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChooseNpyFile = async () => {
-    const res = await window.electronAPI.chooseFile([FILE_SUFFIX.CSV]);
+    const res = await window.electronAPI.chooseFile([FILE_SUFFIX.NPY]);
     if (res.filePaths.length) {
       setNpyPath(res.filePaths[0]);
     }
@@ -42,7 +42,18 @@ function TimeSeriesClustering(): ReactElement {
       return;
     }
     setIsLoading(true);
-    await window.electronAPI.timeSeriesClustering(npyPath, k);
+    try {
+      await window.electronAPI.timeSeriesClustering(npyPath, k);
+      notification.success({
+        message: "Success",
+        description: "Process Success",
+      });
+    } catch (e: any) {
+      notification.error({
+        message: "Error",
+        description: e.message,
+      });
+    }
     setIsLoading(false);
   };
 
@@ -51,7 +62,7 @@ function TimeSeriesClustering(): ReactElement {
       style={{ backgroundColor: "#f6f6f6", height: "100vh", overflow: "auto" }}
       className="extend-wrapper"
     >
-      <Card title="Input" style={{ margin: "10px" }} hoverable>
+      <Card title="多维时序数据聚类" style={{ margin: "10px" }} hoverable>
         <Row
           style={{ display: "flex", alignItems: "center", margin: "15px 0" }}
         >

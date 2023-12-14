@@ -1,5 +1,14 @@
 import { LeftOutlined } from "@ant-design/icons";
-import { Card, Row, Col, Button, Spin, FloatButton, Select, notification } from "antd";
+import {
+  Card,
+  Row,
+  Col,
+  Button,
+  Spin,
+  FloatButton,
+  Select,
+  notification,
+} from "antd";
 import { ReactElement, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -25,7 +34,7 @@ function SimulationTest(): ReactElement {
       });
       return;
     }
-    if(!scenario) {
+    if (!scenario) {
       notification.error({
         message: "Error",
         description: "Please choose scenario",
@@ -33,7 +42,18 @@ function SimulationTest(): ReactElement {
       return;
     }
     setIsLoading(true);
-    await window.electronAPI.simulationTest(modelPath, scenario, metrics);
+    try {
+      await window.electronAPI.simulationTest(modelPath, scenario, metrics);
+      notification.success({
+        message: "Success",
+        description: "Process Success",
+      });
+    } catch (e: any) {
+      notification.error({
+        message: "Error",
+        description: e.message,
+      });
+    }
     setIsLoading(false);
   };
 
@@ -42,7 +62,7 @@ function SimulationTest(): ReactElement {
       style={{ backgroundColor: "#f6f6f6", height: "100vh", overflow: "auto" }}
       className="extend-wrapper"
     >
-      <Card title="Input" style={{ margin: "10px" }} hoverable>
+      <Card title="仿真测试" style={{ margin: "10px" }} hoverable>
         <Row
           style={{ display: "flex", alignItems: "center", margin: "15px 0" }}
         >
@@ -55,9 +75,9 @@ function SimulationTest(): ReactElement {
             >
               Choose File
             </Button>
-            <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
+            <div style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
               {modelPath}
-            </span>
+            </div>
           </Col>
         </Row>
         <Row
@@ -93,7 +113,7 @@ function SimulationTest(): ReactElement {
         >
           <Col span={4}>evaluation metrics:</Col>
           <Col span={20}>
-          <Select
+            <Select
               style={{ width: 180 }}
               mode="multiple"
               options={[

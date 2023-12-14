@@ -10,15 +10,10 @@ async function adversarialAttack(
   port = "20225",
   host = "127.0.0.1"
 ) {
-  try {
-    const client = new Client(`http://${host}:${port}/RPC`);
-    return await client.invoke("adversarialAttack", [
-      [csvPath, rnnPath, pklPath, weightPath],
-    ]);
-  } catch (error: any) {
-    console.error(error);
-    _e?.sender.send("ui:onOpenNotification", "error", "Error", error.message);
-  }
+  const client = new Client(`http://${host}:${port}/RPC`);
+  return await client.invoke("adversarialAttack", [
+    [csvPath, rnnPath, pklPath, weightPath],
+  ]);
 }
 
 export default adversarialAttack;
