@@ -10,35 +10,18 @@ import {
   FloatButton,
   InputNumber,
   Row,
-  Select,
   Spin,
   Tabs,
   notification,
 } from "antd";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FILE_SUFFIX } from "../../constants";
 import { MModel } from "../../model/Model";
 import { checkModel } from "../content/model/utils/check";
-import AdsmlContent from "../content/adsml/AdsmlContent";
-import { Scene } from "../content/model/Scene";
-import ImmutableBehaviorNode from "../content/adsml/ImmutableBehaviorNode";
-import BranchNode from "../content/tree/node/BranchNode";
-import CommonTransition from "../content/tree/transition/CommonTransition";
-import ProbabilityTransition from "../content/tree/transition/ProbabilityTransition";
-import { useEdgesState, useNodesState } from "reactflow";
-import treeNodeAdapter from "../content/tree/utils/adapter/treeNodeAdapter";
-import AdsmlTree from "../content/adsml/AdsmlTree";
-
-const nodeTypes = {
-  ImmutableBehaviorNode,
-  BranchNode,
-};
-
-const edgeTypes = {
-  CommonTransition,
-  ProbabilityTransition,
-};
+import ExtendAdsmlContent from "./common/ExtendAdsmlContent";
+import ExtendAdsmlTree from "./common/ExtendAdsmlTree";
+import ExtendAdsmlMap from "./common/ExtendAdsmlMap";
 
 function CriticalSpecificScenarios(): ReactElement {
   const [port, setPort] = useState<number | null>(2000);
@@ -48,11 +31,7 @@ function CriticalSpecificScenarios(): ReactElement {
   const [isLoading, setIsLoading] = useState(false);
 
   const [model, setModel] = useState<MModel | null>(null);
-  const [info, setInfo] = useState<string>("");
   const [saveCount, setSaveCount] = useState(1); // only for refresh
-  const [selectedCar, setSelectedCar] = useState<number | null>(null);
-  const [nodes, setNodes] = useNodesState([]);
-  const [edges, setEdges] = useEdgesState([]);
 
   const handleChooseModelFile = async () => {
     const res = await window.electronAPI.chooseFile([FILE_SUFFIX.ADSML]);
@@ -112,134 +91,29 @@ function CriticalSpecificScenarios(): ReactElement {
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    const asyncFn = async () => {
-      if (!model) return;
-      const mapPath = await window.electronAPI.getAbsolutePath(
-        modelPath,
-        model.map
-      );
-      const info = await window.electronAPI.visualize(
-        mapPath,
-        model.cars,
-        20225
-      );
-      setInfo(info);
-    };
-    asyncFn();
-  }, [model, modelPath]);
-
-  useEffect(() => {
-    if (!info) return;
-    const options = {
-      width:
-        document.getElementById("canvas-wrapper")?.getBoundingClientRect()
-          ?.width ?? 0,
-      height:
-        document.getElementById("canvas-wrapper")?.getBoundingClientRect()
-          ?.height ?? 0,
-    };
-    const scene = new Scene("mycanvas", info, options);
-    scene.paint();
-
-    function resizeCanvas() {
-      scene.width =
-        document.getElementById("canvas-wrapper")?.getBoundingClientRect()
-          .width ?? 0;
-      scene.height =
-        document.getElementById("canvas-wrapper")?.getBoundingClientRect()
-          .height ?? 0;
-      scene.paint();
-    }
-    window.addEventListener("resize", resizeCanvas, false);
-    return () => {
-      window.removeEventListener("resize", resizeCanvas);
-    };
-  }, [info, saveCount]);
-
   const tabItems = [
     {
       label: "model",
       key: "model",
-      children: model ? (
-        <AdsmlContent
-          model={model}
-          handleCarClick={() => {}}
-          className="left-info"
-          style={{
-            height: "460px",
-            overflow: "auto",
-          }}
-        />
-      ) : (
-        <></>
-      ),
+      children: model ? <ExtendAdsmlContent model={model} /> : <></>,
     },
     {
       label: "tree",
       key: "tree",
-      children: (
-        <>
-          <Row
-            style={{ display: "flex", alignItems: "center", margin: "15px 0" }}
-          >
-            <Col span={3}>Car name:</Col>
-            <Col span={21}>
-              <Select
-                style={{ width: 180 }}
-                options={
-                  model?.cars.map((car, index) => ({
-                    label: car.name,
-                    value: index,
-                  })) ?? []
-                }
-                value={selectedCar}
-                onChange={(e) => {
-                  setSelectedCar(e);
-                  if (e === null || model === null) return;
-                  const tree = model.cars[e].mTree!;
-                  const { nodes, edges } = treeNodeAdapter(
-                    tree,
-                    setNodes,
-                    "ImmutableBehaviorNode"
-                  );
-                  setNodes(nodes);
-                  setEdges(edges);
-                }}
-              />
-            </Col>
-          </Row>
-
-          <AdsmlTree
-            nodes={nodes}
-            edges={edges}
-            nodeTypes={nodeTypes}
-            edgeTypes={edgeTypes}
-            style={{
-              backgroundColor: "#fff",
-              height: "428px",
-            }}
-          />
-        </>
-      ),
+      children: model ? <ExtendAdsmlTree model={model} /> : <></>,
     },
     {
       label: "map",
       key: "map",
       forceRender: true,
-      children: (
-        <div
-          style={{
-            overflow: "hidden",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "460px",
-          }}
-          id="canvas-wrapper"
-        >
-          {info ? <canvas id="mycanvas"></canvas> : <Spin />}
-        </div>
+      children: model ? (
+        <ExtendAdsmlMap
+          model={model}
+          modelPath={modelPath}
+          saveCount={saveCount}
+        />
+      ) : (
+        <></>
       ),
     },
   ];
