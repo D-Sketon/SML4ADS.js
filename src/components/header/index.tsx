@@ -22,7 +22,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 function HeaderButton(): ReactElement {
   const { state, dispatch } = useContext(AppContext);
-  const { filePath, workspacePath, saveFilePath } = state;
+  const { filePath, saveFilePath } = state;
   const activatedFile = filePath.find((file) => file.isActive);
   const [verifyModalVisible, setVerifyModalVisible] = useState(false);
   const [parametricStlModalVisible, setParametricStlModalVisible] =
@@ -83,8 +83,8 @@ function HeaderButton(): ReactElement {
       }
     };
     asyncFn();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activatedFile, filePath, saveFilePath, workspacePath]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activatedFile, filePath, saveFilePath]);
 
   const handlePreprocess = async () => {
     if (activatedFile && activatedFile.ext === FILE_SUFFIX.MODEL) {

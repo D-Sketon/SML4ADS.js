@@ -13,6 +13,7 @@ import {
 } from "../../store/action";
 import { LeftOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import Xodr from "./xodr";
 
 type TargetKey = React.MouseEvent | React.KeyboardEvent | string;
 
@@ -26,8 +27,9 @@ function getChildrenComponent(path: string, key: FILE_SUFFIX | string) {
       return <Adsml path={path} />;
     case FILE_SUFFIX.JSON:
     case FILE_SUFFIX.XML:
-    case FILE_SUFFIX.XODR:
       return <Text path={path} ext={key} />;
+    case FILE_SUFFIX.XODR:
+      return <Xodr path={path} ext={key} />;
     default:
       return <></>;
   }

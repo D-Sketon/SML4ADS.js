@@ -1,38 +1,34 @@
-import { Spin } from "antd";
 import { ReactElement, useContext, useEffect, useRef, useState } from "react";
-import { Scene } from "../../content/model/Scene";
-import { MModel } from "../../../model/Model";
+import { FILE_SUFFIX } from "../../../constants";
+import Text from "../text";
+import { Spin } from "antd";
 import AppContext from "../../../store/context";
+import { Scene } from "../model/Scene";
 
-interface ExtendAdsmlMapProps {
-  model: MModel;
-  modelPath: string;
-  saveCount: number; // only for refresh
-  mapPath?: string;
+interface XodrProps {
+  path: string;
+  ext: FILE_SUFFIX;
 }
 
-function ExtendAdsmlMap(props: ExtendAdsmlMapProps): ReactElement {
-  const { model, modelPath, saveCount, mapPath: mapPropPath } = props;
+function Xodr(props: XodrProps): ReactElement {
+  const { path, ext } = props;
   const { state } = useContext(AppContext);
+  const { config } = state;
   const [info, setInfo] = useState<string>("");
   const canvasRef = useRef(null);
   const canvasWrapperRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const asyncFn = async () => {
-      if (!model) return;
-      const mapPath =
-        mapPropPath ??
-        (await window.electronAPI.getAbsolutePath(modelPath, model.map));
       const info = await window.electronAPI.visualize(
-        mapPath,
-        model.cars,
-        state.config.simulationPort
+        path,
+        [],
+        config.simulationPort
       );
       setInfo(info);
     };
     asyncFn();
-  }, [mapPropPath, model, modelPath, state.config.simulationPort]);
+  }, [config.simulationPort, path]);
 
   useEffect(() => {
     if (!info) return;
@@ -55,21 +51,31 @@ function ExtendAdsmlMap(props: ExtendAdsmlMapProps): ReactElement {
     return () => {
       window.removeEventListener("resize", resizeCanvas);
     };
-  }, [info, saveCount]);
+  }, [info]);
+
   return (
-    <div
-      style={{
-        overflow: "hidden",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "460px",
-      }}
-      ref={canvasWrapperRef}
-    >
-      {info ? <canvas ref={canvasRef}></canvas> : <Spin />}
+    <div style={{ display: "flex", height: "100%" }}>
+      <div
+        style={{ width: "50%", overflow: "auto" }}
+        className="extend-wrapper"
+      >
+        <Text path={path} ext={ext} />
+      </div>
+      <div
+        style={{
+          width: "50%",
+          overflow: "hidden",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+        }}
+        ref={canvasWrapperRef}
+      >
+        {info ? <canvas ref={canvasRef}></canvas> : <Spin />}
+      </div>
     </div>
   );
 }
 
-export default ExtendAdsmlMap;
+export default Xodr;

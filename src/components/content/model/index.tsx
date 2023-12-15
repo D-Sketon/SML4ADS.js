@@ -3,6 +3,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import BasicInformation from "./BasicInformation";
@@ -24,9 +25,12 @@ function Model(props: ModelProps): ReactElement {
   const { path } = props;
   const [model, setModel] = useState<MModel | null>(null);
   const { state, dispatch } = useContext(AppContext);
-  const { saveFilePath, workspacePath, config } = state;
+  const { saveFilePath, config } = state;
   const [info, setInfo] = useState<string>("");
   const [saveCount, setSaveCount] = useState(1); // only for refresh
+
+  const canvasRef = useRef(null);
+  const canvasWrapperRef = useRef<HTMLDivElement | null>(null);
 
   const saveHook = useCallback(
     async (isManual = false) => {
@@ -66,24 +70,19 @@ function Model(props: ModelProps): ReactElement {
 
   useEffect(() => {
     if (!info) return;
+    if (!canvasRef.current) return;
     const options = {
-      width:
-        document.getElementById("canvas-wrapper")?.getBoundingClientRect()
-          .width ?? 0,
-      height:
-        document.getElementById("canvas-wrapper")?.getBoundingClientRect()
-          .height ?? 0,
+      width: canvasWrapperRef.current?.getBoundingClientRect().width ?? 0,
+      height: canvasWrapperRef.current?.getBoundingClientRect().height ?? 0,
     };
-    const scene = new Scene("mycanvas", info, options);
+    const scene = new Scene(canvasRef.current, info, options);
     scene.paint();
 
     function resizeCanvas() {
       scene.width =
-        document.getElementById("canvas-wrapper")?.getBoundingClientRect()
-          .width ?? 0;
+        canvasWrapperRef.current?.getBoundingClientRect().width ?? 0;
       scene.height =
-        document.getElementById("canvas-wrapper")?.getBoundingClientRect()
-          .height ?? 0;
+        canvasWrapperRef.current?.getBoundingClientRect().height ?? 0;
       scene.paint();
     }
     window.addEventListener("resize", resizeCanvas, false);
@@ -132,10 +131,7 @@ function Model(props: ModelProps): ReactElement {
   useEffect(() => {
     const asyncFn = async () => {
       if (!model) return;
-      const mapPath = await window.electronAPI.getAbsolutePath(
-        path,
-        model.map
-      );
+      const mapPath = await window.electronAPI.getAbsolutePath(path, model.map);
       const info = await window.electronAPI.visualize(
         mapPath,
         model.cars,
@@ -145,7 +141,7 @@ function Model(props: ModelProps): ReactElement {
     };
     asyncFn();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [config.simulationPort, workspacePath, saveCount]);
+  }, [config.simulationPort, saveCount]);
 
   // onUnmounted
   // has bug, so ignore
@@ -237,12 +233,11 @@ function Model(props: ModelProps): ReactElement {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            height: '100%'
+            height: "100%",
           }}
-          className="extend-wrapper"
-          id="canvas-wrapper"
+          ref={canvasWrapperRef}
         >
-          {info ? <canvas id="mycanvas"></canvas> : <Spin />}
+          {info ? <canvas ref={canvasRef}></canvas> : <Spin />}
         </div>
       </div>
     </>

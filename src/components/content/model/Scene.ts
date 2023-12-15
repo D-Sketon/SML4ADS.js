@@ -23,14 +23,14 @@ export class Scene {
   };
 
   constructor(
-    id: string,
+    id: string | HTMLCanvasElement,
     renderInfo: string,
     options = {
       width: 600,
       height: 400,
     }
   ) {
-    this.canvas = document.querySelector("#" + id)!;
+    this.canvas = typeof id === 'string' ? document.querySelector("#" + id)! : id;
     this.width = options.width;
     this.height = options.height;
     this.canvas.width = options.width;
