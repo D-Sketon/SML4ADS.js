@@ -3,7 +3,7 @@ import path from "path";
 
 import newDirectory from "../electron-node/io/newDirectory";
 import deleteFile from "../electron-node/io/deleteFile";
-import generateTree from "../electron-node/io/generateTree";
+import generateTree, { _generateTree } from "../electron-node/io/generateTree";
 import getAbsolutePath from "../electron-node/io/getAbsolutePath";
 import getRelativePath from "../electron-node/io/getRelativePath";
 import newFile from "../electron-node/io/newFile";
@@ -122,6 +122,7 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   ipcMain.handle("io:generateTree", generateTree);
+  ipcMain.handle("io:_generateTree", _generateTree);
   ipcMain.handle("io:newProject", newProject);
   ipcMain.handle("io:newDirectory", newDirectory);
   ipcMain.handle("io:newFile", newFile);

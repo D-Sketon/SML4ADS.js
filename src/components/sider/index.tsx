@@ -16,6 +16,27 @@ import { addFilePath, refreshTree } from "../../store/action";
 
 const { DirectoryTree } = Tree;
 
+const updateTreeData = (
+  list: DataNode[],
+  key: React.Key,
+  children: DataNode[]
+): DataNode[] =>
+  list.map((node) => {
+    if (node.key === key) {
+      return {
+        ...node,
+        children,
+      };
+    }
+    if (node.children) {
+      return {
+        ...node,
+        children: updateTreeData(node.children, key, children),
+      };
+    }
+    return node;
+  });
+
 function SiderTree(): ReactElement {
   const { state, dispatch } = useContext(AppContext);
   const [treeData, setTreeData] = useState<DataNode[]>([]);
@@ -32,7 +53,11 @@ function SiderTree(): ReactElement {
   useEffect(() => {
     const asyncFn = async () => {
       if (state.workspacePath === "") return;
-      const data = await window.electronAPI.generateTree(state.workspacePath);
+      const data = await window.electronAPI.generateTree(
+        state.workspacePath,
+        [],
+        1
+      );
       setTreeData(data);
     };
     asyncFn();
@@ -181,6 +206,18 @@ function SiderTree(): ReactElement {
     }
   };
 
+  const onLoadData = ({ key, children }: any) =>
+    new Promise<void>((resolve) => {
+      if (children) {
+        resolve();
+        return;
+      }
+      window.electronAPI._generateTree(key, [], 1).then((data) => {
+        setTreeData((origin) => updateTreeData(origin, key, data));
+        resolve();
+      });
+    });
+
   return (
     <div onKeyDown={handleKeyDown} tabIndex={0}>
       <Dropdown menu={{ items, onClick }} trigger={["contextMenu"]}>
@@ -191,6 +228,7 @@ function SiderTree(): ReactElement {
           onRightClick={onRightClick}
           onSelect={onSelect}
           treeData={treeData}
+          loadData={onLoadData}
           style={{ height: "100%" }}
         />
       </Dropdown>

@@ -1,8 +1,10 @@
 import { contextBridge, ipcRenderer } from "electron";
 
 contextBridge.exposeInMainWorld("electronAPI", {
-  generateTree: (folderPath: string, excludeFiles?: string[]) =>
-    ipcRenderer.invoke("io:generateTree", folderPath, excludeFiles),
+  generateTree: (folderPath: string, excludeFiles?: string[], depth?: number) =>
+    ipcRenderer.invoke("io:generateTree", folderPath, excludeFiles, depth),
+  _generateTree: (folderPath: string, excludeFiles?: string[], depth?: number) =>
+    ipcRenderer.invoke("io:_generateTree", folderPath, excludeFiles, depth),
   readFile: (filePath: string) => ipcRenderer.invoke("io:readFile", filePath),
   deleteFile: (filePath: string) =>
     ipcRenderer.invoke("io:deleteFile", filePath),

@@ -3,7 +3,8 @@
 import { MConfig } from "./model/Config";
 
 export interface IElectronAPI {
-  generateTree: (folderPath: string, excludeFiles?: string[]) => Promise<any>;
+  generateTree: (folderPath: string, excludeFiles?: string[], depth?: number) => Promise<any>;
+  _generateTree: (folderPath: string, excludeFiles?: string[], depth?: number) => Promise<any>;
   readFile: (path: string) => Promise<string>;
   deleteFile: (path: string) => Promise<boolean>;
   newProject: (projectName: string, projectPath: string) => Promise<boolean>;
