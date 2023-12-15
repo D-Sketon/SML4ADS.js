@@ -24,7 +24,7 @@ function Welcome(): ReactElement {
     setDisableOpenButton(false);
     if (res.filePaths.length) {
       dispatch(setWorkspacePath(res.filePaths[0]));
-      navigate("/home");
+      navigate("/home/logical");
     }
   }
 
@@ -50,7 +50,7 @@ function Welcome(): ReactElement {
                     onClick={handleOpen}
                     disabled={disableOpenButton}
                   >
-                    Open
+                    Open Project
                   </Button>
                 </div>
               </Card>

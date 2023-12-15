@@ -68,7 +68,7 @@ function App(): ReactElement {
   return (
     <AppContext.Provider value={{ state, dispatch }}>
       <Routes>
-        <Route path="/home" element={<Home />} />
+        <Route path="/home/*" element={<Home />} />
         <Route path="/welcome" element={<Welcome />} />
         <Route path="/onlineMonitor" element={<OnlineMonitor />} />
         <Route path="/causalInference" element={<CausalInference />} />

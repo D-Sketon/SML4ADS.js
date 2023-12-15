@@ -11,6 +11,7 @@ function NewProjectModal(props: BaseModalProps): ReactElement {
   const { dispatch } = useContext(AppContext);
   const navigate = useNavigate();
 
+
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [path, setPath] = useState("");
   const [name, setName] = useState("");
@@ -33,7 +34,7 @@ function NewProjectModal(props: BaseModalProps): ReactElement {
     const isSuccess = await window.electronAPI.newProject(path, name);
     if (isSuccess) {
       dispatch(setWorkspacePath(`${path}/${name}`));
-      navigate("/home");
+      navigate("/home/logical");
     }
     setConfirmLoading(false);
     handleCancel(e);

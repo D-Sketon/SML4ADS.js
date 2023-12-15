@@ -18,6 +18,7 @@ import {
   LineChartOutlined,
   ReconciliationOutlined,
 } from "@ant-design/icons";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function HeaderButton(): ReactElement {
   const { state, dispatch } = useContext(AppContext);
@@ -31,6 +32,8 @@ function HeaderButton(): ReactElement {
     setParametricStlMonitorModalVisible,
   ] = useState(false);
   const [simulateModalVisible, setSimulateModalVisible] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   // data flow: "" => realPath => $$\ua265SAVE\ua265$$ => ""
   useEffect(() => {
@@ -138,50 +141,96 @@ function HeaderButton(): ReactElement {
     }
   };
 
-  const items: MenuProps["items"] = [
-    {
-      label: "Modeling",
-      key: "modeling",
-      icon: <ApartmentOutlined />,
-      children: [
-        {
-          label: "generate adsml",
-          key: "preprocess",
-        },
-      ],
-    },
-    {
-      label: "Verification",
-      key: "verification",
-      icon: <ReconciliationOutlined />,
-    },
-    {
-      label: "Monitoring",
-      key: "monitoring",
-      icon: <LineChartOutlined />,
-      children: [
-        {
-          type: "group",
-          label: "STL",
-          children: [
-            {
-              label: "PSTL",
-              key: "pstl",
-            },
-            {
-              label: "STL Monitor",
-              key: "stlMonitor",
-            },
-          ],
-        },
-      ],
-    },
-    {
-      label: "Simulation",
-      key: "simulation",
-      icon: <CarOutlined />,
-    },
-  ];
+  const [headItems, setHeadItems] = useState<MenuProps["items"]>([]);
+  useEffect(() => {
+    switch (location.pathname) {
+      case "/home/logical":
+        setHeadItems([
+          {
+            label: "Modeling",
+            key: "modeling",
+            icon: <ApartmentOutlined />,
+            children: [
+              {
+                type: "group",
+                label: "Functional",
+                children: [
+                  {
+                    label: "Functional Scenario",
+                    key: "functional",
+                  },
+                ],
+              },
+              {
+                type: "group",
+                label: "Logical",
+                children: [
+                  {
+                    label: "Generate ADSML",
+                    key: "preprocess",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            label: "Verification",
+            key: "verification",
+            icon: <ReconciliationOutlined />,
+          },
+          {
+            label: "Monitoring",
+            key: "monitoring",
+            icon: <LineChartOutlined />,
+            children: [
+              {
+                type: "group",
+                label: "STL",
+                children: [
+                  {
+                    label: "PSTL",
+                    key: "pstl",
+                  },
+                  {
+                    label: "STL Monitor",
+                    key: "stlMonitor",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            label: "Simulation",
+            key: "simulation",
+            icon: <CarOutlined />,
+          },
+        ]);
+        break;
+      case "/home/functional":
+        setHeadItems([
+          {
+            label: "Modeling",
+            key: "modeling",
+            icon: <ApartmentOutlined />,
+            children: [
+              {
+                type: "group",
+                label: "Logical",
+                children: [
+                  {
+                    label: "Logical Scenario",
+                    key: "logical",
+                  },
+                ],
+              },
+            ],
+          },
+        ]);
+        break;
+      default:
+        setHeadItems([]);
+    }
+  }, [location.pathname]);
 
   const onClick: MenuProps["onClick"] = (e) => {
     switch (e.key) {
@@ -191,28 +240,42 @@ function HeaderButton(): ReactElement {
       case "verification":
         handleVerify();
         break;
-      case 'simulation':
-        handleSimulate()
-        break
-      case 'pstl':
-        handlePstl()
-        break
-      case 'stlMonitor':
-        handlePstlMonitor()
-        break
+      case "simulation":
+        handleSimulate();
+        break;
+      case "pstl":
+        handlePstl();
+        break;
+      case "stlMonitor":
+        handlePstlMonitor();
+        break;
+      case "functional":
+        navigate("/home/functional");
+        break;
+      case "logical":
+        navigate("/home/logical");
+        break;
       default:
     }
   };
 
   return (
     <>
-      <div>
+      <div style={{ display: "flex", backgroundColor: "white" }}>
+        <div style={{ minWidth: "200px", fontWeight: "bold" }}>
+          {location.pathname.endsWith("logical")
+            ? "Logical Scenario"
+            : location.pathname.endsWith("functional")
+            ? "Functional Scenario"
+            : ""}
+        </div>
         <Menu
           onClick={onClick}
           selectedKeys={[]}
           mode="horizontal"
-          items={items}
+          items={headItems}
           selectable={false}
+          style={{ width: "100%" }}
         />
       </div>
       <VerifyModal

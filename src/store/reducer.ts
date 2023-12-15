@@ -41,6 +41,8 @@ export const reducer = (state: typeof initialState, action: Action) => {
     case ActionType.CLEAR_STORE:
       return {
         ...JSON.parse(JSON.stringify(initialState)),
+        // don't change config
+        config: state.config,
       };
     case ActionType.ADD_FILE_PATH: {
       const isFind = state.filePath.find((p) => p.path === action.payload.path);

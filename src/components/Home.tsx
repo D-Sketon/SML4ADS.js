@@ -6,6 +6,7 @@ import AntdResizeableSidebar from "./common/AntdResizeableSidebar";
 import ContentCore from "./content";
 import HeaderButton from "./header";
 import SiderTree from "./sider";
+import { Routes, Route } from "react-router-dom";
 
 const { Header, Content } = Layout;
 
@@ -16,10 +17,25 @@ function Home(): ReactElement {
         <HeaderButton />
       </Header>
       <Layout hasSider>
-        <AntdResizeableSidebar theme="light" style={{ overflow: 'auto' }}>
-          <SiderTree />
-        </AntdResizeableSidebar>
-        <Content className="home-content"><ContentCore /></Content>
+        <Routes>
+          <Route
+            path="/logical"
+            element={
+              <>
+                <AntdResizeableSidebar
+                  theme="light"
+                  style={{ overflow: "auto" }}
+                >
+                  <SiderTree />
+                </AntdResizeableSidebar>
+                <Content className="home-content">
+                  <ContentCore />
+                </Content>
+              </>
+            }
+          ></Route>
+          <Route path="functional" element={<></>}></Route>
+        </Routes>
       </Layout>
     </Layout>
   );

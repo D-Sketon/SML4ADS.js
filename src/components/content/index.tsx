@@ -6,7 +6,11 @@ import Adsml from "./adsml";
 import Text from "./text";
 import AppContext from "../../store/context";
 import { FILE_SUFFIX } from "../../constants";
-import { activateFilePath, removeFilePath } from "../../store/action";
+import {
+  activateFilePath,
+  clearStore,
+  removeFilePath,
+} from "../../store/action";
 import { LeftOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
@@ -23,7 +27,7 @@ function getChildrenComponent(path: string, key: FILE_SUFFIX | string) {
     case FILE_SUFFIX.JSON:
     case FILE_SUFFIX.XML:
     case FILE_SUFFIX.XODR:
-      return <Text path={path} ext={key}/>;
+      return <Text path={path} ext={key} />;
     default:
       return <></>;
   }
@@ -64,6 +68,11 @@ function ContentCore(): ReactElement {
     remove(targetKey);
   };
 
+  const back = () => {
+    dispatch(clearStore());
+    navigate("/");
+  };
+
   return (
     <div style={{ height: "100%" }}>
       <Tabs
@@ -76,10 +85,10 @@ function ContentCore(): ReactElement {
         style={{ height: "100%" }}
       />
       <FloatButton
-          icon={<LeftOutlined />}
-          onClick={() => navigate("/")}
-          style={{ right: 24 }}
-        />
+        icon={<LeftOutlined />}
+        onClick={back}
+        style={{ right: 24 }}
+      />
     </div>
   );
 }
