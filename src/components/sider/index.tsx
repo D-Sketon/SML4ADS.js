@@ -40,6 +40,9 @@ const updateTreeData = (
 function SiderTree(): ReactElement {
   const { state, dispatch } = useContext(AppContext);
   const [treeData, setTreeData] = useState<DataNode[]>([]);
+  const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
+  const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
+  const [loadedKeys, setLoadedKeys] = useState<React.Key[]>([]);
   const [deleteConfirmModalVisible, setDeleteConfirmModalVisible] =
     useState(false);
   const [newDirectoryModalVisible, setNewDirectoryModalVisible] =
@@ -58,9 +61,13 @@ function SiderTree(): ReactElement {
         [],
         1
       );
-      setTreeData(data);
+      setTreeData(() => data);
+      for (const key of loadedKeys) {
+        await onLoadData({ key });
+      }
     };
     asyncFn();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.refreshId, state.workspacePath]);
 
   const [selectInfo, setSelectInfo] = useState<EventDataNode<DataNode>>();
@@ -69,6 +76,7 @@ function SiderTree(): ReactElement {
 
   const onSelect: DirectoryTreeProps["onSelect"] = (_keys, info) => {
     setSelectInfo(info.node);
+    setSelectedKeys(_keys);
     setSelectedPath(info.node.key as string);
   };
 
@@ -206,8 +214,8 @@ function SiderTree(): ReactElement {
     }
   };
 
-  const onLoadData = ({ key, children }: any) =>
-    new Promise<void>((resolve) => {
+  const onLoadData = ({ key, children }: any) => {
+    return new Promise<void>((resolve) => {
       if (children) {
         resolve();
         return;
@@ -217,6 +225,20 @@ function SiderTree(): ReactElement {
         resolve();
       });
     });
+  };
+
+  const onExpand = (keys: any) => {
+    let newLoadKeys = loadedKeys;
+    if (expandedKeys.length > keys.length) {
+      newLoadKeys = loadedKeys.filter((i) => keys.includes(i));
+    }
+    setExpandedKeys(keys);
+    setLoadedKeys(newLoadKeys);
+  };
+
+  const onLoad = (loadedKeys: any) => {
+    setLoadedKeys(loadedKeys);
+  };
 
   return (
     <div onKeyDown={handleKeyDown} tabIndex={0}>
@@ -228,7 +250,12 @@ function SiderTree(): ReactElement {
           onRightClick={onRightClick}
           onSelect={onSelect}
           treeData={treeData}
+          onExpand={onExpand}
+          onLoad={onLoad}
           loadData={onLoadData}
+          selectedKeys={selectedKeys}
+          expandedKeys={expandedKeys}
+          loadedKeys={loadedKeys}
           style={{ height: "100%" }}
         />
       </Dropdown>

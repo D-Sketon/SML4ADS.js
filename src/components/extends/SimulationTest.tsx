@@ -9,10 +9,12 @@ import {
   Select,
   notification,
 } from "antd";
-import { ReactElement, useState } from "react";
+import { ReactElement, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AppContext from "../../store/context";
 
 function SimulationTest(): ReactElement {
+  const { state } = useContext(AppContext);
   const [modelPath, setModelPath] = useState("");
   const [scenario, setScenario] = useState("");
   const [metrics, setMetrics] = useState([]);
@@ -43,7 +45,7 @@ function SimulationTest(): ReactElement {
     }
     setIsLoading(true);
     try {
-      await window.electronAPI.simulationTest(modelPath, scenario, metrics);
+      await window.electronAPI.simulationTest(modelPath, scenario, metrics, state.config.simulationPort);
       notification.success({
         message: "Success",
         description: "Process Success",

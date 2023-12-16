@@ -1,12 +1,14 @@
 import { LeftOutlined, UploadOutlined } from "@ant-design/icons";
 import { Button, Card, Col, FloatButton, Row, Spin, notification } from "antd";
-import { ReactElement, useState } from "react";
+import { ReactElement, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FILE_SUFFIX } from "../../constants";
 import Papa from "papaparse";
 import ExtendCsv from "./common/ExtendCsv";
+import AppContext from "../../store/context";
 
 function AdversarialAttack(): ReactElement {
+  const { state } = useContext(AppContext);
   const [csvPath, setCsvPath] = useState("");
   const [rnnPath, setRnnPath] = useState("");
   const [pklPath, setPklPath] = useState("");
@@ -82,7 +84,8 @@ function AdversarialAttack(): ReactElement {
         csvPath,
         rnnPath,
         pklPath,
-        weightPath
+        weightPath,
+        state.config.simulationPort
       );
       notification.success({
         message: "Success",

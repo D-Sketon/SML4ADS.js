@@ -1,12 +1,14 @@
 import { LeftOutlined, UploadOutlined } from "@ant-design/icons";
 import { Button, Card, Col, FloatButton, Row, Spin, notification } from "antd";
-import { ReactElement, useState } from "react";
+import { ReactElement, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FILE_SUFFIX } from "../../constants";
 import ExtendCsv from "./common/ExtendCsv";
 import Papa from "papaparse";
+import AppContext from "../../store/context";
 
 function IntervalizedWFA(): ReactElement {
+  const { state } = useContext(AppContext);
   const [csvPath, setCsvPath] = useState("");
   const [rnnPath, setRnnPath] = useState("");
   const [pklPath, setPklPath] = useState("");
@@ -63,7 +65,7 @@ function IntervalizedWFA(): ReactElement {
     }
     setIsLoading(true);
     try {
-      await window.electronAPI.intervalizedWFA(csvPath, rnnPath, pklPath);
+      await window.electronAPI.intervalizedWFA(csvPath, rnnPath, pklPath, state.config.simulationPort);
       notification.success({
         message: "Success",
         description: "Process Success",

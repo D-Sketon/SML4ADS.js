@@ -9,13 +9,15 @@ import {
   Spin,
   notification,
 } from "antd";
-import { ReactElement, useState } from "react";
+import { ReactElement, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FILE_SUFFIX } from "../../constants";
 import Papa from "papaparse";
 import ExtendCsv from "./common/ExtendCsv";
+import AppContext from "../../store/context";
 
 function CausalInference(): ReactElement {
+  const { state } = useContext(AppContext);
   const [csvPath, setCsvPath] = useState("");
   const [params, setParams] = useState<Record<string, any>>({});
   const navigate = useNavigate();
@@ -43,7 +45,7 @@ function CausalInference(): ReactElement {
     }
     setIsLoading(true);
     try {
-      await window.electronAPI.causalInference(csvPath, params);
+      await window.electronAPI.causalInference(csvPath, params, state.config.simulationPort);
       notification.success({
         message: "Success",
         description: "Process Success",

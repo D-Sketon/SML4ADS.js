@@ -1,10 +1,11 @@
 import { Button, Card, Col, FloatButton, Row, Spin, notification } from "antd";
-import { ReactElement, useState } from "react";
+import { ReactElement, useContext, useState } from "react";
 import { FILE_SUFFIX } from "../../constants";
 import { LeftOutlined, UploadOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import Papa from "papaparse";
 import ExtendCsv from "./common/ExtendCsv";
+import AppContext from "../../store/context";
 
 function OnlineMonitor(): ReactElement {
   const [csvPath, setCsvPath] = useState("");
@@ -13,6 +14,7 @@ function OnlineMonitor(): ReactElement {
   const [imgUrl, setImgUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [csvArray, setCsvArray] = useState<string[][]>([]);
+  const { state } = useContext(AppContext);
 
   const navigate = useNavigate();
 
@@ -62,7 +64,8 @@ function OnlineMonitor(): ReactElement {
       const base64 = await window.electronAPI.onlineMonitor(
         csvPath,
         stlData,
-        true
+        true,
+        state.config.simulationPort
       );
 
       const byteCharacters = atob(base64);

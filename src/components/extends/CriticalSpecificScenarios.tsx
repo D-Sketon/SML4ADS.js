@@ -14,7 +14,7 @@ import {
   Tabs,
   notification,
 } from "antd";
-import { ReactElement, useState } from "react";
+import { ReactElement, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FILE_SUFFIX } from "../../constants";
 import { MModel } from "../../model/Model";
@@ -22,8 +22,10 @@ import { checkModel } from "../content/model/utils/check";
 import ExtendAdsmlContent from "./common/ExtendAdsmlContent";
 import ExtendAdsmlTree from "./common/ExtendAdsmlTree";
 import ExtendAdsmlMap from "./common/ExtendAdsmlMap";
+import AppContext from "../../store/context";
 
 function CriticalSpecificScenarios(): ReactElement {
+  const { state } = useContext(AppContext);
   const [port, setPort] = useState<number | null>(2000);
   const [modelPath, setModelPath] = useState("");
   const [outputPath, setOutputPath] = useState("");
@@ -87,7 +89,8 @@ function CriticalSpecificScenarios(): ReactElement {
       await window.electronAPI.criticalSpecificScenarios(
         port,
         modelPath,
-        outputPath
+        outputPath,
+        state.config.simulationPort
       );
       notification.success({
         message: "Success",

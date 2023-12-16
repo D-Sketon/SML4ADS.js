@@ -35,7 +35,7 @@ function getChildrenComponent(path: string, key: FILE_SUFFIX | string) {
   }
 }
 
-function ContentCore(): ReactElement {
+function LogicalContent(): ReactElement {
   const { state, dispatch } = useContext(AppContext);
   const [activeKey, setActiveKey] = useState<string>();
   const [items, setItems] = useState<
@@ -95,4 +95,4 @@ function ContentCore(): ReactElement {
   );
 }
 
-export default ContentCore;
+export default LogicalContent;

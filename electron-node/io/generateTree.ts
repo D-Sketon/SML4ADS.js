@@ -20,6 +20,7 @@ function generateTree(
     title: folderName,
     key: folderPath,
     children: _generateTree(_e, folderPath, excludeFiles, depth),
+    isLeaf: false,
   });
   return result;
 }
@@ -49,6 +50,7 @@ export function _generateTree(
         title: file,
         key: filePath,
         children,
+        isLeaf: false,
       });
     } else {
       result.push({

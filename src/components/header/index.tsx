@@ -20,7 +20,7 @@ import {
 } from "@ant-design/icons";
 import { useLocation, useNavigate } from "react-router-dom";
 
-function HeaderButton(): ReactElement {
+function HeaderMenu(): ReactElement {
   const { state, dispatch } = useContext(AppContext);
   const { filePath, saveFilePath } = state;
   const activatedFile = filePath.find((file) => file.isActive);
@@ -298,4 +298,4 @@ function HeaderButton(): ReactElement {
   );
 }
 
-export default HeaderButton;
+export default HeaderMenu;

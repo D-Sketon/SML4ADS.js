@@ -9,11 +9,13 @@ import {
   Spin,
   notification,
 } from "antd";
-import { ReactElement, useState } from "react";
+import { ReactElement, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FILE_SUFFIX } from "../../constants";
+import AppContext from "../../store/context";
 
 function TimeSeriesClustering(): ReactElement {
+  const { state } = useContext(AppContext);
   const [npyPath, setNpyPath] = useState("");
   const [k, setK] = useState<number | null>(0);
   const navigate = useNavigate();
@@ -43,7 +45,7 @@ function TimeSeriesClustering(): ReactElement {
     }
     setIsLoading(true);
     try {
-      await window.electronAPI.timeSeriesClustering(npyPath, k);
+      await window.electronAPI.timeSeriesClustering(npyPath, k, state.config.simulationPort);
       notification.success({
         message: "Success",
         description: "Process Success",

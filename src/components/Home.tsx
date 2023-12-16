@@ -3,8 +3,8 @@ import { Layout } from "antd";
 
 import "./Home.less";
 import AntdResizeableSidebar from "./common/AntdResizeableSidebar";
-import ContentCore from "./content";
-import HeaderButton from "./header";
+import LogicalContent from "./content/LogicalContent";
+import HeaderMenu from "./header";
 import SiderTree from "./sider";
 import { Routes, Route } from "react-router-dom";
 
@@ -14,7 +14,7 @@ function Home(): ReactElement {
   return (
     <Layout style={{ width: "100vw", height: "100vh" }}>
       <Header className="home-header">
-        <HeaderButton />
+        <HeaderMenu />
       </Header>
       <Layout hasSider>
         <Routes>
@@ -29,7 +29,7 @@ function Home(): ReactElement {
                   <SiderTree />
                 </AntdResizeableSidebar>
                 <Content className="home-content">
-                  <ContentCore />
+                  <LogicalContent />
                 </Content>
               </>
             }
