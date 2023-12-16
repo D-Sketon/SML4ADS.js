@@ -7,13 +7,13 @@ function BehaviorNode({ data, isConnectable }: any): ReactElement {
       <Handle
         type="target"
         position={Position.Top}
-        style={{ background: "#555" }}
+        className="bg-gray-700"
         isConnectable={isConnectable}
       />
       <Handle
         type="source"
         position={Position.Bottom}
-        style={{ background: "#555" }}
+        className="bg-gray-700"
         isConnectable={isConnectable}
       />
     </>

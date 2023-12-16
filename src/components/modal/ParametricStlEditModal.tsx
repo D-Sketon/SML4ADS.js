@@ -97,7 +97,7 @@ function ParametricStlEditModal(
 
       <TextArea
         ref={textAreaRef}
-        style={{ marginTop: 16, fontFamily: 'Consolas, "Courier New", monospace' }}
+        className="mt-4 font-mono"
         rows={4}
         value={value}
         onChange={(e) => setValue(e.target.value)}

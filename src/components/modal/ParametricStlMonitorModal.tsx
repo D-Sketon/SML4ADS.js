@@ -105,14 +105,7 @@ function ParametricStlMonitorModal(props: BaseModalProps): ReactElement {
         .filter((i) => i)
         .map((parameter, index) => {
           return (
-            <Row
-              style={{
-                display: "flex",
-                alignItems: "center",
-                margin: "15px 0",
-              }}
-              key={index}
-            >
+            <Row className="flex items-center mt-4 mb-4" key={index}>
               <Col span={6}>{parameter}:</Col>
               <Col span={18}>
                 <Input

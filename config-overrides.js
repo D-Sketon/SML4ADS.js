@@ -3,6 +3,7 @@ const {
   override,
   addLessLoader,
   adjustStyleLoaders,
+  addPostcssPlugins,
 } = require("customize-cra");
 
 module.exports = {
@@ -16,5 +17,9 @@ module.exports = {
       const postcssOptions = postcss.options;
       postcss.options = { postcssOptions };
     }),
+    addPostcssPlugins([
+      require('tailwindcss'),
+      require('autoprefixer')
+    ])
   ),
 };

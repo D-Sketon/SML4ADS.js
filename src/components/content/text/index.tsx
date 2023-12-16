@@ -47,7 +47,7 @@ function Text(props: TextProps): ReactElement {
   }, [ext, path]);
 
   return (
-    <div style={{ height: "100%" }}>
+    <div className="h-full">
       <CodeMirror
         value={content}
         options={{

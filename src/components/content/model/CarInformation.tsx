@@ -1,4 +1,4 @@
-import { Card, Form, Select, Button, InputNumber, Input, Cascader } from "antd";
+import { Card, Select, Button, InputNumber, Input, Cascader } from "antd";
 import { ReactElement } from "react";
 import { FILE_SUFFIX } from "../../../constants";
 import { MModel, SIMULATOR_TYPES } from "../../../model/Model";
@@ -32,7 +32,7 @@ interface CarInformationProps {
   model: MModel;
   setModel: (value: any) => void;
   index: number;
-  path: string,
+  path: string;
 }
 
 function CarInformation(props: CarInformationProps): ReactElement {
@@ -61,9 +61,10 @@ function CarInformation(props: CarInformationProps): ReactElement {
   function globalPosition(): ReactElement {
     return (
       <>
-        <Form.Item label="x" labelCol={{ span: 6 }}>
+        <div className="form-item">
+          <div className="form-label w-36">x:</div>
           <InputNumber
-            style={{ width: 62 }}
+            className="w-16"
             value={(car.locationParams as GLOBAL_POSITION_PARAMS).x[0]}
             onChange={(e) => {
               simpleSetLocationParams("x", [
@@ -72,9 +73,9 @@ function CarInformation(props: CarInformationProps): ReactElement {
               ]);
             }}
           />
-          <span style={{ margin: "0 10px" }}>-</span>
+          <span style={{ margin: "0 5px" }}>-</span>
           <InputNumber
-            style={{ width: 62 }}
+            className="w-16"
             value={(car.locationParams as GLOBAL_POSITION_PARAMS).x[1]}
             onChange={(e) => {
               simpleSetLocationParams("x", [
@@ -83,10 +84,11 @@ function CarInformation(props: CarInformationProps): ReactElement {
               ]);
             }}
           />
-        </Form.Item>
-        <Form.Item label="y" labelCol={{ span: 6 }}>
+        </div>
+        <div className="form-item">
+          <div className="form-label w-36">y:</div>
           <InputNumber
-            style={{ width: 62 }}
+            className="w-16"
             value={(car.locationParams as GLOBAL_POSITION_PARAMS).y[0]}
             onChange={(e) => {
               simpleSetLocationParams("y", [
@@ -95,9 +97,9 @@ function CarInformation(props: CarInformationProps): ReactElement {
               ]);
             }}
           />
-          <span style={{ margin: "0 10px" }}>-</span>
+          <span style={{ margin: "0 5px" }}>-</span>
           <InputNumber
-            style={{ width: 62 }}
+            className="w-16"
             value={(car.locationParams as GLOBAL_POSITION_PARAMS).y[1]}
             onChange={(e) => {
               simpleSetLocationParams("y", [
@@ -106,7 +108,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
               ]);
             }}
           />
-        </Form.Item>
+        </div>
       </>
     );
   }
@@ -114,27 +116,30 @@ function CarInformation(props: CarInformationProps): ReactElement {
   function lanePosition(): ReactElement {
     return (
       <>
-        <Form.Item label="roadId" labelCol={{ span: 6 }}>
+        <div className="form-item">
+          <div className="form-label w-36">roadId:</div>
           <InputNumber
-            style={{ width: 150 }}
+            className="w-36"
             onChange={(e) => {
               simpleSetLocationParams("roadId", e);
             }}
             value={(car.locationParams as LANE_POSITION_PARAMS).roadId}
           />
-        </Form.Item>
-        <Form.Item label="laneId" labelCol={{ span: 6 }}>
+        </div>
+        <div className="form-item">
+          <div className="form-label w-36">laneId:</div>
           <InputNumber
-            style={{ width: 150 }}
+            className="w-36"
             onChange={(e) => {
               simpleSetLocationParams("laneId", e);
             }}
             value={(car.locationParams as LANE_POSITION_PARAMS).laneId}
           />
-        </Form.Item>
-        <Form.Item label="lateralOffset" labelCol={{ span: 6 }}>
+        </div>
+        <div className="form-item">
+          <div className="form-label w-36">lateralOffset:</div>
           <InputNumber
-            style={{ width: 62 }}
+            className="w-16"
             value={
               (car.locationParams as LANE_POSITION_PARAMS).lateralOffset[0]
             }
@@ -145,9 +150,9 @@ function CarInformation(props: CarInformationProps): ReactElement {
               ]);
             }}
           />
-          <span style={{ margin: "0 10px" }}>-</span>
+          <span style={{ margin: "0 5px" }}>-</span>
           <InputNumber
-            style={{ width: 62 }}
+            className="w-16"
             value={
               (car.locationParams as LANE_POSITION_PARAMS).lateralOffset[1]
             }
@@ -158,10 +163,11 @@ function CarInformation(props: CarInformationProps): ReactElement {
               ]);
             }}
           />
-        </Form.Item>
-        <Form.Item label="longitudinalOffset" labelCol={{ span: 6 }}>
+        </div>
+        <div className="form-item">
+          <div className="form-label w-36">longitudinalOffset:</div>
           <InputNumber
-            style={{ width: 62 }}
+            className="w-16"
             value={
               (car.locationParams as LANE_POSITION_PARAMS).longitudinalOffset[0]
             }
@@ -173,9 +179,9 @@ function CarInformation(props: CarInformationProps): ReactElement {
               ]);
             }}
           />
-          <span style={{ margin: "0 10px" }}>-</span>
+          <span style={{ margin: "0 5px" }}>-</span>
           <InputNumber
-            style={{ width: 62 }}
+            className="w-16"
             value={
               (car.locationParams as LANE_POSITION_PARAMS).longitudinalOffset[1]
             }
@@ -187,7 +193,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
               ]);
             }}
           />
-        </Form.Item>
+        </div>
       </>
     );
   }
@@ -195,18 +201,20 @@ function CarInformation(props: CarInformationProps): ReactElement {
   function roadPosition(): ReactElement {
     return (
       <>
-        <Form.Item label="roadId" labelCol={{ span: 6 }}>
+        <div className="form-item">
+          <div className="form-label w-36">roadId:</div>
           <InputNumber
-            style={{ width: 150 }}
+            className="w-36"
             onChange={(e) => {
               simpleSetLocationParams("roadId", e);
             }}
             value={(car.locationParams as ROAD_POSITION_PARAMS).roadId}
           />
-        </Form.Item>
-        <Form.Item label="lateralOffset" labelCol={{ span: 6 }}>
+        </div>
+        <div className="form-item">
+          <div className="form-label w-36">lateralOffset:</div>
           <InputNumber
-            style={{ width: 62 }}
+            className="w-16"
             value={
               (car.locationParams as ROAD_POSITION_PARAMS).lateralOffset[0]
             }
@@ -217,9 +225,9 @@ function CarInformation(props: CarInformationProps): ReactElement {
               ]);
             }}
           />
-          <span style={{ margin: "0 10px" }}>-</span>
+          <span style={{ margin: "0 5px" }}>-</span>
           <InputNumber
-            style={{ width: 62 }}
+            className="w-16"
             value={
               (car.locationParams as ROAD_POSITION_PARAMS).lateralOffset[1]
             }
@@ -230,10 +238,11 @@ function CarInformation(props: CarInformationProps): ReactElement {
               ]);
             }}
           />
-        </Form.Item>
-        <Form.Item label="longitudinalOffset" labelCol={{ span: 6 }}>
+        </div>
+        <div className="form-item">
+          <div className="form-label w-36">longitudinalOffset:</div>
           <InputNumber
-            style={{ width: 62 }}
+            className="w-16"
             value={
               (car.locationParams as ROAD_POSITION_PARAMS).longitudinalOffset[0]
             }
@@ -245,9 +254,9 @@ function CarInformation(props: CarInformationProps): ReactElement {
               ]);
             }}
           />
-          <span style={{ margin: "0 10px" }}>-</span>
+          <span style={{ margin: "0 5px" }}>-</span>
           <InputNumber
-            style={{ width: 62 }}
+            className="w-16"
             value={
               (car.locationParams as ROAD_POSITION_PARAMS).longitudinalOffset[1]
             }
@@ -259,7 +268,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
               ]);
             }}
           />
-        </Form.Item>
+        </div>
       </>
     );
   }
@@ -267,18 +276,20 @@ function CarInformation(props: CarInformationProps): ReactElement {
   function relatedPosition(): ReactElement {
     return (
       <>
-        <Form.Item label="actorRef" labelCol={{ span: 6 }}>
+        <div className="form-item">
+          <div className="form-label w-36">actorRef:</div>
           <Input
-            style={{ width: 150 }}
+            className="w-36"
             onChange={(e) => {
               simpleSetLocationParams("actorRef", e.target.value);
             }}
             value={(car.locationParams as RELATED_POSITION_PARAMS).actorRef}
           />
-        </Form.Item>
-        <Form.Item label="lateralOffset" labelCol={{ span: 6 }}>
+        </div>
+        <div className="form-item">
+          <div className="form-label w-36">lateralOffset:</div>
           <InputNumber
-            style={{ width: 62 }}
+            className="w-16"
             value={
               (car.locationParams as RELATED_POSITION_PARAMS).lateralOffset[0]
             }
@@ -290,9 +301,9 @@ function CarInformation(props: CarInformationProps): ReactElement {
               ]);
             }}
           />
-          <span style={{ margin: "0 10px" }}>-</span>
+          <span style={{ margin: "0 5px" }}>-</span>
           <InputNumber
-            style={{ width: 62 }}
+            className="w-16"
             value={
               (car.locationParams as RELATED_POSITION_PARAMS).lateralOffset[1]
             }
@@ -304,10 +315,11 @@ function CarInformation(props: CarInformationProps): ReactElement {
               ]);
             }}
           />
-        </Form.Item>
-        <Form.Item label="longitudinalOffset" labelCol={{ span: 6 }}>
+        </div>
+        <div className="form-item">
+          <div className="form-label w-36">longitudinalOffset:</div>
           <InputNumber
-            style={{ width: 62 }}
+            className="w-16"
             value={
               (car.locationParams as RELATED_POSITION_PARAMS)
                 .longitudinalOffset[0]
@@ -320,9 +332,9 @@ function CarInformation(props: CarInformationProps): ReactElement {
               ]);
             }}
           />
-          <span style={{ margin: "0 10px" }}>-</span>
+          <span style={{ margin: "0 5px" }}>-</span>
           <InputNumber
-            style={{ width: 62 }}
+            className="w-16"
             value={
               (car.locationParams as RELATED_POSITION_PARAMS)
                 .longitudinalOffset[1]
@@ -335,7 +347,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
               ]);
             }}
           />
-        </Form.Item>
+        </div>
       </>
     );
   }
@@ -460,17 +472,18 @@ function CarInformation(props: CarInformationProps): ReactElement {
   ): ReactElement {
     return (
       <>
-        <Form.Item label="initialValue" labelCol={{ span: 6 }}>
+        <div className="form-item">
+          <div className="form-label w-36">initialValue:</div>
           <InputNumber
             min={0}
             max={180}
-            style={{ width: 150 }}
+            className="w-36"
             value={(car[key] as MANUAL_SPEED_PARAMS).initValue}
             onChange={(e) => {
               simpleSetDistributionParams(key, "initValue", e);
             }}
           />
-        </Form.Item>
+        </div>
       </>
     );
   }
@@ -480,26 +493,28 @@ function CarInformation(props: CarInformationProps): ReactElement {
   ): ReactElement {
     return (
       <>
-        <Form.Item label="min" labelCol={{ span: 6 }}>
+        <div className="form-item">
+          <div className="form-label w-36">min:</div>
           <InputNumber
             min={0}
-            style={{ width: 150 }}
+            className="w-36"
             value={(car[key] as UNIFORM_DISTRIBUTION_SPEED_PARAMS).a}
             onChange={(e) => {
               simpleSetDistributionParams(key, "a", e);
             }}
           />
-        </Form.Item>
-        <Form.Item label="max" labelCol={{ span: 6 }}>
+        </div>
+        <div className="form-item">
+          <div className="form-label w-36">max:</div>
           <InputNumber
             min={0}
-            style={{ width: 150 }}
+            className="w-36"
             value={(car[key] as UNIFORM_DISTRIBUTION_SPEED_PARAMS).b}
             onChange={(e) => {
               simpleSetDistributionParams(key, "b", e);
             }}
           />
-        </Form.Item>
+        </div>
       </>
     );
   }
@@ -509,25 +524,27 @@ function CarInformation(props: CarInformationProps): ReactElement {
   ): ReactElement {
     return (
       <>
-        <Form.Item label="mean" labelCol={{ span: 6 }}>
+        <div className="form-item">
+          <div className="form-label w-36">mean:</div>
           <InputNumber
             min={0}
-            style={{ width: 150 }}
+            className="w-36"
             value={(car[key] as NORMAL_DISTRIBUTION_SPEED_PARAMS).mean}
             onChange={(e) => {
               simpleSetDistributionParams(key, "mean", e);
             }}
           />
-        </Form.Item>
-        <Form.Item label="std" labelCol={{ span: 6 }}>
+        </div>
+        <div className="form-item">
+          <div className="form-label w-36">std:</div>
           <InputNumber
-            style={{ width: 150 }}
+            className="w-36"
             value={(car[key] as NORMAL_DISTRIBUTION_SPEED_PARAMS).std}
             onChange={(e) => {
               simpleSetDistributionParams(key, "std", e);
             }}
           />
-        </Form.Item>
+        </div>
       </>
     );
   }
@@ -537,17 +554,18 @@ function CarInformation(props: CarInformationProps): ReactElement {
   ): ReactElement {
     return (
       <>
-        <Form.Item label="p" labelCol={{ span: 6 }}>
+        <div className="form-item">
+          <div className="form-label w-36">p:</div>
           <InputNumber
             min={0}
             max={1}
-            style={{ width: 150 }}
+            className="w-36"
             value={(car[key] as BERNOULLI_DISTRIBUTION_SPEED_PARAMS).p}
             onChange={(e) => {
               simpleSetDistributionParams(key, "p", e);
             }}
           />
-        </Form.Item>
+        </div>
       </>
     );
   }
@@ -557,27 +575,29 @@ function CarInformation(props: CarInformationProps): ReactElement {
   ): ReactElement {
     return (
       <>
-        <Form.Item label="n" labelCol={{ span: 6 }}>
+        <div className="form-item">
+          <div className="form-label w-36">n:</div>
           <InputNumber
             min={0}
-            style={{ width: 150 }}
+            className="w-36"
             value={(car[key] as BINOMIAL_DISTRIBUTION_SPEED_PARAMS).n}
             onChange={(e) => {
               simpleSetDistributionParams(key, "n", e);
             }}
           />
-        </Form.Item>
-        <Form.Item label="p" labelCol={{ span: 6 }}>
+        </div>
+        <div className="form-item">
+          <div className="form-label w-36">p:</div>
           <InputNumber
             min={0}
             max={1}
-            style={{ width: 150 }}
+            className="w-36"
             value={(car[key] as BINOMIAL_DISTRIBUTION_SPEED_PARAMS).p}
             onChange={(e) => {
               simpleSetDistributionParams(key, "p", e);
             }}
           />
-        </Form.Item>
+        </div>
       </>
     );
   }
@@ -587,16 +607,17 @@ function CarInformation(props: CarInformationProps): ReactElement {
   ): ReactElement {
     return (
       <>
-        <Form.Item label="lambda" labelCol={{ span: 6 }}>
+        <div className="form-item">
+          <div className="form-label w-36">lambda:</div>
           <InputNumber
             min={0}
-            style={{ width: 150 }}
+            className="w-36"
             value={(car[key] as POISSON_DISTRIBUTION_SPEED_PARAMS).lambda}
             onChange={(e) => {
               simpleSetDistributionParams(key, "lambda", e);
             }}
           />
-        </Form.Item>
+        </div>
       </>
     );
   }
@@ -606,16 +627,17 @@ function CarInformation(props: CarInformationProps): ReactElement {
   ): ReactElement {
     return (
       <>
-        <Form.Item label="k" labelCol={{ span: 6 }}>
+        <div className="form-item">
+          <div className="form-label w-36">k:</div>
           <InputNumber
             min={0}
-            style={{ width: 150 }}
+            className="w-36"
             value={(car[key] as CHI_SQUARED_DISTRIBUTION_SPEED_PARAMS).k}
             onChange={(e) => {
               simpleSetDistributionParams(key, "k", e);
             }}
           />
-        </Form.Item>
+        </div>
       </>
     );
   }
@@ -625,7 +647,8 @@ function CarInformation(props: CarInformationProps): ReactElement {
   ): ReactElement {
     return (
       <>
-        <Form.Item label="formula" labelCol={{ span: 6 }}>
+        <div className="form-item">
+          <div className="form-label w-36">formula:</div>
           <TextArea
             rows={2}
             value={(car[key] as CUSTOMIZED_DISTRIBUTION_SPEED_PARAMS).formula}
@@ -633,9 +656,9 @@ function CarInformation(props: CarInformationProps): ReactElement {
               simpleSetDistributionParams(key, "formula", e.target.value);
             }}
             spellCheck={false}
-            style={{ fontFamily: 'Consolas, "Courier New", monospace' }}
+            className="font-mono"
           />
-        </Form.Item>
+        </div>
         <TeX
           math={(car[key] as CUSTOMIZED_DISTRIBUTION_SPEED_PARAMS).formula}
           block
@@ -679,214 +702,224 @@ function CarInformation(props: CarInformationProps): ReactElement {
           Delete
         </Button>
       }
-      style={{ margin: "10px 10px 10px 0", boxSizing: "border-box" }}
+      className="box-border m-2 ml-0"
     >
-      <Form labelCol={{ span: 4 }} wrapperCol={{ span: 20 }} autoComplete="off">
-        <Form.Item label="name">
-          <Input
-            value={car.name}
-            onChange={(e) => {
-              simpleSetCar("name", e.target.value);
-            }}
-          />
-        </Form.Item>
-        <Form.Item label="model">
-          <Select
-            style={{ width: 180 }}
-            options={
-              model.simulatorType === SIMULATOR_TYPES.CARLA
-                ? Object.values(VEHICLE_TYPES_CARLA).map((i) => ({
-                    label: i,
-                    value: i,
-                  }))
-                : Object.values(VEHICLE_TYPES_LGSVL).map(
-                    (i) => ({ label: i, value: i } as any)
-                  )
-            }
-            value={car.model}
-            onChange={(e) => {
-              simpleSetCar("model", e);
-            }}
-          />
-        </Form.Item>
-        <Form.Item label="speedType">
-          <Cascader
-            style={{ width: 180 }}
-            allowClear={false}
-            options={cascaderOptions}
-            expandTrigger="hover"
-            value={
-              car.speedType === SPEED_TYPES.MANUAL
-                ? [SPEED_TYPES.MANUAL]
-                : [SPEED_TYPES.PROBABILISTIC, car.speedType]
-            }
-            displayRender={displayRender}
-            onChange={(e) => {
-              setModel({
-                ...model,
-                cars: model.cars.map((c, i) => {
-                  if (i === index) {
-                    return {
-                      ...c,
-                      speedType: e[e.length - 1] as SPEED_TYPES,
-                      speedParams: defaultSpeedParams(
-                        e[e.length - 1] as SPEED_TYPES
-                      ),
-                    };
-                  }
-                  return c;
-                }),
-              });
-            }}
-          />
-        </Form.Item>
-        {getDistributionComponent("speedParams", "speedType")}
-        <Form.Item label="maxSpeed">
+      <div className="form-item">
+        <div className="form-label w-28">name:</div>
+        <Input
+          value={car.name}
+          onChange={(e) => {
+            simpleSetCar("name", e.target.value);
+          }}
+        />
+      </div>
+      <div className="form-item">
+        <div className="form-label w-28">model:</div>
+        <Select
+          className="w-44"
+          options={
+            model.simulatorType === SIMULATOR_TYPES.CARLA
+              ? Object.values(VEHICLE_TYPES_CARLA).map((i) => ({
+                  label: i.startsWith("vehicle.")
+                    ? i.split(".").slice(1).join(".")
+                    : i,
+                  value: i,
+                }))
+              : Object.values(VEHICLE_TYPES_LGSVL).map(
+                  (i) => ({ label: i, value: i } as any)
+                )
+          }
+          value={car.model}
+          onChange={(e) => {
+            simpleSetCar("model", e);
+          }}
+        />
+      </div>
+      <div className="form-item">
+        <div className="form-label w-28">speedType:</div>
+        <Cascader
+          className="w-44"
+          allowClear={false}
+          options={cascaderOptions}
+          expandTrigger="hover"
+          value={
+            car.speedType === SPEED_TYPES.MANUAL
+              ? [SPEED_TYPES.MANUAL]
+              : [SPEED_TYPES.PROBABILISTIC, car.speedType]
+          }
+          displayRender={displayRender}
+          onChange={(e) => {
+            setModel({
+              ...model,
+              cars: model.cars.map((c, i) => {
+                if (i === index) {
+                  return {
+                    ...c,
+                    speedType: e[e.length - 1] as SPEED_TYPES,
+                    speedParams: defaultSpeedParams(
+                      e[e.length - 1] as SPEED_TYPES
+                    ),
+                  };
+                }
+                return c;
+              }),
+            });
+          }}
+        />
+      </div>
+      {getDistributionComponent("speedParams", "speedType")}
+      <div className="form-item">
+        <div className="form-label w-28">maxSpeed:</div>
+        <InputNumber
+          min={0}
+          max={180}
+          className="w-20"
+          value={car.maxSpeed}
+          onChange={(e) => {
+            simpleSetCar("maxSpeed", e);
+          }}
+        />
+      </div>
+      <div className="form-item">
+        <div className="form-label w-28">minSpeed:</div>
+        <InputNumber
+          min={0}
+          max={180}
+          className="w-20"
+          value={car.minSpeed}
+          onChange={(e) => {
+            simpleSetCar("minSpeed", e);
+          }}
+        />
+      </div>
+      <div className="form-item">
+        <div className="form-label w-28">accelerationType:</div>
+        <Cascader
+          className="w-44"
+          allowClear={false}
+          options={cascaderOptions}
+          expandTrigger="hover"
+          value={
+            car.accelerationType === SPEED_TYPES.MANUAL
+              ? [SPEED_TYPES.MANUAL]
+              : [SPEED_TYPES.PROBABILISTIC, car.accelerationType]
+          }
+          displayRender={displayRender}
+          onChange={(e) => {
+            setModel({
+              ...model,
+              cars: model.cars.map((c, i) => {
+                if (i === index) {
+                  return {
+                    ...c,
+                    accelerationType: e[e.length - 1] as SPEED_TYPES,
+                    accelerationParams: defaultSpeedParams(
+                      e[e.length - 1] as SPEED_TYPES
+                    ),
+                  };
+                }
+                return c;
+              }),
+            });
+          }}
+        />
+      </div>
+      {getDistributionComponent("accelerationParams", "accelerationType")}
+      <div className="form-item">
+        <div className="form-label w-28">maxAcceleration:</div>
+        <InputNumber
+          className="w-20"
+          value={car.maxAcceleration}
+          onChange={(e) => {
+            simpleSetCar("maxAcceleration", e);
+          }}
+        />
+      </div>
+      <div className="form-item">
+        <div className="form-label w-28">minAcceleration:</div>
+        <InputNumber
+          className="w-20"
+          value={car.minAcceleration}
+          onChange={(e) => {
+            simpleSetCar("minAcceleration", e);
+          }}
+        />
+      </div>
+      <div className="form-item">
+        <div className="form-label w-28">location:</div>
+        <Select
+          className="w-44"
+          options={Object.values(LOCATION_TYPES).map((i) => ({
+            label: i,
+            value: i,
+          }))}
+          value={car.locationType}
+          onChange={(e) => {
+            setModel({
+              ...model,
+              cars: model.cars.map((c, i) => {
+                if (i === index) {
+                  return {
+                    ...c,
+                    locationType: e,
+                    locationParams: defaultLocationParams(e),
+                  };
+                }
+                return c;
+              }),
+            });
+          }}
+        />
+      </div>
+      {getPositionComponent()}
+      <div className="form-item">
+        <div className="form-label w-28">heading:</div>
+        <Select
+          className="w-44"
+          options={[
+            { label: "same", value: "same" },
+            { label: "opposite", value: "opposite" },
+          ]}
+          value={car.heading ? "same" : "opposite"}
+          onChange={(e) => {
+            simpleSetCar("heading", e === "same");
+          }}
+        />
+      </div>
+      <div className="form-item">
+        <div className="form-label w-28">roadDeviation:</div>
+        <div>
           <InputNumber
-            min={0}
-            max={180}
-            style={{ width: 150 }}
-            value={car.maxSpeed}
+            className="w-16"
+            value={car.roadDeviation[0]}
             onChange={(e) => {
-              simpleSetCar("maxSpeed", e);
+              simpleSetCar("roadDeviation", [e, car.roadDeviation[1]]);
             }}
           />
-        </Form.Item>
-        <Form.Item label="minSpeed">
+          <span className="ml-2 mr-2">-</span>
           <InputNumber
-            min={0}
-            max={180}
-            style={{ width: 150 }}
-            value={car.minSpeed}
+            className="w-16"
+            value={car.roadDeviation[1]}
             onChange={(e) => {
-              simpleSetCar("minSpeed", e);
+              simpleSetCar("roadDeviation", [car.roadDeviation[0], e]);
             }}
           />
-        </Form.Item>
-        <Form.Item label="accelerationType">
-          <Cascader
-            style={{ width: 180 }}
-            allowClear={false}
-            options={cascaderOptions}
-            expandTrigger="hover"
-            value={
-              car.accelerationType === SPEED_TYPES.MANUAL
-                ? [SPEED_TYPES.MANUAL]
-                : [SPEED_TYPES.PROBABILISTIC, car.accelerationType]
-            }
-            displayRender={displayRender}
-            onChange={(e) => {
-              setModel({
-                ...model,
-                cars: model.cars.map((c, i) => {
-                  if (i === index) {
-                    return {
-                      ...c,
-                      accelerationType: e[e.length - 1] as SPEED_TYPES,
-                      accelerationParams: defaultSpeedParams(
-                        e[e.length - 1] as SPEED_TYPES
-                      ),
-                    };
-                  }
-                  return c;
-                }),
-              });
-            }}
-          />
-        </Form.Item>
-        {getDistributionComponent("accelerationParams", "accelerationType")}
-        <Form.Item label="maxAcceleration">
-          <InputNumber
-            style={{ width: 150 }}
-            value={car.maxAcceleration}
-            onChange={(e) => {
-              simpleSetCar("maxAcceleration", e);
-            }}
-          />
-        </Form.Item>
-        <Form.Item label="minAcceleration">
-          <InputNumber
-            style={{ width: 150 }}
-            value={car.minAcceleration}
-            onChange={(e) => {
-              simpleSetCar("minAcceleration", e);
-            }}
-          />
-        </Form.Item>
-        <Form.Item label="location">
-          <Select
-            style={{ width: 150 }}
-            options={Object.values(LOCATION_TYPES).map((i) => ({
-              label: i,
-              value: i,
-            }))}
-            value={car.locationType}
-            onChange={(e) => {
-              setModel({
-                ...model,
-                cars: model.cars.map((c, i) => {
-                  if (i === index) {
-                    return {
-                      ...c,
-                      locationType: e,
-                      locationParams: defaultLocationParams(e),
-                    };
-                  }
-                  return c;
-                }),
-              });
-            }}
-          />
-        </Form.Item>
-        {getPositionComponent()}
-        <Form.Item label="heading">
-          <Select
-            style={{ width: 150 }}
-            options={[
-              { label: "same", value: "same" },
-              { label: "opposite", value: "opposite" },
-            ]}
-            value={car.heading ? "same" : "opposite"}
-            onChange={(e) => {
-              simpleSetCar("heading", e === "same");
-            }}
-          />
-        </Form.Item>
-        <Form.Item label="roadDeviation">
-          <div>
-            <InputNumber
-              style={{ width: 62 }}
-              value={car.roadDeviation[0]}
-              onChange={(e) => {
-                simpleSetCar("roadDeviation", [e, car.roadDeviation[1]]);
-              }}
-            />
-            <span style={{ margin: "0 10px" }}>-</span>
-            <InputNumber
-              style={{ width: 62 }}
-              value={car.roadDeviation[1]}
-              onChange={(e) => {
-                simpleSetCar("roadDeviation", [car.roadDeviation[0], e]);
-              }}
-            />
-          </div>
-        </Form.Item>
-        <Form.Item label="dynamic">
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <Button
-              type="primary"
-              onClick={handleChooseFile}
-              style={{ marginRight: "10px" }}
-              icon={<UploadOutlined />}
-            >
-              Tree File
-            </Button>
-            <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
-              {car.treePath}
-            </span>
-          </div>
-        </Form.Item>
-      </Form>
+        </div>
+      </div>
+      <div className="form-item">
+        <div className="form-label w-28">dynamic:</div>
+        <div className="flex items-center">
+          <Button
+            type="primary"
+            onClick={handleChooseFile}
+            className="mr-2"
+            icon={<UploadOutlined />}
+          >
+            Tree File
+          </Button>
+          <span className="overflow-hidden text-ellipsis">{car.treePath}</span>
+        </div>
+      </div>
     </Card>
   );
 }

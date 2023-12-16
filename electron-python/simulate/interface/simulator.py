@@ -6,6 +6,7 @@
 """
 import json
 import os
+import random
 import sys
 from typing import Optional
 
@@ -214,7 +215,7 @@ class Simulator:
         else:
             scene.map = json_data['map']
         scene.time_step = json_data['timeStep']
-        scene.weather = json_data['weather']
+        scene.weather = random.choice(json_data['weather'])
         scene.simulationTime = int(json_data['simulationTime'])
         if 'scenarioEndTrigger' in json_data.keys() and json_data['scenarioEndTrigger'] != "":
             scene.endTrigger = json_data['scenarioEndTrigger']

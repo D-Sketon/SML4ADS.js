@@ -76,7 +76,7 @@ function LogicalContent(): ReactElement {
   };
 
   return (
-    <div style={{ height: "100%" }}>
+    <div className="h-full">
       <Tabs
         hideAdd
         onChange={onChange}
@@ -84,13 +84,9 @@ function LogicalContent(): ReactElement {
         type="editable-card"
         onEdit={onEdit}
         items={items}
-        style={{ height: "100%" }}
+        className="h-full"
       />
-      <FloatButton
-        icon={<LeftOutlined />}
-        onClick={back}
-        style={{ right: 24 }}
-      />
+      <FloatButton icon={<LeftOutlined />} onClick={back} className="right-6" />
     </div>
   );
 }

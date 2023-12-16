@@ -17,6 +17,8 @@ import { checkModel } from "./utils/check";
 import oldModelAdapter from "./utils/adapter/oldModelAdapter";
 import { Scene } from "./Scene";
 
+import "./index.less";
+
 interface ModelProps {
   path: string;
 }
@@ -183,15 +185,8 @@ function Model(props: ModelProps): ReactElement {
 
   return (
     <>
-      <div
-        onKeyDown={handleKeyDown}
-        tabIndex={0}
-        style={{ height: "100%", display: "flex" }}
-      >
-        <div
-          style={{ width: "70%", overflow: "auto" }}
-          className="extend-wrapper"
-        >
+      <div onKeyDown={handleKeyDown} tabIndex={0} className="h-full flex">
+        <div className="extend-wrapper w-4/6 overflow-auto">
           {model ? (
             <>
               <BasicInformation model={model} setModel={setModel} path={path} />
@@ -204,37 +199,20 @@ function Model(props: ModelProps): ReactElement {
                   path={path}
                 />
               ))}
-              <div
-                style={{ padding: "0 10px 10px 0", boxSizing: "border-box" }}
-              >
+              <div className="box-border pr-2 pb-2">
                 <Button type="primary" block onClick={handleAdd}>
-                  + Add
+                  + Add Car
                 </Button>
               </div>
             </>
           ) : (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "100%",
-                height: "100%",
-              }}
-            >
+            <div className="w-full h-full flex justify-center items-center">
               <Spin />
             </div>
           )}
         </div>
         <div
-          style={{
-            width: "30%",
-            overflow: "hidden",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%",
-          }}
+          className="w-2/6 h-full overflow-hidden flex justify-center items-center"
           ref={canvasWrapperRef}
         >
           {info ? <canvas ref={canvasRef}></canvas> : <Spin />}

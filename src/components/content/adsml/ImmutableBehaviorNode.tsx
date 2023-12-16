@@ -18,7 +18,7 @@ function ImmutableBehaviorNode({ data, isConnectable }: any): ReactElement {
       <Handle
         type="target"
         position={Position.Top}
-        style={{ background: "#555" }}
+        className="bg-gray-700"
         isConnectable={isConnectable}
       />
       <Descriptions
@@ -45,7 +45,7 @@ function ImmutableBehaviorNode({ data, isConnectable }: any): ReactElement {
       <Handle
         type="source"
         position={Position.Bottom}
-        style={{ background: "#555" }}
+        className="bg-gray-700"
         isConnectable={isConnectable}
       />
     </>

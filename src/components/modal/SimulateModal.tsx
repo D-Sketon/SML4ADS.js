@@ -46,17 +46,14 @@ function SimulateModal(props: BaseModalProps): ReactElement {
     >
       <Radio.Group onChange={onChange} value={value}>
         <Space direction="vertical">
-          <Radio
-            value={1}
-            style={{ height: 40, display: "flex", alignItems: "center" }}
-          >
+          <Radio value={1} className="flex items-center h-10">
             Scene
             {value === 1 ? (
-              <span style={{ display: "inline-block", marginLeft: 20 }}>
+              <span className="inline-block ml-6">
                 Image number:{" "}
                 <InputNumber
                   placeholder="integer"
-                  style={{ width: 100, marginLeft: 10 }}
+                  className="w-24 ml-3"
                   value={imageNumber}
                   // @ts-ignore
                   onChange={(e) => setImageNumber(e)}

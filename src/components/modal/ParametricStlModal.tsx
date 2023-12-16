@@ -95,7 +95,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
 
   if (editable) {
     childNode = editing ? (
-      <Form.Item style={{ margin: 0 }} name={dataIndex}>
+      <Form.Item className="m-0" name={dataIndex}>
         <Input
           ref={inputRef}
           onPressEnter={save}
@@ -105,8 +105,8 @@ const EditableCell: React.FC<EditableCellProps> = ({
       </Form.Item>
     ) : (
       <div
-        className="editable-cell-value-wrap"
-        style={{ paddingRight: 24, minHeight: "20px" }}
+        className="editable-cell-value-wrap pr-6"
+        style={{ minHeight: "20px" }}
         onClick={toggleEdit}
       >
         {children}
@@ -307,11 +307,7 @@ function ParametricStlModal(props: BaseModalProps): ReactElement {
         width={800}
       >
         <div>
-          <Button
-            onClick={handleAdd}
-            type="primary"
-            style={{ marginBottom: 16 }}
-          >
+          <Button onClick={handleAdd} type="primary" className="mb-4">
             Add a parametricStls
           </Button>
           <Table
@@ -324,9 +320,7 @@ function ParametricStlModal(props: BaseModalProps): ReactElement {
             pagination={false}
             scroll={{ y: 300 }}
           />
-          <Row
-            style={{ display: "flex", alignItems: "center", margin: "15px 0" }}
-          ></Row>
+          <Row className="flex items-center mt-4 mb-4"></Row>
         </div>
       </Modal>
       <ParametricStlEditModal

@@ -11,7 +11,6 @@ function NewProjectModal(props: BaseModalProps): ReactElement {
   const { dispatch } = useContext(AppContext);
   const navigate = useNavigate();
 
-
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [path, setPath] = useState("");
   const [name, setName] = useState("");
@@ -48,20 +47,16 @@ function NewProjectModal(props: BaseModalProps): ReactElement {
       onOk={handleOk}
       onCancel={handleCancel}
     >
-      <Row style={{ display: "flex", alignItems: "center", margin: "15px 0" }}>
+      <Row className="flex items-center mt-4 mb-4">
         <Col span={6}>Directory:</Col>
-        <Col span={18} style={{ display: "flex" }}>
-          <Button
-            type="primary"
-            style={{ marginRight: "15px" }}
-            onClick={handleChoose}
-          >
+        <Col span={18} className="flex">
+          <Button type="primary" className="mr-4" onClick={handleChoose}>
             Choose
           </Button>
           <Input value={path} onChange={handlePathChange} />
         </Col>
       </Row>
-      <Row style={{ display: "flex", alignItems: "center", margin: "15px 0" }}>
+      <Row className="flex items-center mt-4 mb-4">
         <Col span={6}>Project name:</Col>
         <Col span={18}>
           <Input

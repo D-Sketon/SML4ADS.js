@@ -12,7 +12,7 @@ const { Header, Content } = Layout;
 
 function Home(): ReactElement {
   return (
-    <Layout style={{ width: "100vw", height: "100vh" }}>
+    <Layout className="w-screen h-screen">
       <Header className="home-header">
         <HeaderMenu />
       </Header>
@@ -22,10 +22,7 @@ function Home(): ReactElement {
             path="/logical"
             element={
               <>
-                <AntdResizeableSidebar
-                  theme="light"
-                  style={{ overflow: "auto" }}
-                >
+                <AntdResizeableSidebar theme="light" className="overflow-auto">
                   <SiderTree />
                 </AntdResizeableSidebar>
                 <Content className="home-content">

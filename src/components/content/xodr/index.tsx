@@ -54,22 +54,12 @@ function Xodr(props: XodrProps): ReactElement {
   }, [info]);
 
   return (
-    <div style={{ display: "flex", height: "100%" }}>
-      <div
-        style={{ width: "50%", overflow: "auto" }}
-        className="extend-wrapper"
-      >
+    <div className="flex h-full">
+      <div className="extend-wrapper w-1/2 overflow-auto">
         <Text path={path} ext={ext} />
       </div>
       <div
-        style={{
-          width: "50%",
-          overflow: "hidden",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-        }}
+        className="w-1/2 h-full overflow-hidden flex justify-center items-center"
         ref={canvasWrapperRef}
       >
         {info ? <canvas ref={canvasRef}></canvas> : <Spin />}

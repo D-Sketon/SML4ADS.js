@@ -141,31 +141,15 @@ function CriticalSpecificScenarios(): ReactElement {
   };
 
   return (
-    <div
-      style={{ backgroundColor: "#f6f6f6", height: "100vh", overflow: "auto" }}
-      className="extend-wrapper"
-    >
+    <div className="extend-wrapper h-screen overflow-auto bg-stone-100">
       <div style={{ display: "flex", height: "500px" }}>
-        <div
-          style={{
-            width: "50%",
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
+        <div className="w-1/2 h-full flex flex-col">
           <Card
             title="逻辑场景到关键具体场景生成"
-            style={{ margin: "10px", height: "100%" }}
+            className="m-2 h-full"
             hoverable
           >
-            <Row
-              style={{
-                display: "flex",
-                alignItems: "center",
-                margin: "15px 0",
-              }}
-            >
+            <Row className="flex items-center mt-4 mb-4">
               <Col span={8}>carla port:</Col>
               <Col span={16}>
                 <InputNumber
@@ -176,62 +160,48 @@ function CriticalSpecificScenarios(): ReactElement {
                 />
               </Col>
             </Row>
-            <Row
-              style={{
-                display: "flex",
-                alignItems: "center",
-                margin: "15px 0",
-              }}
-            >
+            <Row className="flex items-center mt-4 mb-4">
               <Col span={8}>scenario model file:</Col>
               <Col span={16}>
                 <Button
                   type="primary"
-                  style={{ marginRight: "20px", width: 120 }}
+                  className="mr-5 w-32"
                   onClick={handleChooseModelFile}
                   icon={<UploadOutlined />}
                 >
                   Model
                 </Button>
-                <div style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
-                  {modelPath}
-                </div>
+                <div className="overflow-hidden text-ellipsis">{modelPath}</div>
               </Col>
             </Row>
-            <Row
-              style={{
-                display: "flex",
-                alignItems: "center",
-                margin: "15px 0",
-              }}
-            >
+            <Row className="flex items-center mt-4 mb-4">
               <Col span={8}>output directory:</Col>
               <Col span={16}>
                 <Button
                   type="primary"
-                  style={{ marginRight: "20px", width: 120 }}
+                  className="mr-5 w-32"
                   onClick={handleChooseOutputDirectory}
                   icon={<DownloadOutlined />}
                 >
                   Directory
                 </Button>
-                <div style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
+                <div className="overflow-hidden text-ellipsis">
                   {outputPath}
                 </div>
               </Col>
             </Row>
           </Card>
-          <div style={{ padding: "0 10px 10px 10px", boxSizing: "border-box" }}>
+          <div className="box-border m-2 mt-0">
             <Button type="primary" block onClick={handleProcess}>
               Process
             </Button>
           </div>
         </div>
-        <div style={{ width: "50%", height: "100%" }}>
+        <div className="w-1/2 h-full">
           <Tabs type="card" items={tabItems} onChange={onChange} />
         </div>
       </div>
-      <Card title="Output" style={{ margin: "10px" }} hoverable>
+      <Card title="Output" className="m-2" hoverable>
         {isLoading && <Spin />}
       </Card>
       <FloatButton icon={<LeftOutlined />} onClick={() => navigate("/")} />

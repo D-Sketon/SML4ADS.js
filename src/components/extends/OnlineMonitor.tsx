@@ -90,64 +90,51 @@ function OnlineMonitor(): ReactElement {
   };
 
   return (
-    <div
-      style={{ backgroundColor: "#f6f6f6", height: "100vh", overflow: "auto" }}
-      className="extend-wrapper"
-    >
-      <Card title="在线监测" style={{ margin: "10px" }} hoverable>
-        <Row
-          style={{ display: "flex", alignItems: "center", margin: "15px 0" }}
-        >
+    <div className="extend-wrapper h-screen overflow-auto bg-stone-100">
+      <Card title="在线监测" className="m-2" hoverable>
+        <Row className="flex items-center mt-4 mb-4">
           <Col span={2}>csv file:</Col>
           <Col span={22}>
             <Button
               type="primary"
-              style={{ marginRight: "20px", width: 120 }}
+              className="mr-5 w-32"
               onClick={handleChooseCsvFile}
               icon={<UploadOutlined />}
             >
               CSV
             </Button>
-            <div style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
-              {csvPath}
-            </div>
+            <div className="overflow-hidden text-ellipsis">{csvPath}</div>
           </Col>
         </Row>
         <ExtendCsv csvArray={csvArray} />
-        <Row
-          style={{ display: "flex", alignItems: "center", margin: "15px 0" }}
-        >
+        <Row className="flex items-center mt-4 mb-4">
           <Col span={2}>stl path:</Col>
           <Col span={22}>
             <Button
               type="primary"
-              style={{ marginRight: "20px", width: 120 }}
+              className="mr-5 w-32"
               onClick={handleChooseStlFile}
               icon={<UploadOutlined />}
             >
               STL
             </Button>
-            <div style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
-              {stlPath}
-            </div>
+            <div className="overflow-hidden text-ellipsis">{stlPath}</div>
           </Col>
         </Row>
-        <Row
-          style={{ display: "flex", alignItems: "center", margin: "15px 0" }}
-        >
+        <Row className="flex items-center mt-4 mb-4">
           <Col span={2}>stl:</Col>
           <Col span={22}>
             <div>{stlData}</div>
           </Col>
         </Row>
       </Card>
-      <div style={{ padding: "0 10px 10px 10px", boxSizing: "border-box" }}>
+      <div className="box-border m-2 mt-0">
         <Button type="primary" block onClick={handleMonitor}>
           Monitor
         </Button>
       </div>
-      <Card title="Output" style={{ margin: "10px" }} hoverable>
-        <div style={{ display: "flex", justifyContent: "center" }}>
+      <Card title="Output" className="m-2" hoverable>
+        <div className="flex justify-center">
           {isLoading && <Spin />}
           {imgUrl && <img src={imgUrl} alt="Output" />}
         </div>

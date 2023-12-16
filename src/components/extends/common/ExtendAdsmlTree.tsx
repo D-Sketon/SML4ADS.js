@@ -31,11 +31,11 @@ function ExtendAdsmlTree(props: ExtendAdsmlTreeProps): ReactElement {
   
   return (
     <>
-      <Row style={{ display: "flex", alignItems: "center", margin: "15px 0" }}>
+      <Row className="flex items-center mt-4 mb-4">
         <Col span={3}>Car name:</Col>
         <Col span={21}>
           <Select
-            style={{ width: 180 }}
+            className="w-44"
             options={
               model?.cars.map((car, index) => ({
                 label: car.name,

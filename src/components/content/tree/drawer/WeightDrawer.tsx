@@ -77,9 +77,7 @@ function WeightDrawer(props: WeightDrawerProps): ReactElement {
   function manualSpeed(): ReactElement {
     return (
       <>
-        <Row
-          style={{ display: "flex", alignItems: "center", margin: "10px 0" }}
-        >
+        <Row className="flex items-center mt-2 mb-2">
           <Col span={6}>weight:</Col>
           <Col span={18}>
             <InputNumber
@@ -96,9 +94,7 @@ function WeightDrawer(props: WeightDrawerProps): ReactElement {
   function uniformDistributionSpeed(): ReactElement {
     return (
       <>
-        <Row
-          style={{ display: "flex", alignItems: "center", margin: "10px 0" }}
-        >
+        <Row className="flex items-center mt-2 mb-2">
           <Col span={6}>min:</Col>
           <Col span={18}>
             <InputNumber
@@ -108,9 +104,7 @@ function WeightDrawer(props: WeightDrawerProps): ReactElement {
             />
           </Col>
         </Row>
-        <Row
-          style={{ display: "flex", alignItems: "center", margin: "10px 0" }}
-        >
+        <Row className="flex items-center mt-2 mb-2">
           <Col span={6}>max:</Col>
           <Col span={18}>
             <InputNumber
@@ -127,9 +121,7 @@ function WeightDrawer(props: WeightDrawerProps): ReactElement {
   function normalDistributionSpeed(): ReactElement {
     return (
       <>
-        <Row
-          style={{ display: "flex", alignItems: "center", margin: "10px 0" }}
-        >
+        <Row className="flex items-center mt-2 mb-2">
           <Col span={6}>mean:</Col>
           <Col span={18}>
             <InputNumber
@@ -139,9 +131,7 @@ function WeightDrawer(props: WeightDrawerProps): ReactElement {
             />
           </Col>
         </Row>
-        <Row
-          style={{ display: "flex", alignItems: "center", margin: "10px 0" }}
-        >
+        <Row className="flex items-center mt-2 mb-2">
           <Col span={6}>std:</Col>
           <Col span={18}>
             <InputNumber
@@ -158,9 +148,7 @@ function WeightDrawer(props: WeightDrawerProps): ReactElement {
   function bernoulliDistributionSpeed(): ReactElement {
     return (
       <>
-        <Row
-          style={{ display: "flex", alignItems: "center", margin: "10px 0" }}
-        >
+        <Row className="flex items-center mt-2 mb-2">
           <Col span={6}>p:</Col>
           <Col span={18}>
             <InputNumber
@@ -178,9 +166,7 @@ function WeightDrawer(props: WeightDrawerProps): ReactElement {
   function binomialDistributionSpeed(): ReactElement {
     return (
       <>
-        <Row
-          style={{ display: "flex", alignItems: "center", margin: "10px 0" }}
-        >
+        <Row className="flex items-center mt-2 mb-2">
           <Col span={6}>n:</Col>
           <Col span={18}>
             <InputNumber
@@ -190,9 +176,7 @@ function WeightDrawer(props: WeightDrawerProps): ReactElement {
             />
           </Col>
         </Row>
-        <Row
-          style={{ display: "flex", alignItems: "center", margin: "10px 0" }}
-        >
+        <Row className="flex items-center mt-2 mb-2">
           <Col span={6}>p:</Col>
           <Col span={18}>
             <InputNumber
@@ -210,9 +194,7 @@ function WeightDrawer(props: WeightDrawerProps): ReactElement {
   function poissonDistributionSpeed(): ReactElement {
     return (
       <>
-        <Row
-          style={{ display: "flex", alignItems: "center", margin: "10px 0" }}
-        >
+        <Row className="flex items-center mt-2 mb-2">
           <Col span={6}>lambda:</Col>
           <Col span={18}>
             <InputNumber
@@ -231,9 +213,7 @@ function WeightDrawer(props: WeightDrawerProps): ReactElement {
   function chiSquaredDistributionSpeed(): ReactElement {
     return (
       <>
-        <Row
-          style={{ display: "flex", alignItems: "center", margin: "10px 0" }}
-        >
+        <Row className="flex items-center mt-2 mb-2">
           <Col span={6}>k:</Col>
           <Col span={18}>
             <InputNumber
@@ -284,11 +264,11 @@ function WeightDrawer(props: WeightDrawerProps): ReactElement {
 
   return (
     <>
-      <Row style={{ display: "flex", alignItems: "center", margin: "10px 0" }}>
+      <Row className="flex items-center mt-2 mb-2">
         <Col span={6}>{"weightType:"}</Col>
         <Col span={18}>
           <Cascader
-            style={{ width: 180 }}
+            className="w-44"
             allowClear={false}
             options={cascaderOptions}
             expandTrigger="hover"

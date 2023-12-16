@@ -3,6 +3,7 @@ import ReactFlow, { ReactFlowProvider, Controls } from "reactflow";
 
 interface AdsmlTreeProps {
   style?: React.CSSProperties;
+  className?: string;
   nodes: any;
   edges: any;
   nodeTypes: any;
@@ -10,9 +11,9 @@ interface AdsmlTreeProps {
 }
 
 function AdsmlTree(props: AdsmlTreeProps): ReactElement {
-  const { style, nodes, edges, nodeTypes, edgeTypes } = props;
+  const { style, nodes, edges, nodeTypes, edgeTypes, className } = props;
   return (
-    <div style={style}>
+    <div style={style} className={className}>
       <ReactFlowProvider>
         <ReactFlow
           nodes={nodes}

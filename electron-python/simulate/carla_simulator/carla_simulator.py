@@ -95,6 +95,8 @@ class CarlaSimulation(Simulation):
             else:
                 raise RuntimeError('CARLA only supports OpenDrive maps')
         self.world = self.client.get_world()
+        # set weather
+        self.world.set_weather(getattr(carla.WeatherParameters, scene.weather))  # type: ignore
         self.map = self.world.get_map()
         self.bpl = self.world.get_blueprint_library()
         self.agents = {}

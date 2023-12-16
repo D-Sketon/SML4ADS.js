@@ -24,7 +24,7 @@ function GuardDrawer(props: GuardDrawerProps): ReactElement {
 
   return (
     <>
-      <Row style={{ display: "flex", alignItems: "center" }}>
+      <Row className="flex items-center">
         <Col span={4}>guard:</Col>
         <Col span={20}>
           <TextArea

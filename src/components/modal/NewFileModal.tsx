@@ -48,7 +48,7 @@ function NewFileDirectory(
       onOk={handleOk}
       onCancel={handleCancel}
     >
-      <Row style={{ display: "flex", alignItems: "center", margin: "15px 0" }}>
+      <Row className="flex items-center mt-4 mb-4">
         <Col span={6}>File name:</Col>
         <Col span={18}>
           <Input

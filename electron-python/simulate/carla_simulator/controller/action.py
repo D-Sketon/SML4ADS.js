@@ -17,7 +17,6 @@ except IndexError:
     print('append path error!')
 
 from simulate.carla_simulator.controller.enums import RoadOption, VehicleState
-
 from simulate.utils.utils import get_speed
 
 

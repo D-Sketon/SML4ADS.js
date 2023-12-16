@@ -256,7 +256,7 @@ function SiderTree(): ReactElement {
           selectedKeys={selectedKeys}
           expandedKeys={expandedKeys}
           loadedKeys={loadedKeys}
-          style={{ height: "100%" }}
+          className="h-full"
         />
       </Dropdown>
       <DeleteConfirmModal

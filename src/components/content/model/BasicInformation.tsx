@@ -32,131 +32,129 @@ function BasicInformation(props: BasicInformationProps): ReactElement {
     }
   }
   return (
-    <Card
-      hoverable
-      title="Basic Information"
-      style={{ margin: "10px 10px 10px 0", boxSizing: "border-box" }}
-    >
-      <Form labelCol={{ span: 4 }} wrapperCol={{ span: 20 }} autoComplete="off">
-        <Form.Item label="simulatorType">
-          <Select
-            style={{ width: 180 }}
-            options={Object.values(SIMULATOR_TYPES).map((i) => ({
-              value: i,
-              label: i,
-            }))}
-            onChange={(e) => {
-              setModel({ ...model, simulatorType: e });
-            }}
-            value={model.simulatorType}
-          />
-        </Form.Item>
-        <Form.Item label="map">
-          <Form.Item>
+    <Card hoverable title="Basic Information" className="box-border m-2 ml-0">
+      <div className="form-item">
+        <div className="form-label w-28">simulatorType:</div>
+        <Select
+          className="w-44"
+          options={Object.values(SIMULATOR_TYPES).map((i) => ({
+            value: i,
+            label: i,
+          }))}
+          onChange={(e) => {
+            setModel({ ...model, simulatorType: e });
+          }}
+          value={model.simulatorType}
+        />
+      </div>
+      <div className="form-item">
+        <div className="form-label w-28">mapType:</div>
+        <Select
+          className="w-44"
+          options={Object.values(MAP_TYPES).map((i) => ({
+            value: i,
+            label: i,
+          }))}
+          onChange={(e) => {
+            if (e === MAP_TYPES.CUSTOM) {
+              setModel({ ...model, mapType: e, map: "" });
+            } else if (e === MAP_TYPES.DEFAULT) {
+              setModel({
+                ...model,
+                mapType: e,
+                map: DEFAULT_MAP_TYPES.TOWN_01,
+              });
+            }
+          }}
+          value={model.mapType}
+        />
+      </div>
+      <div className="form-item">
+        <div className="form-label w-28">map:</div>
+        {model.mapType === MAP_TYPES.CUSTOM ? (
+          <div className="flex items-center">
+            <Button
+              type="primary"
+              className="mr-2"
+              onClick={handleChooseFile}
+              icon={<UploadOutlined />}
+            >
+              Map File
+            </Button>
+            <span className="overflow-hidden text-ellipsis">{model.map}</span>
+          </div>
+        ) : (
+          <div className="flex items-center">
             <Select
-              style={{ width: 180 }}
-              options={Object.values(MAP_TYPES).map((i) => ({
+              className="w-44"
+              options={Object.values(DEFAULT_MAP_TYPES).map((i) => ({
                 value: i,
                 label: i,
               }))}
               onChange={(e) => {
-                if (e === MAP_TYPES.CUSTOM) {
-                  setModel({ ...model, mapType: e, map: "" });
-                } else if (e === MAP_TYPES.DEFAULT) {
-                  setModel({
-                    ...model,
-                    mapType: e,
-                    map: DEFAULT_MAP_TYPES.TOWN_01,
-                  });
-                }
+                setModel({ ...model, map: e });
               }}
-              value={model.mapType}
+              value={model.map}
             />
-          </Form.Item>
-          {model.mapType === MAP_TYPES.CUSTOM ? (
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <Button
-                type="primary"
-                style={{ marginRight: "20px", width: 120 }}
-                onClick={handleChooseFile}
-                icon={<UploadOutlined />}
-              >
-                Map File
-              </Button>
-              <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
-                {model.map}
-              </span>
-            </div>
-          ) : (
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <Select
-                style={{ width: 150 }}
-                options={Object.values(DEFAULT_MAP_TYPES).map((i) => ({
+          </div>
+        )}
+      </div>
+      <div className="form-item">
+        <div className="form-label w-28">simulatorType:</div>
+        <Select
+          className="w-44"
+          mode="multiple"
+          options={
+            model.simulatorType === SIMULATOR_TYPES.CARLA
+              ? Object.values(WEATHER_TYPES_CARLA).map((i) => ({
                   value: i,
                   label: i,
-                }))}
-                onChange={(e) => {
-                  setModel({ ...model, map: e });
-                }}
-                value={model.map}
-              />
-            </div>
-          )}
-        </Form.Item>
-
-        <Form.Item label="weather">
-          <Select
-            style={{ width: 180 }}
-            mode="multiple"
-            options={
-              model.simulatorType === SIMULATOR_TYPES.CARLA
-                ? Object.values(WEATHER_TYPES_CARLA).map((i) => ({
-                    value: i,
-                    label: i,
-                  }))
-                : Object.values(WEATHER_TYPES_LGSVL).map(
-                    (i) => ({ value: i, label: i } as any)
-                  )
-            }
-            onChange={(e) => {
-              setModel({ ...model, weather: e });
-            }}
-            value={model.weather}
-          />
-        </Form.Item>
-        <Form.Item label="timeStep">
-          <InputNumber
-            min={0.1}
-            max={10}
-            style={{ width: 150 }}
-            onChange={(e) => {
-              setModel({ ...model, timeStep: e });
-            }}
-            value={model.timeStep}
-          />
-        </Form.Item>
-        <Form.Item label="simulationTime">
-          <InputNumber
-            min={0.1}
-            max={40.0}
-            style={{ width: 150 }}
-            onChange={(e) => {
-              setModel({ ...model, simulationTime: e });
-            }}
-            value={model.simulationTime}
-          />
-        </Form.Item>
-        <Form.Item label="scenarioTrigger">
-          <TextArea
-            rows={3}
-            maxLength={1024}
-            onChange={(e) => {
-              setModel({ ...model, scenarioEndTrigger: e.target.value });
-            }}
-            value={model.scenarioEndTrigger}
-          />
-        </Form.Item>
-      </Form>
+                }))
+              : Object.values(WEATHER_TYPES_LGSVL).map(
+                  (i) => ({ value: i, label: i } as any)
+                )
+          }
+          onChange={(e) => {
+            setModel({ ...model, weather: e });
+          }}
+          value={model.weather}
+        />
+      </div>
+      <div className="form-item">
+        <div className="form-label w-28">timeStep:</div>
+        <InputNumber
+          min={0.1}
+          max={10}
+          className="w-44"
+          onChange={(e) => {
+            setModel({ ...model, timeStep: e });
+          }}
+          value={model.timeStep}
+        />
+      </div>
+      <div className="form-item">
+        <div className="form-label w-28">simulationTime:</div>
+        <InputNumber
+          min={0.1}
+          max={40.0}
+          className="w-44"
+          onChange={(e) => {
+            setModel({ ...model, simulationTime: e });
+          }}
+          value={model.simulationTime}
+        />
+      </div>
+      <div className="form-item">
+        <div className="form-label w-28">scenarioTrigger:</div>
+        <TextArea
+          rows={3}
+          maxLength={1024}
+          onChange={(e) => {
+            setModel({ ...model, scenarioEndTrigger: e.target.value });
+          }}
+          value={model.scenarioEndTrigger}
+        />
+      </div>
     </Card>
   );
 }

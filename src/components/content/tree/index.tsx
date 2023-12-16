@@ -55,7 +55,6 @@ interface TreeProps {
   path: string;
 }
 
-
 function Tree(props: TreeProps): ReactElement {
   const { path } = props;
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -247,12 +246,7 @@ function Tree(props: TreeProps): ReactElement {
 
   return (
     <div
-      style={{
-        overflow: "hidden",
-        height: "100%",
-        backgroundColor: "#fff",
-        position: "relative",
-      }}
+      className="overflow-hidden h-full bg-white relative"
       onKeyDown={handleKeyDown}
       tabIndex={0}
     >

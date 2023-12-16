@@ -36,10 +36,7 @@ function AdsmlContent(props: AdsmlContentProps): ReactElement {
       <Card
         hoverable
         title="Basic Information"
-        style={{
-          margin: "10px 10px 10px 0",
-          boxSizing: "border-box",
-        }}
+        className="box-border m-2 ml-0"
       >
         <Descriptions items={basicInfoItems} column={2} />
       </Card>
@@ -50,10 +47,7 @@ function AdsmlContent(props: AdsmlContentProps): ReactElement {
               hoverable
               title={`Car ${car.name}`}
               key={index}
-              style={{
-                margin: "10px 10px 10px 0",
-                boxSizing: "border-box",
-              }}
+              className="box-border m-2 ml-0"
               onClick={() => handleCarClick(index)}
             >
               <Descriptions

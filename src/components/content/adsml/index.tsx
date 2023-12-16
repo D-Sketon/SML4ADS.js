@@ -71,26 +71,18 @@ function Adsml(props: AdsmlProps): ReactElement {
   }
 
   return (
-    <div style={{ position: "relative", width: "100%", height: "100%" }}>
+    <div className="relative w-full h-full">
       <AdsmlContent
         model={model}
         handleCarClick={handleCarClick}
-        style={{ width: "50%", height: "100%", overflow: "auto" }}
-        className="left-info"
+        className="w-1/2 h-full overflow-auto left-info"
       />
       <AdsmlTree
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
-        style={{
-          width: "50%",
-          backgroundColor: "#fff",
-          position: "absolute",
-          right: 0,
-          top: 0,
-          height: "100%",
-        }}
+        className="w-1/2 h-full bg-white absolute right-0 top-0"
       />
     </div>
   );

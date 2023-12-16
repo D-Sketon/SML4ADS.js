@@ -45,7 +45,11 @@ function TimeSeriesClustering(): ReactElement {
     }
     setIsLoading(true);
     try {
-      await window.electronAPI.timeSeriesClustering(npyPath, k, state.config.simulationPort);
+      await window.electronAPI.timeSeriesClustering(
+        npyPath,
+        k,
+        state.config.simulationPort
+      );
       notification.success({
         message: "Success",
         description: "Process Success",
@@ -60,43 +64,34 @@ function TimeSeriesClustering(): ReactElement {
   };
 
   return (
-    <div
-      style={{ backgroundColor: "#f6f6f6", height: "100vh", overflow: "auto" }}
-      className="extend-wrapper"
-    >
-      <Card title="多维时序数据聚类" style={{ margin: "10px" }} hoverable>
-        <Row
-          style={{ display: "flex", alignItems: "center", margin: "15px 0" }}
-        >
+    <div className="extend-wrapper h-screen overflow-auto bg-stone-100">
+      <Card title="多维时序数据聚类" className="m-2" hoverable>
+        <Row className="flex items-center mt-4 mb-4">
           <Col span={4}>time series file:</Col>
           <Col span={20}>
             <Button
               type="primary"
-              style={{ marginRight: "20px", width: 120 }}
+              className="mr-5 w-32"
               onClick={handleChooseNpyFile}
             >
               Choose File
             </Button>
-            <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
-              {npyPath}
-            </span>
+            <span className="overflow-hidden text-ellipsis">{npyPath}</span>
           </Col>
         </Row>
-        <Row
-          style={{ display: "flex", alignItems: "center", margin: "15px 0" }}
-        >
+        <Row className="flex items-center mt-4 mb-4">
           <Col span={4}>k:</Col>
           <Col span={20}>
             <InputNumber value={k} onChange={(e) => setK(e)} />
           </Col>
         </Row>
       </Card>
-      <div style={{ padding: "0 10px 10px 10px", boxSizing: "border-box" }}>
+      <div className="box-border m-2 mt-0">
         <Button type="primary" block onClick={handleProcess}>
           Process
         </Button>
       </div>
-      <Card title="Output" style={{ margin: "10px" }} hoverable>
+      <Card title="Output" className="m-2" hoverable>
         {isLoading && <Spin />}
       </Card>
       <FloatButton icon={<LeftOutlined />} onClick={() => navigate("/")} />

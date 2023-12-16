@@ -58,13 +58,8 @@ function ExtendAdsmlMap(props: ExtendAdsmlMapProps): ReactElement {
   }, [info, saveCount]);
   return (
     <div
-      style={{
-        overflow: "hidden",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "460px",
-      }}
+      className="flex justify-center items-center overflow-hidden"
+      style={{ height: "460px" }}
       ref={canvasWrapperRef}
     >
       {info ? <canvas ref={canvasRef}></canvas> : <Spin />}

@@ -96,7 +96,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
   if (editable) {
     childNode = editing ? (
       <Form.Item
-        style={{ margin: 0 }}
+        className="m-0"
         name={dataIndex}
         rules={[
           {
@@ -108,11 +108,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
         <Input ref={inputRef} onPressEnter={save} onBlur={save} />
       </Form.Item>
     ) : (
-      <div
-        className="editable-cell-value-wrap"
-        style={{ paddingRight: 24 }}
-        onClick={toggleEdit}
-      >
+      <div className="editable-cell-value-wrap pr-6" onClick={toggleEdit}>
         {children}
       </div>
     );
@@ -294,7 +290,7 @@ function VerifyModal(props: BaseModalProps): ReactElement {
       onCancel={handleCancel}
     >
       <div>
-        <Button onClick={handleAdd} type="primary" style={{ marginBottom: 16 }}>
+        <Button onClick={handleAdd} type="primary" className="mb-4">
           Add a requirement
         </Button>
         <Table
@@ -307,9 +303,7 @@ function VerifyModal(props: BaseModalProps): ReactElement {
           pagination={false}
           scroll={{ y: 300 }}
         />
-        <Row
-          style={{ display: "flex", alignItems: "center", margin: "15px 0" }}
-        >
+        <Row className="flex items-center mt-4 mb-4">
           <Col span={6}>Ouput file path:</Col>
           <Col span={18}>
             <Input

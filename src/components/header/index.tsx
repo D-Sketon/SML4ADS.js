@@ -1,6 +1,5 @@
 import React, { ReactElement, useContext, useEffect, useState } from "react";
 import { Menu, MenuProps, notification } from "antd";
-import "./index.less";
 import AppContext from "../../store/context";
 import { FILE_SUFFIX } from "../../constants";
 import { MModel } from "../../model/Model";
@@ -83,7 +82,7 @@ function HeaderMenu(): ReactElement {
       }
     };
     asyncFn();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activatedFile, filePath, saveFilePath]);
 
   const handlePreprocess = async () => {
@@ -261,7 +260,7 @@ function HeaderMenu(): ReactElement {
 
   return (
     <>
-      <div style={{ display: "flex", backgroundColor: "white" }}>
+      <div className="flex bg-white">
         <div style={{ minWidth: "200px", fontWeight: "bold" }}>
           {location.pathname.endsWith("logical")
             ? "Logical Scenario"
@@ -275,7 +274,7 @@ function HeaderMenu(): ReactElement {
           mode="horizontal"
           items={headItems}
           selectable={false}
-          style={{ width: "100%" }}
+          className="w-full"
         />
       </div>
       <VerifyModal

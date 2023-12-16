@@ -45,7 +45,11 @@ function CausalInference(): ReactElement {
     }
     setIsLoading(true);
     try {
-      await window.electronAPI.causalInference(csvPath, params, state.config.simulationPort);
+      await window.electronAPI.causalInference(
+        csvPath,
+        params,
+        state.config.simulationPort
+      );
       notification.success({
         message: "Success",
         description: "Process Success",
@@ -60,33 +64,24 @@ function CausalInference(): ReactElement {
   };
 
   return (
-    <div
-      style={{ backgroundColor: "#f6f6f6", height: "100vh", overflow: "auto" }}
-      className="extend-wrapper"
-    >
-      <Card title="因果推理" style={{ margin: "10px" }} hoverable>
-        <Row
-          style={{ display: "flex", alignItems: "center", margin: "15px 0" }}
-        >
+    <div className="extend-wrapper h-screen overflow-auto bg-stone-100">
+      <Card title="因果推理" className="m-2" hoverable>
+        <Row className="flex items-center mt-4 mb-4">
           <Col span={4}>time series file:</Col>
           <Col span={20}>
             <Button
               type="primary"
-              style={{ marginRight: "20px", width: 120 }}
+              className="mr-5 w-32"
               onClick={handleChooseCsvFile}
               icon={<UploadOutlined />}
             >
               Time Series
             </Button>
-            <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
-              {csvPath}
-            </span>
+            <span className="overflow-hidden text-ellipsis">{csvPath}</span>
           </Col>
         </Row>
         <ExtendCsv csvArray={csvArray} />
-        <Row
-          style={{ display: "flex", alignItems: "center", margin: "15px 0" }}
-        >
+        <Row className="flex items-center mt-4 mb-4">
           <Col span={4}>intensity threshold:</Col>
           <Col span={20}>
             <Input
@@ -96,13 +91,11 @@ function CausalInference(): ReactElement {
                   intensityThreshold: e.target.value,
                 });
               }}
-              style={{ width: "120px" }}
+              className="w-32"
             />
           </Col>
         </Row>
-        <Row
-          style={{ display: "flex", alignItems: "center", margin: "15px 0" }}
-        >
+        <Row className="flex items-center mt-4 mb-4">
           <Col span={4}>window size:</Col>
           <Col span={20}>
             <Input
@@ -112,17 +105,17 @@ function CausalInference(): ReactElement {
                   windowSize: e.target.value,
                 });
               }}
-              style={{ width: "120px" }}
+              className="w-32"
             />
           </Col>
         </Row>
       </Card>
-      <div style={{ padding: "0 10px 10px 10px", boxSizing: "border-box" }}>
+      <div className="box-border m-2 mt-0">
         <Button type="primary" block onClick={handleProcess}>
           Process
         </Button>
       </div>
-      <Card title="Output" style={{ margin: "10px" }} hoverable>
+      <Card title="Output" className="m-2" hoverable>
         {isLoading && <Spin />}
       </Card>
       <FloatButton icon={<LeftOutlined />} onClick={() => navigate("/")} />
