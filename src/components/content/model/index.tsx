@@ -190,19 +190,30 @@ function Model(props: ModelProps): ReactElement {
           {model ? (
             <>
               <BasicInformation model={model} setModel={setModel} path={path} />
-              {model.cars.map((_, index) => (
-                <CarInformation
-                  model={model}
-                  setModel={setModel}
-                  index={index}
-                  key={index}
-                  path={path}
-                />
-              ))}
-              <div className="box-border pr-2 pb-2">
-                <Button type="primary" block onClick={handleAdd}>
-                  + Add Car
-                </Button>
+              <div className="flex">
+                <div className="w-1/2" style={{ minWidth: "350px" }}>
+                  {model.cars.map((_, index) => (
+                    <CarInformation
+                      model={model}
+                      setModel={setModel}
+                      index={index}
+                      key={index}
+                      path={path}
+                    />
+                  ))}
+                  <div className="box-border pr-2 pb-2 mt-2">
+                    <Button type="primary" block onClick={handleAdd}>
+                      + Add Car
+                    </Button>
+                  </div>
+                </div>
+                <div className="w-1/2" style={{ minWidth: "350px" }}>
+                  <div className="box-border pr-2 pb-2 mt-2">
+                    <Button type="primary" block onClick={handleAdd}>
+                      + Add Pedestrian
+                    </Button>
+                  </div>
+                </div>
               </div>
             </>
           ) : (

@@ -908,16 +908,16 @@ function CarInformation(props: CarInformationProps): ReactElement {
       </div>
       <div className="form-item">
         <div className="form-label w-28">dynamic:</div>
-        <div className="flex items-center">
+        <div>
+          <Input value={car.treePath} spellCheck={false} />
           <Button
             type="primary"
             onClick={handleChooseFile}
-            className="mr-2"
+            className="mt-2"
             icon={<UploadOutlined />}
           >
             Tree File
           </Button>
-          <span className="overflow-hidden text-ellipsis">{car.treePath}</span>
         </div>
       </div>
     </Card>

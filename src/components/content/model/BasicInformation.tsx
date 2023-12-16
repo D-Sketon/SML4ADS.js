@@ -1,4 +1,4 @@
-import { Card, Form, Select, Button, InputNumber } from "antd";
+import { Card, Select, Button, InputNumber, Input } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { ReactElement } from "react";
 
@@ -73,15 +73,16 @@ function BasicInformation(props: BasicInformationProps): ReactElement {
         <div className="form-label w-28">map:</div>
         {model.mapType === MAP_TYPES.CUSTOM ? (
           <div className="flex items-center">
+            <Input value={model.map} spellCheck={false} />
             <Button
               type="primary"
-              className="mr-2"
+              className="mr-2 ml-2"
               onClick={handleChooseFile}
               icon={<UploadOutlined />}
             >
               Map File
             </Button>
-            <span className="overflow-hidden text-ellipsis">{model.map}</span>
+            {/* <span className="overflow-hidden text-ellipsis">{model.map}</span> */}
           </div>
         ) : (
           <div className="flex items-center">
