@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 import { BaseEdge, EdgeLabelRenderer, getBezierPath } from "reactflow";
 
-function ProbabilityTransition({
+export default function ProbabilityTransition({
   id,
   sourceX,
   sourceY,
@@ -30,7 +30,7 @@ function ProbabilityTransition({
         {buffer.map((b, index) => (
           <p key={index}>{b}</p>
         ))}
-      </>  
+      </>
     );
   };
 
@@ -55,5 +55,3 @@ function ProbabilityTransition({
     </>
   );
 }
-
-export default ProbabilityTransition;

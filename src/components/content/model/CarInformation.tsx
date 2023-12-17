@@ -35,11 +35,15 @@ interface CarInformationProps {
   path: string;
 }
 
-function CarInformation(props: CarInformationProps): ReactElement {
-  const { model, setModel, index, path } = props;
+export default function CarInformation({
+  model,
+  setModel,
+  index,
+  path,
+}: CarInformationProps): ReactElement {
   const car = model.cars[index];
 
-  async function handleChooseFile(): Promise<void> {
+  const handleChooseFile = async (): Promise<void> => {
     const res = await window.electronAPI.chooseFile([FILE_SUFFIX.TREE]);
     if (res.filePaths.length) {
       const relativePath = await window.electronAPI.getRelativePath(
@@ -48,17 +52,17 @@ function CarInformation(props: CarInformationProps): ReactElement {
       );
       simpleSetCar("treePath", relativePath);
     }
-  }
+  };
 
-  function handleDelete() {
+  const handleDelete = (): void => {
     setModel({
       ...model,
       cars: model.cars.filter((_, i) => i !== index),
     });
-  }
+  };
 
   // location
-  function globalPosition(): ReactElement {
+  const globalPosition = (): ReactElement => {
     return (
       <>
         <div className="form-item">
@@ -111,9 +115,9 @@ function CarInformation(props: CarInformationProps): ReactElement {
         </div>
       </>
     );
-  }
+  };
 
-  function lanePosition(): ReactElement {
+  const lanePosition = (): ReactElement => {
     return (
       <>
         <div className="form-item">
@@ -196,9 +200,9 @@ function CarInformation(props: CarInformationProps): ReactElement {
         </div>
       </>
     );
-  }
+  };
 
-  function roadPosition(): ReactElement {
+  const roadPosition = (): ReactElement => {
     return (
       <>
         <div className="form-item">
@@ -271,9 +275,9 @@ function CarInformation(props: CarInformationProps): ReactElement {
         </div>
       </>
     );
-  }
+  };
 
-  function relatedPosition(): ReactElement {
+  const relatedPosition = (): ReactElement => {
     return (
       <>
         <div className="form-item">
@@ -350,9 +354,9 @@ function CarInformation(props: CarInformationProps): ReactElement {
         </div>
       </>
     );
-  }
+  };
 
-  function getPositionComponent(): ReactElement {
+  const getPositionComponent = (): ReactElement => {
     switch (car.locationType) {
       case LOCATION_TYPES.GLOBAL_POSITION:
         return globalPosition();
@@ -365,9 +369,9 @@ function CarInformation(props: CarInformationProps): ReactElement {
       default:
         return <></>;
     }
-  }
+  };
 
-  function simpleSetCar(key: string, value: any) {
+  const simpleSetCar = (key: string, value: any): void => {
     setModel({
       ...model,
       cars: model.cars.map((c, i) => {
@@ -380,9 +384,9 @@ function CarInformation(props: CarInformationProps): ReactElement {
         return c;
       }),
     });
-  }
+  };
 
-  function simpleSetLocationParams(key: string, value: any) {
+  const simpleSetLocationParams = (key: string, value: any): void => {
     setModel({
       ...model,
       cars: model.cars.map((c, i) => {
@@ -398,13 +402,13 @@ function CarInformation(props: CarInformationProps): ReactElement {
         return c;
       }),
     });
-  }
+  };
 
-  function simpleSetDistributionParams(
+  const simpleSetDistributionParams = (
     primaryKey: "speedParams" | "accelerationParams",
     key: string,
     value: any
-  ) {
+  ): void => {
     setModel({
       ...model,
       cars: model.cars.map((c, i) => {
@@ -420,7 +424,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
         return c;
       }),
     });
-  }
+  };
 
   // speed
   const cascaderOptions = [
@@ -467,9 +471,9 @@ function CarInformation(props: CarInformationProps): ReactElement {
   // Just show the latest item.
   const displayRender = (labels: string[]) => labels[labels.length - 1];
 
-  function manualSpeed(
+  const manualSpeed = (
     key: "speedParams" | "accelerationParams"
-  ): ReactElement {
+  ): ReactElement => {
     return (
       <>
         <div className="form-item">
@@ -486,11 +490,11 @@ function CarInformation(props: CarInformationProps): ReactElement {
         </div>
       </>
     );
-  }
+  };
 
-  function uniformDistributionSpeed(
+  const uniformDistributionSpeed = (
     key: "speedParams" | "accelerationParams"
-  ): ReactElement {
+  ): ReactElement => {
     return (
       <>
         <div className="form-item">
@@ -517,11 +521,11 @@ function CarInformation(props: CarInformationProps): ReactElement {
         </div>
       </>
     );
-  }
+  };
 
-  function normalDistributionSpeed(
+  const normalDistributionSpeed = (
     key: "speedParams" | "accelerationParams"
-  ): ReactElement {
+  ): ReactElement => {
     return (
       <>
         <div className="form-item">
@@ -547,11 +551,11 @@ function CarInformation(props: CarInformationProps): ReactElement {
         </div>
       </>
     );
-  }
+  };
 
-  function bernoulliDistributionSpeed(
+  const bernoulliDistributionSpeed = (
     key: "speedParams" | "accelerationParams"
-  ): ReactElement {
+  ): ReactElement => {
     return (
       <>
         <div className="form-item">
@@ -568,11 +572,11 @@ function CarInformation(props: CarInformationProps): ReactElement {
         </div>
       </>
     );
-  }
+  };
 
-  function binomialDistributionSpeed(
+  const binomialDistributionSpeed = (
     key: "speedParams" | "accelerationParams"
-  ): ReactElement {
+  ): ReactElement => {
     return (
       <>
         <div className="form-item">
@@ -600,11 +604,11 @@ function CarInformation(props: CarInformationProps): ReactElement {
         </div>
       </>
     );
-  }
+  };
 
-  function poissonDistributionSpeed(
+  const poissonDistributionSpeed = (
     key: "speedParams" | "accelerationParams"
-  ): ReactElement {
+  ): ReactElement => {
     return (
       <>
         <div className="form-item">
@@ -620,11 +624,11 @@ function CarInformation(props: CarInformationProps): ReactElement {
         </div>
       </>
     );
-  }
+  };
 
-  function chiSquareDistributionSpeed(
+  const chiSquareDistributionSpeed = (
     key: "speedParams" | "accelerationParams"
-  ): ReactElement {
+  ): ReactElement => {
     return (
       <>
         <div className="form-item">
@@ -640,11 +644,11 @@ function CarInformation(props: CarInformationProps): ReactElement {
         </div>
       </>
     );
-  }
+  };
 
-  function customizedDistributionSpeed(
+  const customizedDistributionSpeed = (
     key: "speedParams" | "accelerationParams"
-  ): ReactElement {
+  ): ReactElement => {
     return (
       <>
         <div className="form-item">
@@ -665,12 +669,12 @@ function CarInformation(props: CarInformationProps): ReactElement {
         />
       </>
     );
-  }
+  };
 
-  function getDistributionComponent(
+  const getDistributionComponent = (
     key: "speedParams" | "accelerationParams",
     type: "speedType" | "accelerationType"
-  ): ReactElement {
+  ): ReactElement => {
     switch (car[type]) {
       case SPEED_TYPES.MANUAL:
         return manualSpeed(key);
@@ -691,7 +695,7 @@ function CarInformation(props: CarInformationProps): ReactElement {
       default:
         return <></>;
     }
-  }
+  };
 
   return (
     <Card
@@ -923,4 +927,3 @@ function CarInformation(props: CarInformationProps): ReactElement {
     </Card>
   );
 }
-export default CarInformation;

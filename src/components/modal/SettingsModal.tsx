@@ -4,9 +4,10 @@ import { BaseModalProps } from "./types";
 import { setConfig } from "../../store/action";
 import AppContext from "../../store/context";
 
-function SettingsModal(props: BaseModalProps): ReactElement {
-  const { isModalOpen, handleCancel: _handleCancel = () => {} } = props;
-
+export default function SettingsModal({
+  isModalOpen,
+  handleCancel: _handleCancel = () => {},
+}: BaseModalProps): ReactElement {
   const { state, dispatch } = useContext(AppContext);
   const { config } = state;
 
@@ -60,5 +61,3 @@ function SettingsModal(props: BaseModalProps): ReactElement {
     </Modal>
   );
 }
-
-export default SettingsModal;

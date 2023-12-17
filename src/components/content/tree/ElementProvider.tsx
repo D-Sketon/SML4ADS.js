@@ -1,7 +1,7 @@
 import { Button } from "antd";
 import { ReactElement } from "react";
 
-function ElementProvider(): ReactElement {
+export default function ElementProvider(): ReactElement {
   const onDragStart = (event: any, nodeType: string) => {
     event.dataTransfer.setData("application/reactflow", nodeType);
     event.dataTransfer.effectAllowed = "move";
@@ -34,5 +34,3 @@ function ElementProvider(): ReactElement {
     </div>
   );
 }
-
-export default ElementProvider;

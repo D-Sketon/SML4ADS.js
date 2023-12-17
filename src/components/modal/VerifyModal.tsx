@@ -126,8 +126,10 @@ interface DataType {
 
 type ColumnTypes = Exclude<EditableTableProps["columns"], undefined>;
 
-function VerifyModal(props: BaseModalProps): ReactElement {
-  const { isModalOpen, handleCancel = () => {} } = props;
+export default function VerifyModal({
+  isModalOpen,
+  handleCancel = () => {},
+}: BaseModalProps): ReactElement {
   const { state, dispatch } = useContext(AppContext);
   const { filePath, saveFilePath, workspacePath } = state;
   const activatedFile = filePath.find((file) => file.isActive);
@@ -320,5 +322,3 @@ function VerifyModal(props: BaseModalProps): ReactElement {
     </Modal>
   );
 }
-
-export default VerifyModal;

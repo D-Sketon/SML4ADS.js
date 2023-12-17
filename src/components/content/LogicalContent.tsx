@@ -17,7 +17,10 @@ import Xodr from "./xodr";
 
 type TargetKey = React.MouseEvent | React.KeyboardEvent | string;
 
-function getChildrenComponent(path: string, key: FILE_SUFFIX | string) {
+const getChildrenComponent = (
+  path: string,
+  key: FILE_SUFFIX | string
+): ReactElement => {
   switch (key) {
     case FILE_SUFFIX.MODEL:
       return <Model path={path} />;
@@ -33,9 +36,9 @@ function getChildrenComponent(path: string, key: FILE_SUFFIX | string) {
     default:
       return <></>;
   }
-}
+};
 
-function LogicalContent(): ReactElement {
+export default function LogicalContent(): ReactElement {
   const { state, dispatch } = useContext(AppContext);
   const [activeKey, setActiveKey] = useState<string>();
   const [items, setItems] = useState<
@@ -90,5 +93,3 @@ function LogicalContent(): ReactElement {
     </div>
   );
 }
-
-export default LogicalContent;

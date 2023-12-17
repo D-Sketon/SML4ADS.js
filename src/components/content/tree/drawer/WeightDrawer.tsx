@@ -20,9 +20,10 @@ interface WeightDrawerProps {
   setEdges: (edge: React.SetStateAction<Edge[]>) => void;
 }
 
-function WeightDrawer(props: WeightDrawerProps): ReactElement {
-  const { selectedEdge, setEdges } = props;
-
+export default function WeightDrawer({
+  selectedEdge,
+  setEdges,
+}: WeightDrawerProps): ReactElement {
   const weight: {
     type: WEIGHT_TYPES;
     params: WEIGHT_PARAMS;
@@ -74,7 +75,7 @@ function WeightDrawer(props: WeightDrawerProps): ReactElement {
   // Just show the latest item.
   const displayRender = (labels: string[]) => labels[labels.length - 1];
 
-  function manualSpeed(): ReactElement {
+  const manualSpeed = (): ReactElement => {
     return (
       <>
         <Row className="flex items-center mt-2 mb-2">
@@ -89,9 +90,9 @@ function WeightDrawer(props: WeightDrawerProps): ReactElement {
         </Row>
       </>
     );
-  }
+  };
 
-  function uniformDistributionSpeed(): ReactElement {
+  const uniformDistributionSpeed = (): ReactElement => {
     return (
       <>
         <Row className="flex items-center mt-2 mb-2">
@@ -116,9 +117,9 @@ function WeightDrawer(props: WeightDrawerProps): ReactElement {
         </Row>
       </>
     );
-  }
+  };
 
-  function normalDistributionSpeed(): ReactElement {
+  const normalDistributionSpeed = (): ReactElement => {
     return (
       <>
         <Row className="flex items-center mt-2 mb-2">
@@ -143,9 +144,9 @@ function WeightDrawer(props: WeightDrawerProps): ReactElement {
         </Row>
       </>
     );
-  }
+  };
 
-  function bernoulliDistributionSpeed(): ReactElement {
+  const bernoulliDistributionSpeed = (): ReactElement => {
     return (
       <>
         <Row className="flex items-center mt-2 mb-2">
@@ -161,9 +162,9 @@ function WeightDrawer(props: WeightDrawerProps): ReactElement {
         </Row>
       </>
     );
-  }
+  };
 
-  function binomialDistributionSpeed(): ReactElement {
+  const binomialDistributionSpeed = (): ReactElement => {
     return (
       <>
         <Row className="flex items-center mt-2 mb-2">
@@ -189,9 +190,9 @@ function WeightDrawer(props: WeightDrawerProps): ReactElement {
         </Row>
       </>
     );
-  }
+  };
 
-  function poissonDistributionSpeed(): ReactElement {
+  const poissonDistributionSpeed = (): ReactElement => {
     return (
       <>
         <Row className="flex items-center mt-2 mb-2">
@@ -208,9 +209,9 @@ function WeightDrawer(props: WeightDrawerProps): ReactElement {
         </Row>
       </>
     );
-  }
+  };
 
-  function chiSquaredDistributionSpeed(): ReactElement {
+  const chiSquaredDistributionSpeed = (): ReactElement => {
     return (
       <>
         <Row className="flex items-center mt-2 mb-2">
@@ -227,9 +228,9 @@ function WeightDrawer(props: WeightDrawerProps): ReactElement {
         </Row>
       </>
     );
-  }
+  };
 
-  function getWeightComponent(): ReactElement {
+  const getWeightComponent = (): ReactElement => {
     switch (weight.type) {
       case WEIGHT_TYPES.MANUAL:
         return manualSpeed();
@@ -248,9 +249,9 @@ function WeightDrawer(props: WeightDrawerProps): ReactElement {
       default:
         return <></>;
     }
-  }
+  };
 
-  function simpleSetWeightParams(key: string, value: number | null) {
+  const simpleSetWeightParams = (key: string, value: number | null) => {
     if (selectedEdge) {
       (weight.params as any)[key] = value;
       selectedEdge.label = JSON.stringify(weight);
@@ -260,7 +261,7 @@ function WeightDrawer(props: WeightDrawerProps): ReactElement {
           .concat(selectedEdge);
       });
     }
-  }
+  };
 
   return (
     <>
@@ -299,5 +300,3 @@ function WeightDrawer(props: WeightDrawerProps): ReactElement {
     </>
   );
 }
-
-export default WeightDrawer;

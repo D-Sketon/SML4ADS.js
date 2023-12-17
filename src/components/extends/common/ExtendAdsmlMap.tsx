@@ -11,8 +11,12 @@ interface ExtendAdsmlMapProps {
   mapPath?: string;
 }
 
-function ExtendAdsmlMap(props: ExtendAdsmlMapProps): ReactElement {
-  const { model, modelPath, saveCount, mapPath: mapPropPath } = props;
+export default function ExtendAdsmlMap({
+  model,
+  modelPath,
+  saveCount,
+  mapPath: mapPropPath,
+}: ExtendAdsmlMapProps): ReactElement {
   const { state } = useContext(AppContext);
   const [info, setInfo] = useState<string>("");
   const canvasRef = useRef(null);
@@ -44,13 +48,13 @@ function ExtendAdsmlMap(props: ExtendAdsmlMapProps): ReactElement {
     const scene = new Scene(canvasRef.current, info, options);
     scene.paint();
 
-    function resizeCanvas() {
+    const resizeCanvas = () => {
       scene.width =
         canvasWrapperRef.current?.getBoundingClientRect().width ?? 0;
       scene.height =
         canvasWrapperRef.current?.getBoundingClientRect().height ?? 0;
       scene.paint();
-    }
+    };
     window.addEventListener("resize", resizeCanvas, false);
     return () => {
       window.removeEventListener("resize", resizeCanvas);
@@ -66,5 +70,3 @@ function ExtendAdsmlMap(props: ExtendAdsmlMapProps): ReactElement {
     </div>
   );
 }
-
-export default ExtendAdsmlMap;

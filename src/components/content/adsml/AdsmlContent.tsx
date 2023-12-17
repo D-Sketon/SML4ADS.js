@@ -5,6 +5,7 @@ import { SPEED_PARAMS } from "../../../model/params/ParamSpeed";
 import LocationParamsDesc from "./LocationParamsDesc";
 import SpeedParamsDesc from "./SpeedParamsDesc";
 import { MModel } from "../../../model/Model";
+import PedestrianLocationDesc from "./PedestrianLocationDesc";
 
 interface AdsmlContentProps {
   model: MModel;
@@ -13,12 +14,15 @@ interface AdsmlContentProps {
   className?: string;
 }
 
-function AdsmlContent(props: AdsmlContentProps): ReactElement {
-  const { model, handleCarClick, style, className } = props;
-
+export default function AdsmlContent({
+  model,
+  handleCarClick,
+  style,
+  className,
+}: AdsmlContentProps): ReactElement {
   const basicInfoItems: DescriptionsProps["items"] = Object.keys(model)
     .map((k) => {
-      if (k === "cars") {
+      if (k === "cars" || k === "pedestrians") {
         return void 0;
       }
       return {
@@ -33,11 +37,7 @@ function AdsmlContent(props: AdsmlContentProps): ReactElement {
 
   return (
     <div style={style} className={className}>
-      <Card
-        hoverable
-        title="Basic Information"
-        className="box-border m-2 ml-0"
-      >
+      <Card hoverable title="Basic Information" className="box-border m-2 ml-0">
         <Descriptions items={basicInfoItems} column={2} />
       </Card>
       {model.cars &&
@@ -149,8 +149,39 @@ function AdsmlContent(props: AdsmlContentProps): ReactElement {
             </Card>
           );
         })}
+      {model.pedestrians &&
+        model.pedestrians.map((pedestrian, index) => {
+          return (
+            <Card
+              hoverable
+              title={`Pedestrian ${pedestrian.name}`}
+              key={index}
+              className="box-border m-2 ml-0"
+            >
+              <Descriptions
+                column={2}
+                items={[
+                  {
+                    label: "name",
+                    key: "name",
+                    children: pedestrian.name,
+                  },
+                  {
+                    label: "model",
+                    key: "model",
+                    children: pedestrian.model,
+                  },
+                  {
+                    key: "location",
+                    children: (
+                      <PedestrianLocationDesc location={pedestrian.location} />
+                    ),
+                  },
+                ]}
+              />
+            </Card>
+          );
+        })}
     </div>
   );
 }
-
-export default AdsmlContent;

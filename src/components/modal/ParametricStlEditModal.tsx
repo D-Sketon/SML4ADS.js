@@ -3,20 +3,17 @@ import { BaseModalProps } from "./types";
 import { Button, Flex, Modal } from "antd";
 import TextArea from "antd/es/input/TextArea";
 
-function ParametricStlEditModal(
-  props: BaseModalProps & {
-    text: string;
-    handleSave: (row: any) => void;
-    record: any;
-  }
-): ReactElement {
-  const {
-    isModalOpen,
-    handleCancel = () => {},
-    text,
-    handleSave,
-    record,
-  } = props;
+export default function ParametricStlEditModal({
+  isModalOpen,
+  handleCancel = () => {},
+  text,
+  handleSave,
+  record,
+}: BaseModalProps & {
+  text: string;
+  handleSave: (row: any) => void;
+  record: any;
+}): ReactElement {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [value, setValue] = useState(text);
   const textAreaRef = useRef(null);
@@ -106,5 +103,3 @@ function ParametricStlEditModal(
     </Modal>
   );
 }
-
-export default ParametricStlEditModal;

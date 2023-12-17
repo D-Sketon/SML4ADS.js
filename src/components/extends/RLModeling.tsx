@@ -10,7 +10,7 @@ import VisGraph, {
   Options,
 } from "react-vis-graph-wrapper";
 
-function RLModeling(): ReactElement {
+export default function RLModeling(): ReactElement {
   const [csvPath, setCsvPath] = useState("");
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -112,5 +112,3 @@ function RLModeling(): ReactElement {
     </div>
   );
 }
-
-export default RLModeling;

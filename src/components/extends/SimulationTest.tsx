@@ -13,7 +13,7 @@ import { ReactElement, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AppContext from "../../store/context";
 
-function SimulationTest(): ReactElement {
+export default function SimulationTest(): ReactElement {
   const { state } = useContext(AppContext);
   const [modelPath, setModelPath] = useState("");
   const [scenario, setScenario] = useState("");
@@ -146,5 +146,3 @@ function SimulationTest(): ReactElement {
     </div>
   );
 }
-
-export default SimulationTest;

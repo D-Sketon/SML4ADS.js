@@ -25,7 +25,7 @@ function BehaviorNode({ data, isConnectable }: any): ReactElement {
     setNodes: (...args: any[]) => void;
   } = data;
 
-  function getBehaviorComponent(): ReactElement {
+  const getBehaviorComponent = (): ReactElement => {
     switch (behavior) {
       case BEHAVIOR_TYPES.KEEP:
       case BEHAVIOR_TYPES.IDLE:
@@ -44,9 +44,9 @@ function BehaviorNode({ data, isConnectable }: any): ReactElement {
       default:
         return <></>;
     }
-  }
+  };
 
-  function handleBehaviorChange(value: BEHAVIOR_TYPES) {
+  const handleBehaviorChange = (value: BEHAVIOR_TYPES): void => {
     setNodes((prev: any) => {
       const newNodes = [...prev];
       const index = newNodes.findIndex((item) => item.id === id);
@@ -57,9 +57,9 @@ function BehaviorNode({ data, isConnectable }: any): ReactElement {
       };
       return newNodes;
     });
-  }
+  };
 
-  function keepBehavior(): ReactElement {
+  const keepBehavior = (): ReactElement => {
     return (
       <Form.Item label="duration">
         <InputNumber
@@ -87,9 +87,9 @@ function BehaviorNode({ data, isConnectable }: any): ReactElement {
         />
       </Form.Item>
     );
-  }
+  };
 
-  function accelerateBehavior(): ReactElement {
+  const accelerateBehavior = (): ReactElement => {
     return (
       <>
         <Form.Item label="*acceleration" rules={[{ required: true }]}>
@@ -169,9 +169,9 @@ function BehaviorNode({ data, isConnectable }: any): ReactElement {
         </Form.Item>
       </>
     );
-  }
+  };
 
-  function changeBehavior(): ReactElement {
+  const changeBehavior = (): ReactElement => {
     return (
       <>
         <Form.Item label="acceleration">
@@ -224,9 +224,9 @@ function BehaviorNode({ data, isConnectable }: any): ReactElement {
         </Form.Item>
       </>
     );
-  }
+  };
 
-  function turnBehavior(): ReactElement {
+  const turnBehavior = (): ReactElement => {
     return (
       <>
         <Form.Item label="*acceleration" rules={[{ required: true }]}>
@@ -279,9 +279,9 @@ function BehaviorNode({ data, isConnectable }: any): ReactElement {
         </Form.Item>
       </>
     );
-  }
+  };
 
-  function laneOffsetBehavior(): ReactElement {
+  const laneOffsetBehavior = (): ReactElement => {
     return (
       <>
         <Form.Item label="*offset" rules={[{ required: true }]}>
@@ -382,9 +382,9 @@ function BehaviorNode({ data, isConnectable }: any): ReactElement {
         </Form.Item>
       </>
     );
-  }
+  };
 
-  function handleParamsChange(key: string, value: any) {
+  const handleParamsChange = (key: string, value: any) => {
     setNodes((prev: any) => {
       const newNodes = [...prev];
       const index = newNodes.findIndex((item) => item.id === id);
@@ -397,7 +397,7 @@ function BehaviorNode({ data, isConnectable }: any): ReactElement {
       };
       return newNodes;
     });
-  }
+  };
 
   return (
     <>

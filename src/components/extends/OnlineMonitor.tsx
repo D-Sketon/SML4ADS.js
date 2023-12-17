@@ -7,7 +7,7 @@ import Papa from "papaparse";
 import ExtendCsv from "./common/ExtendCsv";
 import AppContext from "../../store/context";
 
-function OnlineMonitor(): ReactElement {
+export default function OnlineMonitor(): ReactElement {
   const [csvPath, setCsvPath] = useState("");
   const [stlPath, setStlPath] = useState("");
   const [stlData, setStlData] = useState("");
@@ -18,7 +18,7 @@ function OnlineMonitor(): ReactElement {
 
   const navigate = useNavigate();
 
-  async function handleChooseCsvFile(): Promise<void> {
+  const handleChooseCsvFile = async (): Promise<void> => {
     const res = await window.electronAPI.chooseFile([FILE_SUFFIX.CSV]);
     if (res.filePaths.length) {
       setCsvPath(res.filePaths[0]);
@@ -27,9 +27,9 @@ function OnlineMonitor(): ReactElement {
       ).trim();
       setCsvArray(Papa.parse(csvText).data as string[][]);
     }
-  }
+  };
 
-  async function handleChooseStlFile(): Promise<void> {
+  const handleChooseStlFile = async (): Promise<void> => {
     const res = await window.electronAPI.chooseFile([FILE_SUFFIX.JSON]);
     if (res.filePaths.length) {
       setStlPath(res.filePaths[0]);
@@ -41,7 +41,7 @@ function OnlineMonitor(): ReactElement {
         setStlData(stlData.stl);
       }
     }
-  }
+  };
 
   const handleMonitor = async () => {
     if (!csvPath) {
@@ -143,5 +143,3 @@ function OnlineMonitor(): ReactElement {
     </div>
   );
 }
-
-export default OnlineMonitor;

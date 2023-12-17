@@ -10,8 +10,7 @@ interface XodrProps {
   ext: FILE_SUFFIX;
 }
 
-function Xodr(props: XodrProps): ReactElement {
-  const { path, ext } = props;
+export default function Xodr({ path, ext }: XodrProps): ReactElement {
   const { state } = useContext(AppContext);
   const { config } = state;
   const [info, setInfo] = useState<string>("");
@@ -40,13 +39,13 @@ function Xodr(props: XodrProps): ReactElement {
     const scene = new Scene(canvasRef.current, info, options);
     scene.paint();
 
-    function resizeCanvas() {
+    const resizeCanvas = () => {
       scene.width =
         canvasWrapperRef.current?.getBoundingClientRect().width ?? 0;
       scene.height =
         canvasWrapperRef.current?.getBoundingClientRect().height ?? 0;
       scene.paint();
-    }
+    };
     window.addEventListener("resize", resizeCanvas, false);
     return () => {
       window.removeEventListener("resize", resizeCanvas);
@@ -67,5 +66,3 @@ function Xodr(props: XodrProps): ReactElement {
     </div>
   );
 }
-
-export default Xodr;

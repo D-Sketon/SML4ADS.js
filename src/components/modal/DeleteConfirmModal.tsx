@@ -4,12 +4,13 @@ import { BaseModalProps } from "./types";
 import AppContext from "../../store/context";
 import { refreshTree } from "../../store/action";
 
-function DeleteConfirmModal(
-  props: BaseModalProps & {
-    path: string;
-  }
-): ReactElement {
-  const { isModalOpen, handleCancel = () => {}, path } = props;
+export default function DeleteConfirmModal({
+  isModalOpen,
+  handleCancel = () => {},
+  path,
+}: BaseModalProps & {
+  path: string;
+}): ReactElement {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const { dispatch } = useContext(AppContext);
 
@@ -34,5 +35,3 @@ function DeleteConfirmModal(
     </Modal>
   );
 }
-
-export default DeleteConfirmModal;

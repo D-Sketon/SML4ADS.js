@@ -10,8 +10,14 @@ interface AdsmlTreeProps {
   edgeTypes: any;
 }
 
-function AdsmlTree(props: AdsmlTreeProps): ReactElement {
-  const { style, nodes, edges, nodeTypes, edgeTypes, className } = props;
+export default function AdsmlTree({
+  style,
+  nodes,
+  edges,
+  nodeTypes,
+  edgeTypes,
+  className,
+}: AdsmlTreeProps): ReactElement {
   return (
     <div style={style} className={className}>
       <ReactFlowProvider>
@@ -27,5 +33,3 @@ function AdsmlTree(props: AdsmlTreeProps): ReactElement {
     </div>
   );
 }
-
-export default AdsmlTree;

@@ -7,16 +7,16 @@ import { FILE_SUFFIX } from "../../constants";
 import { defaultModel } from "../../model/Model";
 import { defaultTree } from "../../model/Tree";
 
-function NewFileDirectory(
-  props: BaseModalProps & {
-    path: string;
-    ext: string;
-  }
-): ReactElement {
-  const { isModalOpen, handleCancel = () => {}, path, ext } = props;
-
+export default function NewFileDirectory({
+  isModalOpen,
+  handleCancel = () => {},
+  path,
+  ext,
+}: BaseModalProps & {
+  path: string;
+  ext: string;
+}): ReactElement {
   const { dispatch } = useContext(AppContext);
-
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [name, setName] = useState("");
 
@@ -61,5 +61,3 @@ function NewFileDirectory(
     </Modal>
   );
 }
-
-export default NewFileDirectory;

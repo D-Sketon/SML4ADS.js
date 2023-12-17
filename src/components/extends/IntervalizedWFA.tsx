@@ -7,7 +7,7 @@ import ExtendCsv from "./common/ExtendCsv";
 import Papa from "papaparse";
 import AppContext from "../../store/context";
 
-function IntervalizedWFA(): ReactElement {
+export default function IntervalizedWFA(): ReactElement {
   const { state } = useContext(AppContext);
   const [csvPath, setCsvPath] = useState("");
   const [rnnPath, setRnnPath] = useState("");
@@ -143,5 +143,3 @@ function IntervalizedWFA(): ReactElement {
     </div>
   );
 }
-
-export default IntervalizedWFA;

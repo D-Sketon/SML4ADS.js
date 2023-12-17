@@ -8,10 +8,11 @@ interface GuardDrawerProps {
   setEdges: (edge: React.SetStateAction<Edge[]>) => void;
 }
 
-function GuardDrawer(props: GuardDrawerProps): ReactElement {
-  const { selectedEdge, setEdges } = props;
-
-  function handleGuardChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
+export default function GuardDrawer({
+  selectedEdge,
+  setEdges,
+}: GuardDrawerProps): ReactElement {
+  const handleGuardChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (selectedEdge) {
       selectedEdge.label = event.target.value;
       setEdges((eds) => {
@@ -20,7 +21,7 @@ function GuardDrawer(props: GuardDrawerProps): ReactElement {
           .concat(selectedEdge);
       });
     }
-  }
+  };
 
   return (
     <>
@@ -38,5 +39,3 @@ function GuardDrawer(props: GuardDrawerProps): ReactElement {
     </>
   );
 }
-
-export default GuardDrawer;

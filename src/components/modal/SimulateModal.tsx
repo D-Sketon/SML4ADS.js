@@ -4,9 +4,10 @@ import { Modal, Radio, Space, RadioChangeEvent, InputNumber } from "antd";
 import AppContext from "../../store/context";
 import { FILE_SUFFIX } from "../../constants";
 
-function SimulateModal(props: BaseModalProps): ReactElement {
-  const { isModalOpen, handleCancel = () => {} } = props;
-
+export default function SimulateModal({
+  isModalOpen,
+  handleCancel = () => {},
+}: BaseModalProps): ReactElement {
   const { state } = useContext(AppContext);
   const { config, filePath } = state;
   const activatedFile = filePath.find((file) => file.isActive);
@@ -67,5 +68,3 @@ function SimulateModal(props: BaseModalProps): ReactElement {
     </Modal>
   );
 }
-
-export default SimulateModal;

@@ -30,6 +30,11 @@ function oldModelAdapter(model: MModel): MModel {
   if (newModel.weather !== void 0 && !Array.isArray(newModel.weather)) {
     newModel.weather = [newModel.weather];
   }
+  // version 0.3.0+
+  // Add pedestrians
+  if (newModel.pedestrians === void 0) {
+    newModel.pedestrians = [];
+  }
   newModel.cars.forEach((car) => {
     // version 0.1.0
     /**
@@ -58,7 +63,7 @@ function oldModelAdapter(model: MModel): MModel {
       };
       car.initSpeed = void 0;
     }
-    // version 0.2.0
+    // version 0.2.0+
     /**
      * from
      *

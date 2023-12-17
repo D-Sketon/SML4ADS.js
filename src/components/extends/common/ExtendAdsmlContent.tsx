@@ -6,8 +6,9 @@ interface ExtendAdsmlContentProps {
   model: MModel;
 }
 
-function ExtendAdsmlContent(props: ExtendAdsmlContentProps): ReactElement {
-  const { model } = props;
+export default function ExtendAdsmlContent({
+  model,
+}: ExtendAdsmlContentProps): ReactElement {
   return (
     <AdsmlContent
       model={model}
@@ -20,5 +21,3 @@ function ExtendAdsmlContent(props: ExtendAdsmlContentProps): ReactElement {
     />
   );
 }
-
-export default ExtendAdsmlContent;

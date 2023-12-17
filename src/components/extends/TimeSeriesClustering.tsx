@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { FILE_SUFFIX } from "../../constants";
 import AppContext from "../../store/context";
 
-function TimeSeriesClustering(): ReactElement {
+export default function TimeSeriesClustering(): ReactElement {
   const { state } = useContext(AppContext);
   const [npyPath, setNpyPath] = useState("");
   const [k, setK] = useState<number | null>(0);
@@ -98,5 +98,3 @@ function TimeSeriesClustering(): ReactElement {
     </div>
   );
 }
-
-export default TimeSeriesClustering;

@@ -23,12 +23,13 @@ const edgeTypes = {
   ProbabilityTransition,
 };
 
-function ExtendAdsmlTree(props: ExtendAdsmlTreeProps): ReactElement {
-  const { model } = props;
+export default function ExtendAdsmlTree({
+  model,
+}: ExtendAdsmlTreeProps): ReactElement {
   const [selectedCar, setSelectedCar] = useState<number | null>(null);
   const [nodes, setNodes] = useNodesState([]);
   const [edges, setEdges] = useEdgesState([]);
-  
+
   return (
     <>
       <Row className="flex items-center mt-4 mb-4">
@@ -72,5 +73,3 @@ function ExtendAdsmlTree(props: ExtendAdsmlTreeProps): ReactElement {
     </>
   );
 }
-
-export default ExtendAdsmlTree;

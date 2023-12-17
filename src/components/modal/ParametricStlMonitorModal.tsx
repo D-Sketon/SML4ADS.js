@@ -6,9 +6,10 @@ import { setSaveFilePath } from "../../store/action";
 import { checkModel } from "../content/model/utils/check";
 import { MModel } from "../../model/Model";
 
-function ParametricStlMonitorModal(props: BaseModalProps): ReactElement {
-  const { isModalOpen, handleCancel = () => {} } = props;
-
+export default function ParametricStlMonitorModal({
+  isModalOpen,
+  handleCancel = () => {},
+}: BaseModalProps): ReactElement {
   const { state, dispatch } = useContext(AppContext);
   const { filePath, saveFilePath, config } = state;
   const activatedFile = filePath.find((file) => file.isActive);
@@ -121,5 +122,3 @@ function ParametricStlMonitorModal(props: BaseModalProps): ReactElement {
     </Modal>
   );
 }
-
-export default ParametricStlMonitorModal;

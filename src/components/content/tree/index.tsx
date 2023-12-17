@@ -55,8 +55,7 @@ interface TreeProps {
   path: string;
 }
 
-function Tree(props: TreeProps): ReactElement {
-  const { path } = props;
+export default function Tree({ path }: TreeProps): ReactElement {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
@@ -287,5 +286,3 @@ function Tree(props: TreeProps): ReactElement {
     </div>
   );
 }
-
-export default Tree;

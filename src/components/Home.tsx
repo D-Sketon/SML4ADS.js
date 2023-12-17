@@ -10,7 +10,7 @@ import { Routes, Route } from "react-router-dom";
 
 const { Header, Content } = Layout;
 
-function Home(): ReactElement {
+export default function Home(): ReactElement {
   return (
     <Layout className="w-screen h-screen">
       <Header className="home-header">
@@ -37,5 +37,3 @@ function Home(): ReactElement {
     </Layout>
   );
 }
-
-export default Home;

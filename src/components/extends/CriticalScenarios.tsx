@@ -20,7 +20,7 @@ import ExtendAdsmlTree from "./common/ExtendAdsmlTree";
 import ExtendAdsmlMap from "./common/ExtendAdsmlMap";
 import AppContext from "../../store/context";
 
-function CriticalScenarios(): ReactElement {
+export default function CriticalScenarios(): ReactElement {
   const { state } = useContext(AppContext);
   const [port, setPort] = useState<number | null>(2000);
   const [mapPath, setMapPath] = useState("");
@@ -199,5 +199,3 @@ function CriticalScenarios(): ReactElement {
     </div>
   );
 }
-
-export default CriticalScenarios;

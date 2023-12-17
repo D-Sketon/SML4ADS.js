@@ -7,7 +7,7 @@ import Papa from "papaparse";
 import ExtendCsv from "./common/ExtendCsv";
 import AppContext from "../../store/context";
 
-function AdversarialAttack(): ReactElement {
+export default function AdversarialAttack(): ReactElement {
   const { state } = useContext(AppContext);
   const [csvPath, setCsvPath] = useState("");
   const [rnnPath, setRnnPath] = useState("");
@@ -161,7 +161,7 @@ function AdversarialAttack(): ReactElement {
           </Col>
         </Row>
       </Card>
-      <div className="box-border m-2 mt-0" >
+      <div className="box-border m-2 mt-0">
         <Button type="primary" block onClick={handleProcess}>
           Process
         </Button>
@@ -173,5 +173,3 @@ function AdversarialAttack(): ReactElement {
     </div>
   );
 }
-
-export default AdversarialAttack;

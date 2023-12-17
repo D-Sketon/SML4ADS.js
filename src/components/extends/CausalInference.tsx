@@ -16,7 +16,7 @@ import Papa from "papaparse";
 import ExtendCsv from "./common/ExtendCsv";
 import AppContext from "../../store/context";
 
-function CausalInference(): ReactElement {
+export default function CausalInference(): ReactElement {
   const { state } = useContext(AppContext);
   const [csvPath, setCsvPath] = useState("");
   const [params, setParams] = useState<Record<string, any>>({});
@@ -122,5 +122,3 @@ function CausalInference(): ReactElement {
     </div>
   );
 }
-
-export default CausalInference;

@@ -37,7 +37,7 @@ const updateTreeData = (
     return node;
   });
 
-function SiderTree(): ReactElement {
+export default function SiderTree(): ReactElement {
   const { state, dispatch } = useContext(AppContext);
   const [treeData, setTreeData] = useState<DataNode[]>([]);
   const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
@@ -278,5 +278,3 @@ function SiderTree(): ReactElement {
     </div>
   );
 }
-
-export default SiderTree;

@@ -27,8 +27,7 @@ interface AdsmlProps {
   path: string;
 }
 
-function Adsml(props: AdsmlProps): ReactElement {
-  const { path } = props;
+export default function Adsml({ path }: AdsmlProps): ReactElement {
   const [model, setModel] = useState<MModel>(defaultModel());
   const [nodes, setNodes] = useNodesState([]);
   const [edges, setEdges] = useEdgesState([]);
@@ -59,7 +58,7 @@ function Adsml(props: AdsmlProps): ReactElement {
     asyncFn();
   }, [path]);
 
-  function handleCarClick(index: number): void {
+  const handleCarClick = (index: number): void => {
     const tree = model.cars[index].mTree!;
     const { nodes, edges } = treeNodeAdapter(
       tree,
@@ -68,7 +67,7 @@ function Adsml(props: AdsmlProps): ReactElement {
     );
     setNodes(nodes);
     setEdges(edges);
-  }
+  };
 
   return (
     <div className="relative w-full h-full">
@@ -87,5 +86,3 @@ function Adsml(props: AdsmlProps): ReactElement {
     </div>
   );
 }
-
-export default Adsml;

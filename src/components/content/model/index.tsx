@@ -18,12 +18,14 @@ import oldModelAdapter from "./utils/adapter/oldModelAdapter";
 import { Scene } from "./Scene";
 
 import "./index.less";
+import PedestrianInformation from "./PedestrianInformation";
+import { defaultPedestrian } from "../../../model/Pedestrian";
 
 interface ModelProps {
   path: string;
 }
 
-function Model(props: ModelProps): ReactElement {
+export default function Model(props: ModelProps): ReactElement {
   const { path } = props;
   const [model, setModel] = useState<MModel | null>(null);
   const { state, dispatch } = useContext(AppContext);
@@ -80,13 +82,13 @@ function Model(props: ModelProps): ReactElement {
     const scene = new Scene(canvasRef.current, info, options);
     scene.paint();
 
-    function resizeCanvas() {
+    const resizeCanvas = () => {
       scene.width =
         canvasWrapperRef.current?.getBoundingClientRect().width ?? 0;
       scene.height =
         canvasWrapperRef.current?.getBoundingClientRect().height ?? 0;
       scene.paint();
-    }
+    };
     window.addEventListener("resize", resizeCanvas, false);
     return () => {
       window.removeEventListener("resize", resizeCanvas);
@@ -168,11 +170,19 @@ function Model(props: ModelProps): ReactElement {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [saveFilePath, path, saveHook]);
 
-  const handleAdd = () => {
+  const handleAddCar = (): void => {
     if (!model) return;
     setModel({
       ...model,
       cars: [...model.cars, defaultCar()],
+    });
+  };
+
+  const handleAddPedestrian = (): void => {
+    if (!model) return;
+    setModel({
+      ...model,
+      pedestrians: [...model.pedestrians, defaultPedestrian()],
     });
   };
 
@@ -184,53 +194,58 @@ function Model(props: ModelProps): ReactElement {
   };
 
   return (
-    <>
-      <div onKeyDown={handleKeyDown} tabIndex={0} className="h-full flex">
-        <div className="extend-wrapper w-4/6 overflow-auto">
-          {model ? (
-            <>
-              <BasicInformation model={model} setModel={setModel} path={path} />
-              <div className="flex">
-                <div className="w-1/2" style={{ minWidth: "350px" }}>
-                  {model.cars.map((_, index) => (
-                    <CarInformation
-                      model={model}
-                      setModel={setModel}
-                      index={index}
-                      key={index}
-                      path={path}
-                    />
-                  ))}
-                  <div className="box-border pr-2 pb-2 mt-2">
-                    <Button type="primary" block onClick={handleAdd}>
-                      + Add Car
-                    </Button>
-                  </div>
-                </div>
-                <div className="w-1/2" style={{ minWidth: "350px" }}>
-                  <div className="box-border pr-2 pb-2 mt-2">
-                    <Button type="primary" block onClick={handleAdd}>
-                      + Add Pedestrian
-                    </Button>
-                  </div>
+    <div onKeyDown={handleKeyDown} tabIndex={0} className="h-full flex">
+      <div className="extend-wrapper w-4/6 overflow-auto">
+        {model ? (
+          <>
+            <BasicInformation model={model} setModel={setModel} path={path} />
+            <div className="flex">
+              <div className="w-1/2" style={{ minWidth: "350px" }}>
+                {model.cars.map((_, index) => (
+                  <CarInformation
+                    model={model}
+                    setModel={setModel}
+                    index={index}
+                    key={index}
+                    path={path}
+                  />
+                ))}
+                <div className="box-border pr-2 pb-2 mt-2">
+                  <Button type="primary" block onClick={handleAddCar}>
+                    + Add Car
+                  </Button>
                 </div>
               </div>
-            </>
-          ) : (
-            <div className="w-full h-full flex justify-center items-center">
-              <Spin />
+              <div className="w-1/2" style={{ minWidth: "350px" }}>
+                {model.pedestrians.map((_, index) => (
+                  <PedestrianInformation
+                    model={model}
+                    setModel={setModel}
+                    index={index}
+                    key={index}
+                    path={path}
+                  />
+                ))}
+                <div className="box-border pr-2 pb-2 mt-2">
+                  <Button type="primary" block onClick={handleAddPedestrian}>
+                    + Add Pedestrian
+                  </Button>
+                </div>
+              </div>
             </div>
-          )}
-        </div>
-        <div
-          className="w-2/6 h-full overflow-hidden flex justify-center items-center"
-          ref={canvasWrapperRef}
-        >
-          {info ? <canvas ref={canvasRef}></canvas> : <Spin />}
-        </div>
+          </>
+        ) : (
+          <div className="w-full h-full flex justify-center items-center">
+            <Spin />
+          </div>
+        )}
       </div>
-    </>
+      <div
+        className="w-2/6 h-full overflow-hidden flex justify-center items-center"
+        ref={canvasWrapperRef}
+      >
+        {info ? <canvas ref={canvasRef}></canvas> : <Spin />}
+      </div>
+    </div>
   );
 }
-
-export default Model;

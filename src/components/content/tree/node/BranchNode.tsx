@@ -1,7 +1,7 @@
 import { ReactElement, memo } from "react";
 import { Handle, Position } from "reactflow";
 
-function BehaviorNode({ data, isConnectable }: any): ReactElement {
+function BehaviorNode({ isConnectable }: any): ReactElement {
   return (
     <>
       <Handle

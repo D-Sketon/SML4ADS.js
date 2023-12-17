@@ -4,13 +4,13 @@ import { BaseModalProps } from "./types";
 import { refreshTree } from "../../store/action";
 import AppContext from "../../store/context";
 
-function NewDirectoryModal(
-  props: BaseModalProps & {
-    path: string;
-  }
-): ReactElement {
-  const { isModalOpen, handleCancel = () => {}, path } = props;
-
+export default function NewDirectoryModal({
+  isModalOpen,
+  handleCancel = () => {},
+  path,
+}: BaseModalProps & {
+  path: string;
+}): ReactElement {
   const { dispatch } = useContext(AppContext);
 
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -51,5 +51,3 @@ function NewDirectoryModal(
     </Modal>
   );
 }
-
-export default NewDirectoryModal;

@@ -3,7 +3,7 @@ import React, { useEffect, useReducer } from "react";
 import Sider from "antd/lib/layout/Sider";
 
 // Cast minwidth as number to allow for % etc.
-function GetWidth(props: SiderProps, xpos: number): number | (string & {}) {
+const getWidth = (props: SiderProps, xpos: number): number | (string & {}) => {
   if (
     typeof props.style?.minWidth === "number" &&
     xpos < props.style.minWidth
@@ -17,9 +17,9 @@ function GetWidth(props: SiderProps, xpos: number): number | (string & {}) {
   } else {
     return xpos;
   }
-}
+};
 
-function AntdResizeableSidebar(props: SiderProps) {
+export default function AntdResizeableSidebar(props: SiderProps) {
   const [state, dispatch] = useReducer(
     (
       state: {
@@ -32,13 +32,13 @@ function AntdResizeableSidebar(props: SiderProps) {
       if (action.type === "mousedown" && state.resizable) {
         return {
           down: true,
-          width: GetWidth(props, action.pageX),
+          width: getWidth(props, action.pageX),
           resizable: true,
         };
       } else if (action.type === "mouseup" && state.down) {
         return {
           down: false,
-          width: GetWidth(props, action.pageX),
+          width: getWidth(props, action.pageX),
           resizable:
             action.pageX - 7 < (state.width as number) &&
             action.pageX + 7 > (state.width as number),
@@ -50,7 +50,7 @@ function AntdResizeableSidebar(props: SiderProps) {
         if (state.down) {
           return {
             down: true,
-            width: GetWidth(props, action.pageX),
+            width: getWidth(props, action.pageX),
             resizable: true,
           };
         } else if (state.resizable !== resizable) {
@@ -93,5 +93,3 @@ function AntdResizeableSidebar(props: SiderProps) {
     />
   );
 }
-
-export default AntdResizeableSidebar;

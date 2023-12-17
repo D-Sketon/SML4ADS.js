@@ -5,9 +5,10 @@ import { setWorkspacePath } from "../../store/action";
 import AppContext from "../../store/context";
 import { useNavigate } from "react-router-dom";
 
-function NewProjectModal(props: BaseModalProps): ReactElement {
-  const { isModalOpen, handleCancel = () => {} } = props;
-
+export default function NewProjectModal({
+  isModalOpen,
+  handleCancel = () => {},
+}: BaseModalProps): ReactElement {
   const { dispatch } = useContext(AppContext);
   const navigate = useNavigate();
 
@@ -69,5 +70,3 @@ function NewProjectModal(props: BaseModalProps): ReactElement {
     </Modal>
   );
 }
-
-export default NewProjectModal;

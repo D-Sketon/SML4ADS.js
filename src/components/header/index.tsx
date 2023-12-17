@@ -19,7 +19,7 @@ import {
 } from "@ant-design/icons";
 import { useLocation, useNavigate } from "react-router-dom";
 
-function HeaderMenu(): ReactElement {
+export default function HeaderMenu(): ReactElement {
   const { state, dispatch } = useContext(AppContext);
   const { filePath, saveFilePath } = state;
   const activatedFile = filePath.find((file) => file.isActive);
@@ -95,6 +95,7 @@ function HeaderMenu(): ReactElement {
       });
     }
   };
+
   const handleVerify = () => {
     if (activatedFile && activatedFile.ext === FILE_SUFFIX.MODEL) {
       dispatch(setSaveFilePath(activatedFile.path));
@@ -106,6 +107,7 @@ function HeaderMenu(): ReactElement {
       });
     }
   };
+
   const handlePstl = () => {
     if (activatedFile && activatedFile.ext === FILE_SUFFIX.MODEL) {
       dispatch(setSaveFilePath(activatedFile.path));
@@ -117,6 +119,7 @@ function HeaderMenu(): ReactElement {
       });
     }
   };
+
   const handlePstlMonitor = () => {
     if (activatedFile && activatedFile.ext === FILE_SUFFIX.MODEL) {
       dispatch(setSaveFilePath(activatedFile.path));
@@ -128,6 +131,7 @@ function HeaderMenu(): ReactElement {
       });
     }
   };
+
   const handleSimulate = () => {
     if (activatedFile && activatedFile.ext === FILE_SUFFIX.MODEL) {
       dispatch(setSaveFilePath(activatedFile.path));
@@ -296,5 +300,3 @@ function HeaderMenu(): ReactElement {
     </>
   );
 }
-
-export default HeaderMenu;

@@ -5,15 +5,16 @@ interface ExtendCsvProps {
   csvArray: string[][];
 }
 
-function ExtendCsv(props: ExtendCsvProps): ReactElement {
-  const { csvArray } = props;
-  const columns = csvArray.length ? csvArray[0].map((head) => {
-    return {
-      title: head,
-      dataIndex: head,
-      key: head,
-    };
-  }) : [];
+export default function ExtendCsv({ csvArray }: ExtendCsvProps): ReactElement {
+  const columns = csvArray.length
+    ? csvArray[0].map((head) => {
+        return {
+          title: head,
+          dataIndex: head,
+          key: head,
+        };
+      })
+    : [];
   const dataSource = csvArray.slice(1).map((data, index) => {
     return {
       key: index + "",
@@ -33,5 +34,3 @@ function ExtendCsv(props: ExtendCsvProps): ReactElement {
     />
   );
 }
-
-export default ExtendCsv;

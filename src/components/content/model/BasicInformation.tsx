@@ -19,9 +19,12 @@ interface BasicInformationProps {
   path: string;
 }
 
-function BasicInformation(props: BasicInformationProps): ReactElement {
-  const { model, setModel, path } = props;
-  async function handleChooseFile(): Promise<void> {
+export default function BasicInformation({
+  model,
+  setModel,
+  path,
+}: BasicInformationProps): ReactElement {
+  const handleChooseFile = async (): Promise<void> => {
     const res = await window.electronAPI.chooseFile([FILE_SUFFIX.XODR]);
     if (res.filePaths.length) {
       const relativePath = await window.electronAPI.getRelativePath(
@@ -30,7 +33,7 @@ function BasicInformation(props: BasicInformationProps): ReactElement {
       );
       setModel({ ...model, map: relativePath });
     }
-  }
+  };
   return (
     <Card hoverable title="Basic Information" className="box-border m-2 ml-0">
       <div className="form-item">
@@ -159,4 +162,3 @@ function BasicInformation(props: BasicInformationProps): ReactElement {
     </Card>
   );
 }
-export default BasicInformation;

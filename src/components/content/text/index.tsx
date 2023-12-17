@@ -18,8 +18,8 @@ interface TextProps {
   ext: FILE_SUFFIX;
 }
 
-function Text(props: TextProps): ReactElement {
-  const { path, ext } = props;
+export default function Text({ path, ext }: TextProps): ReactElement {
+  const [content, setContent] = useState<string>("");
   const simpleExt = (() => {
     switch (ext) {
       case FILE_SUFFIX.JSON:
@@ -31,7 +31,6 @@ function Text(props: TextProps): ReactElement {
         return "application/json";
     }
   })();
-  const [content, setContent] = useState<string>("");
 
   // onMounted
   useEffect(() => {
@@ -64,5 +63,3 @@ function Text(props: TextProps): ReactElement {
     </div>
   );
 }
-
-export default Text;

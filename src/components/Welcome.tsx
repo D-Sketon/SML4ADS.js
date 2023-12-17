@@ -8,17 +8,17 @@ import NewProjectModal from "./modal/NewProjectModal";
 
 import "./Welcome.less";
 
-function Welcome(): ReactElement {
+export default function Welcome(): ReactElement {
   const navigate = useNavigate();
   const { dispatch } = useContext(AppContext);
   const [disableOpenButton, setDisableOpenButton] = useState(false);
   const [NewProjectModalVisible, setNewProjectModalVisible] = useState(false);
 
-  function handleNew() {
+  const handleNew = (): void => {
     setNewProjectModalVisible(true);
-  }
+  };
 
-  async function handleOpen() {
+  const handleOpen = async () => {
     setDisableOpenButton(true);
     const res = await window.electronAPI.chooseDirectory();
     setDisableOpenButton(false);
@@ -26,7 +26,7 @@ function Welcome(): ReactElement {
       dispatch(setWorkspacePath(res.filePaths[0]));
       navigate("/home/logical");
     }
-  }
+  };
 
   return (
     <>
@@ -159,5 +159,3 @@ function Welcome(): ReactElement {
     </>
   );
 }
-
-export default Welcome;

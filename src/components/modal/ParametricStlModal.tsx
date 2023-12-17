@@ -127,8 +127,10 @@ interface DataType {
 
 type ColumnTypes = Exclude<EditableTableProps["columns"], undefined>;
 
-function ParametricStlModal(props: BaseModalProps): ReactElement {
-  const { isModalOpen, handleCancel = () => {} } = props;
+export default function ParametricStlModal({
+  isModalOpen,
+  handleCancel = () => {},
+}: BaseModalProps): ReactElement {
   const { state, dispatch } = useContext(AppContext);
   const { filePath, saveFilePath } = state;
   const activatedFile = filePath.find((file) => file.isActive);
@@ -333,5 +335,3 @@ function ParametricStlModal(props: BaseModalProps): ReactElement {
     </>
   );
 }
-
-export default ParametricStlModal;
