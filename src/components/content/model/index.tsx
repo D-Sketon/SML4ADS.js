@@ -9,7 +9,7 @@ import React, {
 import BasicInformation from "./BasicInformation";
 import CarInformation from "./CarInformation";
 import { Button, Spin, notification } from "antd";
-import { MModel, defaultModel } from "../../../model/Model";
+import { MAP_TYPES, MModel, defaultModel } from "../../../model/Model";
 import { defaultCar } from "../../../model/Car";
 import AppContext from "../../../store/context";
 import { setSaveFilePath } from "../../../store/action";
@@ -109,11 +109,14 @@ export default function Model(props: ModelProps): ReactElement {
       try {
         checkModel(model);
         setModel(model);
-        const mapPath = await window.electronAPI.getAbsolutePath(
-          path,
-          model.map
-        );
+        let mapPath;
+        if (model.mapType === MAP_TYPES.CUSTOM) {
+          mapPath = await window.electronAPI.getAbsolutePath(path, model.map);
+        } else {
+          mapPath = model.map;
+        }
         const info = await window.electronAPI.visualize(
+          model.mapType,
           mapPath,
           model.cars,
           config.simulationPort
@@ -135,8 +138,14 @@ export default function Model(props: ModelProps): ReactElement {
   useEffect(() => {
     const asyncFn = async () => {
       if (!model) return;
-      const mapPath = await window.electronAPI.getAbsolutePath(path, model.map);
+      let mapPath;
+      if (model.mapType === MAP_TYPES.CUSTOM) {
+        mapPath = await window.electronAPI.getAbsolutePath(path, model.map);
+      } else {
+        mapPath = model.map;
+      }
       const info = await window.electronAPI.visualize(
+        model.mapType,
         mapPath,
         model.cars,
         config.simulationPort

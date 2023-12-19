@@ -34,9 +34,10 @@ class SimulationResult:
         self.start_time = start_time
         self.end_time = end_time
         self.duration = 0.0
+        self.info = {}
 
     def __repr__(self):
-        return f'SimulationResult[startTime:{self.start_time}, endTime:{self.end_time}, duration:{self.duration}]'
+        return f'SimulationResult[startTime:{self.start_time}, endTime:{self.end_time}, duration:{self.duration}, extraInfo:{self.info}]'
 
     def get_duration(self):
         """
@@ -87,6 +88,16 @@ class Car:
         return f'Car[name:{self.name}, initSpeed:{self.init_speed}, maxSpeed{self.max_speed}, ' \
                f'initRoadId:{self.init_road_id}, initLaneId:{self.init_lane_id}, min offset:{self.road_min_offset}, ' \
                f'max offset:{self.road_max_offset} , deviation:{self.road_deviation}]'
+
+
+class Pedestrian:
+    def __init__(self):
+        self.name = 'pedestrian0'
+        self.model = 'walker.pedestrian.0001'
+        self.location = []
+
+    def __repr__(self):
+        return f'Pedestrian[name:{self.name}, model:{self.model}, location:{self.location}]'
 
 
 class Scenario:
@@ -278,6 +289,39 @@ class Simulator:
             cars.append(car)
             print(car)
         scene.cars = cars
+        json_pedestrians = json_data['pedestrians']
+        pedestrians = []
+        if json_pedestrians is not None:
+            for json_pedestrian in json_pedestrians:
+                pedestrian = Pedestrian()
+                pedestrian.name = json_pedestrian['name']
+                pedestrian.model = json_pedestrian['model']
+                pedestrian.location = []
+                locations = json_pedestrian['location']
+                for json_location in locations:
+                    location = {}
+                    location['location_type'] = json_location['locationType']
+                    if location['location_type'] == 'Lane Position':
+                        location['init_road_id'] = int(json_location['locationParams']['roadId'])
+                        location['init_lane_id'] = int(json_location['locationParams']['laneId'])
+                    elif location['location_type'] == 'Road Position':
+                        location['init_road_id'] = int(json_location['locationParams']['roadId'])
+                    elif location['location_type'] == 'Related Position':
+                        location['actor_ref'] = json_location['locationParams']['actorRef']
+                    else:
+                        location['x'] = np.random.uniform(float(json_location['locationParams']['x'][0]), float(json_location['locationParams']['x'][1]))
+                        location['y'] = np.random.uniform(float(json_location['locationParams']['y'][0]), float(json_location['locationParams']['y'][1]))
+                    if json_location['locationType'] != 'Global Position':
+                        location['min_lateral_offset'] = float(json_location['locationParams']['lateralOffset'][0])
+                        location['max_lateral_offset'] = float(json_location['locationParams']['lateralOffset'][1])
+                        location['road_min_offset'] = float(json_location['locationParams']['longitudinalOffset'][0])
+                        location['road_max_offset'] = float(json_location['locationParams']['longitudinalOffset'][1])
+                    location['speed_type'] = json_location['speedType']
+                    if location['speed_type'] == 'Manual':
+                        location['speed'] = float(json_location['speedParams']['speed'])
+                    pedestrian.location.append(location)
+                pedestrians.append(pedestrian)
+        scene.objs.extend(pedestrians)
         print(scene)
         return scene
 
@@ -333,11 +377,12 @@ class Simulation:
         cars = self.scene.cars
         assert isinstance(cars, list)
         assert isinstance(objs, list)
+
+        self.create_cars_in_simulation(cars, is_test)
         for obj in objs:
             if obj is None:
                 continue
             self.create_obj_in_simulation(obj, is_test)
-        self.create_cars_in_simulation(cars, is_test)
 
     def run(self):
         """

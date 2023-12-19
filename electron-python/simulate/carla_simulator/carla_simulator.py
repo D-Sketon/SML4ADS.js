@@ -27,9 +27,11 @@ except IndexError:
 from simulate.carla_simulator.CarInfo import CarInfo
 from simulate.carla_simulator.controller.action import Action
 from simulate.carla_simulator.controller.agent import Agent
+from simulate.carla_simulator.controller.walker_agent import WalkerAgent
 from simulate.interface.GuardFunction import set_guard_args
-from simulate.interface.simulator import (Simulation, SimulationResult,
-                                          Simulator, TestResult)
+from simulate.interface.simulator import (Pedestrian, Simulation,
+                                          SimulationResult, Simulator,
+                                          TestResult)
 from simulate.parsers.map_filter import MapFilter
 from simulate.parsers.map_parser import MapParser
 
@@ -100,6 +102,8 @@ class CarlaSimulation(Simulation):
         self.map = self.world.get_map()
         self.bpl = self.world.get_blueprint_library()
         self.agents = {}
+        self.obj_agents = {}
+        self.car_span_tfs = {}  # for pedestrian relative ref
         self.parser = None
         self.camera = None
         self.pic_count = 0
@@ -107,6 +111,7 @@ class CarlaSimulation(Simulation):
         self.data_path = data_path
         self.action = Action(self.map, self.parser, 3)
         self.models = []
+        self.pedestrians = []
         self.spec_tf = None
         self.read_config()
 
@@ -117,6 +122,8 @@ class CarlaSimulation(Simulation):
                 ('name', 'x', 'y', 'velocity', 'acceleration', 'forward', 'bounding box', 'semantic tags'))
         else:
             self.data_file = None
+
+        self.info = {'acc': [], 'vel': []}
 
     def step(self, args):
         """
@@ -132,6 +139,12 @@ class CarlaSimulation(Simulation):
                 agent.tick(self.time_step)
             else:
                 self.client.apply_batch([carla.command.DestroyActor(agent.vehicle)])  # type: ignore
+        for name, agent in self.obj_agents.items():
+            if not agent.is_end:
+                agent.run()
+                agent.tick(self.time_step)
+            else:
+                self.client.apply_batch([carla.command.DestroyActor(agent.walker)])  # type: ignore
 
     def do_settings(self):
         """
@@ -210,6 +223,7 @@ class CarlaSimulation(Simulation):
                     self.timestamp += self.time_step  # type: ignore
                     sensor_queue.get()
             result.duration = self.timestamp  # type: ignore
+            result.info = self.info
             return result
         except Exception as err:
             print(err.args)
@@ -231,7 +245,8 @@ class CarlaSimulation(Simulation):
         :return: list[].
         """
         self.agents = {}
-        spawn_tfs: dict = self.get_spawn_transforms(cars)
+        spawn_tfs: dict = self.get_cars_spawn_transforms(cars)
+        self.car_span_tfs = spawn_tfs
         for index, car in enumerate(cars):
             print(f'car {index}:')
             if car.model != 'random':
@@ -336,6 +351,8 @@ class CarlaSimulation(Simulation):
                 # TODO: info.offset
                 states[name] = info
                 print(f'{name} state:{info}')
+                self.info['acc'].append(info.acceleration)
+                self.info['vel'].append(info.speed)
         self.curr_states = states
 
     def record_data(self):
@@ -396,7 +413,10 @@ class CarlaSimulation(Simulation):
         self.client.apply_batch([carla.command.DestroyActor(x) for x in self.vehicles])  # type: ignore
         self.client.apply_batch([carla.command.DestroyActor(self.camera)])  # type: ignore
         self.vehicles.clear()
+        self.pedestrians.clear()
         self.agents = {}
+        self.obj_agents = {}
+        self.car_span_tfs = {}
 
     def tick_timestamp(self):
         """
@@ -446,8 +466,9 @@ class CarlaSimulation(Simulation):
         :return:
         """
         path = f'./{self.map.name}.xodr'
-        if not os.path.exists(path):
-            self.map.save_to_disk(path)
+        if os.path.exists(path):
+            os.remove(path)
+        self.map.save_to_disk(path)
         self.parser = MapParser()
         self.parser.parse(path)
 
@@ -529,9 +550,10 @@ class CarlaSimulation(Simulation):
         with open(os.path.abspath('./simulate/carla_simulator/config.json'), 'r', encoding='utf-8') as file:
             json_file = json.load(file)
             self.models = json_file['models']
+            self.pedestrians = json_file['pedestrians']
         print('read config finished')
 
-    def get_spawn_transforms(self, cars: list) -> dict:
+    def get_cars_spawn_transforms(self, cars: list) -> dict:
         """
         :param cars:
         :return:
@@ -612,4 +634,103 @@ class CarlaSimulation(Simulation):
             print(f'long offset:{longitudinal_offset}, lateral offset:{lateral_offset}, lane:{spawn_wp.lane_id}')
             print(f'longitudinal vec:{longitudinal_vec}, lateral vec:{lateral_vec}, spawn_loc:{spawn_loc}')
             print(f'chosen transform: {chosen_tfs[car.name]}')
+        return chosen_tfs
+
+    def create_obj_in_simulation(self, obj, is_Test=False):
+        if not isinstance(obj, Pedestrian):
+            pass
+        spawn_tfs: list = self.get_pedestrian_spawn_transforms(obj)
+        if obj.model != 'random':
+            bp = self.bpl.find(obj.model)
+        else:
+            bp = self.bpl.find(random.choice(self.pedestrians))
+        print(f'blueprint: {bp.id}')
+        bp.set_attribute('role_name', obj.name)
+        if bp.has_attribute('is_invincible'):
+            bp.set_attribute('is_invincible', 'false')
+        for spawn_tf in spawn_tfs:
+            if spawn_tf is None:
+                raise RuntimeError(f'Cannot spawn obj {obj.name}')
+        walker = self.world.spawn_actor(bp, spawn_tfs[0])
+        assert walker is not None
+        walker_agent = WalkerAgent(self.client, self.world, bp, walker, spawn_tfs, obj.location)
+        self.obj_agents[obj.name] = walker_agent
+
+    def get_pedestrian_spawn_transforms(self, obj) -> list:
+        print('choosing spawn waypoints of obj.')
+        spawn_wps = self.get_vehicle_spawn_point(length=len(obj.location))
+        chosen_tfs = [None] * len(obj.location)
+        relate_qu = []
+        for index, loc in enumerate(obj.location):
+            print(f'obj name: {obj.name}, loc type: {loc["location_type"]}')
+            if loc['location_type'] == 'Lane Position':
+                if loc['init_lane_id'] == 0 and len(spawn_wps) != 0:
+                    random_wp = random.choice(spawn_wps)
+                    chosen_tfs[index] = random_wp.transform
+                    spawn_wps.remove(random_wp)
+                else:
+                    offset = MapFilter.choice_lane_random(loc['road_min_offset'], loc['road_max_offset'])
+                    spawn_wp = self.map.get_waypoint_xodr(loc['init_road_id'], loc['init_lane_id'], offset)
+                    if spawn_wp is None:  # type: ignore
+                        raise RuntimeError('cannot get spawn point from given road and lane ids.')
+                    else:
+                        tf: carla.Transform = spawn_wp.transform  # type: ignore
+                        lateral_offset = MapFilter.choice_lane_random(loc['min_lateral_offset'], loc['max_lateral_offset'])
+                        right_vector = tf.get_right_vector()
+                        tf.location += right_vector * lateral_offset
+                        tf.location += carla.Location(0, 0, 2)  # type: ignore
+                        chosen_tfs[index] = tf
+                        print(f'long offset:{offset}, lateral offset:{lateral_offset}')
+                print(f'chosen transform: {chosen_tfs[index]}')
+            elif loc['location_type'] == 'Global Position':
+                spawn_wp = self.map.get_waypoint(carla.Location(loc['x'], loc['y'], 0))  # type: ignore
+                if spawn_wp is None:
+                    raise RuntimeError('cannot get spawn point from given x and y values.')
+                else:
+                    spawn_wp.transform.location += carla.Location(0, 0, 2)  # type: ignore
+                    chosen_tfs[index] = spawn_wp.transform
+                print(f'chosen transform: {chosen_tfs[index]}')
+            elif loc['location_type'] == 'Road Position':
+                offset = MapFilter.choice_lane_random(loc['road_min_offset'], loc['road_max_offset'])
+                lateral_offset = MapFilter.choice_lane_random(loc['min_lateral_offset'], loc['max_lateral_offset'])
+                abs_offset = abs(lateral_offset)
+                if lateral_offset >= 0:
+                    lane_id = -1
+                else:
+                    lane_id = 1
+                wp = self.map.get_waypoint_xodr(loc['init_road_id'], lane_id, offset)
+                while abs_offset > wp.lane_width:
+                    abs_offset -= wp.lane_width
+                    if lateral_offset >= 0:
+                        lane_id -= 1
+                    else:
+                        lane_id += 1
+                    wp = self.map.get_waypoint_xodr(loc['init_road_id'], lane_id, offset)
+                tf = wp.transform
+                tf.location += tf.get_right_vector() * (abs_offset - (wp.lane_width / 2))
+                tf.location += carla.Location(0, 0, 2)  # type: ignore
+                chosen_tfs[index] = tf
+                print(f'offset:{offset}; lat_offset:{lateral_offset}; lane_id:{wp.lane_id}')
+                print(f'chosen transform: {chosen_tfs[index]}')
+            else:
+                relate_qu.append(index)
+        for index in relate_qu:
+            print(f'relate location of obj {obj.name}:')
+            print(f'ref car:{obj.location[index]["actor_ref"]}')
+            ref_tf: carla.Transform = self.car_span_tfs[obj.location[index].actor_ref]  # type: ignore
+            ref_loc = ref_tf.location
+            longitudinal_offset = MapFilter.choice_lane_random(obj.location[index]['road_min_offset'], obj.location[index]['road_max_offset'])
+            forward_vector = ref_tf.get_forward_vector()
+            lateral_offset = MapFilter.choice_lane_random(obj.location[index]['min_lateral_offset'], obj.location[index]['max_lateral_offset'])
+            right_vector = ref_tf.get_right_vector()
+            longitudinal_vec = longitudinal_offset * forward_vector
+            lateral_vec = lateral_offset * right_vector
+            spawn_loc = ref_loc + longitudinal_vec + lateral_vec
+            spawn_wp = self.map.get_waypoint(spawn_loc, project_to_road=False)
+            spawn_tf = spawn_wp.transform
+            spawn_tf.location += carla.Location(0, 0, 2)  # type: ignore
+            chosen_tfs[index] = carla.Transform(spawn_loc, ref_tf.rotation)  # type: ignore
+            print(f'long offset:{longitudinal_offset}, lateral offset:{lateral_offset}, lane:{spawn_wp.lane_id}')
+            print(f'longitudinal vec:{longitudinal_vec}, lateral vec:{lateral_vec}, spawn_loc:{spawn_loc}')
+            print(f'chosen transform: {chosen_tfs[index]}')
         return chosen_tfs

@@ -1,7 +1,7 @@
 import { Spin } from "antd";
 import { ReactElement, useContext, useEffect, useRef, useState } from "react";
 import { Scene } from "../../content/model/Scene";
-import { MModel } from "../../../model/Model";
+import { MAP_TYPES, MModel } from "../../../model/Model";
 import AppContext from "../../../store/context";
 
 interface ExtendAdsmlMapProps {
@@ -25,10 +25,16 @@ export default function ExtendAdsmlMap({
   useEffect(() => {
     const asyncFn = async () => {
       if (!model) return;
-      const mapPath =
-        mapPropPath ??
-        (await window.electronAPI.getAbsolutePath(modelPath, model.map));
+      let mapPath;
+      if (model.mapType === MAP_TYPES.CUSTOM) {
+        mapPath =
+          mapPropPath ??
+          (await window.electronAPI.getAbsolutePath(modelPath, model.map));
+      } else {
+        mapPath = model.map;
+      }
       const info = await window.electronAPI.visualize(
+        model.mapType,
         mapPath,
         model.cars,
         state.config.simulationPort

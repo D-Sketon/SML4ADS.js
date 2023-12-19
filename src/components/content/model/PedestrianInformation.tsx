@@ -737,9 +737,16 @@ export default function PedestrianInformation({
           hoverable
           title="Location Point"
           extra={
-            <Button type="primary" onClick={() => handleDeleteLocation(index)}>
-              Delete
-            </Button>
+            index === 0 ? (
+              <></>
+            ) : (
+              <Button
+                type="primary"
+                onClick={() => handleDeleteLocation(index)}
+              >
+                Delete
+              </Button>
+            )
           }
           className="box-border mt-2 mb-2"
           key={index}
@@ -764,26 +771,32 @@ export default function PedestrianInformation({
             />
           </div>
           {getPositionComponent(index)}
-          <div className="form-item">
-            <div className="form-label w-20">speedType:</div>
-            <Select
-              className="w-44"
-              options={Object.values(PEDESTRIAN_SPEED_TYPES).map((i) => ({
-                label: i,
-                value: i,
-              }))}
-              value={pedestrian.location[index].speedType}
-              onChange={(e) => {
-                simpleSetPedestrianLocation("speedType", e, index);
-                simpleSetPedestrianLocation(
-                  "speedParams",
-                  defaultPedestrianSpeedParams(e),
-                  index
-                );
-              }}
-            />
-          </div>
-          {getPedestrianSpeedComponent(index)}
+          {index === 0 ? (
+            <></>
+          ) : (
+            <>
+              <div className="form-item">
+                <div className="form-label w-20">speedType:</div>
+                <Select
+                  className="w-44"
+                  options={Object.values(PEDESTRIAN_SPEED_TYPES).map((i) => ({
+                    label: i,
+                    value: i,
+                  }))}
+                  value={pedestrian.location[index].speedType}
+                  onChange={(e) => {
+                    simpleSetPedestrianLocation("speedType", e, index);
+                    simpleSetPedestrianLocation(
+                      "speedParams",
+                      defaultPedestrianSpeedParams(e),
+                      index
+                    );
+                  }}
+                />
+              </div>
+              {getPedestrianSpeedComponent(index)}
+            </>
+          )}
         </Card>
       ))}
       <div className="box-border pr-2 pb-2 mt-2">

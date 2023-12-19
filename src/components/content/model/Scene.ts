@@ -30,7 +30,8 @@ export class Scene {
       height: 400,
     }
   ) {
-    this.canvas = typeof id === 'string' ? document.querySelector("#" + id)! : id;
+    this.canvas =
+      typeof id === "string" ? document.querySelector("#" + id)! : id;
     this.width = options.width;
     this.height = options.height;
     this.canvas.width = options.width;
@@ -256,15 +257,23 @@ export class Scene {
     length: number;
     orientation: number;
     type: string;
-    heading: boolean,
-    road_deviation: number,
-    name: string,
+    heading: boolean;
+    road_deviation: number;
+    name: string;
   }) {
+    if (!obstacle.center) return;
     const x: number = obstacle.center[0];
     const y: number = -obstacle.center[1];
-    let { width, length, orientation: angle, type, heading, road_deviation } = obstacle;
+    let {
+      width,
+      length,
+      orientation: angle,
+      type,
+      heading,
+      road_deviation,
+    } = obstacle;
 
-    if(!heading) {
+    if (!heading) {
       angle = -angle;
     }
     angle += road_deviation;
@@ -303,8 +312,12 @@ export class Scene {
     }
     this.ctx.lineWidth = 0.1;
     this.ctx.fill();
-    this.ctx.font = '3px Arial';
-    this.ctx.fillText(obstacle.name, obstacle.center[0] + 3, -obstacle.center[1]);
+    this.ctx.font = "3px Arial";
+    this.ctx.fillText(
+      obstacle.name,
+      obstacle.center[0] + 3,
+      -obstacle.center[1]
+    );
 
     this.ctx.beginPath();
     this.ctx.moveTo(x, y);
@@ -320,6 +333,7 @@ export class Scene {
     width: number;
     center_vertices: [number, number][];
   }) {
+    if (!border.center_vertices) return;
     let color;
     if (border.type === "Ego") {
       color = "red";

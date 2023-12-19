@@ -12,14 +12,14 @@ export enum MAP_TYPES {
 }
 
 export enum DEFAULT_MAP_TYPES {
-  TOWN_01 = "Town01.xodr",
-  TOWN_02 = "Town02.xodr",
-  TOWN_03 = "Town03.xodr",
-  TOWN_04 = "Town04.xodr",
-  TOWN_05 = "Town05.xodr",
-  TOWN_06 = "Town06.xodr",
-  TOWN_07 = "Town07.xodr",
-  TOWN_10 = "Town10HD.xodr",
+  TOWN_01 = "Town01",
+  TOWN_02 = "Town02",
+  TOWN_03 = "Town03",
+  TOWN_04 = "Town04",
+  TOWN_05 = "Town05",
+  TOWN_06 = "Town06",
+  TOWN_07 = "Town07",
+  TOWN_10 = "Town10HD",
 }
 
 export enum WEATHER_TYPES_CARLA {

@@ -137,6 +137,8 @@ class BehaviorTree:
             params = v['params']
             if 'duration' in params.keys() and params['duration'][0]:
                 behavior.duration = np.random.uniform(params['duration'][0], params['duration'][1])
+                if behavior.duration == 0:
+                    behavior.duration = -1
             else:
                 behavior.duration = -1
             if 'acceleration' in params.keys() and params['acceleration'][0]:

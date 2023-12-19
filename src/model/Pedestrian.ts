@@ -54,13 +54,12 @@ export enum PEDESTRIAN_TYPES_CARLA {
   PEDESTRIAN_046 = "walker.pedestrian.0046",
   PEDESTRIAN_047 = "walker.pedestrian.0047",
   PEDESTRIAN_048 = "walker.pedestrian.0048",
-  PEDESTRIAN_049 = "walker.pedestrian.0049",
 }
 
 export enum PEDESTRIAN_SPEED_TYPES {
-  WALK = "walk",
-  RUN = "run",
-  MANUAL = "manual",
+  WALK = "Walk",
+  RUN = "Run",
+  MANUAL = "Manual",
 }
 
 export type PEDESTRIAN_SPEED_PARAMS = {

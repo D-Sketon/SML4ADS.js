@@ -30,6 +30,7 @@ import readFile from "../../io/readFile";
 
 async function visualize(
   _e: any,
+  type: string,
   path: string,
   cars: any,
   port: number,
@@ -40,7 +41,7 @@ async function visualize(
     // const _parseRes = _parseXODR(content);
     // convertGettersToPlainObject(_parseRes);
     const client = new Client(`http://${host}:${port}/RPC`);
-    return await client.invoke("visualization", [[path, cars]]);
+    return await client.invoke("visualization", [[type, path, cars]]);
   } catch (error: any) {
     console.error(error);
     _e?.sender.send("ui:onOpenNotification", "error", "Error", error.message);

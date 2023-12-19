@@ -148,8 +148,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
   simulate: (params: any, port: number, host?: string) =>
     ipcRenderer.invoke("rpc:simulate", params, port, host),
 
-  visualize: (path: string, car: any, port: number, host?: string) =>
-    ipcRenderer.invoke("rpc:visualize", path, car, port, host),
+  visualize: (type: string, path: string, car: any, port: number, host?: string) =>
+    ipcRenderer.invoke("rpc:visualize", type, path, car, port, host),
 
   onOpenNotification: (
     callback: (

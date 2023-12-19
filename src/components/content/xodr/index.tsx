@@ -4,6 +4,7 @@ import Text from "../text";
 import { Spin } from "antd";
 import AppContext from "../../../store/context";
 import { Scene } from "../model/Scene";
+import { MAP_TYPES } from "../../../model/Model";
 
 interface XodrProps {
   path: string;
@@ -20,6 +21,7 @@ export default function Xodr({ path, ext }: XodrProps): ReactElement {
   useEffect(() => {
     const asyncFn = async () => {
       const info = await window.electronAPI.visualize(
+        MAP_TYPES.CUSTOM,
         path,
         [],
         config.simulationPort

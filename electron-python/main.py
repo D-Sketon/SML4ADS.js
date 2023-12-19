@@ -91,10 +91,9 @@ args: {
 """
 
 
-def simulate(args) -> None:
+def simulate(args):
     """
     :param args: dict.仿真参数
-    :return: None
     """
     pre_process_args(args)
     print(f'args: {args}')
@@ -108,13 +107,15 @@ def simulate(args) -> None:
         # scenario仿真
         simulation_result = carla_simulator.simulate(path=args['path'])
         print(simulation_result)
+        print('simulation finished.')
+        return simulation_result
     else:
         # scene仿真
         carla_simulator.static_scene(path=args['path'],
                                      img_path=args['scene_img_path'],
                                      count=args['scene'])
-    print('simulation finished.')
-
+        print('simulation finished.')
+        return None
 
 # extends area
 

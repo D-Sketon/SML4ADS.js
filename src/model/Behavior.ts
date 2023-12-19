@@ -85,6 +85,7 @@ export const defaultBehaviorParams: (
     case BEHAVIOR_TYPES.KEEP:
       return defaultKeepBehaviorParams();
     case BEHAVIOR_TYPES.ACCELERATE:
+    case BEHAVIOR_TYPES.DECELERATE:
       return defaultAccelerateBehaviorParams();
     case BEHAVIOR_TYPES.CHANGE_LEFT:
     case BEHAVIOR_TYPES.CHANGE_RIGHT:

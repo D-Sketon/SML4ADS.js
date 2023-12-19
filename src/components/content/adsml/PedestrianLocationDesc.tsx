@@ -14,13 +14,14 @@ export default function PedestrianLocationDesc({
   location,
 }: PedestrianLocationDescProps): ReactElement {
   return (
-    <>
-      {location.map((l) => {
+    <div className="flex flex-col">
+      {location.map((l, i) => {
         return (
           <Card
             hoverable
             title="Location Point"
             className="box-border mt-2 mb-2"
+            key={i}
           >
             <Descriptions
               column={2}
@@ -63,6 +64,6 @@ export default function PedestrianLocationDesc({
           </Card>
         );
       })}
-    </>
+    </div>
   );
 }

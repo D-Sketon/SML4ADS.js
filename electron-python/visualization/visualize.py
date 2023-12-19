@@ -83,16 +83,21 @@ def visualize(args):
     """
     Visualize the data from the given file.
     """
-    fh = open(args[0], "r")
-    openDriveXml = parse_opendrive(etree.parse(fh).getroot())  # type: ignore
-    fh.close()
+    if args[0] == 'custom':
+        fh = open(args[1], "r")
+        openDriveXml = parse_opendrive(etree.parse(fh).getroot())  # type: ignore
+        fh.close()
+    else:
+        fh = open(f'./simulate/carla_simulator/Carla/Maps/{args[1]}.xodr', "r")
+        openDriveXml = parse_opendrive(etree.parse(fh).getroot())  # type: ignore
+        fh.close()
     loadedRoadNetwork = Network()
     loadedRoadNetwork.load_opendrive(openDriveXml)
     scenario = loadedRoadNetwork.export_commonroad_scenario()
     border_array = []
     obstacle_array = []
     relate_qu = []
-    for car_index, json_car in enumerate(args[1]):
+    for car_index, json_car in enumerate(args[2]):
         if json_car['locationType'] == 'Lane Position':
             if json_car['locationParams']['laneId'] == 0:
                 pass
@@ -110,8 +115,8 @@ def visualize(args):
                     obstacle_array.append(car)
                     border = generate_border(json_car,
                                              find_lanelet,
-                                             json_car['locationParams']['longitudinalOffset'][0],
-                                             json_car['locationParams']['longitudinalOffset'][1],
+                                             json_car['locationParams']['longitudinalOffset'][0] - 1.5,
+                                             json_car['locationParams']['longitudinalOffset'][1] + 1.5,
                                              (json_car['locationParams']['lateralOffset'][0] + json_car['locationParams']['lateralOffset'][1]) / 2,
                                              json_car['locationParams']['lateralOffset'][1] - json_car['locationParams']['lateralOffset'][0])
                     border_array.append(border)
@@ -146,8 +151,8 @@ def visualize(args):
                 car['longitudinal_offset'] = longitudinal_offset
                 obstacle_array.append(car)
                 border = generate_border(json_car, find_lanelet,
-                                         json_car['locationParams']['longitudinalOffset'][0],
-                                         json_car['locationParams']['longitudinalOffset'][1],
+                                         json_car['locationParams']['longitudinalOffset'][0] - 1.5,
+                                         json_car['locationParams']['longitudinalOffset'][1] + 1.5,
                                          abs_offset,
                                          json_car['locationParams']['lateralOffset'][1] - json_car['locationParams']['lateralOffset'][0])
                 border_array.append(border)
@@ -240,7 +245,7 @@ def visualize(args):
                 # remove offset
                 start_min = border_ref['start_min'] + json_car['locationParams']['longitudinalOffset'][0]
                 end_max = border_ref['end_max'] + json_car['locationParams']['longitudinalOffset'][1]
-                border = generate_border(json_car, find_lanelet, start_min, end_max,
+                border = generate_border(json_car, find_lanelet, start_min - 1.5, end_max + 1.5,
                                          abs_offset,
                                          border_ref['width'] + json_car['locationParams']['lateralOffset'][1] - json_car['locationParams']['lateralOffset'][0])
                 border_array.append(border)
