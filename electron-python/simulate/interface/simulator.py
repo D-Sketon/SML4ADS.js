@@ -37,7 +37,7 @@ class SimulationResult:
         self.info = {}
 
     def __repr__(self):
-        return f'SimulationResult[startTime:{self.start_time}, endTime:{self.end_time}, duration:{self.duration}, extraInfo:{self.info}]'
+        return f'SimulationResult[startTime:{self.start_time}, endTime:{self.end_time}, duration:{self.duration}]'
 
     def get_duration(self):
         """

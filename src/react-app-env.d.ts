@@ -87,7 +87,7 @@ export interface IElectronAPI {
     host?: string
   ) => Promise<any>;
 
-  simulate: (params: any, port: number, host?: string) => Promise<void>;
+  simulate: (params: any, port: number, host?: string) => Promise<any>;
   visualize: (
     type: string,
     path: string,

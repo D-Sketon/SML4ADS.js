@@ -33,6 +33,7 @@ export default function GuardDrawer({
             maxLength={1024}
             value={selectedEdge?.label?.toString() ?? ""}
             onChange={handleGuardChange}
+            spellCheck={false}
           />
         </Col>
       </Row>

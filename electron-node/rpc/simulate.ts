@@ -9,7 +9,8 @@ async function simulate(
 ) {
   try {
     const client = new Client(`http://${host}:${port}/RPC`);
-    await client.invoke("simulate", [params]);
+    client.timeout = 60000;
+    return await client.invoke("simulate", [params]);
   } catch (error: any) {
     console.error(error);
     _e?.sender.send("ui:onOpenNotification", "error", "Error", error.message);

@@ -70,8 +70,6 @@ export class Scene {
       border_array: any[];
     };
 
-    console.log(this.postRender.car_array);
-    console.log(this.postRender.pedestrian_array);
     this.onMousedown = throttleByAnimationFrame(
       this.onMousedown.bind(this)
     ).bind(this);

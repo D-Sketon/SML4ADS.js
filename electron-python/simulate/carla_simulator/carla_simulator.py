@@ -717,7 +717,7 @@ class CarlaSimulation(Simulation):
         for index in relate_qu:
             print(f'relate location of obj {obj.name}:')
             print(f'ref car:{obj.location[index]["actor_ref"]}')
-            ref_tf: carla.Transform = self.car_span_tfs[obj.location[index].actor_ref]  # type: ignore
+            ref_tf: carla.Transform = self.car_span_tfs[obj.location[index]['actor_ref']]  # type: ignore
             ref_loc = ref_tf.location
             longitudinal_offset = MapFilter.choice_lane_random(obj.location[index]['road_min_offset'], obj.location[index]['road_max_offset'])
             forward_vector = ref_tf.get_forward_vector()
