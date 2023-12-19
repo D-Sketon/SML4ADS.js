@@ -3,6 +3,7 @@ import { ReactElement, useContext, useEffect, useRef, useState } from "react";
 import { Scene } from "../../content/model/Scene";
 import { MAP_TYPES, MModel } from "../../../model/Model";
 import AppContext from "../../../store/context";
+import throttleByAnimationFrame from "antd/es/_util/throttleByAnimationFrame";
 
 interface ExtendAdsmlMapProps {
   model: MModel;
@@ -37,6 +38,7 @@ export default function ExtendAdsmlMap({
         model.mapType,
         mapPath,
         model.cars,
+        model.pedestrians,
         state.config.simulationPort
       );
       setInfo(info);
@@ -54,16 +56,17 @@ export default function ExtendAdsmlMap({
     const scene = new Scene(canvasRef.current, info, options);
     scene.paint();
 
-    const resizeCanvas = () => {
+    const resizeCanvas = throttleByAnimationFrame(() => {
       scene.width =
         canvasWrapperRef.current?.getBoundingClientRect().width ?? 0;
       scene.height =
         canvasWrapperRef.current?.getBoundingClientRect().height ?? 0;
       scene.paint();
-    };
+    });
     window.addEventListener("resize", resizeCanvas, false);
     return () => {
-      window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("resize", resizeCanvas, false);
+      scene.destroy();
     };
   }, [info, saveCount]);
   return (

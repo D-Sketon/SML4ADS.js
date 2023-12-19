@@ -33,6 +33,7 @@ async function visualize(
   type: string,
   path: string,
   cars: any,
+  pedestrians: any,
   port: number,
   host = "127.0.0.1"
 ) {
@@ -41,7 +42,7 @@ async function visualize(
     // const _parseRes = _parseXODR(content);
     // convertGettersToPlainObject(_parseRes);
     const client = new Client(`http://${host}:${port}/RPC`);
-    return await client.invoke("visualization", [[type, path, cars]]);
+    return await client.invoke("visualization", [[type, path, cars, pedestrians]]);
   } catch (error: any) {
     console.error(error);
     _e?.sender.send("ui:onOpenNotification", "error", "Error", error.message);

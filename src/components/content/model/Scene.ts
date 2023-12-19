@@ -1,3 +1,27 @@
+import throttleByAnimationFrame from "antd/es/_util/throttleByAnimationFrame";
+
+export enum LaneletType {
+  URBAN = "urban",
+  COUNTRY = "country",
+  HIGHWAY = "highway",
+  DRIVE_WAY = "driveWay",
+  MAIN_CARRIAGE_WAY = "mainCarriageWay",
+  ACCESS_RAMP = "accessRamp",
+  EXIT_RAMP = "exitRamp",
+  SHOULDER = "shoulder",
+  BUS_LANE = "busLane",
+  BUS_STOP = "busStop",
+  BICYCLE_LANE = "bicycleLane",
+  SIDEWALK = "sidewalk",
+  CROSSWALK = "crosswalk",
+  INTERSTATE = "interstate",
+  INTERSECTION = "intersection",
+  BORDER = "border",
+  PARKING = "parking",
+  RESTRICTED = "restricted",
+  UNKNOWN = "unknown",
+}
+
 export class Scene {
   offset = { x: 0, y: 0 };
   curOffset = { x: 0, y: 0 };
@@ -18,7 +42,8 @@ export class Scene {
   renderInfo: string;
   postRender: {
     lanelet_array: any[];
-    obstacle_array: any[];
+    car_array: any[];
+    pedestrian_array: any[];
     border_array: any[];
   };
 
@@ -40,14 +65,25 @@ export class Scene {
     this.renderInfo = renderInfo;
     this.postRender = JSON.parse(this.renderInfo) as {
       lanelet_array: any[];
-      obstacle_array: any[];
+      car_array: any[];
+      pedestrian_array: any[];
       border_array: any[];
     };
 
-    this.onMousedown = this.onMousedown.bind(this);
-    this.onMousemove = this.onMousemove.bind(this);
-    this.onMouseup = this.onMouseup.bind(this);
-    this.onMousewheel = this.onMousewheel.bind(this);
+    console.log(this.postRender.car_array);
+    console.log(this.postRender.pedestrian_array);
+    this.onMousedown = throttleByAnimationFrame(
+      this.onMousedown.bind(this)
+    ).bind(this);
+    this.onMousemove = throttleByAnimationFrame(
+      this.onMousemove.bind(this)
+    ).bind(this);
+    this.onMouseup = throttleByAnimationFrame(this.onMouseup.bind(this)).bind(
+      this
+    );
+    this.onMousewheel = throttleByAnimationFrame(
+      this.onMousewheel.bind(this)
+    ).bind(this);
     this.canvas.addEventListener("mousewheel", this.onMousewheel);
     this.canvas.addEventListener("mousedown", this.onMousedown);
 
@@ -67,6 +103,11 @@ export class Scene {
     this.offset.y = this.curOffset.y = yOffset - border.yMin;
 
     this.ctx.translate(this.offset.x, this.offset.y);
+  }
+
+  destroy() {
+    this.canvas.removeEventListener("mousewheel", this.onMousewheel);
+    this.canvas.removeEventListener("mousedown", this.onMousedown);
   }
 
   onMousewheel(e: any) {
@@ -109,10 +150,8 @@ export class Scene {
     if (e.button === 0) {
       this.x = e.x;
       this.y = e.y;
-      window.removeEventListener("mousemove", this.onMousemove);
-      window.removeEventListener("mouseup", this.onMouseup);
-      window.addEventListener("mousemove", this.onMousemove);
-      window.addEventListener("mouseup", this.onMouseup);
+      this.canvas.addEventListener("mousemove", this.onMousemove);
+      this.canvas.addEventListener("mouseup", this.onMouseup);
     }
   }
 
@@ -126,8 +165,8 @@ export class Scene {
   onMouseup() {
     this.curOffset.x = this.offset.x;
     this.curOffset.y = this.offset.y;
-    window.removeEventListener("mousemove", this.onMousemove);
-    window.removeEventListener("mouseup", this.onMouseup);
+    this.canvas.removeEventListener("mousemove", this.onMousemove);
+    this.canvas.removeEventListener("mouseup", this.onMouseup);
   }
 
   zoomIn() {
@@ -166,8 +205,11 @@ export class Scene {
     for (const lanelet of this.postRender.lanelet_array) {
       this.drawLanelet(lanelet);
     }
-    for (const obstacle of this.postRender.obstacle_array) {
-      this.drawObstacle(obstacle);
+    for (const car of this.postRender.car_array) {
+      this.drawCar(car);
+    }
+    for (const pedestrian of this.postRender.pedestrian_array) {
+      this.drawPedestrian(pedestrian);
     }
     for (const border of this.postRender.border_array) {
       this.drawBorder(border);
@@ -197,12 +239,34 @@ export class Scene {
   }
 
   drawLanelet(lanelet: {
+    lanelet_type: LaneletType;
     left_vertices: [number, number][];
     center_vertices: [number, number][];
     right_vertices: [number, number][];
   }) {
     let color, alpha;
-    color = "gray";
+    switch (lanelet.lanelet_type) {
+      case LaneletType.DRIVE_WAY:
+        color = "gray";
+        break;
+      case LaneletType.SIDEWALK:
+        color = "DarkOliveGreen";
+        break;
+      case LaneletType.SHOULDER:
+        color = "black";
+        break;
+      case LaneletType.RESTRICTED:
+        color = "DarkRed";
+        break;
+      case LaneletType.BICYCLE_LANE:
+        color = "DarkCyan";
+        break;
+      case LaneletType.PARKING:
+        color = "DodgerBlue";
+        break;
+      default:
+        color = "gray";
+    }
     alpha = 0.3;
     // Draw filled area
     this.ctx.fillStyle = color;
@@ -251,7 +315,7 @@ export class Scene {
     this.ctx.stroke();
   }
 
-  drawObstacle(obstacle: {
+  drawCar(car: {
     center: [number, number];
     width: number;
     length: number;
@@ -261,17 +325,18 @@ export class Scene {
     road_deviation: number;
     name: string;
   }) {
-    if (!obstacle.center) return;
-    const x: number = obstacle.center[0];
-    const y: number = -obstacle.center[1];
+    if (!car.center) return;
+    const x: number = car.center[0];
+    const y: number = -car.center[1];
     let {
+      name,
       width,
       length,
       orientation: angle,
       type,
       heading,
       road_deviation,
-    } = obstacle;
+    } = car;
 
     if (!heading) {
       angle = -angle;
@@ -313,11 +378,7 @@ export class Scene {
     this.ctx.lineWidth = 0.1;
     this.ctx.fill();
     this.ctx.font = "3px Arial";
-    this.ctx.fillText(
-      obstacle.name,
-      obstacle.center[0] + 3,
-      -obstacle.center[1]
-    );
+    this.ctx.fillText(name, car.center[0] + 3, -car.center[1]);
 
     this.ctx.beginPath();
     this.ctx.moveTo(x, y);
@@ -337,6 +398,8 @@ export class Scene {
     let color;
     if (border.type === "Ego") {
       color = "red";
+    } else if (border.type === "Pedestrian") {
+      color = "blue";
     } else {
       color = "black";
     }
@@ -347,10 +410,87 @@ export class Scene {
     for (let k = 1; k < center_vertices.length; k++) {
       this.ctx.lineTo(center_vertices[k][0], -center_vertices[k][1]);
     }
-    this.ctx.lineWidth = width + 1.5;
+    if (border.type === "Pedestrian") {
+      this.ctx.lineWidth = width + 1;
+    } else {
+      this.ctx.lineWidth = width + 1.5;
+    }
     this.ctx.globalAlpha = 0.2;
     this.ctx.stroke();
     this.ctx.globalAlpha = 1;
+  }
+
+  drawPedestrian(pedestrian: {
+    name: string;
+    location_points: {
+      center: [number, number];
+      width: number;
+      length: number;
+    }[];
+  }) {
+    const { name, location_points } = pedestrian;
+    this.ctx.fillStyle = "blue";
+    for (let i = 0; i < location_points.length; i++) {
+      this.ctx.beginPath();
+      this.ctx.arc(
+        location_points[i].center[0],
+        -location_points[i].center[1],
+        0.5,
+        0,
+        2 * Math.PI
+      );
+      this.ctx.fill();
+    }
+
+    // 连接点
+    this.ctx.strokeStyle = "blue";
+    this.ctx.lineWidth = 0.2;
+    this.ctx.beginPath();
+    for (let i = 1; i < location_points.length; i++) {
+      this.ctx.beginPath();
+      this.ctx.moveTo(
+        location_points[i - 1].center[0],
+        -location_points[i - 1].center[1]
+      );
+      this.ctx.lineTo(
+        location_points[i].center[0],
+        -location_points[i].center[1]
+      );
+      this.ctx.stroke();
+
+      const arrowSize = 2;
+      const angle = Math.atan2(
+        -location_points[i].center[1] + location_points[i - 1].center[1],
+        location_points[i].center[0] - location_points[i - 1].center[0]
+      );
+      this.ctx.save();
+      this.ctx.translate(
+        location_points[i].center[0],
+        -location_points[i].center[1]
+      );
+      this.ctx.rotate(angle);
+
+      this.ctx.beginPath();
+      this.ctx.moveTo(0, 0);
+      this.ctx.lineTo(-arrowSize, arrowSize / 2);
+      this.ctx.lineTo(-arrowSize, -arrowSize / 2);
+      this.ctx.closePath();
+      this.ctx.fill();
+
+      this.ctx.restore();
+    }
+    this.ctx.stroke();
+
+    this.ctx.fillStyle = "blue";
+    this.ctx.strokeStyle = "blue";
+    this.ctx.lineWidth = 0.1;
+    this.ctx.fill();
+    this.ctx.font = "3px Arial";
+    this.ctx.fillText(
+      name,
+      location_points[0].center[0] + 3,
+      -location_points[0].center[1]
+    );
   }
 
   clear() {

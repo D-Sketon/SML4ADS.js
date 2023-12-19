@@ -289,6 +289,8 @@ class ConversionLaneletNetwork(LaneletNetwork):
         Args:
           lanelet: Lanelet to add successor to.
           predecessor_id: Id of successor to add to lanelet.
+          :param lanelet:
+          :param predecessor_ids:
         """
         for predecessor_id in predecessor_ids:
             lanelet.predecessor.append(predecessor_id)

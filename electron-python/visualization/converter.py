@@ -115,6 +115,7 @@ class OpenDriveConverter:
                     id_=encode_road_section_lane_width_id(
                         lane_section.parentRoad.id, -1, lane.id, -1
                     ),
+                    type=lane.type,
                     inner_neighbour=inner_neighbour_id,
                     inner_neighbour_same_direction=inner_neighbour_same_dir,
                     outer_neighbour=outer_neighbour_id,

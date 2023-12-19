@@ -5,6 +5,7 @@ import { Spin } from "antd";
 import AppContext from "../../../store/context";
 import { Scene } from "../model/Scene";
 import { MAP_TYPES } from "../../../model/Model";
+import throttleByAnimationFrame from "antd/es/_util/throttleByAnimationFrame";
 
 interface XodrProps {
   path: string;
@@ -24,6 +25,7 @@ export default function Xodr({ path, ext }: XodrProps): ReactElement {
         MAP_TYPES.CUSTOM,
         path,
         [],
+        [],
         config.simulationPort
       );
       setInfo(info);
@@ -41,16 +43,17 @@ export default function Xodr({ path, ext }: XodrProps): ReactElement {
     const scene = new Scene(canvasRef.current, info, options);
     scene.paint();
 
-    const resizeCanvas = () => {
+    const resizeCanvas = throttleByAnimationFrame(() => {
       scene.width =
         canvasWrapperRef.current?.getBoundingClientRect().width ?? 0;
       scene.height =
         canvasWrapperRef.current?.getBoundingClientRect().height ?? 0;
       scene.paint();
-    };
+    });
     window.addEventListener("resize", resizeCanvas, false);
     return () => {
-      window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("resize", resizeCanvas, false);
+      scene.destroy();
     };
   }, [info]);
 

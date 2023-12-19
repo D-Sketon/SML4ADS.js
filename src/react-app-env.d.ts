@@ -92,6 +92,7 @@ export interface IElectronAPI {
     type: string,
     path: string,
     cars: any,
+    pedestrians: any,
     port: number,
     host?: string
   ) => Promise<any>;

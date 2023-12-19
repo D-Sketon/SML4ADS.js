@@ -47,6 +47,7 @@ class ConversionLanelet(Lanelet):
         adjacent_right_same_direction=None,
         line_marking_left_vertices=LineMarking.NO_MARKING,
         line_marking_right_vertices=LineMarking.NO_MARKING,
+        lanelet_type=None,
     ):
         super().__init__(
             left_vertices,
@@ -61,6 +62,8 @@ class ConversionLanelet(Lanelet):
             adjacent_right_same_direction,
             line_marking_left_vertices,
             line_marking_right_vertices,
+            None,
+            lanelet_type,
         )
         self.parametric_lane_group = parametric_lane_group
         self.lanelet_id = lanelet_id
@@ -333,6 +336,10 @@ class ConversionLanelet(Lanelet):
           mirror_border: Which border to mirror, either 'left' or 'right'.
           interval: Tuple of two values, specifying start and end of mirroring.
           distance: Specifying distance at start and at end of mirroring.
+          :param mirror_interval:
+          :param mirror_border:
+          :param distance:
+          :param adjacent_lanelet:
         """
         if mirror_border == "left":
             distance[:] = tuple(-1 * x for x in distance)

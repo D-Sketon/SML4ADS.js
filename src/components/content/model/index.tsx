@@ -20,6 +20,7 @@ import { Scene } from "./Scene";
 import "./index.less";
 import PedestrianInformation from "./PedestrianInformation";
 import { defaultPedestrian } from "../../../model/Pedestrian";
+import throttleByAnimationFrame from "antd/es/_util/throttleByAnimationFrame";
 
 interface ModelProps {
   path: string;
@@ -82,16 +83,17 @@ export default function Model(props: ModelProps): ReactElement {
     const scene = new Scene(canvasRef.current, info, options);
     scene.paint();
 
-    const resizeCanvas = () => {
+    const resizeCanvas = throttleByAnimationFrame(() => {
       scene.width =
         canvasWrapperRef.current?.getBoundingClientRect().width ?? 0;
       scene.height =
         canvasWrapperRef.current?.getBoundingClientRect().height ?? 0;
       scene.paint();
-    };
+    });
     window.addEventListener("resize", resizeCanvas, false);
     return () => {
-      window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("resize", resizeCanvas, false);
+      scene.destroy();
     };
   }, [info]);
 
@@ -119,6 +121,7 @@ export default function Model(props: ModelProps): ReactElement {
           model.mapType,
           mapPath,
           model.cars,
+          model.pedestrians,
           config.simulationPort
         );
         setInfo(info);
@@ -148,6 +151,7 @@ export default function Model(props: ModelProps): ReactElement {
         model.mapType,
         mapPath,
         model.cars,
+        model.pedestrians,
         config.simulationPort
       );
       setInfo(info);

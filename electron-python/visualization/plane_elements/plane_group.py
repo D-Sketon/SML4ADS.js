@@ -4,6 +4,7 @@ import math
 from typing import Tuple
 
 import numpy as np
+from commonroad.scenario.lanelet import LaneletType, LineMarking
 from visualization.lanelet import ConversionLanelet
 
 __author__ = "Benjamin Orthen, Stefan Urban"
@@ -23,6 +24,7 @@ class ParametricLaneGroup:
     def __init__(
         self,
         id_=None,
+        type=None,
         parametric_lanes=None,
         inner_neighbour=None,
         inner_neighbour_same_direction=True,
@@ -32,6 +34,7 @@ class ParametricLaneGroup:
         self._geo_lengths = [np.array([0.0])]
         self.parametric_lanes = []
         self.id_ = id_
+        self.type_ = type
         self.inner_neighbour = inner_neighbour
         self.inner_neighbour_same_direction = inner_neighbour_same_direction
         self.outer_neighbour = outer_neighbour
@@ -158,9 +161,25 @@ class ParametricLaneGroup:
         center_vertices = np.array(
             [(l + r) / 2 for (l, r) in zip(left_vertices, right_vertices)]
         )
+        if self.type_ == 'driving':
+            type_ = LaneletType.DRIVE_WAY
+        elif self.type_ == 'stop' or self.type_ == 'restricted':
+            type_ = LaneletType.RESTRICTED
+        elif self.type_ == 'shoulder':
+            type_ = LaneletType.SHOULDER
+        elif self.type_ == 'biking':
+            type_ = LaneletType.BICYCLE_LANE
+        elif self.type_ == 'sidewalk':
+            type_ = LaneletType.SIDEWALK
+        elif self.type_ == 'border':
+            type_ = LaneletType.BORDER
+        elif self.type_ == 'parking':
+            type_ = LaneletType.PARKING
+        else:
+            type_ = LaneletType.DRIVE_WAY
 
         lanelet = ConversionLanelet(
-            self, left_vertices, center_vertices, right_vertices, self.id_
+            self, left_vertices, center_vertices, right_vertices, self.id_, None, None, None, None, None, None, LineMarking.NO_MARKING, LineMarking.NO_MARKING, set([type_])
         )
 
         # Adjacent lanes

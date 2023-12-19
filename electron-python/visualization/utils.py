@@ -41,7 +41,7 @@ def decode_road_section_lane_width_id(encodedString: str):
     if len(parts) != 4:
         raise Exception()
 
-    return (int(parts[0]), int(parts[1]), int(parts[2]), int(parts[3]))
+    return int(parts[0]), int(parts[1]), int(parts[2]), int(parts[3])
 
 
 def allCloseToZero(array):
