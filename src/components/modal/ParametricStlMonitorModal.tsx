@@ -96,7 +96,7 @@ export default function ParametricStlMonitorModal({
 
   return (
     <Modal
-      title="Monitor"
+      title="Parameter instantiation"
       confirmLoading={confirmLoading}
       open={isModalOpen}
       onOk={handleOk}

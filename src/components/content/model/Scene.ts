@@ -320,7 +320,7 @@ export class Scene {
     orientation: number;
     type: string;
     heading: boolean;
-    road_deviation: number;
+    road_deviation: number; // degrees
     name: string;
   }) {
     if (!car.center) return;
@@ -339,7 +339,7 @@ export class Scene {
     if (!heading) {
       angle = -angle;
     }
-    angle += road_deviation;
+    angle += road_deviation * (Math.PI / 180);
     const x1: number =
       x + (length / 2) * Math.cos(angle) - (width / 2) * Math.sin(angle);
     const y1: number =

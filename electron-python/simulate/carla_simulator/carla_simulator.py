@@ -28,6 +28,7 @@ from simulate.carla_simulator.CarInfo import CarInfo
 from simulate.carla_simulator.controller.action import Action
 from simulate.carla_simulator.controller.agent import Agent
 from simulate.carla_simulator.controller.walker_agent import WalkerAgent
+from simulate.carla_simulator.ObjInfo import ObjInfo
 from simulate.interface.GuardFunction import set_guard_args
 from simulate.interface.simulator import (Pedestrian, Simulation,
                                           SimulationResult, Simulator,
@@ -40,7 +41,7 @@ max_throt = 0.75
 max_brake = 0.3
 max_steer = 0.8
 args_lateral_dict = {'k_p': 0.8, 'k_i': 0.05, 'k_d': 0.1, 'dt': dt}
-args_longitudinal_dict = {'k_p': 1.0, 'k_i': 0.05, 'k_d': 0, 'dt': dt}
+args_longitudinal_dict = {'k_p': 1.0, 'k_i': 0.15, 'k_d': 0.3, 'dt': dt}
 
 
 class CarlaSimulator(Simulator):
@@ -101,8 +102,8 @@ class CarlaSimulation(Simulation):
         self.world.set_weather(getattr(carla.WeatherParameters, scene.weather))  # type: ignore
         self.map = self.world.get_map()
         self.bpl = self.world.get_blueprint_library()
-        self.agents = {}
-        self.obj_agents = {}
+        self.agents: dict[str, Agent] = {}
+        self.obj_agents: dict[str, WalkerAgent] = {}
         self.car_span_tfs = {}  # for pedestrian relative ref
         self.parser = None
         self.camera = None
@@ -110,8 +111,8 @@ class CarlaSimulation(Simulation):
         self.parse_map()
         self.data_path = data_path
         self.action = Action(self.map, self.parser, 3)
-        self.models = []
-        self.pedestrians = []
+        self.models: list[str] = []
+        self.pedestrians: list[str] = []
         self.spec_tf = None
         self.read_config()
 
@@ -335,7 +336,7 @@ class CarlaSimulation(Simulation):
                 acc = vehicle.get_acceleration()
                 vel = vehicle.get_velocity()
                 info.laneId = wp.lane_id
-                info.roadId = wp.lane_id
+                info.roadId = wp.road_id
                 info.acceleration = math.sqrt(acc.x ** 2 + acc.y ** 2 + acc.z ** 2)
                 info.intersection = wp.is_junction
                 info.junctionId = wp.get_junction().id if wp.get_junction() is not None else -1
@@ -351,8 +352,32 @@ class CarlaSimulation(Simulation):
                 # TODO: info.offset
                 states[name] = info
                 print(f'{name} state:{info}')
-                self.info['acc'].append(info.acceleration)
-                self.info['vel'].append(info.speed)
+                if name == 'Ego':
+                    self.info['acc'].append(info.acceleration)
+                    self.info['vel'].append(info.speed)
+        for name, walk_agent in self.obj_agents.items():
+            walker = walk_agent.walker
+            if not walk_agent.is_end:
+                info = ObjInfo()
+                pos = walker.get_transform().location
+                wp = self.map.get_waypoint(pos)
+                acc = walker.get_acceleration()
+                vel = walker.get_velocity()
+                info.laneId = wp.lane_id
+                info.roadId = wp.road_id
+                info.acceleration = math.sqrt(acc.x ** 2 + acc.y ** 2 + acc.z ** 2)
+                info.intersection = wp.is_junction
+                info.junctionId = wp.get_junction().id if wp.get_junction() is not None else -1
+                info.laneSectionId = wp.section_id
+                info.speed = math.sqrt(vel.x ** 2 + vel.y ** 2 + vel.z ** 2)
+                info.t = walk_agent.clock
+                info.road_s = wp.s
+                info.lane_s = wp.s
+                info.waypoint = wp
+                info.name = name
+                # TODO: info.offset
+                states[name] = info
+                print(f'{name} state:{info}')
         self.curr_states = states
 
     def record_data(self):

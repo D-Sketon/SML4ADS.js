@@ -143,8 +143,8 @@ class BehaviorTree:
                 behavior.duration = -1
             if 'acceleration' in params.keys() and params['acceleration'][0]:
                 behavior.acc = np.random.uniform(params['acceleration'][0], params['acceleration'][1])
-            if 'target speed' in params.keys() and params['target speed'][0]:
-                behavior.target_vel = np.random.uniform(params['target speed'][0], params['target speed'][1])
+            if 'targetSpeed' in params.keys() and params['targetSpeed'][0]:
+                behavior.target_vel = np.random.uniform(params['targetSpeed'][0], params['targetSpeed'][1])
             if v['name'].upper() == 'DECELERATE':
                 behavior.acc *= -1
             self.elements[behavior.id] = behavior
@@ -235,6 +235,7 @@ class BehaviorTree:
             for index1, transition in enumerate(transitions):
                 all_guard = transition[1].replace("&&", "and")
                 all_guard = all_guard.replace("||", "or")
+                all_guard = all_guard.replace("!", "not ")
                 name = f'flag{index1}'
                 exec_str = f"flag_dict['{name}'] = " + all_guard
                 if all_guard == '':

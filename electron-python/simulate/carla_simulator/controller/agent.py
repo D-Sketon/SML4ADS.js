@@ -128,11 +128,12 @@ class Agent:
         if not current_wp.is_junction:
             self.junction_flag = True
         # 执行命令
-        control = self.controller.run_step(self.behavior_node.target_vel, self.next_wp)
+        print(f'target speed: {self.target_vel}, ready to pid')
+        control = self.controller.run_step(self.target_vel, self.next_wp)
         if state != VehicleState.KEEP and (control.throttle > 0 or control.brake > 0):
             print('--------disable constant velocity-----------------------')
             self.vehicle.disable_constant_velocity()
-        if self.behavior_node.acc != 0 and abs(get_speed(self.vehicle) / 3.6 - self.behavior_node.target_vel) > 2:
+        if self.behavior_node.acc != 0 and abs(get_speed(self.vehicle) / 3.6 - self.behavior_node.target_vel) > 0.5:
             control.throttle = 0
             control.brake = 0
             print(f'control[throttle:{control.throttle};brake:{control.brake};steer:{control.steer}]')
@@ -213,12 +214,12 @@ class Agent:
                     self.clock = 0.0
                     self.change_flag = True
                     self.target_vel = get_speed(
-                        self.vehicle) if self.behavior_node.target_vel == 0.0 else self.behavior_node.target_vel * 3.6
+                        self.vehicle) / 3.6 if self.behavior_node.target_vel == 0.0 else self.behavior_node.target_vel
                 elif self.behavior_tree.is_end:
                     self.behavior_node = None  # type: ignore
                     self.is_end = True
         else:
-            # 除变道、转弯的其他行为按一下规则迁移
+            # 除变道、转弯的其他行为按以下规则迁移
             print(f'node:{self.behavior_node}')
             if self.behavior_node.duration != -1 and time_interval >= self.behavior_node.duration:
                 # 若执行该行为的时间大于duration，强制迁出，不用满足guard条件
@@ -232,7 +233,7 @@ class Agent:
                 self.clock = 0.0
                 if self.behavior_node is not None:
                     self.target_vel = get_speed(
-                        self.vehicle) if self.behavior_node.target_vel == 0.0 else self.behavior_node.target_vel * 3.6
+                        self.vehicle) / 3.6 if self.behavior_node.target_vel == 0.0 else self.behavior_node.target_vel
             elif self.behavior_node.duration == -1 and len(self.behavior_node.transitions) > 0:
                 # 若在duration时间之前满足guard条件，则迁出
                 temp_node = self.behavior_tree.traver_tree(is_force=False, _args=args)
@@ -246,7 +247,7 @@ class Agent:
                     self.clock = 0.0
                     self.change_flag = True
                     self.target_vel = get_speed(
-                        self.vehicle) if self.behavior_node.target_vel == 0.0 else self.behavior_node.target_vel * 3.6
+                        self.vehicle) / 3.6 if self.behavior_node.target_vel == 0.0 else self.behavior_node.target_vel
             elif self.behavior_node.duration == -1 and len(self.behavior_node.transitions) == 0:
                 self.is_end = True
         if self.behavior_node is None and self.behavior_tree.is_end:
@@ -259,7 +260,7 @@ class Agent:
         mass = physics_control.mass
         tf = self.vehicle.get_transform()
         forward_vector = tf.get_forward_vector()
-        force = mass * acc * 1.1
+        force = mass * acc
         force_vector = forward_vector * force
         print(f'vector:{forward_vector}; mass:{mass}; force:{force};force_vec:{force_vector}')
         return force_vector
@@ -278,8 +279,7 @@ class Agent:
         args['hasLeftLane'] = True if lane_change == carla.LaneChange.Left or lane_change == carla.LaneChange.Both else False  # type: ignore
         args['has_right_lane'] = True if lane_change == carla.LaneChange.Right or lane_change == carla.LaneChange.Both else False  # type: ignore
         args['hasRightLane'] = True if lane_change == carla.LaneChange.Right or lane_change == carla.LaneChange.Both else False  # type: ignore
-        args[
-            'duration'] = datetime.now().timestamp() - self.start_time.timestamp() if self.model == 'asy' else self.clock  # type: ignore
+        args['duration'] = datetime.now().timestamp() - self.start_time.timestamp() if self.model == 'asy' else self.clock  # type: ignore
         return args
 
     def __distance_to_next_junction(self, current_wp):

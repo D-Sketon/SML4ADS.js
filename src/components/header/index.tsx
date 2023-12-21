@@ -207,6 +207,11 @@ export default function HeaderMenu(): ReactElement {
             key: "simulation",
             icon: <CarOutlined />,
           },
+          {
+            label: "Generation",
+            key: "generation",
+            icon: <CarOutlined />,
+          },
         ]);
         break;
       case "/home/functional":

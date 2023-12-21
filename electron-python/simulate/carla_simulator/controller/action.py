@@ -56,7 +56,6 @@ class Action:
             next_wp = self.__change_lane(prev_wp, True)
             vel = get_speed(vehicle)
             target_wp = next_wp
-            # print(f'{target_wp}')
             return next_wp, vel, target_wp
         elif state == VehicleState.CHANGERIGHT:
             next_wp = self.__change_lane(prev_wp, False)
