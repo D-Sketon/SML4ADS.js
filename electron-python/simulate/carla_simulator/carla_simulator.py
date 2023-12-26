@@ -49,13 +49,14 @@ class CarlaSimulator(Simulator):
     针对Carla仿真器对Simulator的实现
     """
 
-    def __init__(self, img_path, mp4_path, address='127.0.0.1', port=2000, render=True, record='', data_path=''):
+    def __init__(self, img_path, mp4_path, address='127.0.0.1', port=2000, render=True, record='', data_path='', generate_video=True):
         super().__init__(img_path, mp4_path, data_path)
         self.client = carla.Client(address, port)  # type: ignore
         self.client.set_timeout(5)
         self.render = render  # 是否渲染仿真
         self.record = record  # 是否运行recorder
         self.scenario_number = 0  # 正在进行仿真的场景数量
+        self.generate_video = generate_video
 
     def destroy(self):
         """
@@ -70,7 +71,7 @@ class CarlaSimulator(Simulator):
         :return: Simulation
         """
         return CarlaSimulation(scene, self.client, self.render, self.scenario_number, self.img_path, self.mp4_path,
-                               recorder=self.record, data_path=self.data_path)
+                               recorder=self.record, data_path=self.data_path, generate_video=self.generate_video)
 
 
 class CarlaSimulation(Simulation):
@@ -78,7 +79,7 @@ class CarlaSimulation(Simulation):
     针对Carla仿真器实现的Simulation
     """
 
-    def __init__(self, scene, client, render, scenario_number, img_path, mp4_path,
+    def __init__(self, scene, client, render, scenario_number, img_path, mp4_path, generate_video,
                  recorder='C:/tmp/record.log', data_path="C:/tmp/data.csv"):
         super().__init__(scene)
         self.client = client
@@ -87,6 +88,7 @@ class CarlaSimulation(Simulation):
         self.scenario_number = scenario_number
         self.img_path = img_path
         self.mp4_path = mp4_path
+        self.generate_video = generate_video
         if scene.map != 'Town05' and scene.mapType == 'default':
             self.world = self.client.load_world(scene.map)
         elif scene.mapType == 'custom':
@@ -535,11 +537,12 @@ class CarlaSimulation(Simulation):
             :param data:
             :param q:
             """
-            #             if store_path.endswith('.png'):
-            #                 data.save_to_disk(store_path)
-            #             else:
-            #                 data.save_to_disk(os.path.join(store_path, '%d.png' % self.pic_count))
-            #             self.pic_count += 1
+            if self.generate_video:
+                if store_path.endswith('.png'):
+                    data.save_to_disk(store_path)
+                else:
+                    data.save_to_disk(os.path.join(store_path, '%d.png' % self.pic_count))
+                self.pic_count += 1
             q.put(data.frame)
 
         sensor.listen(lambda data: sensor_callback(data, sensor_queue))

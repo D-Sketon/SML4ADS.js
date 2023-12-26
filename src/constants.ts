@@ -8,6 +8,7 @@ export enum FILE_SUFFIX {
   CSV = "csv",
   PKL = "pkl",
   NPY = "npy",
+  VIRTUAL_SIMULATION_RESULT = "$$\ua265virtual_simulation_result\ua265$$"
 }
 
 export enum FILE_TYPE {

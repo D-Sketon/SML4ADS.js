@@ -3,9 +3,17 @@
 import { MConfig } from "./model/Config";
 
 export interface IElectronAPI {
-  generateTree: (folderPath: string, excludeFiles?: string[], depth?: number) => Promise<any>;
-  _generateTree: (folderPath: string, excludeFiles?: string[], depth?: number) => Promise<any>;
-  readFile: (path: string) => Promise<string>;
+  generateTree: (
+    folderPath: string,
+    excludeFiles?: string[],
+    depth?: number
+  ) => Promise<any>;
+  _generateTree: (
+    folderPath: string,
+    excludeFiles?: string[],
+    depth?: number
+  ) => Promise<any>;
+  readFile: (path: string, encoding?: BufferEncoding) => Promise<string>;
   deleteFile: (path: string) => Promise<boolean>;
   newProject: (projectName: string, projectPath: string) => Promise<boolean>;
   newDirectory: (path: string, name: string) => Promise<boolean>;
@@ -119,6 +127,12 @@ export interface IElectronAPI {
   offAllShowSettings: () => any;
   offAllClearStore: () => any;
   offAllChangeRoute: () => any;
+
+  onVideoFileSelected: (videoFilePath: string) => Promise<{
+    type: string;
+    videoSource: string;
+    duration?: number;
+  }>;
 }
 
 declare global {

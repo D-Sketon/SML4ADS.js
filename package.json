@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@hprose/rpc-core": "^3.0.10",
     "@hprose/rpc-node": "^3.0.12",
     "@matejmazur/react-katex": "^3.1.3",
@@ -12,6 +13,7 @@
     "echarts": "^5.4.3",
     "echarts-for-react": "^3.0.2",
     "fast-xml-parser": "^4.3.2",
+    "fluent-ffmpeg": "^2.1.2",
     "katex": "^0.16.9",
     "papaparse": "^5.4.1",
     "random": "^3.0.6",
@@ -21,10 +23,13 @@
     "react-router-dom": "^6.19.0",
     "react-scripts": "5.0.1",
     "react-vis-graph-wrapper": "^0.1.3",
-    "reactflow": "^11.10.1"
+    "reactflow": "^11.10.1",
+    "video.js": "^8.6.1"
   },
   "scripts": {
     "prebuild": "tsc -p ./tsconfig.electron.json",
+    "pretest": "tsc -p ./tsconfig.electron.json",
+    "test": "mocha -r ts-node/register 'test/**/*.ts'",
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "eject": "react-scripts eject",
@@ -53,20 +58,26 @@
     ]
   },
   "devDependencies": {
+    "@types/chai": "^4.3.11",
+    "@types/fluent-ffmpeg": "^2.1.24",
+    "@types/mocha": "^10.0.6",
     "@types/node": "^16.18.61",
     "@types/papaparse": "^5.3.14",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "autoprefixer": "^10.4.16",
+    "chai": "^4.3.10",
     "cross-env": "^7.0.3",
     "customize-cra": "^1.0.0",
     "electron": "^27.0.4",
     "electron-builder": "^24.6.4",
     "less": "^4.2.0",
     "less-loader": "5.0.0",
+    "mocha": "^10.2.0",
     "postcss": "^8.4.32",
     "react-app-rewired": "^2.2.1",
     "tailwindcss": "^3.3.6",
+    "ts-node": "^10.9.2",
     "typescript": "^4.9.5"
   },
   "build": {

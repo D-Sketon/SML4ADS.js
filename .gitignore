@@ -31,3 +31,5 @@ __pycache__
 /store
 
 /electron-python/Carla
+
+**/.records

@@ -28,6 +28,7 @@ import {
 } from "../electron-node/rpc/extends";
 import simulate from "../electron-node/rpc/simulate";
 import visualize from "../electron-node/rpc/visualize";
+import onVideoFileSelected from "../electron-node/video/fileSelect";
 
 const createWindow = () => {
   // Create the browser window.
@@ -150,8 +151,9 @@ app.whenReady().then(() => {
   ipcMain.handle("rpc:timeSeriesClustering", timeSeriesClustering);
 
   ipcMain.handle("rpc:simulate", simulate);
-
   ipcMain.handle("rpc:visualize", visualize);
+
+  ipcMain.handle("video:fileSelect", onVideoFileSelected);
 
   createWindow();
 

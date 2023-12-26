@@ -1,5 +1,7 @@
 import argparse
 import os
+from datetime import datetime
+from pathlib import Path
 
 import hprose
 from onlineMonitor import monitor
@@ -9,7 +11,7 @@ from visualization import visualize
 
 def parse_args() -> dict:
     """
-
+    deprecated
     :return:
     """
     curr_folder = os.getcwd()
@@ -36,21 +38,39 @@ def pre_process_args(args: dict):
     :param args:
     :return:
     """
-    curr_folder = os.getcwd()
-    project_path = curr_folder[:curr_folder.rfind(os.path.sep) + 1]
-    scenario_img_path = project_path + 'store/scenario/img'
-    mp4_path = project_path + 'store/scenario/mp4/default.mp4'
-    scene_path = project_path + 'store/scene'
+    project_path = Path(args['path']).parent.as_posix() + '/.records/'  # 记录文件夹
+    if not os.path.exists(project_path):
+        os.makedirs(project_path)
+    current_time = datetime.now()
+    record_folder_name = current_time.strftime("%Y-%m-%d_%H-%M-%S")
+    record_folder_path = project_path + record_folder_name + f'_{args["simulationName"]}/'
+    if not os.path.exists(record_folder_path):
+        os.makedirs(record_folder_path)
+    scenario_img_path = record_folder_path + 'scenario/img'
+    if not os.path.exists(scenario_img_path):
+        os.makedirs(scenario_img_path)
+    mp4_path = record_folder_path + 'scenario/mp4/default.mp4'
+    if not os.path.exists(record_folder_path + 'scenario/mp4'):
+        os.makedirs(record_folder_path + 'scenario/mp4')
+    scene_path = record_folder_path + 'scene'
+    if not os.path.exists(scene_path):
+        os.makedirs(scene_path)
+    recorder_path = record_folder_path + 'full-record.log'
+    with open(recorder_path, 'w'):
+        pass  # 创建文件
+    csv_path = record_folder_path + 'data.csv'
+    with open(csv_path, 'w'):
+        pass  # 创建文件
     default_args = {
         'path': '',
         'scene': -1,
         'scenario_img_path': scenario_img_path,
         'mp4_path': mp4_path,
         'scene_img_path': scene_path,
-        'recorder': '',
+        'recorder': recorder_path,
         'ip': '127.0.0.1',
         'port': 2000,
-        'csv_path': ''
+        'csv_path': csv_path
     }
     for key in default_args:
         args.setdefault(key, default_args[key])
@@ -102,7 +122,8 @@ def simulate(args):
                                      address=args['ip'],
                                      port=args['port'],
                                      record=args['recorder'],
-                                     data_path=args['csv_path'])
+                                     data_path=args['csv_path'],
+                                     generate_video=args['generateVideo'])
     if args['scene'] == -1:
         # scenario仿真
         simulation_result = carla_simulator.simulate(path=args['path'])

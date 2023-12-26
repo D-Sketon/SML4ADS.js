@@ -3,9 +3,13 @@ import { contextBridge, ipcRenderer } from "electron";
 contextBridge.exposeInMainWorld("electronAPI", {
   generateTree: (folderPath: string, excludeFiles?: string[], depth?: number) =>
     ipcRenderer.invoke("io:generateTree", folderPath, excludeFiles, depth),
-  _generateTree: (folderPath: string, excludeFiles?: string[], depth?: number) =>
-    ipcRenderer.invoke("io:_generateTree", folderPath, excludeFiles, depth),
-  readFile: (filePath: string) => ipcRenderer.invoke("io:readFile", filePath),
+  _generateTree: (
+    folderPath: string,
+    excludeFiles?: string[],
+    depth?: number
+  ) => ipcRenderer.invoke("io:_generateTree", folderPath, excludeFiles, depth),
+  readFile: (filePath: string, encoding?: BufferEncoding) =>
+    ipcRenderer.invoke("io:readFile", filePath, encoding),
   deleteFile: (filePath: string) =>
     ipcRenderer.invoke("io:deleteFile", filePath),
   newProject: (path: string, name: string) =>
@@ -147,9 +151,25 @@ contextBridge.exposeInMainWorld("electronAPI", {
 
   simulate: (params: any, port: number, host?: string) =>
     ipcRenderer.invoke("rpc:simulate", params, port, host),
-
-  visualize: (type: string, path: string, car: any, pedestrians: any, port: number, host?: string) =>
-    ipcRenderer.invoke("rpc:visualize", type, path, car, pedestrians, port, host),
+  visualize: (
+    type: string,
+    path: string,
+    car: any,
+    pedestrians: any,
+    port: number,
+    host?: string
+  ) =>
+    ipcRenderer.invoke(
+      "rpc:visualize",
+      type,
+      path,
+      car,
+      pedestrians,
+      port,
+      host
+    ),
+  onVideoFileSelected: (videoFilePath: string) =>
+    ipcRenderer.invoke("video:fileSelect", videoFilePath),
 
   onOpenNotification: (
     callback: (

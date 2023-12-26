@@ -14,6 +14,7 @@ import {
 import { LeftOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import Xodr from "./xodr";
+import SimulationResult from "./virtual/SimulationResult";
 
 type TargetKey = React.MouseEvent | React.KeyboardEvent | string;
 
@@ -33,6 +34,8 @@ const getChildrenComponent = (
       return <Text path={path} ext={key} />;
     case FILE_SUFFIX.XODR:
       return <Xodr path={path} ext={key} />;
+    case FILE_SUFFIX.VIRTUAL_SIMULATION_RESULT:
+      return <SimulationResult path={path} />
     default:
       return <></>;
   }
@@ -53,7 +56,7 @@ export default function LogicalContent(): ReactElement {
   useEffect(() => {
     setItems(
       state.filePath.map((path, index) => ({
-        label: path.path.split("/").pop()!,
+        label: path.path.endsWith(FILE_SUFFIX.VIRTUAL_SIMULATION_RESULT) ? "Simulation Result" : path.path.split("/").pop()!,
         children: getChildrenComponent(path.path, path.ext),
         key: path.path,
       }))

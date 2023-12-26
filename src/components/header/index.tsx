@@ -4,7 +4,7 @@ import AppContext from "../../store/context";
 import { FILE_SUFFIX } from "../../constants";
 import { MModel } from "../../model/Model";
 import { MTree } from "../../model/Tree";
-import { refreshTree, setSaveFilePath } from "../../store/action";
+import { addFilePath, refreshTree, setSaveFilePath } from "../../store/action";
 import VerifyModal from "../modal/VerifyModal";
 import ParametricStlModal from "../modal/ParametricStlModal";
 import SimulateModal from "../modal/SimulateModal";
@@ -144,6 +144,22 @@ export default function HeaderMenu(): ReactElement {
     }
   };
 
+  const handleSimulationResult = () => {
+    if (activatedFile && activatedFile.ext === FILE_SUFFIX.MODEL) {
+      // 虚拟路径，表示模拟数据
+      dispatch(
+        addFilePath(
+          activatedFile.path + "." + FILE_SUFFIX.VIRTUAL_SIMULATION_RESULT
+        )
+      );
+    } else {
+      notification.error({
+        message: "Error",
+        description: "Please select a model file first.",
+      });
+    }
+  };
+
   const [headItems, setHeadItems] = useState<MenuProps["items"]>([]);
   useEffect(() => {
     switch (location.pathname) {
@@ -204,8 +220,18 @@ export default function HeaderMenu(): ReactElement {
           },
           {
             label: "Simulation",
-            key: "simulation",
+            key: "_simulation",
             icon: <CarOutlined />,
+            children: [
+              {
+                label: "Simulation",
+                key: "simulation",
+              },
+              {
+                label: "Simulation Result",
+                key: "simulation-result",
+              },
+            ],
           },
           {
             label: "Generation",
@@ -250,6 +276,9 @@ export default function HeaderMenu(): ReactElement {
         break;
       case "simulation":
         handleSimulate();
+        break;
+      case "simulation-result":
+        handleSimulationResult();
         break;
       case "pstl":
         handlePstl();
