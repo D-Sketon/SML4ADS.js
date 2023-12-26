@@ -18,7 +18,6 @@ class StreamPlayTech extends Html5 {
     this._startTime = seconds;
     try {
       const src = "http://127.0.0.1:8888?startTime=" + seconds;
-      console.log(src)
       this.setSrc(src);
     } catch (e) {
       videojs.log.warn("Video is not ready. (Video.js)");

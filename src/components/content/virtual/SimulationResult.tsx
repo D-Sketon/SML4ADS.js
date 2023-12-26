@@ -1,13 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { ReactElement, useEffect, useRef, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { FILE_SUFFIX } from "../../../constants";
 import Table, { ColumnsType } from "antd/es/table";
 import { Card, Space } from "antd";
 import DeleteConfirmModal from "../../modal/DeleteConfirmModal";
-import videojs from "video.js";
 import "video.js/dist/video-js.css";
 import "./StreamPlayTech";
 import VideoJS from "./VideoJS";
+import SimulationResultChart from "./SimulationResultChart";
 
 interface SimulationResultProps {
   path: string;
@@ -170,11 +170,8 @@ export default function SimulationResult({
             }}
           />
         </Card>
-        <div className="flex m-2 ml-0 mt -0">
-          <Card
-            className="box-border m-2 ml-0 mt-0 w-full"
-            style={{ height: "300px;" }}
-          ></Card>
+        <div className="flex m-2 ml-0 mt-0 w-full box-border max-w-full">
+          <SimulationResultChart path={selectedRows[0]?.path}/>
           <VideoJS options={videoOptions} />
         </div>
       </div>

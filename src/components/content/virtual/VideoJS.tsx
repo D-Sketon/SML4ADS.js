@@ -40,7 +40,7 @@ const VideoJS = (props: any) => {
   }, [playerRef]);
 
   return (
-    <div data-vjs-player style={{ width: "300px", height: "300px" }}>
+    <div data-vjs-player style={{ width: "300px", height: "300px", flexShrink: 0 }} >
       <div ref={videoRef} />
     </div>
   );
