@@ -105,6 +105,47 @@ def pedestrian_border_filter(border, json_pedestrian):
     border['type'] = 'Pedestrian'
 
 
+def global_to_frenet(args):
+    # args[0] 地图文件路径
+    # args[1] roadId
+    # args[2] landId
+    # args[3] [x, y][] in global
+    fh = open(args[0], "r")
+    openDriveXml = parse_opendrive(etree.parse(fh).getroot())  # type: ignore
+    fh.close()
+    loadedRoadNetwork = Network()
+    loadedRoadNetwork.load_opendrive(openDriveXml)
+    scenario = loadedRoadNetwork.export_commonroad_scenario()
+    road_id = args[1]
+    lane_id = args[2]
+    find_lanelet = scenario.lanelet_network.find_lanelet_by_description('.'.join([str(road_id), '-1', str(lane_id), '-1']))  # type: ignore
+    global_pos = args[3]
+    frenet_coordinates = []
+    vehicle_coordinates = np.array(global_pos)
+    centerline_coordinates = np.array(find_lanelet.center_vertices)
+    for vehicle_coord in vehicle_coordinates:
+        # 找到最近的车道中心线点
+        nearest_point_index = np.argmin(np.linalg.norm(centerline_coordinates - vehicle_coord, axis=1))
+        nearest_point = centerline_coordinates[nearest_point_index]
+
+        # 计算纵向坐标 s，以centerline_coordinates[0]为原点
+        s = 0.0
+        for i in range(nearest_point_index):
+            s += np.linalg.norm(centerline_coordinates[i + 1] - centerline_coordinates[i])
+
+        # 计算横向坐标 d，以最近的车道中心线点为原点
+        # d = np.linalg.norm(vehicle_coord - nearest_point)
+        relative_position = vehicle_coord - nearest_point
+        lane_direction = centerline_coordinates[nearest_point_index + 1] - centerline_coordinates[nearest_point_index]  # type: ignore
+        # 使用向量的叉乘判断相对位置
+        cross_product = np.cross(lane_direction, relative_position)
+        # 如果叉乘结果为正，则在车道的右侧；如果为负，则在车道的左侧
+        d = np.linalg.norm(relative_position) if cross_product < 0 else -np.linalg.norm(relative_position)
+
+        frenet_coordinates.append([s, d])
+    return frenet_coordinates
+
+
 def visualize(args):
     """
     Visualize the data from the given file.

@@ -351,6 +351,7 @@ class CarlaSimulation(Simulation):
                 info.waypoint = wp
                 info.vehicle = vehicle
                 info.name = name
+                info.pos = pos
                 # TODO: info.offset
                 states[name] = info
                 print(f'{name} state:{info}')
@@ -387,11 +388,12 @@ class CarlaSimulation(Simulation):
         :return:
         """
         for name, state in self.curr_states.items():
-            loc = state.waypoint.transform.location
+            pos = state.pos
+            # loc = state.waypoint.transform.location
             forward_vec = state.vehicle.get_transform().get_forward_vector()
             bounding_box = state.vehicle.bounding_box
             semantic_tags = state.vehicle.semantic_tags
-            self.data_writer.writerow((name, loc.x, loc.y, state.speed, state.acceleration, forward_vec,
+            self.data_writer.writerow((name, pos.x, pos.y, state.speed, state.acceleration, forward_vec,
                                        bounding_box, semantic_tags))
 
     def check_end(self):

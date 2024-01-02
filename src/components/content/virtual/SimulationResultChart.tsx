@@ -105,6 +105,8 @@ function Charts({ data }: { data: string[][] }): ReactElement {
 
   const x = data.map((d) => Number(d[1]));
   const y = data.map((d) => Number(d[2]));
+  const globalPos = data.map((d) => [Number(d[1]), -Number(d[2])]);
+  console.log(JSON.stringify(globalPos));
 
   const maxX = calMax(x);
   const maxY = calMax(y);

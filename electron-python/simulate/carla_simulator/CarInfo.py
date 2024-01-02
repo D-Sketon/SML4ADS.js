@@ -29,6 +29,7 @@ class CarInfo:
         self.t = 0.0
         self.waypoint = None
         self.vehicle = None
+        self.pos = None
 
     def __repr__(self):
         return f'CarInfo[acceleration:{self.acceleration};speed:{self.speed}]'

@@ -4,6 +4,7 @@ from datetime import datetime
 from pathlib import Path
 
 import hprose
+from generateTree import generate
 from onlineMonitor import monitor
 from simulate.carla_simulator.carla_simulator import CarlaSimulator
 from visualization import visualize
@@ -200,4 +201,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    generate.generateTree()
