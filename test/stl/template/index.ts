@@ -3,8 +3,10 @@ describe("TEMPLATE2STL", () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const should = chai.should();
 
-  const template2Stl =
-    require("../../../electron-dist/electron-node/stl/template/index").default;
+  const {
+    template2Stl,
+    template2PStl,
+  } = require("../../../electron-dist/electron-node/stl/template/index");
 
   it("simple example", () => {
     const templates = [
@@ -22,13 +24,13 @@ describe("TEMPLATE2STL", () => {
           FINALLY
             GLOBALLY 
               x IS EQUAL TO y
-      `
+      `,
     ];
     const res = template2Stl(templates);
     res.should.deep.include.members([
-      "always (x=y and x>y)",
-      "eventually (x=y or x>y)",
-      "always ((x=y and x>y) implies (not(x>y) and x<y))",
+      "always ((x=y) and (x>y))",
+      "eventually ((x=y) or (x>y))",
+      "always (((x=y) and (x>y)) implies ((not(x>y)) and (x<y)))",
       "always ((not(eventually (x=y))) implies (not((x=y) until (x=y))))",
       "always ((not(eventually (x=y))) implies (eventually (always (x=y))))",
       "always ((not(eventually (x=y))) implies (eventually (always (x=y))))",
@@ -56,7 +58,7 @@ describe("TEMPLATE2STL", () => {
             FINALLY
               GLOBALLY 
                 x IS EQUAL TO y
-      `
+      `,
     ];
     const res = template2Stl(templates);
     res.should.deep.include.members([
@@ -76,7 +78,7 @@ describe("TEMPLATE2STL", () => {
             FINALLY
               GLOBALLY 
                 distance of ego IS EQUAL TO 30
-      `
+      `,
     ];
     const res = template2Stl(templates);
     res.should.deep.include.members([
@@ -95,11 +97,30 @@ describe("TEMPLATE2STL", () => {
             FINALLY FROM 0 TO 10
               GLOBALLY FROM start TO end
                 distance of ego IS EQUAL TO 30
-      `
+      `,
     ];
     const res = template2Stl(templates);
     res.should.deep.include.members([
       "always[0:10] ((not(eventually (speed_of_car=40))) implies (eventually[0:10] (always[start:end] (distance_of_ego=30))))",
+    ]);
+  });
+
+  it("pstl", () => {
+    const templates = [
+      `
+      GLOBALLY FROM 0 TO 10
+          IF 
+            NOT FINALLY 
+              speed of car IS EQUAL TO 40
+          THEN 
+            FINALLY FROM 0 TO 10
+              GLOBALLY FROM start TO end
+                distance of ego IS EQUAL TO 30
+      `,
+    ];
+    const res = template2PStl(templates);
+    res.should.deep.include.members([
+      "always[a:b] ((not(eventually (speed_of_car=c))) implies (eventually[d:e] (always[start:end] (distance_of_ego=f))))",
     ]);
   });
 });
