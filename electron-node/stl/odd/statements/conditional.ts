@@ -1,5 +1,5 @@
 import { ODD_QUALIFIER } from "..";
-import { space2_ } from "../utils";
+import { space2_ } from "../../utils";
 import valueConverter from "../value/valueConverter";
 import valueMatch from "./valueMatch";
 

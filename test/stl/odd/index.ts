@@ -3,8 +3,8 @@ describe("ODD2STL", () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const should = chai.should();
 
-  const Odd2Stl =
-    require("../../electron-dist/electron-node/stl/index").default;
+  const odd2Stl =
+    require("../../../electron-dist/electron-node/stl/odd/index").default;
 
   it("example - 1", () => {
     const compositionLines = [
@@ -18,7 +18,7 @@ describe("ODD2STL", () => {
       "Cond_1 Include speed of subject vehicle for [parking, shared space] is [0, 10 km/h]",
       "Cond_2 Exclude radius of curved road is [0, 5 m]",
     ];
-    const res = Odd2Stl(compositionLines, conditionalLines);
+    const res = odd2Stl(compositionLines, conditionalLines);
     res[0].should.deep.include.members([
       "always[t_i:t_e] (lane_mark>=2 and lane_mark<=5)",
       "always[t_i:t_e] (not(lane_mark>=2 and lane_mark<=5))",

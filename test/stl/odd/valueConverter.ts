@@ -4,11 +4,11 @@ describe("ValueConverter", () => {
   const should = chai.should();
 
   const EnumValue =
-    require("../../electron-dist/electron-node/stl/value/enumValue").default;
+    require("../../../electron-dist/electron-node/stl/odd/value/enumValue").default;
   const RangeValue =
-    require("../../electron-dist/electron-node/stl/value/RangeValue").default;
+    require("../../../electron-dist/electron-node/stl/odd/value/RangeValue").default;
   const valueConverter =
-    require("../../electron-dist/electron-node/stl/value/valueConverter").default;
+    require("../../../electron-dist/electron-node/stl/odd/value/valueConverter").default;
 
   it("illegal input", () => {
     try {

@@ -3,7 +3,7 @@ describe("Preprocess", () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const should = chai.should();
 
-  const preprocess = require("../../electron-dist/electron-node/stl/preprocess");
+  const preprocess = require("../../../electron-dist/electron-node/stl/odd/preprocess");
 
   it("composition - basic - 1", () => {
     const input = "Include lane mark is [2, 5]";

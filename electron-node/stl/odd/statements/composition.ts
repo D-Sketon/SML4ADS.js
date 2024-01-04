@@ -1,10 +1,10 @@
 import { ODD_QUALIFIER } from "..";
 import RangeValue from "../value/RangeValue";
 import valueConverter from "../value/valueConverter";
-import { space2_ } from "../utils";
-import Wind from "../environment/wind";
-import Rainfall from "../environment/rainfall";
-import Snowfall from "../environment/snowfall";
+import { space2_ } from "../../utils";
+import Wind from "../environment/Wind";
+import Rainfall from "../environment/Rainfall";
+import Snowfall from "../environment/Snowfall";
 import Cloudiness from "../environment/Cloudiness";
 import valueMatch from "./valueMatch";
 

@@ -4,11 +4,11 @@ describe("Environment", () => {
   const should = chai.should();
 
   const RangeValue =
-    require("../../electron-dist/electron-node/stl/value/RangeValue").default;
+    require("../../../electron-dist/electron-node/stl/odd/value/RangeValue").default;
   const Wind =
-    require("../../electron-dist/electron-node/stl/environment/Wind").default;
+    require("../../../electron-dist/electron-node/stl/odd/environment/Wind").default;
   const EnumValue =
-    require("../../electron-dist/electron-node/stl/value/enumValue").default;
+    require("../../../electron-dist/electron-node/stl/odd/value/enumValue").default;
 
   it("example - 1", () => {
     const value = new EnumValue(["no_wind"]);

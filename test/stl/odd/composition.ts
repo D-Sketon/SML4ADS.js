@@ -4,7 +4,7 @@ describe("Composition", () => {
   const should = chai.should();
 
   const composition =
-    require("../../electron-dist/electron-node/stl/statements/composition").default;
+    require("../../../electron-dist/electron-node/stl/odd/statements/composition").default;
 
   it("include - instantiate wind - 1", () => {
     const res = composition(['Include', 'wind', '0, 1']);

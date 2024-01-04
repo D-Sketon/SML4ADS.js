@@ -15,7 +15,7 @@ import {
   temperatureUnitConverter,
   timeUnitConverter,
 } from "./unitConverter";
-import { space2_ } from "../utils";
+import { space2_ } from "../../utils";
 
 const UNITS: [object, Function][] = [
   [SPEED_UNIT, speedUnitConverter],
