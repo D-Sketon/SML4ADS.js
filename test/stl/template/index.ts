@@ -4,8 +4,8 @@ describe("TEMPLATE2STL", () => {
   const should = chai.should();
 
   const {
-    template2Stl,
-    template2PStl,
+    _template2Stl,
+    _template2PStl,
   } = require("../../../electron-dist/electron-node/stl/template/index");
 
   it("simple example", () => {
@@ -26,14 +26,14 @@ describe("TEMPLATE2STL", () => {
               x IS EQUAL TO y
       `,
     ];
-    const res = template2Stl(templates);
+    const res = _template2Stl(templates);
     res.should.deep.include.members([
-      "always ((x=y) and (x>y))",
-      "eventually ((x=y) or (x>y))",
-      "always (((x=y) and (x>y)) implies ((not(x>y)) and (x<y)))",
-      "always ((not(eventually (x=y))) implies (not((x=y) until (x=y))))",
-      "always ((not(eventually (x=y))) implies (eventually (always (x=y))))",
-      "always ((not(eventually (x=y))) implies (eventually (always (x=y))))",
+      "always ((x==y) and (x>y))",
+      "eventually ((x==y) or (x>y))",
+      "always (((x==y) and (x>y)) implies ((not(x>y)) and (x<y)))",
+      "always ((not(eventually (x==y))) implies (not((x==y) until (x==y))))",
+      "always ((not(eventually (x==y))) implies (eventually (always (x==y))))",
+      "always ((not(eventually (x==y))) implies (eventually (always (x==y))))",
     ]);
   });
 
@@ -60,10 +60,10 @@ describe("TEMPLATE2STL", () => {
                 x IS EQUAL TO y
       `,
     ];
-    const res = template2Stl(templates);
+    const res = _template2Stl(templates);
     res.should.deep.include.members([
-      "always ((not(eventually (x=y))) implies (eventually (always (x=y))))",
-      "always ((not(eventually (x=y))) implies (eventually (always (x=y))))",
+      "always ((not(eventually (x==y))) implies (eventually (always (x==y))))",
+      "always ((not(eventually (x==y))) implies (eventually (always (x==y))))",
     ]);
   });
 
@@ -80,9 +80,9 @@ describe("TEMPLATE2STL", () => {
                 distance of ego IS EQUAL TO 30
       `,
     ];
-    const res = template2Stl(templates);
+    const res = _template2Stl(templates);
     res.should.deep.include.members([
-      "always ((not(eventually (speed_of_car=40))) implies (eventually (always (distance_of_ego=30))))",
+      "always ((not(eventually (speed_of_car==40))) implies (eventually (always (distance_of_ego==30))))",
     ]);
   });
 
@@ -99,9 +99,9 @@ describe("TEMPLATE2STL", () => {
                 distance of ego IS EQUAL TO 30
       `,
     ];
-    const res = template2Stl(templates);
+    const res = _template2Stl(templates);
     res.should.deep.include.members([
-      "always[0:10] ((not(eventually (speed_of_car=40))) implies (eventually[0:10] (always[start:end] (distance_of_ego=30))))",
+      "always[0:10] ((not(eventually (speed_of_car==40))) implies (eventually[0:10] (always[start:end] (distance_of_ego==30))))",
     ]);
   });
 
@@ -118,9 +118,9 @@ describe("TEMPLATE2STL", () => {
                 distance of ego IS EQUAL TO 30
       `,
     ];
-    const res = template2PStl(templates);
+    const res = _template2PStl(templates);
     res.should.deep.include.members([
-      "always[a:b] ((not(eventually (speed_of_car=c))) implies (eventually[d:e] (always[start:end] (distance_of_ego=f))))",
+      "always[a:b] ((not(eventually (speed_of_car==c))) implies (eventually[d:e] (always[start:end] (distance_of_ego==f))))",
     ]);
   });
 });

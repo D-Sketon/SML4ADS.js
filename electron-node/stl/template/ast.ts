@@ -62,7 +62,7 @@ export const generateAtomAst = (
         currentStackTokens = parentArray;
         break;
       case TemplateToken.IS_EQUAL_TO:
-        currentStackTokens.push(new Atom(`${tokens[i - 1]}=${tokens[i + 1]}`));
+        currentStackTokens.push(new Atom(`${tokens[i - 1]}==${tokens[i + 1]}`));
         break;
       case TemplateToken.IS_GREATER_THAN:
         currentStackTokens.push(new Atom(`${tokens[i - 1]}>${tokens[i + 1]}`));

@@ -2,7 +2,7 @@ import { generateAst, generateAtomAst, tokenize } from "./ast";
 import { generatePstl, generateStl } from "./generator";
 import { convertIndentToNestedString } from "./preprocess";
 
-export const template2Stl = (template: string[]): string[] => {
+export const _template2Stl = (template: string[]): string[] => {
   return template
     .map(convertIndentToNestedString)
     .map(tokenize)
@@ -20,7 +20,11 @@ export const template2Stl = (template: string[]): string[] => {
     });
 };
 
-export const template2PStl = (template: string[]): string[] => {
+export const template2Stl = (template: string): string[] => {
+  return _template2Stl(template.split(/\n\s*\n/));
+};
+
+export const _template2PStl = (template: string[]): string[] => {
   return template
     .map(convertIndentToNestedString)
     .map(tokenize)
@@ -36,4 +40,8 @@ export const template2PStl = (template: string[]): string[] => {
       }
       return generatePstl(ast[0]);
     });
+};
+
+export const template2PStl = (template: string): string[] => {
+  return _template2PStl(template.split(/\n\s*\n/));
 };

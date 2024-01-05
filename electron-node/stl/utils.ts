@@ -34,6 +34,6 @@ export const generateAlphanumeric = (): (() => string) => {
 };
 
 export const splitAtom = (atom: string) => {
-  const parts = atom.split(/([<=>])/);
+  const parts = atom.split(/(<=|>=|==|<|>)/);
   return parts.filter((part) => part !== "");
 };

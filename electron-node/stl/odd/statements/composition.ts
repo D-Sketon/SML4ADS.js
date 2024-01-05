@@ -55,9 +55,9 @@ const composition = (odd: [ODD_QUALIFIER, string, string]): string => {
 
   switch (odd[0]) {
     case ODD_QUALIFIER.INCLUDE:
-      return `always[t_i:t_e] (${attributeValue})`;
+      return `always[0:inf] (${attributeValue})`;
     case ODD_QUALIFIER.EXCLUDE:
-      return `always[t_i:t_e] (not(${attributeValue}))`;
+      return `always[0:inf] (not(${attributeValue}))`;
     default:
       throw new Error("unsupported ODD_QUALIFIER");
   }

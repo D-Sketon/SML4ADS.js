@@ -1,3 +1,4 @@
+import { generateAlphanumeric } from "../utils";
 import {
   preprocessForComposition,
   preprocessForConditional,
@@ -6,12 +7,12 @@ import composition from "./statements/composition";
 import conditional from "./statements/conditional";
 
 export enum ODD_QUALIFIER {
-  INCLUDE = "Include",
-  EXCLUDE = "Exclude",
-  CONDITIONAL = "Conditional",
+  INCLUDE = "INCLUDE",
+  EXCLUDE = "EXCLUDE",
+  CONDITIONAL = "CONDITIONAL",
 }
 
-const Odd2Stl = (
+export const _odd2Stl = (
   compositionLines: string[],
   conditionalLines: string[]
 ): [string[], string[]] => {
@@ -54,4 +55,29 @@ const Odd2Stl = (
   return [compositionStls, conditionalStls];
 };
 
-export default Odd2Stl;
+const getNextAlphanumeric = generateAlphanumeric();
+
+export const odd2Stl = (odd: string): [string[], string[]] => {
+  const lines = odd.split(/\n\s*\n/);
+  const compositionLines: string[] = [];
+  const conditionalLines: string[] = [];
+  for (const line of lines) {
+    if (line.trim().startsWith(ODD_QUALIFIER.CONDITIONAL)) {
+      const flag = getNextAlphanumeric();
+      line
+        .split("\n")
+        .map((v) => v.trim())
+        .filter((v) => v)
+        .forEach((l, index) => {
+          if (index === 0) {
+            compositionLines.push(`Cond_${flag} ${l.trim()}`);
+          } else {
+            conditionalLines.push(`Cond_${flag} ${l.trim()}`);
+          }
+        });
+    } else {
+      compositionLines.push(line.trim());
+    }
+  }
+  return _odd2Stl(compositionLines, conditionalLines);
+};

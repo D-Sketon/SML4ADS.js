@@ -58,7 +58,7 @@ const conditional = (
     }
   });
 
-  return `always[t_i:t_e] (${
+  return `always[0:inf] (${
     attributeValues.length > 1
       ? attributeValues.map((a) => `(${a})`).join(" and ")
       : attributeValues[0]
