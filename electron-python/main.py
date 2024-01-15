@@ -201,5 +201,5 @@ def main():
 
 
 if __name__ == "__main__":
-    # main()
-    generate.generateTree()
+    main()
+    # generate.generateTree()

@@ -58,7 +58,11 @@ export const _odd2Stl = (
 const getNextAlphanumeric = generateAlphanumeric();
 
 export const odd2Stl = (odd: string): [string[], string[]] => {
-  const lines = odd.split(/\n\s*\n/);
+  const lines = odd
+    .split("\n")
+    .filter((v) => !v.trim().startsWith("# "))
+    .join("\n")
+    .split(/\n\s*\n/);
   const compositionLines: string[] = [];
   const conditionalLines: string[] = [];
   for (const line of lines) {

@@ -1,11 +1,10 @@
 import { ODD_QUALIFIER } from "..";
-import { space2_ } from "../../utils";
+import { normalizeAttribute, space2_ } from "../../utils";
 import valueConverter from "../value/valueConverter";
 import valueMatch from "./valueMatch";
 
 /**
  * support [include, exclude] speed of [ITEMS] for [POSITION] is [VALUE]
- * support [include, exclude] location of [ITEMS] is [VALUE]
  * support [include, exclude]
  * @param baseOdd base compositional statements
  * @param conditionalOdd conditional statements[]
@@ -15,7 +14,7 @@ const conditional = (
   baseOdd: [ODD_QUALIFIER, string, string],
   conditionalOdd: [ODD_QUALIFIER, string, string, string, string][]
 ): string => {
-  const baseAttribute = space2_(baseOdd[1]);
+  const baseAttribute = space2_(normalizeAttribute(baseOdd[1]));
   const basePostConvert = valueConverter(baseOdd[2]);
   const attributeValues: string[] = [];
   attributeValues.push(valueMatch(basePostConvert, baseAttribute));
@@ -40,9 +39,9 @@ const conditional = (
       if (c[1].includes("speed")) {
         // 某个位置的速度
         influencingAttributeArray.forEach((influencingAttribute) => {
-          const attribute = `${space2_(influencingAttribute)}_${space2_(c[1])}`;
+          const attribute = `${space2_(c[1])}_${space2_(influencingAttribute)}`;
           const attributeValue = valueMatch(valuePostConvert, attribute);
-          const conditionAttribute = `${space2_(influencingAttribute)}_location`;
+          const conditionAttribute = `location_${space2_(influencingAttribute)}`;
           const conditionPostConvert = valueConverter(c[3]);
           const conditionAttributeValue = valueMatch(
             conditionPostConvert,

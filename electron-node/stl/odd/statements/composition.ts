@@ -1,7 +1,7 @@
 import { ODD_QUALIFIER } from "..";
 import RangeValue from "../value/RangeValue";
 import valueConverter from "../value/valueConverter";
-import { space2_ } from "../../utils";
+import { normalizeAttribute, space2_ } from "../../utils";
 import Wind from "../environment/Wind";
 import Rainfall from "../environment/Rainfall";
 import Snowfall from "../environment/Snowfall";
@@ -13,7 +13,7 @@ import valueMatch from "./valueMatch";
  * @param odd composition statements
  */
 const composition = (odd: [ODD_QUALIFIER, string, string]): string => {
-  const attribute = space2_(odd[1]);
+  const attribute = space2_(normalizeAttribute(odd[1]));
   const valuePostConvert = valueConverter(odd[2]);
   let attributeValue: string;
   let instantiateValue: RangeValue[] | undefined;

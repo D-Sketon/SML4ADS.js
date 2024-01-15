@@ -107,7 +107,6 @@ I := | GLOBALLY SP | FINALLY SP  (𝐼𝑛𝑣𝑎𝑟𝑖𝑎𝑛𝑐𝑒/𝑅�
      | GLOBALLY IF P THEN TP  (𝑇𝑒𝑚𝑝𝑜𝑟𝑎𝑙 𝑟𝑒𝑠𝑝𝑜𝑛𝑠𝑒)
      | GLOBALLY IF P THEN NTP (𝑆𝑡𝑎𝑏𝑖𝑙𝑖𝑧𝑎𝑡𝑖𝑜𝑛/𝑅𝑒𝑐𝑢𝑟𝑟𝑒𝑛𝑐𝑒)
 
-
 ```
 
 ### 二义性问题
@@ -116,3 +115,4 @@ I := | GLOBALLY SP | FINALLY SP  (𝐼𝑛𝑣𝑎𝑟𝑖𝑎𝑛𝑐𝑒/𝑅�
 (<>)(=, <, >)($\lnot$)($G$, $F$)($\land$)($\lor$)($\rightarrow$, $U$)
 
 建议采用缩进或括号确定优先级
+

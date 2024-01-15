@@ -26,7 +26,7 @@ describe("ODD2STL", () => {
       "always[0:inf] (not(lane_mark>=2 and lane_mark<=5))",
     ]);
     res[1].should.deep.include.members([
-      "always[0:inf] ((drivable_area_type==minor_roads or drivable_area_type==parking or drivable_area_type==shared_space) and ((subject_vehicle_location==minor_roads) implies (subject_vehicle_speed>=0 and subject_vehicle_speed<=4.166666666666667)) and ((subject_vehicle_location==parking or subject_vehicle_location==shared_space) implies (subject_vehicle_speed>=0 and subject_vehicle_speed<=2.7777777777777777)))",
+      "always[0:inf] ((drivable_area_type==minor_roads or drivable_area_type==parking or drivable_area_type==shared_space) and ((location_subject_vehicle==minor_roads) implies (speed_subject_vehicle>=0 and speed_subject_vehicle<=4.166666666666667)) and ((location_subject_vehicle==parking or location_subject_vehicle==shared_space) implies (speed_subject_vehicle>=0 and speed_subject_vehicle<=2.7777777777777777)))",
       "always[0:inf] ((horizontal_plane==curved_roads) and (not(curved_road_radius>=0 and curved_road_radius<=5)))",
     ]);
   });
@@ -41,7 +41,10 @@ describe("ODD2STL", () => {
       INCLUDE speed OF subject vehicle FOR minor roads IS 0, 15 km/h  
       INCLUDE speed OF subject vehicle FOR parking, shared space IS 0, 10 km/h
 
-    CONDITIONAL horizontal plane IS curved roads
+    # This is a comment
+
+    # This is another comment
+    CONDITIONAL horizontal plane IS curved roads # This is a comment
       EXCLUDE radius OF curved road IS 0, 5 m
     `
     const res = odd2Stl(lines);
@@ -50,7 +53,7 @@ describe("ODD2STL", () => {
       "always[0:inf] (not(lane_mark>=2 and lane_mark<=5))",
     ]);
     res[1].should.deep.include.members([
-      "always[0:inf] ((drivable_area_type==minor_roads or drivable_area_type==parking or drivable_area_type==shared_space) and ((subject_vehicle_location==minor_roads) implies (subject_vehicle_speed>=0 and subject_vehicle_speed<=4.166666666666667)) and ((subject_vehicle_location==parking or subject_vehicle_location==shared_space) implies (subject_vehicle_speed>=0 and subject_vehicle_speed<=2.7777777777777777)))",
+      "always[0:inf] ((drivable_area_type==minor_roads or drivable_area_type==parking or drivable_area_type==shared_space) and ((location_subject_vehicle==minor_roads) implies (speed_subject_vehicle>=0 and speed_subject_vehicle<=4.166666666666667)) and ((location_subject_vehicle==parking or location_subject_vehicle==shared_space) implies (speed_subject_vehicle>=0 and speed_subject_vehicle<=2.7777777777777777)))",
       "always[0:inf] ((horizontal_plane==curved_roads) and (not(curved_road_radius>=0 and curved_road_radius<=5)))",
     ]);
   });

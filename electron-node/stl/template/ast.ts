@@ -1,4 +1,4 @@
-import { space2_ } from "../utils";
+import { normalizeAttribute, space2_ } from "../utils";
 import {
   MultiDimensionalArray,
   Operator,
@@ -25,7 +25,7 @@ export const tokenize = (template: string): string[] => {
     let findToken = false;
     for (const token of tokens) {
       if (template.startsWith(token, startPos)) {
-        templatePost.push(space2_(atom.toLowerCase()));
+        templatePost.push(space2_(normalizeAttribute(atom)));
         atom = "";
         templatePost.push(token);
         findToken = true;
@@ -38,7 +38,7 @@ export const tokenize = (template: string): string[] => {
     }
   }
   if (atom) {
-    templatePost.push(space2_(atom));
+    templatePost.push(space2_(normalizeAttribute(atom)));
   }
   return templatePost.filter((t) => t);
 };
