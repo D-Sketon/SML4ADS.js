@@ -15,6 +15,7 @@ import { LeftOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import Xodr from "./xodr";
 import SimulationResult from "./virtual/SimulationResult";
+import Adstl from "./adstl";
 
 type TargetKey = React.MouseEvent | React.KeyboardEvent | string;
 
@@ -36,6 +37,8 @@ const getChildrenComponent = (
       return <Xodr path={path} ext={key} />;
     case FILE_SUFFIX.VIRTUAL_SIMULATION_RESULT:
       return <SimulationResult path={path} />
+    case FILE_SUFFIX.ADSTL:
+      return <Adstl path={path}/>;
     default:
       return <></>;
   }

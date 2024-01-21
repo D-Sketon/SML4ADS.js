@@ -200,7 +200,7 @@ export default function Model(props: ModelProps): ReactElement {
   };
 
   const handleKeyDown = async (event: React.KeyboardEvent) => {
-    if (event.key === "s" && (event.ctrlKey || event.metaKey)) {
+    if (event.key.toLowerCase() === "s" && (event.ctrlKey || event.metaKey)) {
       await saveHook(true);
       event.preventDefault();
     }

@@ -20,6 +20,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
     ipcRenderer.invoke("io:newFile", path, name, ext, content),
   writeJson: (path: string, object: any) =>
     ipcRenderer.invoke("io:writeJson", path, object),
+  writeFile: (path: string, content: string) =>
+    ipcRenderer.invoke("io:writeFile", path, content),
   getRelativePath: (from: string, to: string) =>
     ipcRenderer.invoke("io:getRelativePath", from, to),
   getAbsolutePath: (root: string, ...paths: string[]) =>
@@ -170,6 +172,9 @@ contextBridge.exposeInMainWorld("electronAPI", {
     ),
   onVideoFileSelected: (videoFilePath: string) =>
     ipcRenderer.invoke("video:fileSelect", videoFilePath),
+
+  generateStl: (odd: string, template: string) =>
+    ipcRenderer.invoke("stl:generateStl", odd, template),
 
   onOpenNotification: (
     callback: (

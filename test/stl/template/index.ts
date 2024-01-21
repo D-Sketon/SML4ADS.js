@@ -30,10 +30,10 @@ describe("TEMPLATE2STL", () => {
     res.should.deep.include.members([
       "always ((x==y) and (x>y))",
       "eventually ((x==y) or (x>y))",
-      "always (((x==y) and (x>y)) implies ((not(x>y)) and (x<y)))",
-      "always ((not(eventually (x==y))) implies (not((x==y) until (x==y))))",
-      "always ((not(eventually (x==y))) implies (eventually (always (x==y))))",
-      "always ((not(eventually (x==y))) implies (eventually (always (x==y))))",
+      "always (((x==y) and (x>y)) -> ((not(x>y)) and (x<y)))",
+      "always ((not(eventually (x==y))) -> (not((x==y) until (x==y))))",
+      "always ((not(eventually (x==y))) -> (eventually (always (x==y))))",
+      "always ((not(eventually (x==y))) -> (eventually (always (x==y))))",
     ]);
   });
 
@@ -62,8 +62,8 @@ describe("TEMPLATE2STL", () => {
     ];
     const res = _template2Stl(templates);
     res.should.deep.include.members([
-      "always ((not(eventually (x==y))) implies (eventually (always (x==y))))",
-      "always ((not(eventually (x==y))) implies (eventually (always (x==y))))",
+      "always ((not(eventually (x==y))) -> (eventually (always (x==y))))",
+      "always ((not(eventually (x==y))) -> (eventually (always (x==y))))",
     ]);
   });
 
@@ -82,7 +82,7 @@ describe("TEMPLATE2STL", () => {
     ];
     const res = _template2Stl(templates);
     res.should.deep.include.members([
-      "always ((not(eventually (speed_car==40))) implies (eventually (always (distance_Ego==30))))",
+      "always ((not(eventually (speed_car==40))) -> (eventually (always (distance_Ego==30))))",
     ]);
   });
 
@@ -101,7 +101,7 @@ describe("TEMPLATE2STL", () => {
     ];
     const res = _template2Stl(templates);
     res.should.deep.include.members([
-      "always[0:10] ((not(eventually (speed_car==40))) implies (eventually[0:10] (always[start:end] (distance_Ego==30))))",
+      "always[0:10] ((not(eventually (speed_car==40))) -> (eventually[0:10] (always[start:end] (distance_Ego==30))))",
     ]);
   });
 
@@ -120,7 +120,7 @@ describe("TEMPLATE2STL", () => {
     ];
     const res = _template2PStl(templates);
     res.should.deep.include.members([
-      "always[a:b] ((not(eventually (speed_car==c))) implies (eventually[d:e] (always[start:end] (distance_Ego==f))))",
+      "always[a:b] ((not(eventually (speed_car==c))) -> (eventually[d:e] (always[start:end] (distance_Ego==f))))",
     ]);
   });
 });

@@ -78,7 +78,7 @@ export default function ParametricStlEditModal({
         <Button size="small" onClick={() => handleClick(" and ")}>
           {"/\\"}
         </Button>
-        <Button size="small" onClick={() => handleClick(" implies ")}>
+        <Button size="small" onClick={() => handleClick(" -> ")}>
           {"->"}
         </Button>
         <Button size="small" onClick={() => handleClick("always[:]")}>

@@ -3,7 +3,7 @@ import { ReactElement, useContext, useState } from "react";
 import { BaseModalProps } from "./types";
 import { refreshTree } from "../../store/action";
 import AppContext from "../../store/context";
-import { FILE_SUFFIX } from "../../constants";
+import { FILE_SUFFIX, defaultStlTemplate } from "../../constants";
 import { defaultModel } from "../../model/Model";
 import { defaultTree } from "../../model/Tree";
 
@@ -31,6 +31,8 @@ export default function NewFileDirectory({
       content = JSON.stringify(defaultModel());
     } else if (ext === FILE_SUFFIX.TREE) {
       content = JSON.stringify(defaultTree());
+    } else if (ext === FILE_SUFFIX.ADSTL) {
+      content = defaultStlTemplate;
     }
     await window.electronAPI.newFile(path, name, ext, content);
     // refresh tree

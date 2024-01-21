@@ -66,7 +66,7 @@ export class OrOperator implements BinaryOperator {
 }
 
 export class ImplyOperator implements BinaryOperator {
-  name = "implies";
+  name = "->";
   left: Operator;
   right: Operator;
   not = false;

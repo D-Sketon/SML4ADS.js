@@ -10,11 +10,13 @@ import newFile from "../electron-node/io/newFile";
 import newProject from "../electron-node/io/newProject";
 import readFile from "../electron-node/io/readFile";
 import writeJson from "../electron-node/io/writeJson";
+import writeFile from "../electron-node/io/writeFile";
 import readConfig from "../electron-node/io/readConfig";
 import writeConfig from "../electron-node/io/writeConfig";
 import chooseDirectory from "../electron-node/ui/chooseDirectory";
 import chooseFile from "../electron-node/ui/chooseFile";
 import ADSML2Uppaal from "../electron-node/verifier/index";
+import { generateStl } from "../electron-node/stl/index";
 import {
   adversarialAttack,
   causalInference,
@@ -130,6 +132,7 @@ app.whenReady().then(() => {
   ipcMain.handle("io:readFile", readFile);
   ipcMain.handle("io:deleteFile", deleteFile);
   ipcMain.handle("io:writeJson", writeJson);
+  ipcMain.handle("io:writeFile", writeFile);
   ipcMain.handle("io:getRelativePath", getRelativePath);
   ipcMain.handle("io:getAbsolutePath", getAbsolutePath);
   ipcMain.handle("io:readConfig", readConfig);
@@ -154,6 +157,8 @@ app.whenReady().then(() => {
   ipcMain.handle("rpc:visualize", visualize);
 
   ipcMain.handle("video:fileSelect", onVideoFileSelected);
+
+  ipcMain.handle("stl:generateStl", generateStl);
 
   createWindow();
 

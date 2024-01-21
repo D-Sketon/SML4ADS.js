@@ -59,6 +59,7 @@
   },
   "devDependencies": {
     "@types/chai": "^4.3.11",
+    "@types/codemirror": "^5.60.15",
     "@types/fluent-ffmpeg": "^2.1.24",
     "@types/mocha": "^10.0.6",
     "@types/node": "^16.18.61",

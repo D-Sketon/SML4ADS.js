@@ -14,7 +14,8 @@ export enum ODD_QUALIFIER {
 
 export const _odd2Stl = (
   compositionLines: string[],
-  conditionalLines: string[]
+  conditionalLines: string[],
+  extendLines: string[]
 ): [string[], string[]] => {
   const map = new Map<
     string,
@@ -23,6 +24,9 @@ export const _odd2Stl = (
       conditionals: [ODD_QUALIFIER, string, string, string, string][];
     }
   >();
+  const _extends = extendLines.map((e) =>
+    preprocessForConditional(e).slice(0, 5)
+  ) as [ODD_QUALIFIER, string, string, string, string][];
   const _compositions = compositionLines
     .map((c) => {
       const v = preprocessForComposition(c);
@@ -50,7 +54,7 @@ export const _odd2Stl = (
   });
   const conditionalStls: string[] = [];
   for (const v of map.values()) {
-    conditionalStls.push(conditional(v.composition, v.conditionals));
+    conditionalStls.push(conditional(v.composition, v.conditionals, _extends));
   }
   return [compositionStls, conditionalStls];
 };
@@ -65,7 +69,12 @@ export const odd2Stl = (odd: string): [string[], string[]] => {
     .split(/\n\s*\n/);
   const compositionLines: string[] = [];
   const conditionalLines: string[] = [];
+  const extendLines: string[] = [];
   for (const line of lines) {
+    if (line.trim().startsWith("__Extend__")) {
+      extendLines.push(line.trim());
+      continue;
+    }
     if (line.trim().startsWith(ODD_QUALIFIER.CONDITIONAL)) {
       const flag = getNextAlphanumeric();
       line
@@ -83,5 +92,5 @@ export const odd2Stl = (odd: string): [string[], string[]] => {
       compositionLines.push(line.trim());
     }
   }
-  return _odd2Stl(compositionLines, conditionalLines);
+  return _odd2Stl(compositionLines, conditionalLines, extendLines);
 };

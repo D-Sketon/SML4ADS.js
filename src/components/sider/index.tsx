@@ -89,7 +89,8 @@ export default function SiderTree(): ReactElement {
       ext === FILE_SUFFIX.ADSML ||
       ext === FILE_SUFFIX.XML ||
       ext === FILE_SUFFIX.XODR ||
-      ext === FILE_SUFFIX.JSON
+      ext === FILE_SUFFIX.JSON ||
+      ext === FILE_SUFFIX.ADSTL
     ) {
       dispatch(addFilePath(selectInfo.key as string));
     } else {
@@ -122,6 +123,10 @@ export default function SiderTree(): ReactElement {
           label: "Tree",
           key: FILE_SUFFIX.TREE,
         },
+        {
+          label: "STL Template",
+          key: FILE_SUFFIX.ADSTL,
+        }
       ],
     },
     {
@@ -170,6 +175,17 @@ export default function SiderTree(): ReactElement {
             return;
           }
           setNewFileExt(FILE_SUFFIX.TREE);
+          setNewFileModalVisible(true);
+          break;
+        case FILE_SUFFIX.ADSTL:
+          if (info?.isLeaf || info === void 0) {
+            notification.error({
+              message: "Error",
+              description: "Please select a directory",
+            });
+            return;
+          }
+          setNewFileExt(FILE_SUFFIX.ADSTL);
           setNewFileModalVisible(true);
           break;
         case FILE_OPERATION.DELETE:

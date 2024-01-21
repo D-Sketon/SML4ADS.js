@@ -24,6 +24,7 @@ export interface IElectronAPI {
     content?: string
   ) => Promise<boolean>;
   writeJson: (path: string, data: any) => Promise<boolean>;
+  writeFile: (path: string, content: string) => Promise<boolean>;
   getRelativePath: (from: string, to: string) => Promise<string>;
   getAbsolutePath: (root: string, ...paths: string[]) => Promise<string>;
   readConfig: () => Promise<MConfig>;
@@ -37,6 +38,11 @@ export interface IElectronAPI {
     modelPath: string,
     outputPath: string
   ) => Promise<void>;
+
+  generateStl: (
+    odd: string,
+    template: string,
+  ) => Promise<string>;
 
   adversarialAttack: (
     csvPath: string,
