@@ -7,11 +7,12 @@ import {
   _assertNumber,
   _assertArrayLength,
 } from "../../../../../utils/assert";
+import { checkEnvironmentParams } from "./checkEnvironmentParams";
 import { checkLocationParams } from "./checkLocationParams";
 import { checkSpeedParams } from "./checkSpeedParams";
 
 export const checkModel = (model: MModel) => {
-  const { map, timeStep, simulationTime, cars } = model;
+  const { map, timeStep, simulationTime, cars, environment } = model;
   _assertRequired(map, "MapType is required");
 
   _assertRequired(timeStep, "TimeStep is required");
@@ -27,6 +28,10 @@ export const checkModel = (model: MModel) => {
     Math.floor(Number(simulationTime) / Number(timeStep))
   ) {
     throw new Error("SimulationTime should be a multiple of timeStep");
+  }
+
+  if(environment) {
+    checkEnvironmentParams(environment);
   }
 
   checkCars(cars);

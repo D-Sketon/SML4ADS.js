@@ -21,6 +21,7 @@ import "./index.less";
 import PedestrianInformation from "./PedestrianInformation";
 import { defaultPedestrian } from "../../../model/Pedestrian";
 import throttleByAnimationFrame from "antd/es/_util/throttleByAnimationFrame";
+import EnvironmentInformation from "./EnvironmentInformation";
 
 interface ModelProps {
   path: string;
@@ -212,6 +213,7 @@ export default function Model(props: ModelProps): ReactElement {
         {model ? (
           <>
             <BasicInformation model={model} setModel={setModel} path={path} />
+            <EnvironmentInformation model={model} setModel={setModel} />
             <div className="flex">
               <div className="w-1/2" style={{ minWidth: "350px" }}>
                 {model.cars.map((_, index) => (

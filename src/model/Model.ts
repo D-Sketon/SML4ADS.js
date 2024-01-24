@@ -1,4 +1,5 @@
 import { Car, MCar } from "./Car";
+import { Environment, defaultEnvironment } from "./Environment";
 import { MPedestrian } from "./Pedestrian";
 
 export enum SIMULATOR_TYPES {
@@ -60,6 +61,7 @@ export type MModel = BaseModel & {
   weather: WEATHER_TYPES_CARLA[] | WEATHER_TYPES_LGSVL[];
   cars: MCar[];
   pedestrians: MPedestrian[];
+  environment: Environment;
 };
 
 export type Model = BaseModel & {
@@ -84,4 +86,5 @@ export const defaultModel: () => MModel = () => ({
   requirements: [],
   parametricStls: [],
   parameters: [],
+  environment: defaultEnvironment(),
 });

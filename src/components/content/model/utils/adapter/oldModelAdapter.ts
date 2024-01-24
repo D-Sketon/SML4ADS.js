@@ -1,3 +1,4 @@
+import { defaultEnvironment } from "../../../../../model/Environment";
 import { MModel } from "../../../../../model/Model";
 import {
   GLOBAL_POSITION_PARAMS,
@@ -20,6 +21,9 @@ function oldModelAdapter(model: MModel): MModel {
   }
   if (!newModel.parameters) {
     newModel.parameters = [];
+  }
+  if(!newModel.environment) {
+    newModel.environment = defaultEnvironment();
   }
   /**
    * from

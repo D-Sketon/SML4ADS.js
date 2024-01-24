@@ -748,7 +748,7 @@ export default function PedestrianInformation({
               </Button>
             )
           }
-          className="box-border mt-2 mb-2"
+          className="box-border mt-2 mb-2 inner-card"
           key={index}
         >
           <div className="form-item">

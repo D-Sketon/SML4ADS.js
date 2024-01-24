@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Card, Descriptions, DescriptionsProps } from "antd";
+import { Card, Descriptions } from "antd";
 import { LOCATION_PARAMS } from "../../../model/params/ParamLocation";
 import { SPEED_PARAMS } from "../../../model/params/ParamSpeed";
 import LocationParamsDesc from "./LocationParamsDesc";
@@ -20,9 +20,9 @@ export default function AdsmlContent({
   style,
   className,
 }: AdsmlContentProps): ReactElement {
-  const basicInfoItems: DescriptionsProps["items"] = Object.keys(model)
+  const basicInfoItems = Object.keys(model)
     .map((k) => {
-      if (k === "cars" || k === "pedestrians") {
+      if (k === "cars" || k === "pedestrians" || k === "environment") {
         return void 0;
       }
       return {
@@ -35,10 +35,212 @@ export default function AdsmlContent({
     })
     .filter((i) => i) as any;
 
+  const environmentInfoItems = [
+    {
+      label: "atmospherePressure",
+      key: "atmospherePressure",
+      children: model.environment.atmospherePressure,
+    },
+    {
+      label: "temperature",
+      key: "temperature",
+      children: model.environment.temperature,
+    },
+    {
+      label: "visibility",
+      key: "visibility",
+      children: model.environment.visibility,
+      span: 2,
+    },
+    {
+      key: "sunProperty",
+      children: (
+        <Descriptions
+          title="Sun Property"
+          column={2}
+          items={[
+            {
+              label: "azimuth",
+              key: "azimuth",
+              children: model.environment.sunProperty?.sunAzimuth,
+            },
+            {
+              label: "elevation",
+              key: "elevation",
+              children: model.environment.sunProperty?.sunElevation,
+            },
+          ]}
+        />
+      ),
+      span: 2,
+    },
+    {
+      key: "particulates",
+      children: (
+        <Descriptions
+          title="Particulates"
+          column={2}
+          items={[
+            {
+              label: "type",
+              key: "particulatesType",
+              children: model.environment.particulates?.type,
+            },
+          ]}
+        />
+      ),
+      span: 2,
+    },
+    {
+      key: "illumination",
+      children: (
+        <Descriptions
+          title="Illumination"
+          column={2}
+          items={[
+            {
+              label: "type",
+              key: "illuminationType",
+              children: model.environment.illumination?.type,
+            },
+            {
+              label: "intensity",
+              key: "illuminationIntensity",
+              children: model.environment.illumination?.lightningIntensity,
+            },
+          ]}
+        />
+      ),
+      span: 2,
+    },
+    {
+      key: "cloud",
+      children: (
+        <Descriptions
+          title="Cloud"
+          column={2}
+          items={[
+            {
+              label: "type",
+              key: "cloudType",
+              children: model.environment.weather?.cloud?.type,
+            },
+            {
+              label: "level",
+              key: "cloudinessLevel",
+              children: model.environment.weather?.cloud?.cloudinessLevel,
+            },
+          ]}
+        />
+      ),
+      span: 2,
+    },
+    {
+      key: "snowfall",
+      children: (
+        <Descriptions
+          title="Snowfall"
+          column={2}
+          items={[
+            {
+              label: "type",
+              key: "snowfallType",
+              children: model.environment.weather?.snowfall?.type,
+            },
+            {
+              label: "intensity",
+              key: "snowfallIntensity",
+              children: model.environment.weather?.snowfall?.snowfallIntensity,
+            },
+          ]}
+        />
+      ),
+      span: 2,
+    },
+    {
+      key: "rainfall",
+      children: (
+        <Descriptions
+          title="Rainfall"
+          column={2}
+          items={[
+            {
+              label: "type",
+              key: "rainfallType",
+              children: model.environment.weather?.rainfall?.type,
+            },
+            {
+              label: "intensity",
+              key: "precipitationIntensity",
+              children:
+                model.environment.weather?.rainfall?.precipitationIntensity,
+            },
+          ]}
+        />
+      ),
+      span: 2,
+    },
+    {
+      key: "wind",
+      children: (
+        <Descriptions
+          title="Wind"
+          column={2}
+          items={[
+            {
+              label: "type",
+              key: "windType",
+              children: model.environment.weather?.wind?.type,
+            },
+            {
+              label: "speed",
+              key: "windSpeed",
+              children: model.environment.weather?.wind?.windSpeed,
+            },
+            {
+              label: "direction",
+              key: "windDirection",
+              children: model.environment.weather?.wind?.windDirection,
+            },
+          ]}
+        />
+      ),
+      span: 2,
+    },
+    {
+      key: "connectivity",
+      children: (
+        <Descriptions
+          title="Connectivity"
+          column={2}
+          items={[
+            {
+              label: "communication",
+              key: "communication",
+              children: model.environment.connectivity?.communication,
+            },
+            {
+              label: "positioning",
+              key: "positioning",
+              children: model.environment.connectivity?.positioning,
+            },
+          ]}
+        />
+      ),
+    },
+  ];
+
   return (
     <div style={style} className={className}>
       <Card hoverable title="Basic Information" className="box-border m-2 ml-0">
         <Descriptions items={basicInfoItems} column={2} />
+      </Card>
+      <Card
+        hoverable
+        title="Environment Information"
+        className="box-border m-2 ml-0"
+      >
+        <Descriptions items={environmentInfoItems} column={2} />
       </Card>
       {model.cars &&
         model.cars.map((car, index) => {

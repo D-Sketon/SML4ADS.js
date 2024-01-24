@@ -104,7 +104,7 @@ export default function BasicInformation({
         )}
       </div>
       <div className="form-item">
-        <div className="form-label w-28">simulatorType:</div>
+        <div className="form-label w-28">simulatorWeather:</div>
         <Select
           className="w-44"
           mode="multiple"
