@@ -10,7 +10,7 @@ import {
   SPEED_PARAMS,
 } from "./params/ParamSpeed";
 
-export enum VEHICLE_TYPES_CARLA {
+export enum VEHICLE_MODELS_CARLA {
   RANDOM = "random",
   AUDI_A2 = "vehicle.audi.a2",
   AUDI_ETRON = "vehicle.audi.etron",
@@ -47,13 +47,23 @@ export enum VEHICLE_TYPES_CARLA {
   VOLKSWAGEN_T2_2021 = "vehicle.volkswagen.t2_2021",
 }
 
-export enum VEHICLE_TYPES_LGSVL {
+export enum VEHICLE_MODELS_LGSVL {
   RANDOM = "random",
+}
+
+export enum VEHICLE_TYPES {
+ AGRICULTURE = "Agriculture",
+ CONSTRUCTION = "Construction",
+ GOODS = "Goods",
+ OFFICIAL = "Official",
+ PRIVATE = "Private",
+ PUBLIC_TRANSPROTAION = "PublicTransportation",
 }
 
 type BaseCar = {
   name: string;
-  model: VEHICLE_TYPES_CARLA | VEHICLE_TYPES_LGSVL;
+  type: VEHICLE_TYPES;
+  model: VEHICLE_MODELS_CARLA | VEHICLE_MODELS_LGSVL;
   speedType: SPEED_TYPES;
   speedParams: SPEED_PARAMS;
   accelerationType: SPEED_TYPES;
@@ -101,7 +111,8 @@ export type Car = BaseCar & {
 
 export const defaultCar: () => MCar = () => ({
   name: "",
-  model: VEHICLE_TYPES_CARLA.RANDOM,
+  type: VEHICLE_TYPES.PRIVATE,
+  model: VEHICLE_MODELS_CARLA.RANDOM,
   speedType: SPEED_TYPES.MANUAL,
   speedParams: defaultManualSpeedParams(),
   maxSpeed: 0,

@@ -10,7 +10,7 @@ import {
   ROAD_POSITION_PARAMS,
   defaultLocationParams,
 } from "../../../model/params/ParamLocation";
-import { VEHICLE_TYPES_CARLA, VEHICLE_TYPES_LGSVL } from "../../../model/Car";
+import { VEHICLE_MODELS_CARLA, VEHICLE_MODELS_LGSVL, VEHICLE_TYPES } from "../../../model/Car";
 import {
   BERNOULLI_DISTRIBUTION_SPEED_PARAMS,
   BINOMIAL_DISTRIBUTION_SPEED_PARAMS,
@@ -718,18 +718,32 @@ export default function CarInformation({
         />
       </div>
       <div className="form-item">
+        <div className="form-label w-28">type:</div>
+        <Select
+          className="w-44"
+          options={Object.values(VEHICLE_TYPES).map((i) => ({
+            label: i,
+            value: i,
+          }))}
+          value={car.type}
+          onChange={(e) => {
+            simpleSetCar("type", e);
+          }}
+        />
+      </div>
+      <div className="form-item">
         <div className="form-label w-28">model:</div>
         <Select
           className="w-44"
           options={
             model.simulatorType === SIMULATOR_TYPES.CARLA
-              ? Object.values(VEHICLE_TYPES_CARLA).map((i) => ({
+              ? Object.values(VEHICLE_MODELS_CARLA).map((i) => ({
                   label: i.startsWith("vehicle.")
                     ? i.split(".").slice(1).join(".")
                     : i,
                   value: i,
                 }))
-              : Object.values(VEHICLE_TYPES_LGSVL).map(
+              : Object.values(VEHICLE_MODELS_LGSVL).map(
                   (i) => ({ label: i, value: i } as any)
                 )
           }
