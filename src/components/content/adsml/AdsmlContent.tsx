@@ -6,6 +6,7 @@ import LocationParamsDesc from "./LocationParamsDesc";
 import SpeedParamsDesc from "./SpeedParamsDesc";
 import { MModel } from "../../../model/Model";
 import PedestrianLocationDesc from "./PedestrianLocationDesc";
+import RiderLocationDesc from "./RiderLocationDesc";
 
 interface AdsmlContentProps {
   model: MModel;
@@ -261,6 +262,11 @@ export default function AdsmlContent({
                     children: car.name,
                   },
                   {
+                    label: "type",
+                    key: "type",
+                    children: car.type,
+                  },
+                  {
                     label: "model",
                     key: "model",
                     children: car.model,
@@ -299,7 +305,6 @@ export default function AdsmlContent({
                     label: "minSpeed",
                     key: "minSpeed",
                     children: car.minSpeed ?? "N/A",
-                    span: 2,
                   },
                   {
                     key: "speedParams",
@@ -377,6 +382,35 @@ export default function AdsmlContent({
                     key: "location",
                     children: (
                       <PedestrianLocationDesc location={pedestrian.location} />
+                    ),
+                  },
+                ]}
+              />
+            </Card>
+          );
+        })}
+      {model.riders &&
+        model.riders.map((rider, index) => {
+          return (
+            <Card
+              hoverable
+              title={`Pedestrian ${rider.name}`}
+              key={index}
+              className="box-border m-2 ml-0"
+            >
+              <Descriptions
+                column={2}
+                items={[
+                  {
+                    label: "name",
+                    key: "name",
+                    children: rider.name,
+                    span: 2,
+                  },
+                  {
+                    key: "location",
+                    children: (
+                      <RiderLocationDesc location={rider.location} />
                     ),
                   },
                 ]}

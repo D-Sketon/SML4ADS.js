@@ -1,3 +1,4 @@
+import { VEHICLE_TYPES } from "../../../../../model/Car";
 import { defaultEnvironment } from "../../../../../model/Environment";
 import { MModel } from "../../../../../model/Model";
 import {
@@ -22,7 +23,9 @@ function oldModelAdapter(model: MModel): MModel {
   if (!newModel.parameters) {
     newModel.parameters = [];
   }
-  if(!newModel.environment) {
+  // version 0.4.0+
+  // Add environment
+  if (!newModel.environment) {
     newModel.environment = defaultEnvironment();
   }
   /**
@@ -38,6 +41,11 @@ function oldModelAdapter(model: MModel): MModel {
   // Add pedestrians
   if (newModel.pedestrians === void 0) {
     newModel.pedestrians = [];
+  }
+  // version 0.4.0+
+  // Add riders
+  if (newModel.riders === void 0) {
+    newModel.riders = [];
   }
   newModel.cars.forEach((car) => {
     // version 0.1.0
@@ -151,6 +159,11 @@ function oldModelAdapter(model: MModel): MModel {
     }
     if (car.maxAcceleration === void 0) {
       car.minAcceleration = car.maxAcceleration = 0;
+    }
+    // version 0.4.0+
+    // Add vehicle type
+    if (car.type === void 0) {
+      car.type = VEHICLE_TYPES.PRIVATE;
     }
   });
   return newModel;

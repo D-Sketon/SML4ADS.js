@@ -22,6 +22,8 @@ import PedestrianInformation from "./PedestrianInformation";
 import { defaultPedestrian } from "../../../model/Pedestrian";
 import throttleByAnimationFrame from "antd/es/_util/throttleByAnimationFrame";
 import EnvironmentInformation from "./EnvironmentInformation";
+import RiderInformation from "./RiderInformation";
+import { defaultRider } from "../../../model/Rider";
 
 interface ModelProps {
   path: string;
@@ -200,6 +202,14 @@ export default function Model(props: ModelProps): ReactElement {
     });
   };
 
+  const handleAddRider = (): void => {
+    if (!model) return;
+    setModel({
+      ...model,
+      riders: [...model.riders, defaultRider()],
+    });
+  };
+
   const handleKeyDown = async (event: React.KeyboardEvent) => {
     if (event.key.toLowerCase() === "s" && (event.ctrlKey || event.metaKey)) {
       await saveHook(true);
@@ -244,6 +254,20 @@ export default function Model(props: ModelProps): ReactElement {
                 <div className="box-border pr-2 pb-2 mt-2">
                   <Button type="primary" block onClick={handleAddPedestrian}>
                     + Add Pedestrian
+                  </Button>
+                </div>
+                {model.riders.map((_, index) => (
+                  <RiderInformation
+                    model={model}
+                    setModel={setModel}
+                    index={index}
+                    key={index}
+                    path={path}
+                  />
+                ))}
+                <div className="box-border pr-2 pb-2 mt-2">
+                  <Button type="primary" block onClick={handleAddRider}>
+                    + Add Rider
                   </Button>
                 </div>
               </div>
