@@ -13,6 +13,7 @@ import NewDirectoryModal from "../modal/NewDirectoryModal";
 import NewFileDirectory from "../modal/NewFileModal";
 import { FILE_OPERATION, FILE_SUFFIX, FILE_TYPE } from "../../constants";
 import { addFilePath, refreshTree } from "../../store/action";
+import NewModelModal from "../modal/NewModelModal";
 
 const { DirectoryTree } = Tree;
 
@@ -48,6 +49,7 @@ export default function SiderTree(): ReactElement {
   const [newDirectoryModalVisible, setNewDirectoryModalVisible] =
     useState(false);
   const [newFileModalVisible, setNewFileModalVisible] = useState(false);
+  const [newModelModalVisible, setNewModelModalVisible] = useState(false);
 
   const [selectedPath, setSelectedPath] = useState("");
   const [rightSelectedPath, setRightSelectedPath] = useState("");
@@ -164,7 +166,7 @@ export default function SiderTree(): ReactElement {
             return;
           }
           setNewFileExt(FILE_SUFFIX.MODEL);
-          setNewFileModalVisible(true);
+          setNewModelModalVisible(true);
           break;
         case FILE_SUFFIX.TREE:
           if (info?.isLeaf || info === void 0) {
@@ -290,6 +292,11 @@ export default function SiderTree(): ReactElement {
         path={rightSelectedPath}
         ext={newFileExt}
         handleCancel={() => setNewFileModalVisible(false)}
+      />
+      <NewModelModal 
+        isModalOpen={newModelModalVisible}
+        path={rightSelectedPath}
+        handleCancel={() => setNewModelModalVisible(false)}
       />
     </div>
   );

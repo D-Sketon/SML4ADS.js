@@ -1,4 +1,4 @@
-import { Col, Input, Modal, Row } from "antd";
+import { Col, Input, Modal, Row, notification } from "antd";
 import { ReactElement, useContext, useState } from "react";
 import { BaseModalProps } from "./types";
 import { refreshTree } from "../../store/action";
@@ -21,6 +21,13 @@ export default function NewDirectoryModal({
   };
 
   const handleOk = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!name) {
+      notification.error({
+        message: "Error",
+        description: "Please input directory name",
+      });
+      return;
+    }
     setConfirmLoading(true);
     await window.electronAPI.newDirectory(path, name);
     // refresh tree

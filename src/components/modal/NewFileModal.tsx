@@ -1,4 +1,4 @@
-import { Col, Input, Modal, Row } from "antd";
+import { Col, Input, Modal, Row, notification } from "antd";
 import { ReactElement, useContext, useState } from "react";
 import { BaseModalProps } from "./types";
 import { refreshTree } from "../../store/action";
@@ -7,7 +7,7 @@ import { FILE_SUFFIX, defaultStlTemplate } from "../../constants";
 import { defaultModel } from "../../model/Model";
 import { defaultTree } from "../../model/Tree";
 
-export default function NewFileDirectory({
+export default function NewFileModal({
   isModalOpen,
   handleCancel = () => {},
   path,
@@ -25,6 +25,13 @@ export default function NewFileDirectory({
   };
 
   const handleOk = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!name) {
+      notification.error({
+        message: "Error",
+        description: "Please input file name",
+      });
+      return;
+    }
     setConfirmLoading(true);
     let content = "";
     if (ext === FILE_SUFFIX.MODEL) {

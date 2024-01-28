@@ -1,7 +1,7 @@
 export type Environment = {
   atmospherePressure?: number;
   temperature?: number;
-  visibility?: number;
+  visibility?: number;  // m
   sunProperty?: {
     sunAzimuth?: number;
     sunElevation?: number;
@@ -47,6 +47,7 @@ export type Environment = {
 };
 
 export enum ENVIRONMENT_PARTICULATES {
+  NONE = "None",
   FOGGY = "Foggy",
   MARINE = "Marine",
   SAND = "Sand",
@@ -118,7 +119,7 @@ export const defaultEnvironment: () => Environment = () => ({
     sunElevation: 45,
   },
   particulates: {
-    type: ENVIRONMENT_PARTICULATES.FOGGY,
+    type: ENVIRONMENT_PARTICULATES.NONE,
   },
   illumination: {
     type: ENVIRONMENT_ILLUMINATION.DAY,

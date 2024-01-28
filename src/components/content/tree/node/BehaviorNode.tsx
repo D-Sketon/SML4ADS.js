@@ -8,6 +8,7 @@ import {
   CHANGE_BEHAVIOR_PARAMS,
   KEEP_BEHAVIOR_PARAMS,
   LANE_OFFSET_BEHAVIOR_PARAMS,
+  STOP_BEHAVIOR_PARAMS,
   TURN_BEHAVIOR_PARAMS,
   defaultBehaviorParams,
 } from "../../../../model/Behavior";
@@ -29,18 +30,29 @@ function BehaviorNode({ data, isConnectable }: any): ReactElement {
     switch (behavior) {
       case BEHAVIOR_TYPES.KEEP:
       case BEHAVIOR_TYPES.IDLE:
+      case BEHAVIOR_TYPES.FOLLOW_ROAD_USER:
+      case BEHAVIOR_TYPES.MOVE_BACKWARD:
         return keepBehavior();
       case BEHAVIOR_TYPES.ACCELERATE:
       case BEHAVIOR_TYPES.DECELERATE:
+      case BEHAVIOR_TYPES.CLOSE_UP:
+      case BEHAVIOR_TYPES.MOVE_AWAY:
+      case BEHAVIOR_TYPES.CROSS:
         return accelerateBehavior();
       case BEHAVIOR_TYPES.CHANGE_LEFT:
       case BEHAVIOR_TYPES.CHANGE_RIGHT:
+      case BEHAVIOR_TYPES.CUT_IN:
+      case BEHAVIOR_TYPES.CUT_OUT:
+      case BEHAVIOR_TYPES.PASS:
+      case BEHAVIOR_TYPES.OVERTAKE:
         return changeBehavior();
       case BEHAVIOR_TYPES.TURN_LEFT:
       case BEHAVIOR_TYPES.TURN_RIGHT:
         return turnBehavior();
       case BEHAVIOR_TYPES.LANE_OFFSET:
         return laneOffsetBehavior();
+      case BEHAVIOR_TYPES.STOP:
+        return stopBehavior();
       default:
         return <></>;
     }
@@ -58,6 +70,38 @@ function BehaviorNode({ data, isConnectable }: any): ReactElement {
       return newNodes;
     });
   };
+
+  const stopBehavior = (): ReactElement => {
+    return (
+      <>
+        <Form.Item label="*acceleration" rules={[{ required: true }]}>
+          <InputNumber
+            min={0}
+            className="w-16"
+            value={(params as STOP_BEHAVIOR_PARAMS).acceleration[0]}
+            onChange={(e) => {
+              handleParamsChange("acceleration", [
+                e,
+                (params as STOP_BEHAVIOR_PARAMS).acceleration[1],
+              ]);
+            }}
+          />
+          <span className="ml-2 mr-2">-</span>
+          <InputNumber
+            min={0}
+            className="w-16"
+            value={(params as STOP_BEHAVIOR_PARAMS).acceleration[1]}
+            onChange={(e) => {
+              handleParamsChange("acceleration", [
+                (params as STOP_BEHAVIOR_PARAMS).acceleration[0],
+                e,
+              ]);
+            }}
+          />
+        </Form.Item>
+      </>
+    );
+  }
 
   const keepBehavior = (): ReactElement => {
     return (
@@ -423,6 +467,7 @@ function BehaviorNode({ data, isConnectable }: any): ReactElement {
             style={{ width: 150 }}
             value={behavior}
             onChange={handleBehaviorChange}
+            listHeight={700}
             getPopupContainer={(triggerNode) => triggerNode.parentElement}
           />
         </Form.Item>

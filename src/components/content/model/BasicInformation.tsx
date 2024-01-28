@@ -6,7 +6,9 @@ import {
   DEFAULT_MAP_TYPES,
   MAP_TYPES,
   MModel,
+  ROAD_TYPES,
   SIMULATOR_TYPES,
+  TRAFFIC_CONDITIONS,
   WEATHER_TYPES_CARLA,
   WEATHER_TYPES_LGSVL,
 } from "../../../model/Model";
@@ -148,6 +150,42 @@ export default function BasicInformation({
           value={model.simulationTime}
         />
       </div>
+      {model.trafficCondition ? (
+        <div className="form-item">
+          <div className="form-label w-28">trafficCondition:</div>
+          <Select
+            className="w-44"
+            options={Object.values(TRAFFIC_CONDITIONS).map((i) => ({
+              value: i,
+              label: i,
+            }))}
+            onChange={(e) => {
+              setModel({ ...model, trafficCondition: e });
+            }}
+            value={model.trafficCondition}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
+      {model.roadType ? (
+        <div className="form-item">
+          <div className="form-label w-28">roadType:</div>
+          <Select
+            className="w-44"
+            options={Object.values(ROAD_TYPES).map((i) => ({
+              value: i,
+              label: i,
+            }))}
+            onChange={(e) => {
+              setModel({ ...model, ROAD_TYPES: e });
+            }}
+            value={model.roadType}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
       <div className="form-item">
         <div className="form-label w-28">scenarioTrigger:</div>
         <TextArea

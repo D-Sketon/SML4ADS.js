@@ -46,6 +46,25 @@ export enum WEATHER_TYPES_LGSVL {
   RAINY = "rainy",
 }
 
+export enum TRAFFIC_CONDITIONS {
+  LOW = "low",
+  MEDIUM = "medium",
+  HIGH = "high",
+  CUSTOM = "custom",
+}
+
+export enum ROAD_TYPES {
+  HIGHWAY = "highway",
+  URBAN = "urban",
+  RURAL = "rural",
+  MIXED = "mixed",
+  PARKING_LOT = "parkingLot",
+  INTERSECTION = "intersection",
+  JUNCTION = "junction",
+  ROUNDABOUT = "roundabout",
+  CUSTOM = "custom",
+}
+
 type BaseModel = {
   simulatorType: SIMULATOR_TYPES;
   mapType: MAP_TYPES;
@@ -56,6 +75,9 @@ type BaseModel = {
   requirements: string[];
   parametricStls: string[];
   parameters: string[];
+  // v0.4.0+
+  trafficCondition?: TRAFFIC_CONDITIONS;
+  roadType?: ROAD_TYPES;
 };
 
 export type MModel = BaseModel & {
