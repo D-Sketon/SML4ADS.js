@@ -1,4 +1,4 @@
-import { Card, Select, Button, InputNumber, Input } from "antd";
+import { Card, Select, Button, InputNumber, Input, Collapse } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { ReactElement } from "react";
 
@@ -36,8 +36,9 @@ export default function BasicInformation({
       setModel({ ...model, map: relativePath });
     }
   };
-  return (
-    <Card hoverable title="Basic Information" className="box-border m-2 ml-0">
+
+  const innerCard = (
+    <Card>
       <div className="form-item">
         <div className="form-label w-28">simulatorType:</div>
         <Select
@@ -123,6 +124,7 @@ export default function BasicInformation({
           onChange={(e) => {
             setModel({ ...model, weather: e });
           }}
+          allowClear
           value={model.weather}
         />
       </div>
@@ -198,5 +200,17 @@ export default function BasicInformation({
         />
       </div>
     </Card>
+  );
+  return (
+    <Collapse
+      className="box-border m-2 ml-0"
+      items={[
+        {
+          key: "basic",
+          label: "Basic Information",
+          children: innerCard,
+        },
+      ]}
+    ></Collapse>
   );
 }

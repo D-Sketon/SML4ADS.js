@@ -13,7 +13,7 @@ export type Environment = {
   // illumination
   illumination: {
     type?: ENVIRONMENT_ILLUMINATION;
-    lightningIntensity?: number; // Lux
+    lightingIntensity?: number; // Lux
   };
   // weather
   weather: {
@@ -123,7 +123,7 @@ export const defaultEnvironment: () => Environment = () => ({
   },
   illumination: {
     type: ENVIRONMENT_ILLUMINATION.DAY,
-    lightningIntensity: 10000,
+    lightingIntensity: 10000,
   },
   weather: {
     cloud: {

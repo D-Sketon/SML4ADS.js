@@ -68,7 +68,7 @@ export default function NewModelModal({
       model.environment.weather.rainfall!.precipitationIntensity = 6;
       model.environment.weather.wind!.type = ENVIRONMENT_WIND.MODERATE_BREEZE;
       model.environment.weather.wind!.windSpeed = 6;
-      model.environment.illumination.lightningIntensity = 500;
+      model.environment.illumination.lightingIntensity = 500;
     } else if (weatherType === WEATHER_TYPES.SNOWY) {
       model.environment.visibility = 1000;
       model.environment.temperature = -10;
@@ -78,11 +78,11 @@ export default function NewModelModal({
       model.environment.weather.snowfall!.snowfallIntensity = 10;
       model.environment.weather.wind!.type = ENVIRONMENT_WIND.MODERATE_BREEZE;
       model.environment.weather.wind!.windSpeed = 6;
-      model.environment.illumination.lightningIntensity = 500;
+      model.environment.illumination.lightingIntensity = 500;
     }
     if(timeType === TIME_TYPES.NIGHT) {
       model.environment.illumination.type = ENVIRONMENT_ILLUMINATION.NIGHT;
-      model.environment.illumination.lightningIntensity = 10;
+      model.environment.illumination.lightingIntensity = 10;
       // nonsense
       model.environment.sunProperty = {
         sunAzimuth: 0,

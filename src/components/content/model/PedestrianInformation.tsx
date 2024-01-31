@@ -1,4 +1,4 @@
-import { Button, Card, Input, InputNumber, Select } from "antd";
+import { Button, Card, Collapse, Input, InputNumber, Select } from "antd";
 import { ReactElement } from "react";
 import { MModel, SIMULATOR_TYPES } from "../../../model/Model";
 import {
@@ -692,17 +692,8 @@ export default function PedestrianInformation({
     }
   };
 
-  return (
-    <Card
-      hoverable
-      title="Pedestrian"
-      extra={
-        <Button type="primary" onClick={handleDelete}>
-          Delete
-        </Button>
-      }
-      className="box-border m-2 ml-0"
-    >
+  const innerCard = (
+    <Card className="box-border m-2 ml-0">
       <div className="form-item">
         <div className="form-label w-28">name:</div>
         <Input
@@ -805,5 +796,23 @@ export default function PedestrianInformation({
         </Button>
       </div>
     </Card>
+  );
+
+  return (
+    <Collapse
+      className="box-border m-2 ml-0"
+      items={[
+        {
+          key: "basic",
+          label: "Pedestrian-" + pedestrian.name,
+          children: innerCard,
+          extra: (
+            <Button type="primary" onClick={handleDelete}>
+              Delete
+            </Button>
+          ),
+        },
+      ]}
+    ></Collapse>
   );
 }

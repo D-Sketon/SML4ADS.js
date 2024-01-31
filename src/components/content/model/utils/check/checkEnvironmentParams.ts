@@ -40,10 +40,10 @@ export const checkEnvironmentParams = (environment: Environment) => {
   }
 
   if (illumination) {
-    const { lightningIntensity } = illumination;
+    const { lightingIntensity } = illumination;
 
-    if (lightningIntensity !== null && lightningIntensity !== void 0) {
-      _assertNumberGE(lightningIntensity, 0, "lightningIntensity should >= 0");
+    if (lightingIntensity !== null && lightingIntensity !== void 0) {
+      _assertNumberGE(lightingIntensity, 0, "lightingIntensity should >= 0");
     }
   }
 

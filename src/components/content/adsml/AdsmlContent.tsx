@@ -107,7 +107,7 @@ export default function AdsmlContent({
             {
               label: "intensity",
               key: "illuminationIntensity",
-              children: model.environment.illumination?.lightningIntensity,
+              children: model.environment.illumination?.lightingIntensity,
             },
           ]}
         />

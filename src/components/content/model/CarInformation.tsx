@@ -1,4 +1,12 @@
-import { Card, Select, Button, InputNumber, Input, Cascader } from "antd";
+import {
+  Card,
+  Select,
+  Button,
+  InputNumber,
+  Input,
+  Cascader,
+  Collapse,
+} from "antd";
 import { ReactElement } from "react";
 import { FILE_SUFFIX } from "../../../constants";
 import { MModel, SIMULATOR_TYPES } from "../../../model/Model";
@@ -10,7 +18,11 @@ import {
   ROAD_POSITION_PARAMS,
   defaultLocationParams,
 } from "../../../model/params/ParamLocation";
-import { VEHICLE_MODELS_CARLA, VEHICLE_MODELS_LGSVL, VEHICLE_TYPES } from "../../../model/Car";
+import {
+  VEHICLE_MODELS_CARLA,
+  VEHICLE_MODELS_LGSVL,
+  VEHICLE_TYPES,
+} from "../../../model/Car";
 import {
   BERNOULLI_DISTRIBUTION_SPEED_PARAMS,
   BINOMIAL_DISTRIBUTION_SPEED_PARAMS,
@@ -697,17 +709,8 @@ export default function CarInformation({
     }
   };
 
-  return (
-    <Card
-      hoverable
-      title="Car"
-      extra={
-        <Button type="primary" onClick={handleDelete}>
-          Delete
-        </Button>
-      }
-      className="box-border m-2 ml-0"
-    >
+  const innerCard = (
+    <Card className="box-border m-2 ml-0">
       <div className="form-item">
         <div className="form-label w-28">name:</div>
         <Input
@@ -939,5 +942,23 @@ export default function CarInformation({
         </div>
       </div>
     </Card>
+  );
+
+  return (
+    <Collapse
+      className="box-border m-2 ml-0"
+      items={[
+        {
+          key: "basic",
+          label: "Car-" + car.name,
+          children: innerCard,
+          extra: (
+            <Button type="primary" onClick={handleDelete}>
+              Delete
+            </Button>
+          ),
+        },
+      ]}
+    ></Collapse>
   );
 }

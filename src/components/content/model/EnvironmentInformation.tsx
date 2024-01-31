@@ -1,4 +1,4 @@
-import { Card, Input, InputNumber, Select } from "antd";
+import { Card, Collapse, Input, InputNumber, Select } from "antd";
 import { ReactElement } from "react";
 import { MModel } from "../../../model/Model";
 import {
@@ -146,12 +146,8 @@ export default function EnvironmentInformation({
     });
   };
 
-  return (
-    <Card
-      hoverable
-      title="Environment Information"
-      className="box-border m-2 ml-0"
-    >
+  const innerCard = (
+    <Card className="box-border m-2 ml-0">
       <Card title="Connectivity" className="box-border m-2 ml-0 inner-card">
         <div className="inner-wrapper">
           <div className="form-item">
@@ -336,8 +332,8 @@ export default function EnvironmentInformation({
                     ...model.environment,
                     illumination: {
                       type: e,
-                      lightningIntensity:
-                        model.environment.illumination.lightningIntensity,
+                      lightingIntensity:
+                        model.environment.illumination.lightingIntensity,
                     },
                   },
                 });
@@ -357,12 +353,12 @@ export default function EnvironmentInformation({
                     ...model.environment,
                     illumination: {
                       type: model.environment.illumination.type,
-                      lightningIntensity: e,
+                      lightingIntensity: e,
                     },
                   },
                 });
               }}
-              value={model.environment?.illumination?.lightningIntensity}
+              value={model.environment?.illumination?.lightingIntensity}
             />
           </div>
         </div>
@@ -495,5 +491,18 @@ export default function EnvironmentInformation({
         </Card>
       </Card>
     </Card>
+  );
+
+  return (
+    <Collapse
+      className="box-border m-2 ml-0"
+      items={[
+        {
+          key: "env",
+          label: "Environment Information",
+          children: innerCard,
+        },
+      ]}
+    ></Collapse>
   );
 }

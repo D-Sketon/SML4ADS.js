@@ -42,6 +42,7 @@ async function visualize(
     // const _parseRes = _parseXODR(content);
     // convertGettersToPlainObject(_parseRes);
     const client = new Client(`http://${host}:${port}/RPC`);
+    client.timeout = 60000;
     return await client.invoke("visualization", [[type, path, cars, pedestrians]]);
   } catch (error: any) {
     console.error(error);

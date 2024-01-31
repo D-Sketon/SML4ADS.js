@@ -9,7 +9,7 @@ import {
   defaultGlobalPositionParams,
   defaultLocationParams,
 } from "../../../model/params/ParamLocation";
-import { Button, Card, Input, InputNumber, Select } from "antd";
+import { Button, Card, Collapse, Input, InputNumber, Select } from "antd";
 
 interface RiderInformationProps {
   model: MModel;
@@ -616,7 +616,7 @@ export default function RiderInformation({
     }
   };
 
-  return (
+  const innerCard = (
     <Card
       hoverable
       title="Rider"
@@ -697,5 +697,23 @@ export default function RiderInformation({
         </Button>
       </div>
     </Card>
+  );
+
+  return (
+    <Collapse
+      className="box-border m-2 ml-0"
+      items={[
+        {
+          key: "basic",
+          label: "Rider-" + rider.name,
+          children: innerCard,
+          extra: (
+            <Button type="primary" onClick={handleDelete}>
+              Delete
+            </Button>
+          ),
+        },
+      ]}
+    ></Collapse>
   );
 }
