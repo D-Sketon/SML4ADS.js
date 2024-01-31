@@ -237,6 +237,40 @@ export default function HeaderMenu(): ReactElement {
             label: "Generation",
             key: "generation",
             icon: <CarOutlined />,
+            children: [
+              {
+                label: "Data-driven",
+                key: "data-driven",
+                children: [
+                  {
+                    label: "Import data from file",
+                    key: "import-data",
+                  },
+                ],
+              },
+              {
+                label: "Model-driven",
+                key: "model-driven",
+                children: [
+                  {
+                    label: "Random sampling",
+                    key: "random-sampling",
+                  },
+                  {
+                    label: "Importance sampling",
+                    key: "importance sampling",
+                  },
+                  {
+                    label: "Test-based",
+                    key: "test-based",
+                  },
+                ],
+              },
+              {
+                label: "Knowledge-driven",
+                key: "knowledge-driven",
+              },
+            ],
           },
         ]);
         break;

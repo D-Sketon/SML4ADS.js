@@ -4,10 +4,6 @@
 
 A tool for autonomous driving scenario modeling, simulation and analysis
 
-<pre align="center">
-🧪 Working in Progress
-</pre>
-
 ## Develop
 
 ```bash
@@ -31,3 +27,4 @@ pnpm run build
 # copy electron-node/verifier/resources to electron-dist/electron-node/verifier/resources
 pnpm run build-electron
 ```
+
