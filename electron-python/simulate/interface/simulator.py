@@ -115,6 +115,7 @@ class Scenario:
         self.guardLibrary = ''
         self.simulationTime = 0
         self.endTrigger = ''
+        self.environment = {}
 
     def __repr__(self):
         return f'Scenario[mapType:{self.mapType}, weather:{self.weather}, timeStep:{self.time_step}, ' \
@@ -226,8 +227,12 @@ class Simulator:
         else:
             scene.map = json_data['map']
         scene.time_step = json_data['timeStep']
-        scene.weather = random.choice(json_data['weather'])
+        if len(json_data['weather']) == 0:
+            scene.weather = ""
+        else:
+            scene.weather = random.choice(json_data['weather'])
         scene.simulationTime = int(json_data['simulationTime'])
+        scene.environment = json_data['environment']
         if 'scenarioEndTrigger' in json_data.keys() and json_data['scenarioEndTrigger'] != "":
             scene.endTrigger = json_data['scenarioEndTrigger']
         else:

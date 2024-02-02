@@ -83,7 +83,7 @@ const conditional = (
     }
   });
 
-  return `always[0:inf] (${
+  return `always (${
     attributeValues.length > 1
       ? attributeValues.map((a) => `(${a})`).join(" and ")
       : attributeValues[0]

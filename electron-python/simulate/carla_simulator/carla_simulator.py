@@ -52,7 +52,7 @@ class CarlaSimulator(Simulator):
     def __init__(self, img_path, mp4_path, address='127.0.0.1', port=2000, render=True, record='', data_path='', generate_video=True):
         super().__init__(img_path, mp4_path, data_path)
         self.client = carla.Client(address, port)  # type: ignore
-        self.client.set_timeout(5)
+        self.client.set_timeout(10)
         self.render = render  # 是否渲染仿真
         self.record = record  # 是否运行recorder
         self.scenario_number = 0  # 正在进行仿真的场景数量
@@ -89,7 +89,7 @@ class CarlaSimulation(Simulation):
         self.img_path = img_path
         self.mp4_path = mp4_path
         self.generate_video = generate_video
-        if scene.map != 'Town05' and scene.mapType == 'default':
+        if scene.mapType == 'default':
             self.world = self.client.load_world(scene.map)
         elif scene.mapType == 'custom':
             if scene.map.endswith('.xodr'):
@@ -101,7 +101,20 @@ class CarlaSimulation(Simulation):
                 raise RuntimeError('CARLA only supports OpenDrive maps')
         self.world = self.client.get_world()
         # set weather
-        self.world.set_weather(getattr(carla.WeatherParameters, scene.weather))  # type: ignore
+        if scene.weather != '':
+            self.world.set_weather(getattr(carla.WeatherParameters, scene.weather))  # type: ignore
+        else:
+            print(scene.environment)
+            print('---')
+            self.world.set_weather(carla.WeatherParameters(  # type: ignore
+                                   cloudiness=min(100, scene.environment['weather']['cloud']['cloudinessLevel'] / 8 * 100),
+                                   precipitation=min(100, scene.environment['weather']['rainfall']['precipitationIntensity'] / 50 * 100),
+                                   precipitation_deposits=min(100, scene.environment['weather']['rainfall']['precipitationIntensity'] / 50 * 100),
+                                   wind_intensity=min(100, scene.environment['weather']['wind']['windSpeed'] / 24.4 * 100),
+                                   wetness=min(100, scene.environment['weather']['rainfall']['precipitationIntensity'] / 50 * 100),
+                                   sun_azimuth_angle=scene.environment['sunProperty']['sunAzimuth'],
+                                   sun_altitude_angle=scene.environment['sunProperty']['sunElevation'],
+                                   ))
         self.map = self.world.get_map()
         self.bpl = self.world.get_blueprint_library()
         self.agents: dict[str, Agent] = {}
@@ -388,13 +401,14 @@ class CarlaSimulation(Simulation):
         :return:
         """
         for name, state in self.curr_states.items():
-            pos = state.pos
-            # loc = state.waypoint.transform.location
-            forward_vec = state.vehicle.get_transform().get_forward_vector()
-            bounding_box = state.vehicle.bounding_box
-            semantic_tags = state.vehicle.semantic_tags
-            self.data_writer.writerow((name, pos.x, pos.y, state.speed, state.acceleration, forward_vec,
-                                       bounding_box, semantic_tags))
+            if isinstance(state, CarInfo):
+                pos = state.pos
+                # loc = state.waypoint.transform.location
+                forward_vec = state.vehicle.get_transform().get_forward_vector()
+                bounding_box = state.vehicle.bounding_box
+                semantic_tags = state.vehicle.semantic_tags
+                self.data_writer.writerow((name, pos.x, pos.y, state.speed, state.acceleration, forward_vec,
+                                          bounding_box, semantic_tags))
 
     def check_end(self):
         """
@@ -609,7 +623,7 @@ class CarlaSimulation(Simulation):
                         lateral_offset = MapFilter.choice_lane_random(car.min_lateral_offset, car.max_lateral_offset)
                         right_vector = tf.get_right_vector()
                         tf.location += right_vector * lateral_offset
-                        tf.location += carla.Location(0, 0, 2)  # type: ignore
+                        tf.location += carla.Location(0, 0, 1)  # type: ignore
                         chosen_tfs[car.name] = tf
                         print(f'long offset:{offset}, lateral offset:{lateral_offset}')
                 print(f'chosen transform: {chosen_tfs[car.name]}')
@@ -618,7 +632,7 @@ class CarlaSimulation(Simulation):
                 if spawn_wp is None:
                     raise RuntimeError('cannot get spawn point from given x and y values.')
                 else:
-                    spawn_wp.transform.location += carla.Location(0, 0, 2)  # type: ignore
+                    spawn_wp.transform.location += carla.Location(0, 0, 1)  # type: ignore
                     chosen_tfs[car.name] = spawn_wp.transform
                 print(f'chosen transform: {chosen_tfs[car.name]}')
             elif car.location_type == 'Road Position':
@@ -639,7 +653,7 @@ class CarlaSimulation(Simulation):
                     wp = self.map.get_waypoint_xodr(car.init_road_id, lane_id, offset)
                 tf = wp.transform
                 tf.location += tf.get_right_vector() * (abs_offset - (wp.lane_width / 2))
-                tf.location += carla.Location(0, 0, 2)  # type: ignore
+                tf.location += carla.Location(0, 0, 1)  # type: ignore
                 chosen_tfs[car.name] = tf
                 print(f'offset:{offset}; lat_offset:{lateral_offset}; lane_id:{wp.lane_id}')
                 print(f'chosen transform: {chosen_tfs[car.name]}')
@@ -659,7 +673,7 @@ class CarlaSimulation(Simulation):
             spawn_loc = ref_loc + longitudinal_vec + lateral_vec
             spawn_wp = self.map.get_waypoint(spawn_loc, project_to_road=False)
             spawn_tf = spawn_wp.transform
-            spawn_tf.location += carla.Location(0, 0, 2)  # type: ignore
+            spawn_tf.location += carla.Location(0, 0, 1)  # type: ignore
             chosen_tfs[car.name] = carla.Transform(spawn_loc, ref_tf.rotation)  # type: ignore
             print(f'long offset:{longitudinal_offset}, lateral offset:{lateral_offset}, lane:{spawn_wp.lane_id}')
             print(f'longitudinal vec:{longitudinal_vec}, lateral vec:{lateral_vec}, spawn_loc:{spawn_loc}')
@@ -708,7 +722,7 @@ class CarlaSimulation(Simulation):
                         lateral_offset = MapFilter.choice_lane_random(loc['min_lateral_offset'], loc['max_lateral_offset'])
                         right_vector = tf.get_right_vector()
                         tf.location += right_vector * lateral_offset
-                        tf.location += carla.Location(0, 0, 2)  # type: ignore
+                        tf.location += carla.Location(0, 0, 3)  # type: ignore
                         chosen_tfs[index] = tf
                         print(f'long offset:{offset}, lateral offset:{lateral_offset}')
                 print(f'chosen transform: {chosen_tfs[index]}')

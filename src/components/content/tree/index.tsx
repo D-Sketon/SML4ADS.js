@@ -40,6 +40,7 @@ import WeightDrawer from "./drawer/WeightDrawer";
 import oldTreeAdapter from "./utils/adapter/oldTreeAdapter";
 import nodeTreeAdapter from "./utils/adapter/nodeTreeAdapter";
 import treeNodeAdapter from "./utils/adapter/treeNodeAdapter";
+import { WEIGHT_TYPES, defaultManualWeightParams } from "../../../model/params/ParamWeight";
 
 const nodeTypes = {
   BehaviorNode,
@@ -169,7 +170,10 @@ export default function Tree({ path }: TreeProps): ReactElement {
             {
               ...connection,
               type: "ProbabilityTransition",
-              label: 0,
+              label:  JSON.stringify({
+                type: WEIGHT_TYPES.MANUAL,
+                params: defaultManualWeightParams(),
+              }),
               id,
               markerEnd: { type: MarkerType.ArrowClosed },
             },

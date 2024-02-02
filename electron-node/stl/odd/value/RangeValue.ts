@@ -1,11 +1,11 @@
 export default class RangeValue {
-  min: number;
-  max: number;
-  minRef: number;
-  maxRef: number;
+  min: number | string;
+  max: number | string;
+  minRef: number | string;
+  maxRef: number | string;
   unit: string;
 
-  constructor(min: number, max: number, minRef = min, maxRef = max, unit = "") {
+  constructor(min: number | string, max: number | string, minRef = min, maxRef = max, unit = "") {
     this.min = min;
     this.max = max;
     this.minRef = minRef;

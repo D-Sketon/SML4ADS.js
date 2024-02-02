@@ -180,7 +180,7 @@ export default function BasicInformation({
               label: i,
             }))}
             onChange={(e) => {
-              setModel({ ...model, ROAD_TYPES: e });
+              setModel({ ...model, roadType: e });
             }}
             value={model.roadType}
           />

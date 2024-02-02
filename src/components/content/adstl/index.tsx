@@ -286,7 +286,7 @@ export default function Adstl({ path }: AdstlProps): ReactElement {
             className="flex flex-col justify-end items-center"
           >
             <Button type="primary" className="m-2" onClick={generateStl}>
-              Generate STL
+              Generate
             </Button>
           </div>
         </div>

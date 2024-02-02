@@ -76,6 +76,8 @@ def generate_border(find_lanelet, start_min, end_max, offset, width):
         # overflow
         end_vertices_idx = len(find_lanelet.center_vertices) - 1
     if not start_vertices_idx == -1 and not end_vertices_idx == -1:
+        if start_vertices_idx == end_vertices_idx:
+            end_vertices_idx += 1
         border['start_vertices_index'] = start_vertices_idx
         border['end_vertices_index'] = end_vertices_idx
         sliced_center_vertices = np.array(find_lanelet.center_vertices[start_vertices_idx: end_vertices_idx + 1])
@@ -105,17 +107,24 @@ def pedestrian_border_filter(border, json_pedestrian):
     border['type'] = 'Pedestrian'
 
 
+hashmap_global_frenet = {}
+
+
 def global_to_frenet(args):
     # args[0] 地图文件路径
     # args[1] roadId
     # args[2] landId
     # args[3] [x, y][] in global
-    fh = open(args[0], "r")
-    openDriveXml = parse_opendrive(etree.parse(fh).getroot())  # type: ignore
-    fh.close()
-    loadedRoadNetwork = Network()
-    loadedRoadNetwork.load_opendrive(openDriveXml)
-    scenario = loadedRoadNetwork.export_commonroad_scenario()
+    if hashmap_global_frenet[args[0]] is None:
+        fh = open(args[0], "r")
+        openDriveXml = parse_opendrive(etree.parse(fh).getroot())  # type: ignore
+        fh.close()
+        loadedRoadNetwork = Network()
+        loadedRoadNetwork.load_opendrive(openDriveXml)
+        scenario = loadedRoadNetwork.export_commonroad_scenario()
+        hashmap_global_frenet[args[0]] = scenario
+    else:
+        scenario = hashmap_global_frenet[args[0]]
     road_id = args[1]
     lane_id = args[2]
     find_lanelet = scenario.lanelet_network.find_lanelet_by_description('.'.join([str(road_id), '-1', str(lane_id), '-1']))  # type: ignore
@@ -146,21 +155,41 @@ def global_to_frenet(args):
     return frenet_coordinates
 
 
+def calculate_path_length(coordinates):
+    # 将坐标列表转换为 NumPy 数组
+    points = np.array(coordinates)
+
+    # 计算相邻点之间的距离
+    distances = np.linalg.norm(np.diff(points, axis=0), axis=1)
+
+    # 计算总路径长度
+    total_length = np.sum(distances)
+
+    return total_length
+
+
+hashmap_visualize = {}
+
+
 def visualize(args):
     """
     Visualize the data from the given file.
     """
-    if args[0] == 'custom':
-        fh = open(args[1], "r")
-        openDriveXml = parse_opendrive(etree.parse(fh).getroot())  # type: ignore
-        fh.close()
+    if not (args[1] in hashmap_visualize):
+        if args[0] == 'custom':
+            fh = open(args[1], "r")
+            openDriveXml = parse_opendrive(etree.parse(fh).getroot())  # type: ignore
+            fh.close()
+        else:
+            fh = open(f'./simulate/carla_simulator/Carla/Maps/{args[1]}.xodr', "r")
+            openDriveXml = parse_opendrive(etree.parse(fh).getroot())  # type: ignore
+            fh.close()
+        loadedRoadNetwork = Network()
+        loadedRoadNetwork.load_opendrive(openDriveXml)
+        scenario = loadedRoadNetwork.export_commonroad_scenario()
+        hashmap_visualize[args[1]] = scenario
     else:
-        fh = open(f'./simulate/carla_simulator/Carla/Maps/{args[1]}.xodr', "r")
-        openDriveXml = parse_opendrive(etree.parse(fh).getroot())  # type: ignore
-        fh.close()
-    loadedRoadNetwork = Network()
-    loadedRoadNetwork.load_opendrive(openDriveXml)
-    scenario = loadedRoadNetwork.export_commonroad_scenario()
+        scenario = hashmap_visualize[args[1]]
     border_array = []
     car_array = []
     relate_qu = []
@@ -171,9 +200,14 @@ def visualize(args):
             else:
                 road_id = json_car['locationParams']['roadId']
                 lane_id = json_car['locationParams']['laneId']
+                find_lanelet = scenario.lanelet_network.find_lanelet_by_description('.'.join([str(road_id), '-1', str(lane_id), '-1']))  # type: ignore
+                lanelet_len = calculate_path_length(find_lanelet.center_vertices)
+                # 特殊处理
+                if road_id == 7 and lane_id > 0 and args[1] == 'Town05' and args[0] == 'default':
+                    json_car['locationParams']['longitudinalOffset'][0] = lanelet_len - json_car['locationParams']['longitudinalOffset'][0]
+                    json_car['locationParams']['longitudinalOffset'][1] = lanelet_len - json_car['locationParams']['longitudinalOffset'][1]
                 lateral_offset = random.uniform(json_car['locationParams']['lateralOffset'][0], json_car['locationParams']['lateralOffset'][1])
                 longitudinal_offset = random.uniform(json_car['locationParams']['longitudinalOffset'][0], json_car['locationParams']['longitudinalOffset'][1])
-                find_lanelet = scenario.lanelet_network.find_lanelet_by_description('.'.join([str(road_id), '-1', str(lane_id), '-1']))  # type: ignore
                 if find_lanelet is not None:
                     car = generate_car(json_car, find_lanelet, longitudinal_offset, lateral_offset)
                     car['lane_id'] = lane_id
@@ -337,9 +371,14 @@ def visualize(args):
                 else:
                     road_id = location['locationParams']['roadId']
                     lane_id = location['locationParams']['laneId']
+                    find_lanelet = scenario.lanelet_network.find_lanelet_by_description('.'.join([str(road_id), '-1', str(lane_id), '-1']))  # type: ignore
+                    lanelet_len = calculate_path_length(find_lanelet.center_vertices)
+                    # 特殊处理
+                    if road_id == 7 and lane_id > 0 and args[1] == 'Town05' and args[0] == 'default':
+                        location['locationParams']['longitudinalOffset'][0] = lanelet_len - location['locationParams']['longitudinalOffset'][0]
+                        location['locationParams']['longitudinalOffset'][1] = lanelet_len - location['locationParams']['longitudinalOffset'][1]
                     lateral_offset = random.uniform(location['locationParams']['lateralOffset'][0], location['locationParams']['lateralOffset'][1])
                     longitudinal_offset = random.uniform(location['locationParams']['longitudinalOffset'][0], location['locationParams']['longitudinalOffset'][1])
-                    find_lanelet = scenario.lanelet_network.find_lanelet_by_description('.'.join([str(road_id), '-1', str(lane_id), '-1']))  # type: ignore
                     if find_lanelet is not None:
                         location_point = generate_pedestrian_location(location, find_lanelet, longitudinal_offset, lateral_offset)
                         location_point['lane_id'] = lane_id

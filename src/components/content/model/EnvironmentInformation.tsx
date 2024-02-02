@@ -41,7 +41,7 @@ export default function EnvironmentInformation({
         weather: {
           ...model.environment.weather,
           cloud: {
-            intensity: e,
+            cloudinessLevel: e,
             type: p,
           },
         },
