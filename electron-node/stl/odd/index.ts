@@ -62,6 +62,7 @@ export const _odd2Stl = (
 const getNextAlphanumeric = generateAlphanumeric();
 
 export const odd2Stl = (odd: string): [string[], string[]] => {
+  if(odd.trim() === "") return [[], []];
   const lines = odd
     .split("\n")
     .filter((v) => !v.trim().startsWith("# "))

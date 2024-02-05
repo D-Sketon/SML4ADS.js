@@ -25,12 +25,12 @@ describe("ODD2STL", () => {
     ]
     const res = _odd2Stl(compositionLines, conditionalLines, extendLines);
     res[0].should.deep.include.members([
-      "always[0:inf] (lane_mark>=2 and lane_mark<=5)",
-      "always[0:inf] (not(lane_mark>=2 and lane_mark<=5))",
+      "always (lane_mark>=2 and lane_mark<=5)",
+      "always (not(lane_mark>=2 and lane_mark<=5))",
     ]);
     res[1].should.deep.include.members([
-      "always[0:inf] ((drivable_area_type==minor_roads or drivable_area_type==parking or drivable_area_type==shared_space or drivable_area_type==motorway) and ((location_subject_vehicle==minor_roads) -> (speed_subject_vehicle>=0 and speed_subject_vehicle<=4.166666666666667)) and ((location_subject_vehicle==parking or location_subject_vehicle==shared_space) -> (speed_subject_vehicle>=0 and speed_subject_vehicle<=2.7777777777777777)) and ((location_subject_vehicle==motorway) -> (speed_subject_vehicle>=16.666666666666668 and speed_subject_vehicle<=33.333333333333336)))",
-      "always[0:inf] ((horizontal_plane==curved_roads) and (not(curved_road_radius>=0 and curved_road_radius<=5)))",
+      "always ((drivable_area_type==minor_roads or drivable_area_type==parking or drivable_area_type==shared_space or drivable_area_type==motorway) and ((location_subject_vehicle==minor_roads) -> (speed_subject_vehicle>=0 and speed_subject_vehicle<=4.166666666666667)) and ((location_subject_vehicle==parking or location_subject_vehicle==shared_space) -> (speed_subject_vehicle>=0 and speed_subject_vehicle<=2.7777777777777777)) and ((location_subject_vehicle==motorway) -> (speed_subject_vehicle>=16.666666666666668 and speed_subject_vehicle<=33.333333333333336)))",
+      "always ((horizontal_plane==curved_roads) and (not(curved_road_radius>=0 and curved_road_radius<=5)))",
     ]);
   });
 
@@ -52,12 +52,12 @@ describe("ODD2STL", () => {
     `
     const res = odd2Stl(lines);
     res[0].should.deep.include.members([
-      "always[0:inf] (lane_mark>=2 and lane_mark<=5)",
-      "always[0:inf] (not(lane_mark>=2 and lane_mark<=5))",
+      "always (lane_mark>=2 and lane_mark<=5)",
+      "always (not(lane_mark>=2 and lane_mark<=5))",
     ]);
     res[1].should.deep.include.members([
-      "always[0:inf] ((drivable_area_type==minor_roads or drivable_area_type==parking or drivable_area_type==shared_space) and ((location_subject_vehicle==minor_roads) -> (speed_subject_vehicle>=0 and speed_subject_vehicle<=4.166666666666667)) and ((location_subject_vehicle==parking or location_subject_vehicle==shared_space) -> (speed_subject_vehicle>=0 and speed_subject_vehicle<=2.7777777777777777)))",
-      "always[0:inf] ((horizontal_plane==curved_roads) and (not(curved_road_radius>=0 and curved_road_radius<=5)))",
+      "always ((drivable_area_type==minor_roads or drivable_area_type==parking or drivable_area_type==shared_space) and ((location_subject_vehicle==minor_roads) -> (speed_subject_vehicle>=0 and speed_subject_vehicle<=4.166666666666667)) and ((location_subject_vehicle==parking or location_subject_vehicle==shared_space) -> (speed_subject_vehicle>=0 and speed_subject_vehicle<=2.7777777777777777)))",
+      "always ((horizontal_plane==curved_roads) and (not(curved_road_radius>=0 and curved_road_radius<=5)))",
     ]);
   });
 });

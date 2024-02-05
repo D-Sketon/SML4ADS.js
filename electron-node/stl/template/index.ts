@@ -21,6 +21,9 @@ export const _template2Stl = (template: string[]): string[] => {
 };
 
 export const template2Stl = (template: string): string[] => {
+  if (template.trim() === "") {
+    return [];
+  }
   return _template2Stl(template.split(/\n\s*\n/));
 };
 

@@ -59,6 +59,13 @@ export default function Model(props: ModelProps): ReactElement {
           parametricStls: savedModel.parametricStls ?? [],
           parameters: savedModel.parameters ?? [],
         };
+        // remove pedestrian first location point speed
+        if (newModel.pedestrians) {
+          newModel.pedestrians.forEach((pedestrian) => {
+            delete pedestrian.location[0].speedParams;
+            delete pedestrian.location[0].speedType;
+          });
+        }
         checkModel(newModel);
         setSaveCount((s) => s + 1);
         await window.electronAPI.writeJson(path, newModel);

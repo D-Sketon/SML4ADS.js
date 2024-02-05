@@ -101,6 +101,15 @@ CodeMirror.defineMode("stl", () => ({
       }
       return "";
     };
+    const ch = stream.peek();
+    /* comments */
+    if (
+      ch === "#" &&
+      (stream.pos === 0 || /\s/.test(stream.string.charAt(stream.pos - 1)))
+    ) {
+      stream.skipToEnd();
+      return "comment";
+    }
 
     const ret = cmCustomCheckStreamFn(stream);
     if (ret.length > 0) return ret;
@@ -237,7 +246,7 @@ export default function Adstl({ path }: AdstlProps): ReactElement {
           </div>
           <div className="w-1/2">
             <Title level={4} style={{ margin: 5 }}>
-              Template
+              Specification
             </Title>
             {/* <ReactCodeMirror
             className="adstl-editor"
@@ -262,8 +271,11 @@ export default function Adstl({ path }: AdstlProps): ReactElement {
             <div className="adstl-editor" ref={templateRef} />
           </div>
         </div>
-        <div className="flex w-full" style={{ height: "40%" }}>
-          <div style={{ width: "80%" }}>
+        <div className="flex w-full flex-col" style={{ height: "40%" }}>
+          <Button type="primary" className="m-2" onClick={generateStl}>
+            Generate
+          </Button>
+          <div className="h-full">
             <ReactCodeMirror
               className="adstl-editor stl-editor"
               value={generatedContent}
@@ -280,14 +292,6 @@ export default function Adstl({ path }: AdstlProps): ReactElement {
               onBeforeChange={(editor, data, value) => {}}
               onChange={(editor, data, value) => {}}
             />
-          </div>
-          <div
-            style={{ width: "20%" }}
-            className="flex flex-col justify-end items-center"
-          >
-            <Button type="primary" className="m-2" onClick={generateStl}>
-              Generate
-            </Button>
           </div>
         </div>
       </div>

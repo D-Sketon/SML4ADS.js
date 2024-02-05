@@ -80,8 +80,8 @@ export const defaultPedestrianSpeedParams: (
 export type PedestrianLocation = {
   locationType: LOCATION_TYPES;
   locationParams: LOCATION_PARAMS;
-  speedType: PEDESTRIAN_SPEED_TYPES;
-  speedParams: PEDESTRIAN_SPEED_PARAMS;
+  speedType?: PEDESTRIAN_SPEED_TYPES;
+  speedParams?: PEDESTRIAN_SPEED_PARAMS;
 };
 
 export type MPedestrian = {
