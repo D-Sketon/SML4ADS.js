@@ -13,6 +13,7 @@ import valueMatch from "./valueMatch";
  * @param odd composition statements
  */
 const composition = (odd: [ODD_QUALIFIER, string, string]): string => {
+  if(odd[0] === ODD_QUALIFIER.COMMENT)  return odd[1];
   const attribute = space2_(normalizeAttribute(odd[1]));
   const valuePostConvert = valueConverter(odd[2]);
   let attributeValue: string;

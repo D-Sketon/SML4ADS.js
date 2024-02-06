@@ -10,6 +10,7 @@ import {
   Atom,
   ImplyOperator,
   NotOperator,
+  Comment,
 } from "./operator";
 
 const getNextAlphanumeric = generateAlphanumeric();
@@ -41,6 +42,9 @@ const generateParameterRange = (ast: FutureOperator): string => {
 };
 
 export const generateStl = (ast: Operator): string => {
+  if(ast instanceof Comment) {
+    return ast.children;
+  }
   let stl = "";
   if (ast instanceof GloballyOperator || ast instanceof FinallyOperator) {
     if (ast.not) {

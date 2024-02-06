@@ -12,13 +12,18 @@ import {
   ThenOperator,
   UntilOperator,
   FutureOperator,
+  Comment,
 } from "./operator";
 import { TemplateToken } from "./token";
 
 export const tokenize = (template: string): string[] => {
+  let templatePost: string[] = [];
+  if(template.startsWith("#")) {
+    templatePost.push(template);
+    return templatePost;
+  }
   template = template.replace(/\s+/g, " ").trim();
   const tokens = Object.values(TemplateToken);
-  let templatePost: string[] = [];
   let startPos = 0;
   let atom = "";
   while (startPos < template.length) {
@@ -50,6 +55,10 @@ export const generateAtomAst = (
   let currentStackTokens: MultiDimensionalArray<Operator> = [];
   for (let i = 0; i < tokens.length; i++) {
     const token = tokens[i];
+    if(token.startsWith("#")) {
+      currentStackTokens.push(new Comment(token));
+      continue;
+    }
     switch (token) {
       case TemplateToken.LEFT_BRACKET:
         operatorStack.push(currentStackTokens);

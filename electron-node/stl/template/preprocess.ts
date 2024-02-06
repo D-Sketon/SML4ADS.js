@@ -1,4 +1,5 @@
-export const convertIndentToNestedString = (indentString: string) => {
+export const convertIndentToNestedString = (indentString: string): string => {
+  if(indentString.startsWith("#")) return indentString;
   const lines = indentString.split("\n");
   let result = "";
   let indentLevel = 0;

@@ -90,3 +90,12 @@ export class Atom implements Operator {
     this.name = name;
   }
 }
+
+export class Comment implements Operator{
+  name = "comment";
+  children: string;
+
+  constructor(comment: string) {
+    this.children = comment;
+  }
+}

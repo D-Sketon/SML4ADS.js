@@ -10,6 +10,7 @@ export enum ODD_QUALIFIER {
   INCLUDE = "INCLUDE",
   EXCLUDE = "EXCLUDE",
   CONDITIONAL = "CONDITIONAL",
+  COMMENT = "COMMENT",
 }
 
 export const _odd2Stl = (
@@ -29,6 +30,7 @@ export const _odd2Stl = (
   ) as [ODD_QUALIFIER, string, string, string, string][];
   const _compositions = compositionLines
     .map((c) => {
+      if (c.trim().startsWith("#")) return [ODD_QUALIFIER.COMMENT, c, "", ""];
       const v = preprocessForComposition(c);
       if (v[3] !== "") {
         map.set(v[3], {
@@ -62,16 +64,19 @@ export const _odd2Stl = (
 const getNextAlphanumeric = generateAlphanumeric();
 
 export const odd2Stl = (odd: string): [string[], string[]] => {
-  if(odd.trim() === "") return [[], []];
+  if (odd.trim() === "") return [[], []];
   const lines = odd
     .split("\n")
-    .filter((v) => !v.trim().startsWith("# "))
     .join("\n")
     .split(/\n\s*\n/);
   const compositionLines: string[] = [];
   const conditionalLines: string[] = [];
   const extendLines: string[] = [];
   for (const line of lines) {
+    if (line.trim().startsWith("#")) {
+      compositionLines.push(line.trim());
+      continue;
+    }
     if (line.trim().startsWith("__Extend__")) {
       extendLines.push(line.trim());
       continue;

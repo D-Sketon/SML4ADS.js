@@ -34,7 +34,7 @@ export const preprocessForComposition = (
     }
     line = core;
   } else {
-    throw new Error("invalid input");
+    throw new Error("invalid input(not match INCLUDE/EXCLUDE/CONDITIONAL): " + line);
   }
 
   const matchResult = line.match(/([^]+?) (IS|ARE) \[?([^#\]]+)\]?/);
@@ -42,7 +42,7 @@ export const preprocessForComposition = (
     res[1] = matchResult[1].trim();
     res[2] = matchResult[3];
   } else {
-    throw new Error("invalid input");
+    throw new Error("invalid input(not match IS/ARE): " + line);
   }
   return res;
 };
@@ -81,7 +81,7 @@ export const preprocessForConditional = (
     res[5] = condition;
     line = core;
   } else {
-    throw new Error("invalid input");
+    throw new Error("invalid input(not match INCLUDE/EXCLUDE): " + line);
   }
   const matchResult = line.match(
     /(\w+) OF \[?([^\]]+?)\]?(?: FOR \[?([^\]]*)\]?)? (IS|ARE) \[?([^#\]]+)\]?/
@@ -93,7 +93,7 @@ export const preprocessForConditional = (
     res[3] = matchResult[3] || "";
     res[4] = matchResult[5];
   } else {
-    throw new Error("invalid input");
+    throw new Error("invalid input(not match OF FOR IS/ARE): " + line);
   }
   return res;
 };

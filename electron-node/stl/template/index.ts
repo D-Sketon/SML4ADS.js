@@ -1,5 +1,6 @@
 import { generateAst, generateAtomAst, tokenize } from "./ast";
 import { generatePstl, generateStl } from "./generator";
+import { Comment } from "./operator";
 import { convertIndentToNestedString } from "./preprocess";
 
 export const _template2Stl = (template: string[]): string[] => {
@@ -9,14 +10,15 @@ export const _template2Stl = (template: string[]): string[] => {
     .map(generateAtomAst)
     .map(generateAst)
     .map((ast) => {
-      if (ast.length !== 1) {
+      const p = ast.filter((i) => !(i instanceof Comment));
+      if (p.length > 1) {
         throw new Error(
           `Invalid input: parse error, expect 1 root node, got ${
-            ast.length
-          }: ${JSON.stringify(ast)}`
+            p.length
+          }: ${JSON.stringify(p)}`
         );
       }
-      return generateStl(ast[0]);
+      return ast.map(generateStl).join("\n");
     });
 };
 
