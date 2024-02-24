@@ -11,7 +11,7 @@ export enum BEHAVIOR_TYPES {
   CHANGE_LEFT = "ChangeLeft",
   CHANGE_RIGHT = "ChangeRight",
   IDLE = "Idle",
-  LANE_OFFSET = "LaneOffset", // ?
+  LANE_OFFSET = "LaneOffset", // x
   // 0.4.0+
   CLOSE_UP = "CloseUp", // A MovingActivity during which the subject traffic participant moves closer to the object traffic participant.
   MOVE_AWAY = "MoveAway", // A MovingActivity with moving traffic participants in which the subject traffic participant moves away from the object traffic participant.
@@ -90,13 +90,26 @@ export const defaultStopBehaviorParams: () => STOP_BEHAVIOR_PARAMS = () => ({
   acceleration: [0, 0],
 });
 
+export type CROSS_BEHAVIOR_PARAMS = {
+  acceleration: [number, number];
+  targetSpeed: [number, number];
+  actorRef: string;
+};
+
+export const defaultCrossBehaviorParams: () => CROSS_BEHAVIOR_PARAMS = () => ({
+  acceleration: [0, 0],
+  targetSpeed: [0, 0],
+  actorRef: "",
+});
+
 export type BEHAVIOR_PARAMS =
   | KEEP_BEHAVIOR_PARAMS
   | ACCELERATE_BEHAVIOR_PARAMS
   | CHANGE_BEHAVIOR_PARAMS
   | TURN_BEHAVIOR_PARAMS
   | LANE_OFFSET_BEHAVIOR_PARAMS
-  | STOP_BEHAVIOR_PARAMS;
+  | STOP_BEHAVIOR_PARAMS
+  | CROSS_BEHAVIOR_PARAMS;
 
 export const defaultBehaviorParams: (
   type: BEHAVIOR_TYPES
@@ -105,28 +118,29 @@ export const defaultBehaviorParams: (
     case BEHAVIOR_TYPES.KEEP:
     case BEHAVIOR_TYPES.IDLE:
     case BEHAVIOR_TYPES.FOLLOW_ROAD_USER:
-    case BEHAVIOR_TYPES.MOVE_BACKWARD:
       return defaultKeepBehaviorParams();
     case BEHAVIOR_TYPES.ACCELERATE:
     case BEHAVIOR_TYPES.DECELERATE:
-    case BEHAVIOR_TYPES.CLOSE_UP:
-    case BEHAVIOR_TYPES.MOVE_AWAY:
-    case BEHAVIOR_TYPES.CROSS:
       return defaultAccelerateBehaviorParams();
     case BEHAVIOR_TYPES.CHANGE_LEFT:
     case BEHAVIOR_TYPES.CHANGE_RIGHT:
     case BEHAVIOR_TYPES.CUT_IN:
     case BEHAVIOR_TYPES.CUT_OUT:
-    case BEHAVIOR_TYPES.PASS:
-    case BEHAVIOR_TYPES.OVERTAKE:
       return defaultChangeBehaviorParams();
     case BEHAVIOR_TYPES.TURN_LEFT:
     case BEHAVIOR_TYPES.TURN_RIGHT:
+    case BEHAVIOR_TYPES.MOVE_BACKWARD:
       return defaultTurnBehaviorParams();
     case BEHAVIOR_TYPES.LANE_OFFSET:
       return defaultLaneOffsetBehaviorParams();
     case BEHAVIOR_TYPES.STOP:
       return defaultStopBehaviorParams();
+    case BEHAVIOR_TYPES.OVERTAKE:
+    case BEHAVIOR_TYPES.CLOSE_UP:
+    case BEHAVIOR_TYPES.MOVE_AWAY:
+    case BEHAVIOR_TYPES.CROSS:
+    case BEHAVIOR_TYPES.PASS:
+      return defaultCrossBehaviorParams();
     default:
       return defaultKeepBehaviorParams();
   }

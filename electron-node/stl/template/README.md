@@ -76,6 +76,27 @@ GLOBALLY FROM 0 TO 12
 
 ## 映射规则
 
+BNF
+```text
+<Template> ::= (<FutureComposition> | <NotComposition>)
+<Atom> ::= <Attribute> ("IS LESS THAN" | "IS EQUAL TO" | "IS GREATER THAN" | "IS NOT LESS THAN" | "IS NOT EQUAL TO" | "IS NOT GREATER THAN") <Value>
+<Composition> ::= (<Composition> ("AND" | "OR") <Composition>) | <Atom>
+<ImplyComposition> ::= ("IF"
+                           <ImplyComposition>
+                       "THEN"
+                           <ImplyComposition>) | <Composition>
+<NotComposition> ::= "NOT" <NotComposition> | <ImplyComposition>
+<FutureComposition> ::= (["NOT"] ("GLOBALLY" | "ALWAYS" | "FINALLY" | "EVENTUALLY") [FutureRange]
+                            (<NotComposition> | <FutureComposition>))
+                        |
+                            ((<NotComposition> | <FutureComposition>)
+                        ["NOT"] "UNTIL" [FutureRange]
+                            (<NotComposition> | <FutureComposition>))
+<FutureRange> ::= "FROM" <String | Number> "TO" <String | Number>
+<Attribute> ::= <String>
+<Value> ::= <Number | String>
+```
+
 $G_{[a,b]}$ -> (NOT) GLOBALLY/ALWAYS (FROM <> TO <>) <>
 $F_{[a,b]}$ -> (NOT) FINALLY/EVENTUALLY (FROM <> TO <>) <>
 $U_{[a,b]}$ -> <> (NOT) UNTIL (FROM <> TO <>) <>

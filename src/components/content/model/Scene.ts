@@ -41,10 +41,46 @@ export class Scene {
   ctx: CanvasRenderingContext2D;
   renderInfo: string;
   postRender: {
-    lanelet_array: any[];
-    car_array: any[];
-    pedestrian_array: any[];
-    border_array: any[];
+    lanelet_array: {
+      lanelet_type: LaneletType;
+      left_vertices: [number, number][];
+      center_vertices: [number, number][];
+      right_vertices: [number, number][];
+    }[];
+    car_array: {
+      center: [number, number];
+      width: number;
+      length: number;
+      orientation: number;
+      type: string;
+      heading: boolean;
+      road_deviation: number; // degrees
+      name: string;
+    }[];
+    pedestrian_array: {
+      name: string;
+      location_points: {
+        center: [number, number];
+        width: number;
+        length: number;
+      }[];
+    }[];
+    rider_array: {
+      name: string;
+      location_points: {
+        center: [number, number];
+        width: number;
+        length: number;
+      }[];
+    }[];
+    border_array: {
+      type: string;
+      start_vertices_idx?: number;
+      end_vertices_idx?: number;
+      lanelet_id?: number;
+      width: number;
+      center_vertices: [number, number][];
+    }[];
   };
 
   constructor(
@@ -67,6 +103,7 @@ export class Scene {
       lanelet_array: any[];
       car_array: any[];
       pedestrian_array: any[];
+      rider_array: any[];
       border_array: any[];
     };
 
@@ -208,6 +245,9 @@ export class Scene {
     }
     for (const pedestrian of this.postRender.pedestrian_array) {
       this.drawPedestrian(pedestrian);
+    }
+    for (const rider of this.postRender.rider_array) {
+      this.drawPedestrian(rider);
     }
     for (const border of this.postRender.border_array) {
       this.drawBorder(border);

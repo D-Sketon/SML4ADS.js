@@ -222,52 +222,12 @@ export default function Adstl({ path }: AdstlProps): ReactElement {
             <Title level={4} style={{ margin: 5 }}>
               ODD
             </Title>
-            {/* <ReactCodeMirror
-            className="adstl-editor"
-            value={odd}
-            options={{
-              mode: "yaml",
-              // lineNumbers: true,
-              // scrollbarStyle: "simple",
-              // indentUnit: 2,
-              // tabSize: 2,
-              // electricChars: false,
-              smartIndent: true,
-            }}
-            editorDidMount={(editor) => {
-              editor.setSize("auto", "100%");
-            }}
-            onBeforeChange={(editor, data, value) => {
-              setOdd(value);
-            }}
-            onChange={(editor, data, value) => {}}
-          /> */}
             <div className="adstl-editor" ref={oddRef} />
           </div>
           <div className="w-1/2">
             <Title level={4} style={{ margin: 5 }}>
               Specification
             </Title>
-            {/* <ReactCodeMirror
-            className="adstl-editor"
-            value={template}
-            options={{
-              mode: "adstl",
-              lineNumbers: true,
-              scrollbarStyle: "simple",
-              indentUnit: 2,
-              tabSize: 2,
-              electricChars: false,
-              smartIndent: false,
-            }}
-            editorDidMount={(editor) => {
-              editor.setSize("100%", "100%");
-            }}
-            onBeforeChange={(editor, data, value) => {
-              setTemplate(value);
-            }}
-            onChange={(editor, data, value) => {}}
-          /> */}
             <div className="adstl-editor" ref={templateRef} />
           </div>
         </div>

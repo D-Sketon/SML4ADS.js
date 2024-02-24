@@ -46,6 +46,25 @@ export default function HeaderMenu(): ReactElement {
           if (modelContent) {
             const model: MModel = JSON.parse(modelContent);
             checkModel(model);
+            if (model.stlPath && model.stlPath !== "") {
+              const absolutePath = await window.electronAPI.getAbsolutePath(
+                activatedFile!.path,
+                model.stlPath
+              );
+              const stlContent = await window.electronAPI.readFile(
+                absolutePath
+              );
+              if (stlContent) {
+                const [odd, template] = stlContent.split("---");
+                model.stl = (
+                  await window.electronAPI.generateStl(odd, template)
+                )
+                  .split("\n")
+                  .filter((i) => i.trim() !== "" && !i.trim().startsWith("#")); // remove empty line and comment
+              } else {
+                throw new Error("Read stl file failed.");
+              }
+            }
             for (const car of model.cars) {
               const absolutePath = await window.electronAPI.getAbsolutePath(
                 activatedFile!.path,

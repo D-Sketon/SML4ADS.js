@@ -73,11 +73,14 @@ type BaseModel = {
   simulationTime: number;
   scenarioEndTrigger: string;
   requirements: string[];
+  // pstl need?
   parametricStls: string[];
   parameters: string[];
   // v0.4.0+
   trafficCondition?: TRAFFIC_CONDITIONS;
   roadType?: ROAD_TYPES;
+  stlPath?: string;
+  stl?: string[]; // only in adsml
 };
 
 export type MModel = BaseModel & {

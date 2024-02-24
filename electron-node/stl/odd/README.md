@@ -28,16 +28,18 @@ TYPE 4 |——Include subject vehicle speed is [0, 15 km/h]
 
 ```txt
 BNF：
-([]内的元素仅为连接词，不应出现在输入中)
-<odd> ::= <composition> | <conditional>
-<composition> ::= <qualifier> <attribute> ["is" | "are"] <value>
-<conditional> ::= <"conditional"> <"include" | "exclude"> <attribute_metric> ["of"] <attribute> [["for"] <attribute>] ["is" | "are"] <value>
-<qualifier> ::= "conditional" | "include" | "exclude"
-<attribute> ::= <see domain>
-<value> ::= <enum_value> | <range_value>
-<enum_value> ::= "VALUE" [", VALUE"]*
-<range_value> ::= "NUMBER" ", " "NUMBER" [unit] (number can be Inf)
-<unit> ::= "m/s" | "s" | "m" | "km/h" | "C" | "other" (see domain)
+<ODD> ::= (<Composition> | <Conditional>)
+<Composition> ::= ("INCLUDE" | "EXCLUDE") <Attribute> ("IS" | "ARE") <Value>
+<Conditional> ::= "CONDITIONAL" <Attribute> ("IS" | "ARE") <Value>
+                      {Conditionals}
+<Conditionals> ::= "INCLUDE" | "EXCLUDE" <Metric> "OF" <InfluencingAttribute> "FOR" <InfluencedAttribute> ("IS" | "ARE") <Value>
+<Attribute> ::= <String>
+<Value> ::= <RangeValue> | <EnumValue>
+<RangeValue> ::= <Number | String> "," <Number | String> [Unit]
+<EnumValue> ::= <String> [{"," <String>}]
+<Metric> ::= <String>
+<InfluencingAttribute> ::= <String>
+<InfluencedAttribute> ::= <EnumValue>
 ```
 
 ## 处理方式

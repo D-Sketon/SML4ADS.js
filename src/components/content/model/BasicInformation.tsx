@@ -37,6 +37,16 @@ export default function BasicInformation({
     }
   };
 
+  const handleChooseStlFile = async (): Promise<void> => {
+    const res = await window.electronAPI.chooseFile([FILE_SUFFIX.ADSTL]);
+    if (res.filePaths.length) {
+      const relativePath = await window.electronAPI.getRelativePath(
+        path,
+        res.filePaths[0]
+      );
+      setModel({ ...model, stlPath: relativePath });
+    }
+  };
   const innerCard = (
     <Card>
       <div className="form-item">
@@ -188,6 +198,20 @@ export default function BasicInformation({
       ) : (
         <></>
       )}
+      <div className="form-item">
+        <div className="form-label w-28">STL:</div>
+        <div className="flex items-center">
+          <Input value={model.stlPath} spellCheck={false} />
+          <Button
+            type="primary"
+            className="mr-2 ml-2"
+            onClick={handleChooseStlFile}
+            icon={<UploadOutlined />}
+          >
+            ADSTL File
+          </Button>
+        </div>
+      </div>
       <div className="form-item">
         <div className="form-label w-28">scenarioTrigger:</div>
         <TextArea

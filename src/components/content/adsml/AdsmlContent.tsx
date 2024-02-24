@@ -23,7 +23,7 @@ export default function AdsmlContent({
 }: AdsmlContentProps): ReactElement {
   const basicInfoItems = Object.keys(model)
     .map((k) => {
-      if (k === "cars" || k === "pedestrians" || k === "environment") {
+      if (k === "cars" || k === "pedestrians" || k === "environment" || k === "riders") {
         return void 0;
       }
       return {

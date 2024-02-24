@@ -41,8 +41,18 @@ const valueConverter = (value: string): RangeValue | EnumValue => {
   for (let i = 0; i < valueArray.length; i++) {
     valueArray[i] = valueArray[i].replace(/∞/g, "Infinity");
   }
+  // Range
+  if (valueArray[0].includes('min') || valueArray[0].includes('max')) {
+    return new RangeValue(space2_(valueArray[0]), space2_(valueArray[1]));
+  }
+
   const valueArrayMapNumber: any[] = valueArray.map(Number);
+  // [a, Inf [unit]] 必定是Range，无需考虑单位
+  if (valueArray[1].includes("Infinity") && isNaN(valueArrayMapNumber[0])) {
+    return new RangeValue(space2_(valueArray[0]), Infinity);
+  }
   // 1. [1,2] if valueArrayMapNumber has no NaN
+
   if (!isNaN(valueArrayMapNumber[0]) && !isNaN(valueArrayMapNumber[1])) {
     return new RangeValue(valueArrayMapNumber[0], valueArrayMapNumber[1]);
   }
@@ -59,9 +69,13 @@ const valueConverter = (value: string): RangeValue | EnumValue => {
           );
           return new RangeValue(
             valuePostUnitConvert[0],
-            isNaN(valuePostUnitConvert[1]) ? space2_(valueArray[1]) : valuePostUnitConvert[1],
+            isNaN(valuePostUnitConvert[1])
+              ? space2_(valueArray[1])
+              : valuePostUnitConvert[1],
             valueArrayMapNumber[0],
-            isNaN(valueArrayMapNumber[1]) ? space2_(valueArray[1]) : valueArrayMapNumber[1],
+            isNaN(valueArrayMapNumber[1])
+              ? space2_(valueArray[1])
+              : valueArrayMapNumber[1],
             u
           );
         }
