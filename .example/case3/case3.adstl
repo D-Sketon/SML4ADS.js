@@ -1,0 +1,9 @@
+INCLUDE drivable area type IS motorway
+
+INCLUDE number of lanes IS 2
+
+INCLUDE speed IS [speedmin, speedmax]
+
+INCLUDE dismid IS [0, distsafe m]
+---
+

@@ -1,0 +1,13 @@
+# 不超过最大限速
+
+INCLUDE velocity IS [0, max velocity m/s]
+
+# 大于最小加速度
+
+INCLUDE acceleration IS [max acceleration, ∞ m/s2]
+---
+
+# 保持安全车距
+
+GLOBALLY
+	distance IS LESS THAN safe distance

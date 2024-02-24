@@ -1,0 +1,25 @@
+# Scenery element部分
+
+INCLUDE DrivingAreaType IS [highway, primary roads, 双向四车道]
+
+INCLUDE DrivingAreageometry IS [longitudinal plane]
+
+INCLUDE DrivingAreasurface IS [icy, flooded, wet, snow on surface] 
+
+INCLUDE junctions IS [Cross road]
+
+# Environment Conditions部分
+
+INCLUDE Weather IS [rainfall, wind, snowfall, Air temperature]
+
+INCLUDE Particulatestype IS [sand, dust, smoke and pollution, volcanic ash, water spray]
+
+# Dynamic elements部分
+
+INCLUDE trafficAgents ARE [car, truck, Pedestrian]
+
+INCLUDE subject vehicle speed IS [0, maxallowedspeed m/s]
+
+INCLUDE subject vehicle acceleration IS [minallowedacceleration, ∞ m/s2]
+---
+
