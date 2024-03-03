@@ -4,6 +4,7 @@ export enum FILE_SUFFIX {
   JSON = "json",
   XML = "xml",
   XODR = "xodr",
+  OSC = "osc",
   ADSML = "adsml",
   ADSTL = "adstl",
   CSV = "csv",

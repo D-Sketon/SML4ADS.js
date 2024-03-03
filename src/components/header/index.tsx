@@ -179,6 +179,25 @@ export default function HeaderMenu(): ReactElement {
     }
   };
 
+  const handleOpenScenario = async () => {
+    if (activatedFile && activatedFile.ext === FILE_SUFFIX.ADSML) {
+      const adsml = await window.electronAPI.readFile(activatedFile.path);
+      const osc = await window.electronAPI.ADSML2OpenScenario(adsml);
+      // save osc to file
+      const oscPath = activatedFile.path.replace(
+        new RegExp(FILE_SUFFIX.ADSML + "$", "g"),
+        FILE_SUFFIX.OSC
+      );
+      await window.electronAPI.writeFile(oscPath, osc);
+      dispatch(refreshTree());
+    } else {
+      notification.error({
+        message: "Error",
+        description: "Please select a adsml file first.",
+      });
+    }
+  };
+
   const [headItems, setHeadItems] = useState<MenuProps["items"]>([]);
   useEffect(() => {
     switch (location.pathname) {
@@ -206,6 +225,10 @@ export default function HeaderMenu(): ReactElement {
                   {
                     label: "Generate ADSML",
                     key: "preprocess",
+                  },
+                  {
+                    label: "Generate OpenSCENARIO2",
+                    key: "openScenario",
                   },
                 ],
               },
@@ -323,6 +346,9 @@ export default function HeaderMenu(): ReactElement {
     switch (e.key) {
       case "preprocess":
         handlePreprocess();
+        break;
+      case "openScenario":
+        handleOpenScenario();
         break;
       case "verification":
         handleVerify();

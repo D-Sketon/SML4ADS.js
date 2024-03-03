@@ -39,10 +39,9 @@ export interface IElectronAPI {
     outputPath: string
   ) => Promise<void>;
 
-  generateStl: (
-    odd: string,
-    template: string,
-  ) => Promise<string>;
+  ADSML2OpenScenario: (adsml: string) => Promise<string>;
+
+  generateStl: (odd: string, template: string) => Promise<string>;
 
   adversarialAttack: (
     csvPath: string,

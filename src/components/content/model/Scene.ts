@@ -246,8 +246,10 @@ export class Scene {
     for (const pedestrian of this.postRender.pedestrian_array) {
       this.drawPedestrian(pedestrian);
     }
-    for (const rider of this.postRender.rider_array) {
-      this.drawPedestrian(rider);
+    if (this.postRender.rider_array) {
+      for (const rider of this.postRender.rider_array) {
+        this.drawPedestrian(rider);
+      }
     }
     for (const border of this.postRender.border_array) {
       this.drawBorder(border);

@@ -81,7 +81,7 @@ export const generateAtomAst = (
         break;
       case TemplateToken.IS_NOT_EQUAL_TO:
         currentStackTokens.push(
-          new Atom(`not(${tokens[i - 1]}=${tokens[i + 1]})`)
+          new Atom(`not(${tokens[i - 1]}==${tokens[i + 1]})`)
         );
         break;
       case TemplateToken.IS_NOT_GREATER_THAN:

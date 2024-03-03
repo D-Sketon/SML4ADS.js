@@ -43,6 +43,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
       modelPath,
       outputPath
     ),
+  ADSML2OpenScenario: (adsml: string) =>
+    ipcRenderer.invoke("converter:ADSML2OpenScenario", adsml),
 
   adversarialAttack: (
     csvPath: string,

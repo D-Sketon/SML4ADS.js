@@ -16,6 +16,7 @@ import writeConfig from "../electron-node/io/writeConfig";
 import chooseDirectory from "../electron-node/ui/chooseDirectory";
 import chooseFile from "../electron-node/ui/chooseFile";
 import ADSML2Uppaal from "../electron-node/verifier/index";
+import ADSML2OpenScenario from "../electron-node/converter/openScenario2";
 import { generateStl } from "../electron-node/stl/index";
 import {
   adversarialAttack,
@@ -159,6 +160,8 @@ app.whenReady().then(() => {
   ipcMain.handle("video:fileSelect", onVideoFileSelected);
 
   ipcMain.handle("stl:generateStl", generateStl);
+
+  ipcMain.handle("converter:ADSML2OpenScenario", ADSML2OpenScenario);
 
   createWindow();
 

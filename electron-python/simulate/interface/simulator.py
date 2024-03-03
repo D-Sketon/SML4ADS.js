@@ -321,9 +321,10 @@ class Simulator:
                         location['max_lateral_offset'] = float(json_location['locationParams']['lateralOffset'][1])
                         location['road_min_offset'] = float(json_location['locationParams']['longitudinalOffset'][0])
                         location['road_max_offset'] = float(json_location['locationParams']['longitudinalOffset'][1])
-                    location['speed_type'] = json_location['speedType']
-                    if location['speed_type'] == 'Manual':
-                        location['speed'] = float(json_location['speedParams']['speed'])
+                    if 'speedType' in json_location.keys():
+                        location['speed_type'] = json_location['speedType']
+                        if location['speed_type'] == 'Manual':
+                            location['speed'] = float(json_location['speedParams']['speed'])
                     pedestrian.location.append(location)
                 pedestrians.append(pedestrian)
         scene.objs.extend(pedestrians)
