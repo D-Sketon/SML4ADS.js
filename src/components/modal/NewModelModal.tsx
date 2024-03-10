@@ -58,35 +58,35 @@ export default function NewModelModal({
     model.roadType = roadType;
     model.trafficCondition = trafficCondition;
     if (weatherType === WEATHER_TYPES.SUNNY) {
-      model.environment.visibility = 10000;
+      model.environment.visibility = [10000, 10000];
     } else if (weatherType === WEATHER_TYPES.RAINY) {
-      model.environment.visibility = 1000;
-      model.environment.temperature = 10;
-      model.environment.weather.cloud!.cloudinessLevel = 8;
-      model.environment.weather.cloud!.type = ENVIRONMENT_CLOUD.OVERCAST;;
-      model.environment.weather.rainfall!.type = ENVIRONMENT_RAINFALL.MODERATE_RAIN;
-      model.environment.weather.rainfall!.precipitationIntensity = 6;
-      model.environment.weather.wind!.type = ENVIRONMENT_WIND.MODERATE_BREEZE;
-      model.environment.weather.wind!.windSpeed = 6;
-      model.environment.illumination.lightingIntensity = 500;
+      model.environment.visibility = [1000, 1000];
+      model.environment.temperature = [10, 10];
+      model.environment.weather.cloud!.cloudinessLevel = [8, 8];
+      model.environment.weather.cloud!.type = [ENVIRONMENT_CLOUD.OVERCAST];
+      model.environment.weather.rainfall!.type = [ENVIRONMENT_RAINFALL.MODERATE_RAIN];
+      model.environment.weather.rainfall!.precipitationIntensity = [6, 6];
+      model.environment.weather.wind!.type = [ENVIRONMENT_WIND.MODERATE_BREEZE];
+      model.environment.weather.wind!.windSpeed = [6, 6];
+      model.environment.illumination.lightingIntensity = [500, 500];
     } else if (weatherType === WEATHER_TYPES.SNOWY) {
-      model.environment.visibility = 1000;
-      model.environment.temperature = -10;
-      model.environment.weather.cloud!.cloudinessLevel = 8;
-      model.environment.weather.cloud!.type = ENVIRONMENT_CLOUD.OVERCAST;
-      model.environment.weather.snowfall!.type = ENVIRONMENT_SNOWFALL.MODERATE_SNOW;
-      model.environment.weather.snowfall!.snowfallIntensity = 10;
-      model.environment.weather.wind!.type = ENVIRONMENT_WIND.MODERATE_BREEZE;
-      model.environment.weather.wind!.windSpeed = 6;
-      model.environment.illumination.lightingIntensity = 500;
+      model.environment.visibility = [1000, 1000];
+      model.environment.temperature = [-10, -10];
+      model.environment.weather.cloud!.cloudinessLevel = [8, 8];
+      model.environment.weather.cloud!.type = [ENVIRONMENT_CLOUD.OVERCAST];
+      model.environment.weather.snowfall!.type = [ENVIRONMENT_SNOWFALL.MODERATE_SNOW];
+      model.environment.weather.snowfall!.snowfallIntensity = [10, 10];
+      model.environment.weather.wind!.type = [ENVIRONMENT_WIND.MODERATE_BREEZE];
+      model.environment.weather.wind!.windSpeed = [6, 6];
+      model.environment.illumination.lightingIntensity = [500, 500];
     }
     if(timeType === TIME_TYPES.NIGHT) {
-      model.environment.illumination.type = ENVIRONMENT_ILLUMINATION.NIGHT;
-      model.environment.illumination.lightingIntensity = 10;
+      model.environment.illumination.type = [ENVIRONMENT_ILLUMINATION.NIGHT];
+      model.environment.illumination.lightingIntensity = [10, 10];
       // nonsense
       model.environment.sunProperty = {
-        sunAzimuth: 0,
-        sunElevation: 0,
+        sunAzimuth: [0, 0],
+        sunElevation: [0, 0]
       }
     }
     let content = JSON.stringify(model);

@@ -1,4 +1,4 @@
-import { Card, Collapse, Input, InputNumber, Select } from "antd";
+import { Card, Collapse, Input, InputNumber, Select, Tag } from "antd";
 import { ReactElement } from "react";
 import { MModel } from "../../../model/Model";
 import {
@@ -21,18 +21,40 @@ export default function EnvironmentInformation({
   setModel,
   model,
 }: EnvironmentInformationProps): ReactElement {
-  const handleChangeCloud = (e: number | null) => {
-    let p;
-    if (e === null || e === 0) {
-      p = ENVIRONMENT_CLOUD.CLEAR;
-    } else if (e <= 2) {
-      p = ENVIRONMENT_CLOUD.FEW_CLOUDS;
-    } else if (e <= 4) {
-      p = ENVIRONMENT_CLOUD.SCATTERED_CLOUDS;
-    } else if (e <= 7) {
-      p = ENVIRONMENT_CLOUD.BROKEN_CLOUDS;
-    } else if (e <= 8) {
-      p = ENVIRONMENT_CLOUD.OVERCAST;
+  const handleChangeCloud = (e: number | null, index: number) => {
+    const clouds = [
+      ENVIRONMENT_CLOUD.CLEAR,
+      ENVIRONMENT_CLOUD.FEW_CLOUDS,
+      ENVIRONMENT_CLOUD.SCATTERED_CLOUDS,
+      ENVIRONMENT_CLOUD.BROKEN_CLOUDS,
+      ENVIRONMENT_CLOUD.OVERCAST,
+    ];
+    const cloudRange = [0, 2, 4, 7, 8];
+    let low, high;
+    if (index === 0) {
+      low = e ?? 0;
+      high = model.environment.weather.cloud?.cloudinessLevel?.[1] ?? 0;
+    } else {
+      low = model.environment.weather.cloud?.cloudinessLevel?.[0] ?? 0;
+      high = e ?? 0;
+    }
+    const type = [];
+    let lowType = 0;
+    for (let i = 0; i < cloudRange.length; i++) {
+      if (low <= cloudRange[i]) {
+        lowType = i;
+        break;
+      }
+    }
+    let highType = 0;
+    for (let i = 0; i < cloudRange.length; i++) {
+      if (high <= cloudRange[i]) {
+        highType = i;
+        break;
+      }
+    }
+    for (let i = lowType; i <= highType; i++) {
+      type.push(clouds[i]);
     }
     setModel({
       ...model,
@@ -41,22 +63,46 @@ export default function EnvironmentInformation({
         weather: {
           ...model.environment.weather,
           cloud: {
-            cloudinessLevel: e,
-            type: p,
+            cloudinessLevel: index === 0 ? [e, high] : [low, e],
+            type,
           },
         },
       },
     });
   };
 
-  const handleChangeSnowfall = (e: number | null) => {
-    let p;
-    if (e === null || e <= 1.0) {
-      p = ENVIRONMENT_SNOWFALL.LIGHT_SNOW;
-    } else if (e <= 2.5) {
-      p = ENVIRONMENT_SNOWFALL.MODERATE_SNOW;
+  const handleChangeSnowfall = (e: number | null, index: number) => {
+    const snows = [
+      ENVIRONMENT_SNOWFALL.LIGHT_SNOW,
+      ENVIRONMENT_SNOWFALL.MODERATE_SNOW,
+      ENVIRONMENT_SNOWFALL.HEAVY_SNOW,
+    ];
+    const snowRange = [1.0, 2.5, 100];
+    let low, high;
+    if (index === 0) {
+      low = e ?? 0;
+      high = model.environment.weather.snowfall?.snowfallIntensity?.[1] ?? 0;
     } else {
-      p = ENVIRONMENT_SNOWFALL.HEAVY_SNOW;
+      low = model.environment.weather.snowfall?.snowfallIntensity?.[0] ?? 0;
+      high = e ?? 0;
+    }
+    const type = [];
+    let lowType = 0;
+    for (let i = 0; i < snowRange.length; i++) {
+      if (low <= snowRange[i]) {
+        lowType = i;
+        break;
+      }
+    }
+    let highType = 0;
+    for (let i = 0; i < snowRange.length; i++) {
+      if (high <= snowRange[i]) {
+        highType = i;
+        break;
+      }
+    }
+    for (let i = lowType; i <= highType; i++) {
+      type.push(snows[i]);
     }
     setModel({
       ...model,
@@ -65,26 +111,48 @@ export default function EnvironmentInformation({
         weather: {
           ...model.environment.weather,
           snowfall: {
-            snowfallIntensity: e,
-            type: p,
+            snowfallIntensity: index === 0 ? [e, high] : [low, e],
+            type,
           },
         },
       },
     });
   };
 
-  const handleChangeRainfall = (e: number | null) => {
-    let p;
-    if (e === null || e <= 2.5) {
-      p = ENVIRONMENT_RAINFALL.LIGHT_RAIN;
-    } else if (e <= 7.6) {
-      p = ENVIRONMENT_RAINFALL.MODERATE_RAIN;
-    } else if (e <= 50) {
-      p = ENVIRONMENT_RAINFALL.HEAVY_RAIN;
-    } else if (e <= 100) {
-      p = ENVIRONMENT_RAINFALL.VIOLENT_RAIN;
+  const handleChangeRainfall = (e: number | null, index: number) => {
+    const rains = [
+      ENVIRONMENT_RAINFALL.LIGHT_RAIN,
+      ENVIRONMENT_RAINFALL.MODERATE_RAIN,
+      ENVIRONMENT_RAINFALL.HEAVY_RAIN,
+      ENVIRONMENT_RAINFALL.VIOLENT_RAIN,
+      ENVIRONMENT_RAINFALL.CLOUDBURST,
+    ];
+    const rainRange = [2.5, 7.6, 50, 100, 500];
+    let low, high;
+    if (index === 0) {
+      low = e ?? 0;
+      high = model.environment.weather.rainfall?.precipitationIntensity?.[1] ?? 0;
     } else {
-      p = ENVIRONMENT_RAINFALL.CLOUDBURST;
+      low = model.environment.weather.rainfall?.precipitationIntensity?.[0] ?? 0;
+      high = e ?? 0;
+    }
+    const type = [];
+    let lowType = 0;
+    for (let i = 0; i < rainRange.length; i++) {
+      if (low <= rainRange[i]) {
+        lowType = i;
+        break;
+      }
+    }
+    let highType = 0;
+    for (let i = 0; i < rainRange.length; i++) {
+      if (high <= rainRange[i]) {
+        highType = i;
+        break;
+      }
+    }
+    for (let i = lowType; i <= highType; i++) {
+      type.push(rains[i]);
     }
     setModel({
       ...model,
@@ -93,42 +161,70 @@ export default function EnvironmentInformation({
         weather: {
           ...model.environment.weather,
           rainfall: {
-            precipitationIntensity: e,
-            type: p,
+            precipitationIntensity: index === 0 ? [e, high] : [low, e],
+            type,
           },
         },
       },
     });
   };
 
-  const handleChangeWind = (e: number | null) => {
-    let p;
-    if (e === null || e <= 0.2) {
-      p = ENVIRONMENT_WIND.CALM_WIND;
-    } else if (e <= 1.5) {
-      p = ENVIRONMENT_WIND.LIGHT_AIR;
-    } else if (e <= 3.3) {
-      p = ENVIRONMENT_WIND.LIGHT_BREEZE;
-    } else if (e <= 5.4) {
-      p = ENVIRONMENT_WIND.GENTLE_BREEZE;
-    } else if (e <= 7.9) {
-      p = ENVIRONMENT_WIND.MODERATE_BREEZE;
-    } else if (e <= 10.7) {
-      p = ENVIRONMENT_WIND.FRESH_BREEZE;
-    } else if (e <= 13.8) {
-      p = ENVIRONMENT_WIND.STRONG_BREEZE;
-    } else if (e <= 17.1) {
-      p = ENVIRONMENT_WIND.NEAR_GALE;
-    } else if (e <= 20.7) {
-      p = ENVIRONMENT_WIND.GALE;
-    } else if (e <= 24.4) {
-      p = ENVIRONMENT_WIND.STRONG_GALE;
-    } else if (e <= 28.4) {
-      p = ENVIRONMENT_WIND.STORM;
-    } else if (e <= 32.6) {
-      p = ENVIRONMENT_WIND.VIOLENT_STORM;
+  const handleChangeWind = (e: number | null, index: number) => {
+    const winds = [
+      ENVIRONMENT_WIND.CALM_WIND,
+      ENVIRONMENT_WIND.LIGHT_AIR,
+      ENVIRONMENT_WIND.LIGHT_BREEZE,
+      ENVIRONMENT_WIND.GENTLE_BREEZE,
+      ENVIRONMENT_WIND.MODERATE_BREEZE,
+      ENVIRONMENT_WIND.FRESH_BREEZE,
+      ENVIRONMENT_WIND.STRONG_BREEZE,
+      ENVIRONMENT_WIND.NEAR_GALE,
+      ENVIRONMENT_WIND.GALE,
+      ENVIRONMENT_WIND.STRONG_GALE,
+      ENVIRONMENT_WIND.STORM,
+      ENVIRONMENT_WIND.VIOLENT_STORM,
+      ENVIRONMENT_WIND.HURRICANE,
+    ];
+    const windRange = [
+      0.2,
+      1.5,
+      3.3,
+      5.4,
+      7.9,
+      10.7,
+      13.8,
+      17.1,
+      20.7,
+      24.4,
+      28.4,
+      32.6,
+      100,
+    ];
+    let low, high;
+    if (index === 0) {
+      low = e ?? 0;
+      high = model.environment.weather.wind?.windSpeed?.[1] ?? 0;
     } else {
-      p = ENVIRONMENT_WIND.HURRICANE;
+      low = model.environment.weather.wind?.windSpeed?.[0] ?? 0;
+      high = e ?? 0;
+    }
+    const type = [];
+    let lowType = 0;
+    for (let i = 0; i < windRange.length; i++) {
+      if (low <= windRange[i]) {
+        lowType = i;
+        break;
+      }
+    }
+    let highType = 0;
+    for (let i = 0; i < windRange.length; i++) {
+      if (high <= windRange[i]) {
+        highType = i;
+        break;
+      }
+    }
+    for (let i = lowType; i <= highType; i++) {
+      type.push(winds[i]);
     }
     setModel({
       ...model,
@@ -137,9 +233,9 @@ export default function EnvironmentInformation({
         weather: {
           ...model.environment.weather,
           wind: {
-            windSpeed: e,
+            windSpeed: index === 0 ? [e, high] : [low, e],
             windDirection: model.environment.weather.wind?.windDirection,
-            type: p,
+            type,
           },
         },
       },
@@ -203,50 +299,100 @@ export default function EnvironmentInformation({
         <div className="form-label w-44">atmospherePressure (Pa):</div>
         <InputNumber
           min={0}
-          className="w-44"
+          className="w-24"
           onChange={(e) => {
             setModel({
               ...model,
               environment: {
                 ...model.environment,
-                atmospherePressure: e,
+                atmospherePressure: [
+                  e,
+                  model.environment.atmospherePressure?.[1],
+                ],
               },
             });
           }}
-          value={model.environment?.atmospherePressure}
+          value={model.environment?.atmospherePressure?.[0]}
+        />
+        <span style={{ margin: "0 5px" }}>-</span>
+        <InputNumber
+          min={0}
+          className="w-24"
+          onChange={(e) => {
+            setModel({
+              ...model,
+              environment: {
+                ...model.environment,
+                atmospherePressure: [
+                  model.environment.atmospherePressure?.[0],
+                  e,
+                ],
+              },
+            });
+          }}
+          value={model.environment?.atmospherePressure?.[1]}
         />
       </div>
       <div className="form-item">
         <div className="form-label w-44">temperature (C):</div>
         <InputNumber
-          className="w-44"
+          className="w-24"
           onChange={(e) => {
             setModel({
               ...model,
               environment: {
                 ...model.environment,
-                temperature: e,
+                temperature: [e, model.environment.temperature?.[1]],
               },
             });
           }}
-          value={model.environment?.temperature}
+          value={model.environment?.temperature?.[0]}
+        />
+        <span style={{ margin: "0 5px" }}>-</span>
+        <InputNumber
+          className="w-24"
+          onChange={(e) => {
+            setModel({
+              ...model,
+              environment: {
+                ...model.environment,
+                temperature: [model.environment.temperature?.[0], e],
+              },
+            });
+          }}
+          value={model.environment?.temperature?.[1]}
         />
       </div>
       <div className="form-item">
         <div className="form-label w-44">visibility (m):</div>
         <InputNumber
           min={0}
-          className="w-44"
+          className="w-24"
           onChange={(e) => {
             setModel({
               ...model,
               environment: {
                 ...model.environment,
-                visibility: e,
+                visibility: [e, model.environment.visibility?.[1]],
               },
             });
           }}
-          value={model.environment?.visibility}
+          value={model.environment?.visibility?.[0]}
+        />
+        <span style={{ margin: "0 5px" }}>-</span>
+        <InputNumber
+          min={0}
+          className="w-24"
+          onChange={(e) => {
+            setModel({
+              ...model,
+              environment: {
+                ...model.environment,
+                visibility: [model.environment.visibility?.[0], e],
+              },
+            });
+          }}
+          value={model.environment?.visibility?.[1]}
         />
       </div>
       <Card title="SunProperty" className="box-border m-2 ml-0 inner-card">
@@ -254,26 +400,49 @@ export default function EnvironmentInformation({
           <div className="form-item">
             <div className="form-label w-28">sunAzimuth:</div>
             <InputNumber
-              className="w-44"
+              className="w-16"
               onChange={(e) => {
                 setModel({
                   ...model,
                   environment: {
                     ...model.environment,
                     sunProperty: {
-                      sunAzimuth: e,
+                      sunAzimuth: [
+                        e,
+                        model.environment.sunProperty?.sunAzimuth?.[1],
+                      ],
                       sunElevation: model.environment.sunProperty?.sunElevation,
                     },
                   },
                 });
               }}
-              value={model.environment?.sunProperty?.sunAzimuth}
+              value={model.environment?.sunProperty?.sunAzimuth?.[0]}
+            />
+            <span style={{ margin: "0 5px" }}>-</span>
+            <InputNumber
+              className="w-16"
+              onChange={(e) => {
+                setModel({
+                  ...model,
+                  environment: {
+                    ...model.environment,
+                    sunProperty: {
+                      sunAzimuth: [
+                        model.environment.sunProperty?.sunAzimuth?.[0],
+                        e,
+                      ],
+                      sunElevation: model.environment.sunProperty?.sunElevation,
+                    },
+                  },
+                });
+              }}
+              value={model.environment?.sunProperty?.sunAzimuth?.[1]}
             />
           </div>
           <div className="form-item">
             <div className="form-label w-28">sunElevation:</div>
             <InputNumber
-              className="w-44"
+              className="w-16"
               onChange={(e) => {
                 setModel({
                   ...model,
@@ -281,21 +450,45 @@ export default function EnvironmentInformation({
                     ...model.environment,
                     sunProperty: {
                       sunAzimuth: model.environment.sunProperty?.sunAzimuth,
-                      sunElevation: e,
+                      sunElevation: [
+                        e,
+                        model.environment.sunProperty?.sunElevation?.[1],
+                      ],
                     },
                   },
                 });
               }}
-              value={model.environment?.sunProperty?.sunElevation}
+              value={model.environment?.sunProperty?.sunElevation?.[0]}
+            />
+            <span style={{ margin: "0 5px" }}>-</span>
+            <InputNumber
+              className="w-16"
+              onChange={(e) => {
+                setModel({
+                  ...model,
+                  environment: {
+                    ...model.environment,
+                    sunProperty: {
+                      sunAzimuth: model.environment.sunProperty?.sunAzimuth,
+                      sunElevation: [
+                        model.environment.sunProperty?.sunElevation?.[0],
+                        e,
+                      ],
+                    },
+                  },
+                });
+              }}
+              value={model.environment?.sunProperty?.sunElevation?.[1]}
             />
           </div>
         </div>
       </Card>
       <Card title="Particulates" className="box-border m-2 ml-0 inner-card">
         <div className="form-item">
-          <div className="form-label w-28">type:</div>
+          <div className="form-label w-fit">type:</div>
           <Select
             className="w-44"
+            mode="multiple"
             options={Object.values(ENVIRONMENT_PARTICULATES).map((i) => ({
               value: i,
               label: i,
@@ -318,9 +511,10 @@ export default function EnvironmentInformation({
       <Card title="Illumination" className="box-border m-2 ml-0 inner-card">
         <div className="inner-wrapper">
           <div className="form-item">
-            <div className="form-label w-28">type:</div>
+            <div className="form-label w-fit">type:</div>
             <Select
               className="w-44"
+              mode="multiple"
               options={Object.values(ENVIRONMENT_ILLUMINATION).map((i) => ({
                 value: i,
                 label: i,
@@ -345,7 +539,7 @@ export default function EnvironmentInformation({
             <div className="form-label w-28">intensity (Lux):</div>
             <InputNumber
               min={0}
-              className="w-44"
+              className="w-16"
               onChange={(e) => {
                 setModel({
                   ...model,
@@ -353,12 +547,36 @@ export default function EnvironmentInformation({
                     ...model.environment,
                     illumination: {
                       type: model.environment.illumination.type,
-                      lightingIntensity: e,
+                      lightingIntensity: [
+                        e,
+                        model.environment.illumination.lightingIntensity?.[1],
+                      ],
                     },
                   },
                 });
               }}
-              value={model.environment?.illumination?.lightingIntensity}
+              value={model.environment?.illumination?.lightingIntensity?.[0]}
+            />
+            <span style={{ margin: "0 5px" }}>-</span>
+            <InputNumber
+              min={0}
+              className="w-16"
+              onChange={(e) => {
+                setModel({
+                  ...model,
+                  environment: {
+                    ...model.environment,
+                    illumination: {
+                      type: model.environment.illumination.type,
+                      lightingIntensity: [
+                        model.environment.illumination.lightingIntensity?.[0],
+                        e,
+                      ],
+                    },
+                  },
+                });
+              }}
+              value={model.environment?.illumination?.lightingIntensity?.[1]}
             />
           </div>
         </div>
@@ -367,25 +585,31 @@ export default function EnvironmentInformation({
         <Card title="Cloud" className="box-border m-2 ml-0 inner-card">
           <div className="inner-wrapper">
             <div className="form-item">
-              <div className="form-label w-28">type:</div>
-              <Select
-                className="w-44"
-                options={Object.values(ENVIRONMENT_CLOUD).map((i) => ({
-                  value: i,
-                  label: i,
-                }))}
-                disabled
-                value={model.environment?.weather?.cloud?.type}
-              />
+              <div className="form-label w-fit">type:</div>
+              <div className="flex: 1">
+                {model.environment?.weather?.cloud?.type?.map((i: string) => (
+                  <Tag key={i} color="blue">
+                    {i}
+                  </Tag>
+                ))}
+              </div>
             </div>
             <div className="form-item">
               <div className="form-label w-28">level (Okta):</div>
               <InputNumber
                 min={0}
                 max={8}
-                className="w-44"
-                onChange={handleChangeCloud}
-                value={model.environment?.weather?.cloud?.cloudinessLevel}
+                className="w-16"
+                onChange={(e) => handleChangeCloud(e, 0)}
+                value={model.environment?.weather?.cloud?.cloudinessLevel?.[0]}
+              />
+              <span style={{ margin: "0 5px" }}>-</span>
+              <InputNumber
+                min={0}
+                max={8}
+                className="w-16"
+                onChange={(e) => handleChangeCloud(e, 1)}
+                value={model.environment?.weather?.cloud?.cloudinessLevel?.[1]}
               />
             </div>
           </div>
@@ -393,24 +617,33 @@ export default function EnvironmentInformation({
         <Card title="Snowfall" className="box-border m-2 ml-0 inner-card">
           <div className="inner-wrapper">
             <div className="form-item">
-              <div className="form-label w-28">type:</div>
-              <Select
-                className="w-44"
-                options={Object.values(ENVIRONMENT_SNOWFALL).map((i) => ({
-                  value: i,
-                  label: i,
-                }))}
-                disabled
-                value={model.environment?.weather?.snowfall?.type}
-              />
+              <div className="form-label w-fit">type:</div>
+              <div className="flex: 1">
+                {model.environment?.weather?.snowfall?.type?.map((i: string) => (
+                  <Tag key={i} color="blue">
+                    {i}
+                  </Tag>
+                ))}
+              </div>
             </div>
             <div className="form-item">
               <div className="form-label w-28">intensity (mm/h):</div>
               <InputNumber
                 min={0}
-                className="w-44"
-                onChange={handleChangeSnowfall}
-                value={model.environment?.weather?.snowfall?.snowfallIntensity}
+                className="w-16"
+                onChange={(e) => handleChangeSnowfall(e, 0)}
+                value={
+                  model.environment?.weather?.snowfall?.snowfallIntensity?.[0]
+                }
+              />
+              <span style={{ margin: "0 5px" }}>-</span>
+              <InputNumber
+                min={0}
+                className="w-16"
+                onChange={(e) => handleChangeSnowfall(e, 1)}
+                value={
+                  model.environment?.weather?.snowfall?.snowfallIntensity?.[1]
+                }
               />
             </div>
           </div>
@@ -418,25 +651,34 @@ export default function EnvironmentInformation({
         <Card title="Rainfall" className="box-border m-2 ml-0 inner-card">
           <div className="inner-wrapper">
             <div className="form-item">
-              <div className="form-label w-28">type:</div>
-              <Select
-                className="w-44"
-                options={Object.values(ENVIRONMENT_RAINFALL).map((i) => ({
-                  value: i,
-                  label: i,
-                }))}
-                disabled
-                value={model.environment?.weather?.rainfall?.type}
-              />
+              <div className="form-label w-fit">type:</div>
+              <div className="flex: 1">
+                {model.environment?.weather?.rainfall?.type?.map((i: string) => (
+                  <Tag key={i} color="blue">
+                    {i}
+                  </Tag>
+                ))}
+              </div>
             </div>
             <div className="form-item">
               <div className="form-label w-28">intensity (mm/h):</div>
               <InputNumber
                 min={0}
-                className="w-44"
-                onChange={handleChangeRainfall}
+                className="w-16"
+                onChange={(e) => handleChangeRainfall(e, 0)}
                 value={
-                  model.environment?.weather?.rainfall?.precipitationIntensity
+                  model.environment?.weather?.rainfall
+                    ?.precipitationIntensity?.[0]
+                }
+              />
+              <span style={{ margin: "0 5px" }}>-</span>
+              <InputNumber
+                min={0}
+                className="w-16"
+                onChange={(e) => handleChangeRainfall(e, 1)}
+                value={
+                  model.environment?.weather?.rainfall
+                    ?.precipitationIntensity?.[1]
                 }
               />
             </div>
@@ -445,24 +687,30 @@ export default function EnvironmentInformation({
         <Card title="Wind" className="box-border m-2 ml-0 inner-card">
           <div className="inner-wrapper">
             <div className="form-item">
-              <div className="form-label w-28">type:</div>
-              <Select
-                className="w-44"
-                options={Object.values(ENVIRONMENT_WIND).map((i) => ({
-                  value: i,
-                  label: i,
-                }))}
-                disabled
-                value={model.environment?.weather?.wind?.type}
-              />
+              <div className="form-label w-fit">type:</div>
+              <div className="flex: 1">
+                {model.environment?.weather?.wind?.type?.map((i: string) => (
+                  <Tag key={i} color="blue">
+                    {i}
+                  </Tag>
+                ))}
+              </div>
             </div>
+            <div className="w-44" style={{ height: '10px' }}></div>
             <div className="form-item">
               <div className="form-label w-28">speed (m/s):</div>
               <InputNumber
                 min={0}
-                className="w-44"
-                onChange={handleChangeWind}
-                value={model.environment?.weather?.wind?.windSpeed}
+                className="w-16"
+                onChange={(e) => handleChangeWind(e, 0)}
+                value={model.environment?.weather?.wind?.windSpeed?.[0]}
+              />
+              <span style={{ margin: "0 5px" }}>-</span>
+              <InputNumber
+                min={0}
+                className="w-16"
+                onChange={(e) => handleChangeWind(e, 1)}
+                value={model.environment?.weather?.wind?.windSpeed?.[1]}
               />
             </div>
             <div className="form-item">

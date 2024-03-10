@@ -1,42 +1,42 @@
 export type Environment = {
-  atmospherePressure?: number;
-  temperature?: number;
-  visibility?: number;  // m
+  atmospherePressure?: [number, number];
+  temperature?: [number, number];
+  visibility?: [number, number];  // m
   sunProperty?: {
-    sunAzimuth?: number;
-    sunElevation?: number;
+    sunAzimuth?: [number, number];
+    sunElevation?: [number, number];
   };
   // particulates
   particulates?: {
-    type?: ENVIRONMENT_PARTICULATES;
+    type?: ENVIRONMENT_PARTICULATES[];
   };
   // illumination
   illumination: {
-    type?: ENVIRONMENT_ILLUMINATION;
-    lightingIntensity?: number; // Lux
+    type?: ENVIRONMENT_ILLUMINATION[];
+    lightingIntensity?: [number, number]; // Lux
   };
   // weather
   weather: {
     // cloud
     cloud?: {
-      type?: ENVIRONMENT_CLOUD;
-      cloudinessLevel?: number; // Okta
+      type?: ENVIRONMENT_CLOUD[];
+      cloudinessLevel?: [number, number]; // Okta
     };
     // snowfall
     snowfall?: {
-      type?: ENVIRONMENT_SNOWFALL;
-      snowfallIntensity?: number; // mm/h
+      type?: ENVIRONMENT_SNOWFALL[];
+      snowfallIntensity?: [number, number]; // mm/h
     };
     // rainfall
     rainfall?: {
-      type?: ENVIRONMENT_RAINFALL;
-      precipitationIntensity?: number; // mm/h
+      type?: ENVIRONMENT_RAINFALL[];
+      precipitationIntensity?: [number, number]; // mm/h
     };
     // wind
     wind?: {
-      type?: ENVIRONMENT_WIND;
+      type?: ENVIRONMENT_WIND[];
       windDirection?: string;
-      windSpeed?: number;
+      windSpeed?: [number, number];
     };
   };
   // connectivity
@@ -111,37 +111,37 @@ export enum ENVIRONMENT_POSITIONING {
 }
 
 export const defaultEnvironment: () => Environment = () => ({
-  atmospherePressure: 101325,
-  temperature: 25,
-  visibility: 1000,
+  atmospherePressure: [101325, 101325],
+  temperature: [25, 25],
+  visibility: [1000, 1000],
   sunProperty: {
-    sunAzimuth: 180,
-    sunElevation: 45,
+    sunAzimuth: [180, 180],
+    sunElevation: [45, 45],
   },
   particulates: {
-    type: ENVIRONMENT_PARTICULATES.NONE,
+    type: [ENVIRONMENT_PARTICULATES.NONE],
   },
   illumination: {
-    type: ENVIRONMENT_ILLUMINATION.DAY,
-    lightingIntensity: 10000,
+    type: [ENVIRONMENT_ILLUMINATION.DAY],
+    lightingIntensity: [10000, 1000],
   },
   weather: {
     cloud: {
-      type: ENVIRONMENT_CLOUD.CLEAR,
-      cloudinessLevel: 0,
+      type: [ENVIRONMENT_CLOUD.CLEAR],
+      cloudinessLevel: [0, 0],
     },
     snowfall: {
-      type: ENVIRONMENT_SNOWFALL.LIGHT_SNOW,
-      snowfallIntensity: 0,
+      type: [ENVIRONMENT_SNOWFALL.LIGHT_SNOW],
+      snowfallIntensity: [0, 0],
     },
     rainfall: {
-      type: ENVIRONMENT_RAINFALL.LIGHT_RAIN,
-      precipitationIntensity: 0,
+      type: [ENVIRONMENT_RAINFALL.LIGHT_RAIN],
+      precipitationIntensity: [0, 0],
     },
     wind: {
-      type: ENVIRONMENT_WIND.CALM_WIND,
+      type: [ENVIRONMENT_WIND.CALM_WIND],
       windDirection: "N",
-      windSpeed: 0,
+      windSpeed: [0, 0],
     },
   },
   connectivity: {

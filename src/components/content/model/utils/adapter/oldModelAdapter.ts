@@ -1,5 +1,5 @@
 import { VEHICLE_TYPES } from "../../../../../model/Car";
-import { defaultEnvironment } from "../../../../../model/Environment";
+import { Environment, defaultEnvironment } from "../../../../../model/Environment";
 import { MModel } from "../../../../../model/Model";
 import {
   GLOBAL_POSITION_PARAMS,
@@ -9,6 +9,74 @@ import {
   SPEED_TYPES,
   defaultManualSpeedParams,
 } from "../../../../../model/params/ParamSpeed";
+
+const oldEnvironmentAdapter = (environment: Environment) => {
+  // change to array
+  if(environment.atmospherePressure !== void 0 && !Array.isArray(environment.atmospherePressure)) {
+    environment.atmospherePressure = [environment.atmospherePressure, environment.atmospherePressure];
+  }
+  if(environment.temperature !== void 0 && !Array.isArray(environment.temperature)) {
+    environment.temperature = [environment.temperature, environment.temperature];
+  }
+  if(environment.visibility !== void 0 && !Array.isArray(environment.visibility)) {
+    environment.visibility = [environment.visibility, environment.visibility];
+  }
+  if(environment.sunProperty !== void 0) {
+    if(environment.sunProperty.sunAzimuth !== void 0 && !Array.isArray(environment.sunProperty.sunAzimuth)) {
+      environment.sunProperty.sunAzimuth = [environment.sunProperty.sunAzimuth, environment.sunProperty.sunAzimuth];
+    }
+    if(environment.sunProperty.sunElevation !== void 0 && !Array.isArray(environment.sunProperty.sunElevation)) {
+      environment.sunProperty.sunElevation = [environment.sunProperty.sunElevation, environment.sunProperty.sunElevation];
+    }
+  }
+  if(environment.particulates !== void 0) {
+    if(environment.particulates.type !== void 0 && !Array.isArray(environment.particulates.type)) {
+      environment.particulates.type = [environment.particulates.type];
+    }
+  }
+  if(environment.illumination !== void 0) {
+    if(environment.illumination.type !== void 0 && !Array.isArray(environment.illumination.type)) {
+      environment.illumination.type = [environment.illumination.type];
+    }
+    if(environment.illumination.lightingIntensity !== void 0 && !Array.isArray(environment.illumination.lightingIntensity)) {
+      environment.illumination.lightingIntensity = [environment.illumination.lightingIntensity, environment.illumination.lightingIntensity];
+    }
+  }
+  if(environment.weather !== void 0) {
+    if(environment.weather.cloud !== void 0) {
+      if(environment.weather.cloud.type !== void 0 && !Array.isArray(environment.weather.cloud.type)) {
+        environment.weather.cloud.type = [environment.weather.cloud.type];
+      }
+      if(environment.weather.cloud.cloudinessLevel !== void 0 && !Array.isArray(environment.weather.cloud.cloudinessLevel)) {
+        environment.weather.cloud.cloudinessLevel = [environment.weather.cloud.cloudinessLevel, environment.weather.cloud.cloudinessLevel];
+      }
+    }
+    if(environment.weather.snowfall !== void 0) {
+      if(environment.weather.snowfall.type !== void 0 && !Array.isArray(environment.weather.snowfall.type)) {
+        environment.weather.snowfall.type = [environment.weather.snowfall.type];
+      }
+      if(environment.weather.snowfall.snowfallIntensity !== void 0 && !Array.isArray(environment.weather.snowfall.snowfallIntensity)) {
+        environment.weather.snowfall.snowfallIntensity = [environment.weather.snowfall.snowfallIntensity, environment.weather.snowfall.snowfallIntensity];
+      }
+    }
+    if(environment.weather.rainfall !== void 0) {
+      if(environment.weather.rainfall.type !== void 0 && !Array.isArray(environment.weather.rainfall.type)) {
+        environment.weather.rainfall.type = [environment.weather.rainfall.type];
+      }
+      if(environment.weather.rainfall.precipitationIntensity !== void 0 && !Array.isArray(environment.weather.rainfall.precipitationIntensity)) {
+        environment.weather.rainfall.precipitationIntensity = [environment.weather.rainfall.precipitationIntensity, environment.weather.rainfall.precipitationIntensity];
+      }
+    }
+    if(environment.weather.wind !== void 0) {
+      if(environment.weather.wind.type !== void 0 && !Array.isArray(environment.weather.wind.type)) {
+        environment.weather.wind.type = [environment.weather.wind.type];
+      }
+      if(environment.weather.wind.windSpeed !== void 0 && !Array.isArray(environment.weather.wind.windSpeed)) {
+        environment.weather.wind.windSpeed = [environment.weather.wind.windSpeed, environment.weather.wind.windSpeed];
+      }
+    }
+  }
+}
 
 /**
  * support old version
@@ -27,6 +95,9 @@ function oldModelAdapter(model: MModel): MModel {
   // Add environment
   if (!newModel.environment) {
     newModel.environment = defaultEnvironment();
+  }
+  if(newModel.environment) {
+    oldEnvironmentAdapter(newModel.environment);
   }
   /**
    * from
