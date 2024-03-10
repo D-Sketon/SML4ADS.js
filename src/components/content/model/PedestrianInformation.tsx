@@ -625,7 +625,8 @@ export default function PedestrianInformation({
   const simpleSetSpeedParams = (
     key: string,
     value: any,
-    _index: number
+    _index: number,
+    k: number
   ): void => {
     setModel((model: MModel) => ({
       ...model,
@@ -639,7 +640,8 @@ export default function PedestrianInformation({
                   ...l,
                   speedParams: {
                     ...l.speedParams,
-                    [key]: value,
+                    // @ts-ignore
+                    [key]: k === 0 ? [value, l.speedParams![key][1]] : [l.speedParams![key][0], value],
                   },
                 };
               }
@@ -674,15 +676,28 @@ export default function PedestrianInformation({
           <div className="form-item">
             <div className="form-label w-28">speed:</div>
             <InputNumber
-              className="w-36"
+              className="w-24"
               onChange={(e) => {
-                simpleSetSpeedParams("speed", e, _index);
+                simpleSetSpeedParams("speed", e, _index, 0);
               }}
               value={
                 (
                   pedestrian.location[_index]
                     .speedParams as PEDESTRIAN_SPEED_PARAMS
-                ).speed!
+                ).speed?.[0]
+              }
+            />
+            <span style={{ margin: "0 5px" }}>-</span>
+            <InputNumber
+              className="w-24"
+              onChange={(e) => {
+                simpleSetSpeedParams("speed", e, _index, 1);
+              }}
+              value={
+                (
+                  pedestrian.location[_index]
+                    .speedParams as PEDESTRIAN_SPEED_PARAMS
+                ).speed?.[1]
               }
             />
           </div>

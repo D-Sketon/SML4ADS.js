@@ -577,7 +577,8 @@ export default function RiderInformation({
 
   const simpleSetSpeedParams = (
     value: any,
-    _index: number
+    _index: number,
+    k: number
   ): void => {
     setModel((model: MModel) => ({
       ...model,
@@ -589,7 +590,7 @@ export default function RiderInformation({
               if (j === _index) {
                 return {
                   ...l,
-                  speed: value
+                  speed: k === 0 ? [value, l.speed[1]] : [l.speed[0], value]
                 };
               }
               return l;
@@ -681,11 +682,19 @@ export default function RiderInformation({
             <div className="form-item">
               <div className="form-label w-28">speed:</div>
               <InputNumber
-                className="w-36"
+                className="w-24"
                 onChange={(e) => {
-                  simpleSetSpeedParams(e, index);
+                  simpleSetSpeedParams(e, index, 0);
                 }}
-                value={rider.location[index].speed}
+                value={rider.location[index].speed[0]}
+              />
+              <span style={{ margin: "0 5px" }}>-</span>
+              <InputNumber
+                className="w-24"
+                onChange={(e) => {
+                  simpleSetSpeedParams(e, index, 1);
+                }}
+                value={rider.location[index].speed[1]}
               />
             </div>
           )}

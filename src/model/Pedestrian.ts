@@ -63,7 +63,7 @@ export enum PEDESTRIAN_SPEED_TYPES {
 }
 
 export type PEDESTRIAN_SPEED_PARAMS = {
-  speed?: number;
+  speed?: [number, number];
 };
 
 export const defaultPedestrianSpeedParams: (
@@ -71,7 +71,7 @@ export const defaultPedestrianSpeedParams: (
 ) => PEDESTRIAN_SPEED_PARAMS = (type) => {
   if (type === PEDESTRIAN_SPEED_TYPES.MANUAL) {
     return {
-      speed: 0,
+      speed: [0, 0],
     };
   }
   return {};

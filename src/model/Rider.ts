@@ -7,7 +7,7 @@ import {
 export type RiderLocation = {
   locationType: LOCATION_TYPES;
   locationParams: LOCATION_PARAMS;
-  speed: number;
+  speed: [number, number];
 };
 
 export type MRider = {
@@ -21,7 +21,7 @@ export const defaultRider: () => MRider = () => ({
     {
       locationType: LOCATION_TYPES.GLOBAL_POSITION,
       locationParams: defaultGlobalPositionParams(),
-      speed: 0,
+      speed: [0, 0],
     },
   ],
 });
