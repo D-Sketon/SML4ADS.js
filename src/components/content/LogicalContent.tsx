@@ -39,6 +39,8 @@ const getChildrenComponent = (
       return <SimulationResult path={path} />
     case FILE_SUFFIX.ADSTL:
       return <Adstl path={path}/>;
+    case FILE_SUFFIX.OSC:
+      return <Text path={path} ext={key} />;
     default:
       return <></>;
   }

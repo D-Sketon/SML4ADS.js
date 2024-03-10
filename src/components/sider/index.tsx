@@ -92,7 +92,8 @@ export default function SiderTree(): ReactElement {
       ext === FILE_SUFFIX.XML ||
       ext === FILE_SUFFIX.XODR ||
       ext === FILE_SUFFIX.JSON ||
-      ext === FILE_SUFFIX.ADSTL
+      ext === FILE_SUFFIX.ADSTL || 
+      ext === FILE_SUFFIX.OSC
     ) {
       dispatch(addFilePath(selectInfo.key as string));
     } else {
