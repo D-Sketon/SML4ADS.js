@@ -324,7 +324,7 @@ class Simulator:
                     if 'speedType' in json_location.keys():
                         location['speed_type'] = json_location['speedType']
                         if location['speed_type'] == 'Manual':
-                            location['speed'] = float(json_location['speedParams']['speed'])
+                            location['speed'] = np.random.uniform(float(json_location['speedParams']['speed'][0]), float(json_location['speedParams']['speed'][1]))
                     pedestrian.location.append(location)
                 pedestrians.append(pedestrian)
         scene.objs.extend(pedestrians)

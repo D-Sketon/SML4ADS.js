@@ -150,6 +150,28 @@ export default function Welcome(): ReactElement {
               </Card>
             </Col>
           </Row>
+          <Row gutter={16} className="mt-2 mb-2">
+            <Col span={8}>
+              <Card
+                title="时序数据分析"
+                hoverable={true}
+                extra={<NavLink to="/timeSeriesAnalysis">More</NavLink>}
+                className="h-52"
+              >
+                时序数据分析
+              </Card>
+            </Col>
+            <Col span={8}>
+              <Card
+                title="强化学习训练"
+                hoverable={true}
+                extra={<NavLink to="/RLTraining">More</NavLink>}
+                className="h-52"
+              >
+                强化学习训练
+              </Card>
+            </Col>
+          </Row>
         </div>
       </div>
       <NewProjectModal

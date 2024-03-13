@@ -19,6 +19,8 @@ import CriticalSpecificScenarios from "./components/extends/CriticalSpecificScen
 import CriticalScenarios from "./components/extends/CriticalScenarios";
 import SimulationTest from "./components/extends/SimulationTest";
 import { MConfig } from "./model/Config";
+import RLTraining from "./components/extends/RLTraining";
+import TimeSeriesAnalysis from "./components/extends/TimeSeriesAnalysis";
 
 type NotificationType = "success" | "info" | "warning" | "error";
 
@@ -85,6 +87,8 @@ function App(): ReactElement {
         />
         <Route path="/criticalScenarios" element={<CriticalScenarios />} />
         <Route path="/simulationTest" element={<SimulationTest />} />
+        <Route path="/RLTraining" element={<RLTraining />} />
+        <Route path="/timeSeriesAnalysis" element={<TimeSeriesAnalysis />} />
         <Route path="/" element={<Navigate to="/welcome" />} />
       </Routes>
       <SettingsModal

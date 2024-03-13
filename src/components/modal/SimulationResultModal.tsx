@@ -33,7 +33,7 @@ export default function SimulationResultModal({
     vel: number[];
   };
 }): ReactElement {
-  const acclerationOptions = {
+  const accelerationOptions = {
     title: {
       text: "Acceleration",
     },
@@ -114,7 +114,7 @@ export default function SimulationResultModal({
       <div className="flex justify-center">
         <ReactEChartsCore
           echarts={echarts}
-          option={acclerationOptions}
+          option={accelerationOptions}
           notMerge={true}
           lazyUpdate={true}
           style={{ width: "400px" }}
