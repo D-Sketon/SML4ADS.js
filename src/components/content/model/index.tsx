@@ -170,17 +170,6 @@ export default function Model(props: ModelProps): ReactElement {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [config.simulationPort, saveCount]);
 
-  // onUnmounted
-  // has bug, so ignore
-  // useEffect(() => {
-  //   return () => {
-  //     const asyncFn = async () => {
-  //       await saveHook();
-  //     };
-  //     asyncFn();
-  //   };
-  // }, [saveHook]);
-
   // preprocess
   useEffect(() => {
     if (saveFilePath === path) {

@@ -113,17 +113,6 @@ export default function Tree({ path }: TreeProps): ReactElement {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [path]);
 
-  // onUnmounted
-  // has bug, so ignore
-  // useEffect(() => {
-  //   return () => {
-  //     const asyncFn = async () => {
-  //       await saveHook();
-  //     };
-  //     asyncFn();
-  //   };
-  // }, [saveHook]);
-
   const handleKeyDown = async (event: React.KeyboardEvent) => {
     if (event.key.toLowerCase() === "s" && (event.ctrlKey || event.metaKey)) {
       await saveHook(true);

@@ -1,6 +1,3 @@
-// import fs from "fs";
-// import path from "path";
-
 // @ts-nocheck
 const fs = require("fs");
 const path = require("path");

@@ -70,48 +70,11 @@ export const checkEnvironmentParams = (environment: Environment) => {
     }
   }
 
-  // if (atmospherePressure !== null && atmospherePressure !== void 0) {
-  //   _assertNumberGE(atmospherePressure, 0, "atmospherePressure should >= 0");
-  // }
-
-  // if (temperature !== null && temperature !== void 0) {
-  //   _assertNumber(temperature, "temperature should be number");
-  // }
-
-  // if (visibility !== null && visibility !== void 0) {
-  //   _assertNumberGE(visibility, 0, "visibility should >= 0");
-  // }
-
-  // if (sunProperty) {
-  //   const { sunAzimuth, sunElevation } = sunProperty;
-
-  //   if (sunAzimuth !== null && sunAzimuth !== void 0) {
-  //     _assertNumber(sunAzimuth, "sunAzimuth should be number");
-  //   }
-
-  //   if (sunElevation !== null && sunElevation !== void 0) {
-  //     _assertNumber(sunElevation, "sunElevation should be number");
-  //   }
-  // }
-
-  // if (illumination) {
-  //   const { lightingIntensity } = illumination;
-
-  //   if (lightingIntensity !== null && lightingIntensity !== void 0) {
-  //     _assertNumberGE(lightingIntensity, 0, "lightingIntensity should >= 0");
-  //   }
-  // }
-
   if(weather) {
     const { cloud, snowfall, rainfall, wind } = weather;
 
     if (cloud) {
       const { cloudinessLevel } = cloud;
-
-      // if (cloudinessLevel !== null && cloudinessLevel !== void 0) {
-      //   _assertNumberGE(cloudinessLevel, 0, "cloudinessLevel should >= 0");
-      //   _assertNumberLE(cloudinessLevel, 8, "cloudinessLevel should <= 8");
-      // }
 
       if (cloudinessLevel != null) {
         _assertArrayLength(cloudinessLevel, 2, "cloudinessLevel should have length of 2");
@@ -125,10 +88,6 @@ export const checkEnvironmentParams = (environment: Environment) => {
     if (snowfall) {
       const { snowfallIntensity } = snowfall;
 
-      // if (snowfallIntensity !== null && snowfallIntensity !== void 0) {
-      //   _assertNumberGE(snowfallIntensity, 0, "snowfallIntensity should >= 0");
-      // }
-
       if (snowfallIntensity != null) {
         _assertArrayLength(snowfallIntensity, 2, "snowfallIntensity should have length of 2");
         for (const si of snowfallIntensity) {
@@ -140,10 +99,6 @@ export const checkEnvironmentParams = (environment: Environment) => {
     if (rainfall) {
       const { precipitationIntensity } = rainfall;
 
-      // if (precipitationIntensity !== null && precipitationIntensity !== void 0) {
-      //   _assertNumberGE(precipitationIntensity, 0, "precipitationIntensity should >= 0");
-      // }
-
       if (precipitationIntensity != null) {
         _assertArrayLength(precipitationIntensity, 2, "precipitationIntensity should have length of 2");
         for (const pi of precipitationIntensity) {
@@ -154,10 +109,6 @@ export const checkEnvironmentParams = (environment: Environment) => {
 
     if (wind) {
       const { windSpeed } = wind;
-
-      // if (windSpeed !== null && windSpeed !== void 0) {
-      //   _assertNumberGE(windSpeed, 0, "windSpeed should >= 0");
-      // }
 
       if (windSpeed != null) {
         _assertArrayLength(windSpeed, 2, "windSpeed should have length of 2");
