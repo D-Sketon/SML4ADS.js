@@ -22,7 +22,7 @@ import AppContext from "../../store/context";
 
 export const meta = {
   title: "逻辑场景到具体场景生成",
-  description: "将工具前端生成的逻辑场景模型输入，输出具体初始场景。"
+  description: "将工具前端生成的逻辑场景模型输入，输出具体初始场景。",
 };
 
 export default function CriticalScenarios(): ReactElement {
@@ -86,11 +86,13 @@ export default function CriticalScenarios(): ReactElement {
     }
     setIsLoading(true);
     try {
-      await window.electronAPI.criticalScenarios(
+      await window.electronAPI.extendRPC(
+        "criticalScenarios",
+        "127.0.0.1",
+        state.config.simulationPort,
         port,
         mapPath,
-        modelPath,
-        state.config.simulationPort
+        modelPath
       );
       notification.success({
         message: "Success",

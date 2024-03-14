@@ -18,7 +18,7 @@ import AppContext from "../../store/context";
 
 export const meta = {
   title: "因果推理",
-  description: "从时间序列数据中挖掘因果关系，以提高模型的鲁棒性和可解释性。"
+  description: "从时间序列数据中挖掘因果关系，以提高模型的鲁棒性和可解释性。",
 };
 
 export default function CausalInference(): ReactElement {
@@ -50,10 +50,12 @@ export default function CausalInference(): ReactElement {
     }
     setIsLoading(true);
     try {
-      await window.electronAPI.causalInference(
+      await window.electronAPI.extendRPC(
+        "causalInference",
+        "127.0.0.1",
+        state.config.simulationPort,
         csvPath,
-        params,
-        state.config.simulationPort
+        params
       );
       notification.success({
         message: "Success",

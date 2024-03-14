@@ -1,21 +1,15 @@
-import adversarialAttack from "./adversarialAttack";
-import causalInference from "./causalInference";
-import criticalScenarios from "./criticalScenarios";
-import criticalSpecificScenarios from "./criticalSpecificScenarios";
-import intervalizedWFA from "./intervalizedWFA";
-import onlineMonitor from "./onlineMonitor";
-import rLModeling from "./rLModeling";
-import simulationTest from "./simulationTest";
-import timeSeriesClustering from "./timeSeriesClustering";
+import "@hprose/rpc-node";
+import { Client } from "@hprose/rpc-core";
 
-export {
-  adversarialAttack,
-  causalInference,
-  criticalScenarios,
-  criticalSpecificScenarios,
-  intervalizedWFA,
-  onlineMonitor,
-  rLModeling,
-  simulationTest,
-  timeSeriesClustering,
-};
+async function extendRPC(
+  _e: any,
+  funcName: string,
+  host: string,
+  port: string | number,
+  ...args: any[]
+) {
+  const client = new Client(`http://${host}:${port}/RPC`);
+  return await client.invoke(funcName, [args]);
+}
+
+export default extendRPC;

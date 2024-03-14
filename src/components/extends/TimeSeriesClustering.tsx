@@ -16,7 +16,7 @@ import AppContext from "../../store/context";
 
 export const meta = {
   title: "多维时序数据聚类",
-  description: "将多维时序数据分类出具有意义的子序列，输出图片。"
+  description: "将多维时序数据分类出具有意义的子序列，输出图片。",
 };
 
 export default function TimeSeriesClustering(): ReactElement {
@@ -50,10 +50,12 @@ export default function TimeSeriesClustering(): ReactElement {
     }
     setIsLoading(true);
     try {
-      await window.electronAPI.timeSeriesClustering(
+      await window.electronAPI.extendRPC(
+        "timeSeriesClustering",
+        "127.0.0.1",
+        state.config.simulationPort,
         npyPath,
-        k,
-        state.config.simulationPort
+        k
       );
       notification.success({
         message: "Success",

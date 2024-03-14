@@ -15,7 +15,8 @@ import AppContext from "../../store/context";
 
 export const meta = {
   title: "仿真测试",
-  description: "实现对自动驾驶系统进行测试。用户可以选择上传自己的感知、规控模型，拼装成一辆自动驾驶车辆。随后用户选择测试场景，评估指标。最终展示测试报告。"
+  description:
+    "实现对自动驾驶系统进行测试。用户可以选择上传自己的感知、规控模型，拼装成一辆自动驾驶车辆。随后用户选择测试场景，评估指标。最终展示测试报告。",
 };
 
 export default function SimulationTest(): ReactElement {
@@ -50,11 +51,13 @@ export default function SimulationTest(): ReactElement {
     }
     setIsLoading(true);
     try {
-      await window.electronAPI.simulationTest(
+      await window.electronAPI.extendRPC(
+        "simulationTest",
+        "127.0.0.1",
+        state.config.simulationPort,
         modelPath,
         scenario,
-        metrics,
-        state.config.simulationPort
+        metrics
       );
       notification.success({
         message: "Success",

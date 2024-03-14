@@ -18,17 +18,7 @@ import chooseFile from "../electron-node/ui/chooseFile";
 import ADSML2Uppaal from "../electron-node/verifier/index";
 import ADSML2OpenScenario from "../electron-node/converter/openScenario2";
 import { generateStl } from "../electron-node/stl/index";
-import {
-  adversarialAttack,
-  causalInference,
-  criticalScenarios,
-  criticalSpecificScenarios,
-  intervalizedWFA,
-  onlineMonitor,
-  rLModeling,
-  simulationTest,
-  timeSeriesClustering,
-} from "../electron-node/rpc/extends";
+import extendRPC from "../electron-node/rpc/extends";
 import simulate from "../electron-node/rpc/simulate";
 import visualize from "../electron-node/rpc/visualize";
 import onVideoFileSelected from "../electron-node/video/fileSelect";
@@ -144,16 +134,7 @@ app.whenReady().then(() => {
 
   ipcMain.handle("verifier:ADSML2Uppaal", ADSML2Uppaal);
 
-  ipcMain.handle("rpc:adversarialAttack", adversarialAttack);
-  ipcMain.handle("rpc:causalInference", causalInference);
-  ipcMain.handle("rpc:criticalScenarios", criticalScenarios);
-  ipcMain.handle("rpc:criticalSpecificScenarios", criticalSpecificScenarios);
-  ipcMain.handle("rpc:intervalizedWFA", intervalizedWFA);
-  ipcMain.handle("rpc:onlineMonitor", onlineMonitor);
-  ipcMain.handle("rpc:rLModeling", rLModeling);
-  ipcMain.handle("rpc:simulationTest", simulationTest);
-  ipcMain.handle("rpc:timeSeriesClustering", timeSeriesClustering);
-
+  ipcMain.handle("rpc:extendRPC", extendRPC);
   ipcMain.handle("rpc:simulate", simulate);
   ipcMain.handle("rpc:visualize", visualize);
 

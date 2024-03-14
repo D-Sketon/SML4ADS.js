@@ -9,7 +9,7 @@ import AppContext from "../../store/context";
 
 export const meta = {
   title: "在线监测",
-  description: "实现对STL、LTL等规约的在线监测。"
+  description: "实现对STL、LTL等规约的在线监测。",
 };
 
 export default function OnlineMonitor(): ReactElement {
@@ -66,11 +66,13 @@ export default function OnlineMonitor(): ReactElement {
     setImgUrl("");
     setIsLoading(true);
     try {
-      const base64 = await window.electronAPI.onlineMonitor(
+      const base64 = await window.electronAPI.extendRPC(
+        "onlineMonitor",
+        "127.0.0.1",
+        state.config.simulationPort,
         csvPath,
         stlData,
-        true,
-        state.config.simulationPort
+        true
       );
 
       const byteCharacters = atob(base64);

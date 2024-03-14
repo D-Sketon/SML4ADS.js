@@ -9,7 +9,8 @@ import AppContext from "../../store/context";
 
 export const meta = {
   title: "抽象自动机",
-  description: "构建一个抽象自动机（Intervalized Weighted Finite Automaton, i-WFA），以模拟和理解RNN模型对时间序列数据的处理方式。"
+  description:
+    "构建一个抽象自动机（Intervalized Weighted Finite Automaton, i-WFA），以模拟和理解RNN模型对时间序列数据的处理方式。",
 };
 
 export default function IntervalizedWFA(): ReactElement {
@@ -70,11 +71,13 @@ export default function IntervalizedWFA(): ReactElement {
     }
     setIsLoading(true);
     try {
-      await window.electronAPI.intervalizedWFA(
+      await window.electronAPI.extendRPC(
+        "intervalizedWFA",
+        "127.0.0.1",
+        state.config.simulationPort,
         csvPath,
         rnnPath,
-        pklPath,
-        state.config.simulationPort
+        pklPath
       );
       notification.success({
         message: "Success",

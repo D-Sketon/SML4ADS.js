@@ -80,11 +80,13 @@ export default function ParametricStlMonitorModal({
       }
       return replacedPstl;
     });
-    await window.electronAPI.onlineMonitor(
+    await window.electronAPI.extendRPC(
+      "onlineMonitor",
+      "127.0.0.1",
+      config.simulationPort,
       "signal1.csv",
       replacedParametricStls[0],
-      false,
-      config.simulationPort
+      false
     );
     setConfirmLoading(false);
     handleCancel(e);

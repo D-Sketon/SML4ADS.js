@@ -43,63 +43,6 @@ export interface IElectronAPI {
 
   generateStl: (odd: string, template: string) => Promise<string>;
 
-  adversarialAttack: (
-    csvPath: string,
-    rnnPath: string,
-    pklPath: string,
-    weightPath: string,
-    port?: number,
-    host?: string
-  ) => Promise<any>;
-  causalInference: (
-    csvPath: string,
-    params: Record<string, any>,
-    port?: number,
-    host?: string
-  ) => Promise<any>;
-  criticalScenarios: (
-    carlaPort: number,
-    mapPath: string,
-    modelPath: string,
-    port?: number,
-    host?: string
-  ) => Promise<any>;
-  criticalSpecificScenarios: (
-    carlaPort: number,
-    modelPath: string,
-    outputPath: string,
-    port?: number,
-    host?: string
-  ) => Promise<any>;
-  intervalizedWFA: (
-    csvPath: string,
-    rnnPath: string,
-    pklPath: string,
-    port?: number,
-    host?: string
-  ) => Promise<any>;
-  onlineMonitor: (
-    signalPath: string,
-    stlArray: string,
-    isBase64: boolean,
-    port?: number,
-    host?: string
-  ) => Promise<string>;
-  rLModeling: (csvPath: string, port?: number, host?: string) => Promise<any>;
-  simulationTest: (
-    csvPath: string,
-    scenario: string,
-    metrics: string[],
-    port?: number,
-    host?: string
-  ) => Promise<any>;
-  timeSeriesClustering: (
-    npyPath: string,
-    k: number,
-    port?: number,
-    host?: string
-  ) => Promise<any>;
-
   simulate: (params: any, port: number, host?: string) => Promise<any>;
   visualize: (
     type: string,
@@ -108,6 +51,12 @@ export interface IElectronAPI {
     pedestrians: any,
     port: number,
     host?: string
+  ) => Promise<any>;
+  extendRPC: (
+    funcName: string,
+    host: string,
+    port: string | number,
+    ...args: any[]
   ) => Promise<any>;
 
   onOpenNotification: (

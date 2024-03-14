@@ -9,7 +9,8 @@ import AppContext from "../../store/context";
 
 export const meta = {
   title: "对抗攻击",
-  description: "利用识别出的Vulnerable Negative Samples（VNS）和Target Positive Samples（TPS），开发一种对抗性攻击方法，用于测试和改进时间序列数据模型的鲁棒性。"
+  description:
+    "利用识别出的Vulnerable Negative Samples（VNS）和Target Positive Samples（TPS），开发一种对抗性攻击方法，用于测试和改进时间序列数据模型的鲁棒性。",
 };
 
 export default function AdversarialAttack(): ReactElement {
@@ -85,12 +86,14 @@ export default function AdversarialAttack(): ReactElement {
     }
     setIsLoading(true);
     try {
-      await window.electronAPI.adversarialAttack(
+      await window.electronAPI.extendRPC(
+        "adversarialAttack",
+        "127.0.0.1",
+        state.config.simulationPort,
         csvPath,
         rnnPath,
         pklPath,
-        weightPath,
-        state.config.simulationPort
+        weightPath
       );
       notification.success({
         message: "Success",
