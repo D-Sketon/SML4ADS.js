@@ -10,6 +10,12 @@ import VisGraph, {
   Options,
 } from "react-vis-graph-wrapper";
 
+export const meta = {
+  title: "强化学习建模",
+  description: "实现对MDP文件的可视化展示，以及模型的动态编辑。"
+};
+
+
 export default function RLModeling(): ReactElement {
   const [csvPath, setCsvPath] = useState("");
   const navigate = useNavigate();

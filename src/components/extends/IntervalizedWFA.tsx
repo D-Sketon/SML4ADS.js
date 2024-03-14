@@ -7,6 +7,11 @@ import ExtendCsv from "./common/ExtendCsv";
 import Papa from "papaparse";
 import AppContext from "../../store/context";
 
+export const meta = {
+  title: "抽象自动机",
+  description: "构建一个抽象自动机（Intervalized Weighted Finite Automaton, i-WFA），以模拟和理解RNN模型对时间序列数据的处理方式。"
+};
+
 export default function IntervalizedWFA(): ReactElement {
   const { state } = useContext(AppContext);
   const [csvPath, setCsvPath] = useState("");

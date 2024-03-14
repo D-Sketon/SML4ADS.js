@@ -7,6 +7,11 @@ import Papa from "papaparse";
 import ExtendCsv from "./common/ExtendCsv";
 import AppContext from "../../store/context";
 
+export const meta = {
+  title: "在线监测",
+  description: "实现对STL、LTL等规约的在线监测。"
+};
+
 export default function OnlineMonitor(): ReactElement {
   const [csvPath, setCsvPath] = useState("");
   const [stlPath, setStlPath] = useState("");

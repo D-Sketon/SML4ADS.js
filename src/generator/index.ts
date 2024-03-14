@@ -1,0 +1,2 @@
+require("./generateExtendEntries");
+require("./generateRoutes");

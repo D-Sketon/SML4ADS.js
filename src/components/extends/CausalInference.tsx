@@ -16,6 +16,11 @@ import Papa from "papaparse";
 import ExtendCsv from "./common/ExtendCsv";
 import AppContext from "../../store/context";
 
+export const meta = {
+  title: "因果推理",
+  description: "从时间序列数据中挖掘因果关系，以提高模型的鲁棒性和可解释性。"
+};
+
 export default function CausalInference(): ReactElement {
   const { state } = useContext(AppContext);
   const [csvPath, setCsvPath] = useState("");

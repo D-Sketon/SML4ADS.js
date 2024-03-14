@@ -14,6 +14,11 @@ import { useNavigate } from "react-router-dom";
 import { FILE_SUFFIX } from "../../constants";
 import AppContext from "../../store/context";
 
+export const meta = {
+  title: "多维时序数据聚类",
+  description: "将多维时序数据分类出具有意义的子序列，输出图片。"
+};
+
 export default function TimeSeriesClustering(): ReactElement {
   const { state } = useContext(AppContext);
   const [npyPath, setNpyPath] = useState("");

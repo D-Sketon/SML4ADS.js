@@ -52,6 +52,12 @@ const extraInfo = {
   acc: Array.from({ length: 100 }, () => Math.random() * 100),
 };
 
+export const meta = {
+  title: "时序数据分析",
+  description: "时序数据分析"
+};
+
+
 export default function TimeSeriesAnalysis(): ReactElement {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);

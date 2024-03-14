@@ -16,6 +16,11 @@ import {
 import { ReactElement, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+export const meta = {
+  title: "强化学习训练",
+  description: "强化学习训练"
+};
+
 export default function RLTraining(): ReactElement {
   const navigate = useNavigate();
   const [envType, setEnvType] = useState(1);

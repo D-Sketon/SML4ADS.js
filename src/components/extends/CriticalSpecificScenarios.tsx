@@ -24,6 +24,11 @@ import ExtendAdsmlTree from "./common/ExtendAdsmlTree";
 import ExtendAdsmlMap from "./common/ExtendAdsmlMap";
 import AppContext from "../../store/context";
 
+export const meta = {
+  title: "逻辑场景到关键具体场景生成",
+  description: "将工具前端生成的逻辑场景模型输入，输出具体初始场景。"
+};
+
 export default function CriticalSpecificScenarios(): ReactElement {
   const { state } = useContext(AppContext);
   const [port, setPort] = useState<number | null>(2000);
