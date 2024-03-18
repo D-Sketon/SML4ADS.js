@@ -1,13 +1,18 @@
-# 不超过最大限速
+INCLUDE driving area type IS primary roads
 
-INCLUDE velocity IS [0, max velocity m/s]
+INCLUDE number of lanes IS 3
 
-# 大于最小加速度
+INCLUDE driving area surface IS flooded, wet
 
-INCLUDE acceleration IS [max acceleration, ∞ m/s2]
+INCLUDE rainfall IS moderate rain
+
+INCLUDE wind IS fresh breeze
+
+INCLUDE vehicle speed IS 0, 8 m/s
 ---
 
-# 保持安全车距
-
 GLOBALLY
-	distance IS LESS THAN safe distance
+	distance between Ego and pedestrian IS GREATER THAN 1
+  
+FINALLY
+	Ego speed IS EQUAL TO 0 AND pedestrian speed IS NOT EQUAL TO 0

@@ -1,0 +1,27 @@
+scenario case:
+	map.set_map_file('Town05')
+	environment: environment
+	environment.clouds(8)
+	environment.fog(1000m)
+	environment.wind(10mps, 0deg)
+	environment.snow(0mmph)
+	environment.rain(5mmph)
+	environment.air(temperature: 25celsius, pressure: 101325Pa)
+	environment.assign_celestial_position(environment.sun, 180deg, 45deg)
+	Ego: vehicle
+	do:
+		Ego.assign_position(map.odr_to_route_point(37, -2, 0, 310))
+		Ego.assign_speed(8mps)
+		Ego.assign_acceleration(0mps2)
+	F1: vehicle
+	do:
+		F1.assign_speed(8mps)
+		F1.assign_acceleration(0mps2)
+	F2: vehicle
+	do:
+		F2.assign_speed(8mps)
+		F2.assign_acceleration(0mps2)
+	Walker: person
+	do:
+		Walker.assign_position(map.odr_to_route_point(37, -4, 0, 355))
+		Walker.assign_speed(1.4mps)

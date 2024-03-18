@@ -1,0 +1,15 @@
+INCLUDE driving area type IS primary roads
+
+INCLUDE number of lanes IS 2
+
+INCLUDE driving area surface IS dry
+
+INCLUDE wind IS light breeze
+
+INCLUDE vehicle speed IS 0, 25 m/s
+---
+
+GLOBALLY 
+		distance between Ego and F1 IS GREATER THAN 1 
+  AND 
+  	distance between Ego and F2 IS GREATER THAN 1 

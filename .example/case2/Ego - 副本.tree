@@ -1,0 +1,1 @@
+{"rootId":0,"behaviors":[{"id":0,"name":"Accelerate","params":{"acceleration":[0,0],"targetSpeed":[20,20],"duration":[null,null]},"position":{"x":119.842834334896,"y":88.48356928926353}}],"branchPoints":[],"commonTransitions":[],"probabilityTransitions":[]}
