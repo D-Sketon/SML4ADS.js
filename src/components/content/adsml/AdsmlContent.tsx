@@ -40,17 +40,17 @@ export default function AdsmlContent({
     {
       label: "atmospherePressure",
       key: "atmospherePressure",
-      children: model.environment.atmospherePressure,
+      children: JSON.stringify(model.environment.atmospherePressure),
     },
     {
       label: "temperature",
       key: "temperature",
-      children: model.environment.temperature,
+      children: JSON.stringify(model.environment.temperature),
     },
     {
       label: "visibility",
       key: "visibility",
-      children: model.environment.visibility,
+      children: JSON.stringify(model.environment.visibility),
       span: 2,
     },
     {
@@ -63,12 +63,12 @@ export default function AdsmlContent({
             {
               label: "azimuth",
               key: "azimuth",
-              children: model.environment.sunProperty?.sunAzimuth,
+              children: JSON.stringify(model.environment.sunProperty?.sunAzimuth),
             },
             {
               label: "elevation",
               key: "elevation",
-              children: model.environment.sunProperty?.sunElevation,
+              children: JSON.stringify(model.environment.sunProperty?.sunElevation),
             },
           ]}
         />
@@ -107,7 +107,7 @@ export default function AdsmlContent({
             {
               label: "intensity",
               key: "illuminationIntensity",
-              children: model.environment.illumination?.lightingIntensity,
+              children: JSON.stringify(model.environment.illumination?.lightingIntensity),
             },
           ]}
         />
@@ -124,12 +124,12 @@ export default function AdsmlContent({
             {
               label: "type",
               key: "cloudType",
-              children: model.environment.weather?.cloud?.type,
+              children: JSON.stringify(model.environment.weather?.cloud?.type),
             },
             {
               label: "level",
               key: "cloudinessLevel",
-              children: model.environment.weather?.cloud?.cloudinessLevel,
+              children: JSON.stringify(model.environment.weather?.cloud?.cloudinessLevel),
             },
           ]}
         />
@@ -146,12 +146,12 @@ export default function AdsmlContent({
             {
               label: "type",
               key: "snowfallType",
-              children: model.environment.weather?.snowfall?.type,
+              children: JSON.stringify(model.environment.weather?.snowfall?.type),
             },
             {
               label: "intensity",
               key: "snowfallIntensity",
-              children: model.environment.weather?.snowfall?.snowfallIntensity,
+              children: JSON.stringify(model.environment.weather?.snowfall?.snowfallIntensity),
             },
           ]}
         />
@@ -168,13 +168,13 @@ export default function AdsmlContent({
             {
               label: "type",
               key: "rainfallType",
-              children: model.environment.weather?.rainfall?.type,
+              children: JSON.stringify(model.environment.weather?.rainfall?.type),
             },
             {
               label: "intensity",
               key: "precipitationIntensity",
               children:
-                model.environment.weather?.rainfall?.precipitationIntensity,
+              JSON.stringify(model.environment.weather?.rainfall?.precipitationIntensity),
             },
           ]}
         />
@@ -191,12 +191,12 @@ export default function AdsmlContent({
             {
               label: "type",
               key: "windType",
-              children: model.environment.weather?.wind?.type,
+              children: JSON.stringify(model.environment.weather?.wind?.type),
             },
             {
               label: "speed",
               key: "windSpeed",
-              children: model.environment.weather?.wind?.windSpeed,
+              children: JSON.stringify(model.environment.weather?.wind?.windSpeed),
             },
             {
               label: "direction",
