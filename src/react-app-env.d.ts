@@ -59,6 +59,13 @@ export interface IElectronAPI {
     ...args: any[]
   ) => Promise<any>;
 
+  evaluateEnvironment: (environment: Environment) => Promise<number>;
+  evaluateCar: (cars: MCar[]) => Promise<number>;
+  evaluatePedestrian: (pedestrians: MPedestrian[]) => Promise<number>;
+  evaluateRider: (riders: MRider[]) => Promise<number>;
+  evaluateMap: (map: string) => Promise<number>;
+  evaluateTree: (tree: MTree) => Promise<number>;
+
   onOpenNotification: (
     callback: (
       event: any,

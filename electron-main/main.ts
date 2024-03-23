@@ -22,6 +22,10 @@ import extendRPC from "../electron-node/rpc/extends";
 import simulate from "../electron-node/rpc/simulate";
 import visualize from "../electron-node/rpc/visualize";
 import onVideoFileSelected from "../electron-node/video/fileSelect";
+import { evaluateEnvironment } from "../electron-node/evaluate/environment";
+import { evaluateCar, evaluatePedestrian, evaluateRider } from "../electron-node/evaluate/participant";
+import { evaluateMap } from "../electron-node/evaluate/map";
+import { evaluateTree } from "../electron-node/evaluate/tree";
 
 const createWindow = () => {
   // Create the browser window.
@@ -143,6 +147,13 @@ app.whenReady().then(() => {
   ipcMain.handle("stl:generateStl", generateStl);
 
   ipcMain.handle("converter:ADSML2OpenScenario", ADSML2OpenScenario);
+
+  ipcMain.handle("evaluate:environment", evaluateEnvironment);
+  ipcMain.handle("evaluate:car", evaluateCar);
+  ipcMain.handle("evaluate:pedestrian", evaluatePedestrian);
+  ipcMain.handle("evaluate:rider", evaluateRider);
+  ipcMain.handle("evaluate:map", evaluateMap);
+  ipcMain.handle("evaluate:tree", evaluateTree);
 
   createWindow();
 

@@ -68,6 +68,15 @@ contextBridge.exposeInMainWorld("electronAPI", {
   extendRPC: (funcName: string, host: string, port: string | number, ...args: any[]) =>
     ipcRenderer.invoke("rpc:extendRPC", funcName, host, port, ...args),
 
+  evaluateEnvironment: (environment: any) =>
+    ipcRenderer.invoke("evaluate:environment", environment),
+  evaluateCar: (car: any) => ipcRenderer.invoke("evaluate:car", car),
+  evaluatePedestrian: (pedestrian: any) =>
+    ipcRenderer.invoke("evaluate:pedestrian", pedestrian),
+  evaluateRider: (rider: any) => ipcRenderer.invoke("evaluate:rider", rider),
+  evaluateMap: (map: string) => ipcRenderer.invoke("evaluate:map", map),
+  evaluateTree: (tree: any) => ipcRenderer.invoke("evaluate:tree", tree),
+
   onVideoFileSelected: (videoFilePath: string) =>
     ipcRenderer.invoke("video:fileSelect", videoFilePath),
 
