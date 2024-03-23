@@ -40,7 +40,10 @@ import WeightDrawer from "./drawer/WeightDrawer";
 import oldTreeAdapter from "./utils/adapter/oldTreeAdapter";
 import nodeTreeAdapter from "./utils/adapter/nodeTreeAdapter";
 import treeNodeAdapter from "./utils/adapter/treeNodeAdapter";
-import { WEIGHT_TYPES, defaultManualWeightParams } from "../../../model/params/ParamWeight";
+import {
+  WEIGHT_TYPES,
+  defaultManualWeightParams,
+} from "../../../model/params/ParamWeight";
 
 const nodeTypes = {
   BehaviorNode,
@@ -64,6 +67,7 @@ export default function Tree({ path }: TreeProps): ReactElement {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [drawerTitle, setDrawerTitle] = useState("");
   const maxIdRef = useRef(0);
+  const [complexity, setComplexity] = useState(0);
 
   const getId = useCallback(() => {
     return `${maxIdRef.current++}`;
@@ -75,6 +79,7 @@ export default function Tree({ path }: TreeProps): ReactElement {
         const newTree = nodeTreeAdapter(nodes as any, edges as any);
         checkTree(newTree);
         await window.electronAPI.writeJson(path, newTree);
+        setComplexity(await window.electronAPI.evaluateTree(newTree));
       } catch (error: any) {
         console.error(error);
         isManual &&
@@ -96,6 +101,7 @@ export default function Tree({ path }: TreeProps): ReactElement {
       // check tree
       try {
         checkTree(tree);
+        setComplexity(await window.electronAPI.evaluateTree(tree));
       } catch (error: any) {
         console.error(error);
         notification.error({
@@ -159,7 +165,7 @@ export default function Tree({ path }: TreeProps): ReactElement {
             {
               ...connection,
               type: "ProbabilityTransition",
-              label:  JSON.stringify({
+              label: JSON.stringify({
                 type: WEIGHT_TYPES.MANUAL,
                 params: defaultManualWeightParams(),
               }),
@@ -244,6 +250,18 @@ export default function Tree({ path }: TreeProps): ReactElement {
     >
       <ReactFlowProvider>
         <ElementProvider />
+        <div
+          style={{
+            display: "flex",
+            gap: "10px",
+            margin: "5px 10px",
+            position: "absolute",
+            top: '40px',
+            zIndex: "1051",
+          }}
+        >
+          Complexity: {complexity}
+        </div>
         <ReactFlow
           nodes={nodes}
           edges={edges}

@@ -1,6 +1,6 @@
 import { Card, Select, Button, InputNumber, Input, Collapse } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
 
 import {
   DEFAULT_MAP_TYPES,
@@ -26,6 +26,7 @@ export default function BasicInformation({
   setModel,
   path,
 }: BasicInformationProps): ReactElement {
+  const [complexity, setComplexity] = useState(0);
   const handleChooseFile = async (): Promise<void> => {
     const res = await window.electronAPI.chooseFile([FILE_SUFFIX.XODR]);
     if (res.filePaths.length) {
@@ -47,6 +48,19 @@ export default function BasicInformation({
       setModel({ ...model, stlPath: relativePath });
     }
   };
+
+  useEffect(() => {
+    const asyncFn = async () => {
+      let mapPath = "";
+      if (model.mapType === MAP_TYPES.CUSTOM) {
+        mapPath = await window.electronAPI.getAbsolutePath(path, model.map);
+      } else {
+        mapPath = `electron-python/simulate/carla_simulator/Carla/Maps/${model.map}.xodr`;
+      }
+      setComplexity(await window.electronAPI.evaluateMap(mapPath));
+    };
+    asyncFn();
+  }, [model.map, model.mapType, path]);
   const innerCard = (
     <Card>
       <div className="form-item">
@@ -233,6 +247,7 @@ export default function BasicInformation({
           key: "basic",
           label: "Basic Information",
           children: innerCard,
+          extra: <div>Map Complexity: {complexity}</div>,
         },
       ]}
     ></Collapse>

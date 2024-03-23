@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import BasicInformation from "./BasicInformation";
 import CarInformation from "./CarInformation";
-import { Button, Spin, notification } from "antd";
+import { Button, Collapse, Spin, notification } from "antd";
 import { MAP_TYPES, MModel, defaultModel } from "../../../model/Model";
 import { defaultCar } from "../../../model/Car";
 import AppContext from "../../../store/context";
@@ -36,6 +36,7 @@ export default function Model(props: ModelProps): ReactElement {
   const { saveFilePath, config } = state;
   const [info, setInfo] = useState<string>("");
   const [saveCount, setSaveCount] = useState(1); // only for refresh
+  const [complexity, setComplexity] = useState(0);
 
   const canvasRef = useRef(null);
   const canvasWrapperRef = useRef<HTMLDivElement | null>(null);
@@ -213,6 +214,20 @@ export default function Model(props: ModelProps): ReactElement {
     }
   };
 
+  useEffect(() => {
+    const asyncFn = async () => {
+      if (model) {
+        const car = await window.electronAPI.evaluateCar(model.cars);
+        const pedestrian = await window.electronAPI.evaluatePedestrian(
+          model.pedestrians
+        );
+        const rider = await window.electronAPI.evaluateRider(model.riders);
+        setComplexity(car + pedestrian + rider);
+      }
+    };
+    asyncFn();
+  }, [model]);
+
   return (
     <div onKeyDown={handleKeyDown} tabIndex={0} className="h-full flex">
       <div className="extend-wrapper w-4/6 overflow-auto">
@@ -220,54 +235,70 @@ export default function Model(props: ModelProps): ReactElement {
           <>
             <BasicInformation model={model} setModel={setModel} path={path} />
             <EnvironmentInformation model={model} setModel={setModel} />
-            <div className="flex">
-              <div className="w-1/2" style={{ minWidth: "350px" }}>
-                {model.cars.map((_, index) => (
-                  <CarInformation
-                    model={model}
-                    setModel={setModel}
-                    index={index}
-                    key={index}
-                    path={path}
-                  />
-                ))}
-                <div className="box-border pr-2 pb-2 mt-2">
-                  <Button type="primary" block onClick={handleAddCar}>
-                    + Add Car
-                  </Button>
-                </div>
-              </div>
-              <div className="w-1/2" style={{ minWidth: "350px" }}>
-                {model.pedestrians.map((_, index) => (
-                  <PedestrianInformation
-                    model={model}
-                    setModel={setModel}
-                    index={index}
-                    key={index}
-                    path={path}
-                  />
-                ))}
-                <div className="box-border pr-2 pb-2 mt-2">
-                  <Button type="primary" block onClick={handleAddPedestrian}>
-                    + Add Pedestrian
-                  </Button>
-                </div>
-                {model.riders.map((_, index) => (
-                  <RiderInformation
-                    model={model}
-                    setModel={setModel}
-                    index={index}
-                    key={index}
-                    path={path}
-                  />
-                ))}
-                <div className="box-border pr-2 pb-2 mt-2">
-                  <Button type="primary" block onClick={handleAddRider}>
-                    + Add Rider
-                  </Button>
-                </div>
-              </div>
-            </div>
+            <Collapse
+              className="box-border m-2 ml-0"
+              items={[
+                {
+                  key: "participant",
+                  label: "Participant Information",
+                  children: (
+                    <div className="flex">
+                      <div className="w-1/2" style={{ minWidth: "350px" }}>
+                        {model.cars.map((_, index) => (
+                          <CarInformation
+                            model={model}
+                            setModel={setModel}
+                            index={index}
+                            key={index}
+                            path={path}
+                          />
+                        ))}
+                        <div className="box-border pr-2 pb-2 mt-2">
+                          <Button type="primary" block onClick={handleAddCar}>
+                            + Add Car
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="w-1/2" style={{ minWidth: "350px" }}>
+                        {model.pedestrians.map((_, index) => (
+                          <PedestrianInformation
+                            model={model}
+                            setModel={setModel}
+                            index={index}
+                            key={index}
+                            path={path}
+                          />
+                        ))}
+                        <div className="box-border pr-2 pb-2 mt-2">
+                          <Button
+                            type="primary"
+                            block
+                            onClick={handleAddPedestrian}
+                          >
+                            + Add Pedestrian
+                          </Button>
+                        </div>
+                        {model.riders.map((_, index) => (
+                          <RiderInformation
+                            model={model}
+                            setModel={setModel}
+                            index={index}
+                            key={index}
+                            path={path}
+                          />
+                        ))}
+                        <div className="box-border pr-2 pb-2 mt-2">
+                          <Button type="primary" block onClick={handleAddRider}>
+                            + Add Rider
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ),
+                  extra: <div>Participant Complexity: {complexity}</div>,
+                },
+              ]}
+            ></Collapse>
           </>
         ) : (
           <div className="w-full h-full flex justify-center items-center">

@@ -1,5 +1,5 @@
 import { Card, Collapse, Input, InputNumber, Select, Tag } from "antd";
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { MModel } from "../../../model/Model";
 import {
   ENVIRONMENT_CLOUD,
@@ -21,6 +21,7 @@ export default function EnvironmentInformation({
   setModel,
   model,
 }: EnvironmentInformationProps): ReactElement {
+  const [complexity, setComplexity] = useState(0);
   const handleChangeCloud = (e: number | null, index: number) => {
     const clouds = [
       ENVIRONMENT_CLOUD.CLEAR,
@@ -241,6 +242,12 @@ export default function EnvironmentInformation({
       },
     });
   };
+  useEffect(() => {
+    const asyncFn = async () => {
+      setComplexity(await window.electronAPI.evaluateEnvironment(model.environment));
+    };
+    asyncFn();
+  }, [model.environment]);
 
   const innerCard = (
     <Card className="box-border m-2 ml-0">
@@ -749,6 +756,7 @@ export default function EnvironmentInformation({
           key: "env",
           label: "Environment Information",
           children: innerCard,
+          extra: <div>Env Complexity: {complexity}</div>,
         },
       ]}
     ></Collapse>

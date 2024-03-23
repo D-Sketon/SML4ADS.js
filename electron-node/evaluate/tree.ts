@@ -29,6 +29,8 @@ const _evaluateNode = (params: Record<string, any>) => {
     if(Array.isArray(params[key])) {
       if(params[key][0] != null && params[key][1] != null) {
         sum += (params[key][1] - params[key][0]) / 5 + 1;
+      } else {
+        sum += 1;
       }
     }
   }
@@ -72,7 +74,7 @@ const _buildTree = (tree: MTree) => {
         const behaviorNode: BehaviorNode = {
           id: branchPoint.id,
           params: {},
-          complexity: 0,
+          complexity: -1,
           probability: 1,
           children: [],
         };
@@ -128,7 +130,7 @@ const _buildTree = (tree: MTree) => {
         const behaviorNode: BehaviorNode = {
           id: branchPoint.id,
           params: {},
-          complexity: 0,
+          complexity: -1,
           probability,
           children: [],
         };
@@ -151,6 +153,9 @@ const _buildProbability = (tree: BehaviorNode) => {
     for(const child of node.children) {
       child.probability /= probability;
       stack.push(child);
+    }
+    if(node.complexity === -1) {
+      node.complexity = node.children.length;
     }
   }
   return tree;
