@@ -9,6 +9,7 @@ import {
   WEIGHT_TYPES,
 } from "../../src/model/params/ParamWeight";
 import { MTree } from "../../src/model/Tree";
+import T from "./zip";
 
 type BehaviorNode = {
   id: number;
@@ -24,18 +25,21 @@ export const evaluateTree = (_e: any, _tree: MTree) => {
 };
 
 const _evaluateNode = (params: Record<string, any>) => {
-  let sum = 0;
+  let paramSum = 0;
+  let paramCount = 0;
   for (const key in params) {
-    if(Array.isArray(params[key])) {
-      if(params[key][0] != null && params[key][1] != null) {
-        sum += (params[key][1] - params[key][0]) / 5 + 1;
+    if (Array.isArray(params[key])) {
+      paramCount++;
+      if (params[key][0] != null && params[key][1] != null) {
+        paramSum += T(params[key][1] - params[key][0]) + 1;
       } else {
-        sum += 1;
+        paramSum += 1;
       }
     }
   }
-  return sum;
-}
+  if (paramCount > 0) return paramSum / paramCount;
+  return 1;
+};
 
 const _buildTree = (tree: MTree) => {
   const root = tree.behaviors.find((behavior) => behavior.id === tree.rootId)!;
@@ -150,23 +154,23 @@ const _buildProbability = (tree: BehaviorNode) => {
     for (const child of node.children) {
       probability += child.probability;
     }
-    for(const child of node.children) {
+    for (const child of node.children) {
       child.probability /= probability;
       stack.push(child);
     }
-    if(node.complexity === -1) {
-      node.complexity = node.children.length;
+    if (node.complexity === -1) {
+      node.complexity = node.children.length - 1;
     }
   }
   return tree;
-}
+};
 
 const _evaluatePath = (tree: BehaviorNode) => {
   let sum = 0;
   const stack = [tree];
   while (stack.length > 0) {
     const node = stack.pop()!;
-    if(node.children.length === 0) {
+    if (node.children.length === 0) {
       sum += node.complexity * node.probability;
     }
     for (const child of node.children) {
@@ -177,5 +181,5 @@ const _evaluatePath = (tree: BehaviorNode) => {
       stack.push(child);
     }
   }
-  return sum;
-}
+  return sum.toFixed(2);
+};

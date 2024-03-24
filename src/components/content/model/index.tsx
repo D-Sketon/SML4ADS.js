@@ -36,7 +36,7 @@ export default function Model(props: ModelProps): ReactElement {
   const { saveFilePath, config } = state;
   const [info, setInfo] = useState<string>("");
   const [saveCount, setSaveCount] = useState(1); // only for refresh
-  const [complexity, setComplexity] = useState(0);
+  const [complexity, setComplexity] = useState('0');
 
   const canvasRef = useRef(null);
   const canvasWrapperRef = useRef<HTMLDivElement | null>(null);
@@ -222,7 +222,7 @@ export default function Model(props: ModelProps): ReactElement {
           model.pedestrians
         );
         const rider = await window.electronAPI.evaluateRider(model.riders);
-        setComplexity(car + pedestrian + rider);
+        setComplexity((car + pedestrian + rider).toFixed(2));
       }
     };
     asyncFn();
@@ -243,7 +243,7 @@ export default function Model(props: ModelProps): ReactElement {
                   label: "Participant Information",
                   children: (
                     <div className="flex">
-                      <div className="w-1/2" style={{ minWidth: "350px" }}>
+                      <div className="w-1/2">
                         {model.cars.map((_, index) => (
                           <CarInformation
                             model={model}
@@ -259,7 +259,7 @@ export default function Model(props: ModelProps): ReactElement {
                           </Button>
                         </div>
                       </div>
-                      <div className="w-1/2" style={{ minWidth: "350px" }}>
+                      <div className="w-1/2">
                         {model.pedestrians.map((_, index) => (
                           <PedestrianInformation
                             model={model}

@@ -1,12 +1,13 @@
 import { MCar } from "../../src/model/Car";
 import { MPedestrian } from "../../src/model/Pedestrian";
 import { MRider } from "../../src/model/Rider";
+import T from "./zip";
 
 export const evaluateCar = (_e: any, cars: MCar[]) => {
   let sum = 0;
   cars.forEach((car) => {
     const speedDiff = car.maxSpeed - (car.minSpeed ?? 0);
-    sum += speedDiff / 5 + 1;
+    sum += T(speedDiff) + 1;
     let paramSum = 0;
     let paramCount = 0;
     for (const params in car.locationParams) {
@@ -14,7 +15,7 @@ export const evaluateCar = (_e: any, cars: MCar[]) => {
         paramCount++;
         const paramDiff =
           car.locationParams[params][1] - car.locationParams[params][0];
-        paramSum += paramDiff / 5 + 1;
+        paramSum += T(paramDiff) + 1;
       }
     }
     if (paramCount > 0) {
@@ -35,7 +36,7 @@ export const evaluatePedestrian = (_e: any, pedestrians: MPedestrian[]) => {
           paramCount++;
           const paramDiff =
             loc.locationParams[params][1] - loc.locationParams[params][0];
-          paramSum += paramDiff / 5 + 1;
+          paramSum += T(paramDiff) + 1;
         }
       }
       if (paramCount > 0) {
@@ -57,7 +58,7 @@ export const evaluateRider = (_e: any, riders: MRider[]) => {
           paramCount++;
           const paramDiff =
             loc.locationParams[params][1] - loc.locationParams[params][0];
-          paramSum += paramDiff / 5 + 1;
+          paramSum += T(paramDiff) + 1;
         }
       }
       sum += paramSum / paramCount;
