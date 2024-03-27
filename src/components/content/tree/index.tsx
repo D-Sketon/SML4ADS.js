@@ -258,6 +258,7 @@ export default function Tree({ path }: TreeProps): ReactElement {
             position: "absolute",
             top: '40px',
             zIndex: "1051",
+            fontWeight: '500'
           }}
         >
           Complexity: {complexity}

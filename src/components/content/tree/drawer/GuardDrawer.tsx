@@ -26,7 +26,7 @@ export default function GuardDrawer({
   return (
     <>
       <Row className="flex items-center">
-        <Col span={4}>guard:</Col>
+        <Col span={4} className="font-bold">guard:</Col>
         <Col span={20}>
           <TextArea
             rows={3}

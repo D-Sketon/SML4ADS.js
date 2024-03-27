@@ -78,7 +78,7 @@ export default function WeightDrawer({
   const manualSpeed = (): ReactElement => {
     return (
       <>
-        <Row className="flex items-center mt-2 mb-2">
+        <Row className="flex items-center mt-2 mb-2 font-bold">
           <Col span={6}>weight:</Col>
           <Col span={18}>
             <InputNumber
@@ -95,7 +95,7 @@ export default function WeightDrawer({
   const uniformDistributionSpeed = (): ReactElement => {
     return (
       <>
-        <Row className="flex items-center mt-2 mb-2">
+        <Row className="flex items-center mt-2 mb-2 font-bold">
           <Col span={6}>min:</Col>
           <Col span={18}>
             <InputNumber
@@ -105,7 +105,7 @@ export default function WeightDrawer({
             />
           </Col>
         </Row>
-        <Row className="flex items-center mt-2 mb-2">
+        <Row className="flex items-center mt-2 mb-2 font-bold">
           <Col span={6}>max:</Col>
           <Col span={18}>
             <InputNumber
@@ -122,7 +122,7 @@ export default function WeightDrawer({
   const normalDistributionSpeed = (): ReactElement => {
     return (
       <>
-        <Row className="flex items-center mt-2 mb-2">
+        <Row className="flex items-center mt-2 mb-2 font-bold">
           <Col span={6}>mean:</Col>
           <Col span={18}>
             <InputNumber
@@ -132,7 +132,7 @@ export default function WeightDrawer({
             />
           </Col>
         </Row>
-        <Row className="flex items-center mt-2 mb-2">
+        <Row className="flex items-center mt-2 mb-2 font-bold">
           <Col span={6}>std:</Col>
           <Col span={18}>
             <InputNumber
@@ -149,7 +149,7 @@ export default function WeightDrawer({
   const bernoulliDistributionSpeed = (): ReactElement => {
     return (
       <>
-        <Row className="flex items-center mt-2 mb-2">
+        <Row className="flex items-center mt-2 mb-2 font-bold">
           <Col span={6}>p:</Col>
           <Col span={18}>
             <InputNumber
@@ -177,7 +177,7 @@ export default function WeightDrawer({
             />
           </Col>
         </Row>
-        <Row className="flex items-center mt-2 mb-2">
+        <Row className="flex items-center mt-2 mb-2 font-bold">
           <Col span={6}>p:</Col>
           <Col span={18}>
             <InputNumber
@@ -195,7 +195,7 @@ export default function WeightDrawer({
   const poissonDistributionSpeed = (): ReactElement => {
     return (
       <>
-        <Row className="flex items-center mt-2 mb-2">
+        <Row className="flex items-center mt-2 mb-2 font-bold">
           <Col span={6}>lambda:</Col>
           <Col span={18}>
             <InputNumber
@@ -214,7 +214,7 @@ export default function WeightDrawer({
   const chiSquaredDistributionSpeed = (): ReactElement => {
     return (
       <>
-        <Row className="flex items-center mt-2 mb-2">
+        <Row className="flex items-center mt-2 mb-2 font-bold">
           <Col span={6}>k:</Col>
           <Col span={18}>
             <InputNumber
@@ -265,7 +265,7 @@ export default function WeightDrawer({
 
   return (
     <>
-      <Row className="flex items-center mt-2 mb-2">
+      <Row className="flex items-center mt-2 mb-2 font-bold">
         <Col span={6}>{"weightType:"}</Col>
         <Col span={18}>
           <Cascader

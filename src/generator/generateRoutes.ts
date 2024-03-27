@@ -1,6 +1,21 @@
 // @ts-nocheck
 const fs = require("fs");
 const path = require("path");
+
+const isTsxFile = (pagesDirectory: string, fileName: string) => {
+  return (
+    fs.statSync(path.join(pagesDirectory, fileName)).isFile() &&
+    fileName.endsWith(".tsx")
+  );
+};
+
+const isFolder = (pagesDirectory: string, folderName: string) => {
+  return (
+    fs.statSync(path.join(pagesDirectory, folderName)).isDirectory() &&
+    fs.readdirSync(path.join(pagesDirectory, folderName)).includes("index.tsx")
+  );
+};
+
 (() => {
   const pagesDirectory = path.resolve(__dirname, "../components/extends");
 
@@ -8,8 +23,7 @@ const path = require("path");
     .readdirSync(pagesDirectory)
     .filter(
       (file) =>
-        fs.statSync(path.join(pagesDirectory, file)).isFile() &&
-        file.endsWith(".tsx")
+        isTsxFile(pagesDirectory, file) || isFolder(pagesDirectory, file)
     )
     .map((directory) => ({
       path: `/${directory

@@ -314,11 +314,11 @@ export default function HeaderMenu(): ReactElement {
               },
             ],
           },
-          {
-            label: "Falsification",
-            key: "falsification",
-            icon: <CarOutlined />,
-          }
+          // {
+          //   label: "Falsification",
+          //   key: "falsification",
+          //   icon: <CarOutlined />,
+          // }
         ]);
         break;
       case "/home/functional":
@@ -384,11 +384,11 @@ export default function HeaderMenu(): ReactElement {
     <>
       <div className="flex bg-white">
         <div style={{ minWidth: "200px", fontWeight: "bold" }}>
-          {location.pathname.endsWith("logical")
+          {/* {location.pathname.endsWith("logical")
             ? "Logical Scenario"
             : location.pathname.endsWith("functional")
             ? "Functional Scenario"
-            : ""}
+            : ""} */}
         </div>
         <Menu
           onClick={onClick}

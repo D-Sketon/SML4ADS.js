@@ -89,7 +89,7 @@ export default function SimulateModal({
         onCancel={handleCancel}
       >
         <Row className="flex items-center mt-4 mb-4">
-          <Col span={6}>Simulation Name:</Col>
+          <Col span={6} style={{ fontWeight: 500 }}>Simulation Name:</Col>
           <Col span={18}>
             <Input
               placeholder="Optional"

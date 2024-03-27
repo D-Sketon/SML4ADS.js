@@ -45,7 +45,8 @@ export default function ProbabilityTransition({
             pointerEvents: "all",
             backgroundColor: "white",
             padding: "1px",
-            fontSize: "12px",
+            fontSize: "14px",
+            fontWeight: 500
           }}
           className="nodrag nopan"
         >

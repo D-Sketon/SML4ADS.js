@@ -813,7 +813,7 @@ export default function CarInformation({
           }}
         />
       </div>
-      <div className="form-item">
+      {/* <div className="form-item">
         <div className="form-label w-28">accelerationType:</div>
         <Cascader
           className="w-44"
@@ -865,7 +865,7 @@ export default function CarInformation({
             simpleSetCar("minAcceleration", e);
           }}
         />
-      </div>
+      </div> */}
       <div className="form-item">
         <div className="form-label w-28">location:</div>
         <Select
