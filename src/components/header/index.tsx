@@ -208,16 +208,16 @@ export default function HeaderMenu(): ReactElement {
             key: "modeling",
             icon: <ApartmentOutlined />,
             children: [
-              {
-                type: "group",
-                label: "Functional",
-                children: [
-                  {
-                    label: "Functional Scenario",
-                    key: "functional",
-                  },
-                ],
-              },
+              // {
+              //   type: "group",
+              //   label: "Functional",
+              //   children: [
+              //     {
+              //       label: "Functional Scenario",
+              //       key: "functional",
+              //     },
+              //   ],
+              // },
               {
                 type: "group",
                 label: "Logical",

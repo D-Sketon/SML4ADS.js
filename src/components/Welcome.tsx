@@ -32,7 +32,7 @@ export default function Welcome(): ReactElement {
   return (
     <>
       <div className="welcome-wrapper bg-stone-100">
-        <Title>Welcome to SML4ADS</Title>
+        <Title>面向ADS的安全攸关场景建模平台</Title>
         <div className="w-10/12">
           <Row gutter={16} className="mt-2 mb-2">
             <Col span={24}>

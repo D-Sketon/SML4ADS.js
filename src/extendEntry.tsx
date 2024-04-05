@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import { Card, Col, Row } from "antd";
 
 import { meta as AdversarialAttackMeta } from "./components/extends/AdversarialAttack";
+import { meta as CausalBayesianGenerationFuzzyTestMeta } from "./components/extends/CausalBayesianGenerationFuzzyTest";
 import { meta as CausalInferenceMeta } from "./components/extends/CausalInference";
 import { meta as CriticalScenariosMeta } from "./components/extends/CriticalScenarios";
 import { meta as CriticalSpecificScenariosMeta } from "./components/extends/CriticalSpecificScenarios";
@@ -25,18 +26,23 @@ const extendEntry = (): ReactElement => {
                       </Card>
                     </Col>
 <Col span={8}>
-                      <Card title={CausalInferenceMeta.title} extra={<NavLink to="/causalInference">More</NavLink>} className="h-52" hoverable={true}>
-                      {CausalInferenceMeta.description}
+                      <Card title={CausalBayesianGenerationFuzzyTestMeta.title} extra={<NavLink to="/causalBayesianGenerationFuzzyTest">More</NavLink>} className="h-52" hoverable={true}>
+                      {CausalBayesianGenerationFuzzyTestMeta.description}
                       </Card>
                     </Col>
 <Col span={8}>
-                      <Card title={CriticalScenariosMeta.title} extra={<NavLink to="/criticalScenarios">More</NavLink>} className="h-52" hoverable={true}>
-                      {CriticalScenariosMeta.description}
+                      <Card title={CausalInferenceMeta.title} extra={<NavLink to="/causalInference">More</NavLink>} className="h-52" hoverable={true}>
+                      {CausalInferenceMeta.description}
                       </Card>
                     </Col>
             </Row>
 <Row gutter={16} className="mt-2 mb-2">
               <Col span={8}>
+                      <Card title={CriticalScenariosMeta.title} extra={<NavLink to="/criticalScenarios">More</NavLink>} className="h-52" hoverable={true}>
+                      {CriticalScenariosMeta.description}
+                      </Card>
+                    </Col>
+<Col span={8}>
                       <Card title={CriticalSpecificScenariosMeta.title} extra={<NavLink to="/criticalSpecificScenarios">More</NavLink>} className="h-52" hoverable={true}>
                       {CriticalSpecificScenariosMeta.description}
                       </Card>
@@ -46,14 +52,14 @@ const extendEntry = (): ReactElement => {
                       {IntervalizedWFAMeta.description}
                       </Card>
                     </Col>
-<Col span={8}>
+            </Row>
+<Row gutter={16} className="mt-2 mb-2">
+              <Col span={8}>
                       <Card title={OnlineMonitorMeta.title} extra={<NavLink to="/onlineMonitor">More</NavLink>} className="h-52" hoverable={true}>
                       {OnlineMonitorMeta.description}
                       </Card>
                     </Col>
-            </Row>
-<Row gutter={16} className="mt-2 mb-2">
-              <Col span={8}>
+<Col span={8}>
                       <Card title={RLModelingMeta.title} extra={<NavLink to="/rLModeling">More</NavLink>} className="h-52" hoverable={true}>
                       {RLModelingMeta.description}
                       </Card>
@@ -63,14 +69,14 @@ const extendEntry = (): ReactElement => {
                       {RLTrainingMeta.description}
                       </Card>
                     </Col>
-<Col span={8}>
+            </Row>
+<Row gutter={16} className="mt-2 mb-2">
+              <Col span={8}>
                       <Card title={SimulationTestMeta.title} extra={<NavLink to="/simulationTest">More</NavLink>} className="h-52" hoverable={true}>
                       {SimulationTestMeta.description}
                       </Card>
                     </Col>
-            </Row>
-<Row gutter={16} className="mt-2 mb-2">
-              <Col span={8}>
+<Col span={8}>
                       <Card title={TimeSeriesAnalysisMeta.title} extra={<NavLink to="/timeSeriesAnalysis">More</NavLink>} className="h-52" hoverable={true}>
                       {TimeSeriesAnalysisMeta.description}
                       </Card>

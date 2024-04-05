@@ -2,6 +2,7 @@
 import React, { ReactElement } from "react";
 import { Route } from "react-router-dom";
 import AdversarialAttack from "./components/extends/AdversarialAttack";
+import CausalBayesianGenerationFuzzyTest from "./components/extends/CausalBayesianGenerationFuzzyTest";
 import CausalInference from "./components/extends/CausalInference";
 import CriticalScenarios from "./components/extends/CriticalScenarios";
 import CriticalSpecificScenarios from "./components/extends/CriticalSpecificScenarios";
@@ -17,6 +18,7 @@ const extendRouter = (): ReactElement => {
   return (
     <React.Fragment>
       <Route path="/adversarialAttack" element={<AdversarialAttack />} />
+<Route path="/causalBayesianGenerationFuzzyTest" element={<CausalBayesianGenerationFuzzyTest />} />
 <Route path="/causalInference" element={<CausalInference />} />
 <Route path="/criticalScenarios" element={<CriticalScenarios />} />
 <Route path="/criticalSpecificScenarios" element={<CriticalSpecificScenarios />} />

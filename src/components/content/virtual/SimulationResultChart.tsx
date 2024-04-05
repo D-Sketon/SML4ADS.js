@@ -305,7 +305,7 @@ export default function SimulationResultChart({
   });
 
   return (
-    <Card className="box-border m-2 ml-0 mt-0 w-full">
+    <Card className="box-border m-2 ml-0 mt-0 w-full simulation-result-chart">
       <Tabs items={items} />
     </Card>
   );

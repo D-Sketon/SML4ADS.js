@@ -9,6 +9,8 @@ import "./StreamPlayTech";
 import VideoJS from "./VideoJS";
 import SimulationResultChart from "./SimulationResultChart";
 
+import "./index.less";
+
 interface SimulationResultProps {
   path: string;
 }
@@ -156,7 +158,7 @@ export default function SimulationResult({
 
   return (
     <>
-      <div>
+      <div className="simulation-result">
         <Card className="box-border m-2 ml-0" style={{ height: "300px" }}>
           <Table
             columns={columns}

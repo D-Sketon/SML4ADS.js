@@ -8,11 +8,13 @@ INCLUDE rainfall IS moderate rain
 
 INCLUDE wind IS fresh breeze
 
-INCLUDE vehicle speed IS 0, 8 m/s
+INCLUDE vehicle speed IS 0, 12 m/s
 ---
 
 GLOBALLY
 	distance between Ego and pedestrian IS GREATER THAN 1
   
-FINALLY
-	Ego speed IS EQUAL TO 0 AND pedestrian speed IS NOT EQUAL TO 0
+FINALLY 
+  	Ego speed IS EQUAL TO 0 
+  AND 
+  	pedestrian speed IS NOT EQUAL TO 0
