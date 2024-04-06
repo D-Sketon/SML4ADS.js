@@ -12,6 +12,16 @@ import Paragraph from "antd/es/typography/Paragraph";
 
 import "./index.less";
 import WorkspaceModal from "./WorkspaceModal";
+import Project from "./Project";
+import Upload from "./Upload";
+import FieldFiltering from "./FieldFiltering";
+import PriorKnowledge from "./PriorKnowledge";
+import CausalDiscovery from "./CausalDiscovery";
+import RelationshipConfirmation from "./RelationshipConfirmation";
+import Rebuttal from "./Rebuttal";
+import ScenarioGeneration from "./ScenarioGeneration";
+import FuzzyTest from "./FuzzyTest";
+import ModelLearning from "./ModelLearning";
 
 export const meta = {
   title: "基于因果贝叶斯的场景生成与模糊测试",
@@ -59,7 +69,7 @@ export default function CausalBayesianGenerationFuzzyTest(): ReactElement {
   const [workspacePath, setWorkspacePath] = useState("");
 
   useEffect(() => {
-    setWorkspaceModalVisible(true);
+    // setWorkspaceModalVisible(true);
   }, []);
 
   const handleWorkspaceModalCancel = async () => {
@@ -75,38 +85,40 @@ export default function CausalBayesianGenerationFuzzyTest(): ReactElement {
         setWorkspacePath={setWorkspacePath}
       />
       <Layout style={{ minHeight: "100vh" }}>
-        <Sider
-          collapsible
-          collapsed={collapsed}
-          onCollapse={(value) => setCollapsed(value)}
-        >
-          <div className="demo-logo-vertical" />
-          <Menu
-            theme="dark"
-            defaultSelectedKeys={["1"]}
-            mode="inline"
-            items={items}
-          />
-        </Sider>
         <Layout className="bayesian">
-          <Header style={{ padding: "5px 10px", background: "white" }}>
-            <Title level={3}>
+          <Header style={{ padding: "5px 10px", background: "#e8e8e8", height: '140px' }} className="flex items-center flex-col">
+            <Title level={3} className="text-center">
               基于因果贝叶斯的自动驾驶场景生成与模糊测试平台
             </Title>
             <Paragraph>
               RGFuzzer是一个基于因果贝叶斯网络（CBN）的自动驾驶风险场景生成和模糊测试工具。该工具支持CBN的构建、自动驾驶风险场景生成、以及对用户自定义的自动驾驶系统进行测试
             </Paragraph>
           </Header>
-          <Content style={{ margin: "0 16px" }}>
-            <div
-              style={{
-                padding: 24,
-                minHeight: 360,
-              }}
+          <Layout>
+            <Sider
+              collapsible
+              collapsed={collapsed}
+              onCollapse={(value) => setCollapsed(value)}
             >
-              Bill is a cat.
-            </div>
-          </Content>
+              <Menu
+                theme="dark"
+                defaultSelectedKeys={["1"]}
+                mode="inline"
+                items={items}
+                selectable={false}
+              />
+            </Sider>
+            <Content style={{ overflow: 'auto', height: 'calc(100vh - 140px)' }}>
+              <div
+                style={{
+                  padding: 24,
+                  minHeight: 360,
+                }}
+              >
+                <Rebuttal />
+              </div>
+            </Content>
+          </Layout>
         </Layout>
       </Layout>
       <FloatButton icon={<LeftOutlined />} onClick={() => navigate("/")} />
