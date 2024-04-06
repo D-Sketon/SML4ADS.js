@@ -1,7 +1,11 @@
 import { Button, Card } from "antd";
 import { ReactElement } from "react";
 
-export default function Upload(): ReactElement {
+export default function Upload({
+  setKey
+}: {
+  setKey: (key: string) => void;
+}): ReactElement {
   return (
     <div className="flex flex-col gap-10">
       <Card>
@@ -12,7 +16,7 @@ export default function Upload(): ReactElement {
           </div>
         </div>
       </Card>
-      <Button type="primary">下一步</Button>
+      <Button type="primary" onClick={() => setKey("4")}>下一步</Button>
     </div>
   );
 }

@@ -1,7 +1,11 @@
 import { Card, Select, Radio, Button } from "antd";
 import { ReactElement } from "react";
 
-export default function FuzzyTest(): ReactElement {
+export default function FuzzyTest({
+  setKey
+}: {
+  setKey: (key: string) => void;
+}): ReactElement {
   return (
     <div className="flex flex-col gap-10">
       <Card>

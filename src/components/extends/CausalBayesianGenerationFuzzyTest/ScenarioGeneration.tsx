@@ -1,7 +1,11 @@
 import { Card, Button, Radio, Select } from "antd";
 import { ReactElement } from "react";
 
-export default function ScenarioGeneration(): ReactElement {
+export default function ScenarioGeneration({
+  setKey
+}: {
+  setKey: (key: string) => void;
+}): ReactElement {
   return (
     <div className="flex flex-col gap-10">
       <Card>

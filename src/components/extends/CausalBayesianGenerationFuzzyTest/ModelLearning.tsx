@@ -6,7 +6,11 @@ import VisGraph, {
   Options,
 } from "react-vis-graph-wrapper";
 
-export default function ModelLearning(): ReactElement {
+export default function ModelLearning({
+  setKey
+}: {
+  setKey: (key: string) => void;
+}): ReactElement {
   const [graph, setGraph] = useState<GraphData>({
     nodes: [
       { id: 1, label: "Node 1", title: "I have a popup!" },
@@ -53,7 +57,7 @@ export default function ModelLearning(): ReactElement {
     <div className="flex flex-col gap-10">
       <VisGraph graph={graph} options={options} />
       <div className="flex w-full gap-5">
-        <Button type="primary" className="grow">
+        <Button type="primary" className="grow" onClick={() => setKey("8")}>
           返回上一步反驳
         </Button>
         <Button type="primary" className="grow">

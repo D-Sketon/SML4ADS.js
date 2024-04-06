@@ -1,7 +1,11 @@
 import { Button, Card, Select } from "antd";
 import { ReactElement } from "react";
 
-export default function Rebuttal(): ReactElement {
+export default function Rebuttal({
+  setKey
+}: {
+  setKey: (key: string) => void;
+}): ReactElement {
   return (
     <div className="flex flex-col gap-10">
       <Card>
@@ -18,10 +22,10 @@ export default function Rebuttal(): ReactElement {
         </div>
       </Card>
       <div className="flex w-full gap-5">
-        <Button type="primary" className="grow">
+        <Button type="primary" className="grow" onClick={() => setKey("7")}>
           上一步
         </Button>
-        <Button type="primary" className="grow">
+        <Button type="primary" className="grow" onClick={() => setKey("9")}>
           运行
         </Button>
       </div>

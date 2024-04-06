@@ -1,7 +1,11 @@
 import { Button, Checkbox, Table, TableProps } from "antd";
 import { ReactElement } from "react";
 
-export default function FieldFiltering(): ReactElement {
+export default function FieldFiltering({
+  setKey
+}: {
+  setKey: (key: string) => void;
+}): ReactElement {
   const header = ["a", "b", "c", "d"];
 
   const columns: TableProps<any>["columns"] = [
@@ -44,10 +48,10 @@ export default function FieldFiltering(): ReactElement {
         pagination={false}
       ></Table>
       <div className="flex w-full gap-5">
-        <Button type="primary" className="grow">
+        <Button type="primary" className="grow" onClick={() => setKey("3")}>
           上一步
         </Button>
-        <Button type="primary" className="grow">
+        <Button type="primary" className="grow" onClick={() => setKey("5")}>
           下一步
         </Button>
       </div>

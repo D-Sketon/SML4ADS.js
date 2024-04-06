@@ -1,7 +1,11 @@
 import { Button, Card, InputNumber, Radio, Select } from "antd";
 import { ReactElement } from "react";
 
-export default function CausalDiscovery(): ReactElement {
+export default function CausalDiscovery({
+  setKey
+}: {
+  setKey: (key: string) => void;
+}): ReactElement {
   return (
     <div className="flex flex-col gap-10">
       <Card>
@@ -176,10 +180,10 @@ export default function CausalDiscovery(): ReactElement {
         </Card>
       </Card>
       <div className="flex w-full gap-5">
-        <Button type="primary" className="grow">
+        <Button type="primary" className="grow" onClick={() => setKey("5")}>
           上一步
         </Button>
-        <Button type="primary" className="grow">
+        <Button type="primary" className="grow" onClick={() => setKey("7")}>
           生成因果图
         </Button>
       </div>

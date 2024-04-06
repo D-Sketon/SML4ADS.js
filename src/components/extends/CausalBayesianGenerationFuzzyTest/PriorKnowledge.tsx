@@ -6,7 +6,11 @@ import VisGraph, {
   Options,
 } from "react-vis-graph-wrapper";
 
-export default function PriorKnowledge(): ReactElement {
+export default function PriorKnowledge({
+  setKey
+}: {
+  setKey: (key: string) => void;
+}): ReactElement {
   const [graph, setGraph] = useState<GraphData>({
     nodes: [
       { id: 1, label: "Node 1", title: "I have a popup!" },
@@ -62,10 +66,10 @@ export default function PriorKnowledge(): ReactElement {
     <div className="flex flex-col gap-10">
       <VisGraph graph={graph} options={options} events={events} />
       <div className="flex w-full gap-5">
-        <Button type="primary" className="grow">
+        <Button type="primary" className="grow" onClick={() => setKey("4")}>
           上一步
         </Button>
-        <Button type="primary" className="grow">
+        <Button type="primary" className="grow" onClick={() => setKey("6")}>
           下一步
         </Button>
       </div>

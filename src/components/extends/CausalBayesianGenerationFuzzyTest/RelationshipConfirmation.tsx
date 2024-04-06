@@ -7,7 +7,11 @@ import VisGraph, {
 } from "react-vis-graph-wrapper";
 
 
-export default function RelationshipConfirmation(): ReactElement {
+export default function RelationshipConfirmation({
+  setKey
+}: {
+  setKey: (key: string) => void;
+}): ReactElement {
 
   const [graph, setGraph] = useState<GraphData>({
     nodes: [
@@ -64,13 +68,13 @@ export default function RelationshipConfirmation(): ReactElement {
     <div className="flex flex-col gap-10">
       <VisGraph graph={graph} options={options} events={events} />
       <div className="flex w-full gap-5">
-        <Button type="primary" className="grow">
+        <Button type="primary" className="grow" onClick={() => setKey("6")}>
           上一步
         </Button>
-        <Button type="primary" className="grow">
+        <Button type="primary" className="grow" onClick={() => setKey("8")}>
           反驳
         </Button>
-        <Button type="primary" className="grow">
+        <Button type="primary" className="grow" onClick={() => setKey("9")}>
           学习
         </Button>
       </div>

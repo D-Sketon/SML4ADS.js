@@ -36,6 +36,7 @@ type MenuItem = Required<MenuProps>["items"][number];
 function getItem(
   label: React.ReactNode,
   key: React.Key,
+  disabled: boolean,
   icon?: React.ReactNode,
   children?: MenuItem[]
 ): MenuItem {
@@ -44,25 +45,30 @@ function getItem(
     icon,
     children,
     label,
+    disabled,
   } as MenuItem;
 }
 
-const items: MenuItem[] = [
-  getItem("创建新项目", "1", <FileOutlined />),
-  getItem("构建CBN", "2", <DesktopOutlined />, [
-    getItem("上传文件", "3"),
-    getItem("字段筛选", "4"),
-    getItem("先验知识", "5"),
-    getItem("因果发现", "6"),
-    getItem("关系确认", "7"),
-    getItem("反驳", "8"),
-    getItem("模型学习", "9"),
+const ITEMS = [
+  getItem("创建新项目", "1", false, <FileOutlined />),
+  getItem("构建CBN", "2", false, <DesktopOutlined />, [
+    getItem("上传文件", "3", true),
+    getItem("字段筛选", "4", true),
+    getItem("先验知识", "5", true),
+    getItem("因果发现", "6", true),
+    getItem("关系确认", "7", true),
+    getItem("反驳", "8", true),
+    getItem("模型学习", "9", true),
   ]),
-  getItem("场景生成", "10", <ExperimentOutlined />),
-  getItem("模糊测试", "11", <ExperimentOutlined />),
+  getItem("场景生成", "10", false, <ExperimentOutlined />),
+  getItem("模糊测试", "11", false, <ExperimentOutlined />),
 ];
 
 export default function CausalBayesianGenerationFuzzyTest(): ReactElement {
+  const [items, setItems] = useState(ITEMS);
+  const [openKeys, setOpenKeys] = useState<string[]>([]);
+  const [key, _setKey] = useState("1");
+
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
   const [workspaceModalVisible, setWorkspaceModalVisible] = useState(false);
@@ -76,6 +82,72 @@ export default function CausalBayesianGenerationFuzzyTest(): ReactElement {
     setWorkspaceModalVisible(false);
   };
 
+  const setKey = (key: string) => {
+    setItems(
+      // @ts-ignore
+      ITEMS.map((item) => {
+        if (item === null) return null;
+        if (item.key === "2") {
+          return {
+            ...item,
+            // @ts-ignore
+            children: item.children?.map((child) => {
+              if (child.key === key) {
+                return {
+                  ...child,
+                  disabled: false,
+                };
+              }
+              return {
+                ...child,
+                disabled: true,
+              };
+            }),
+          };
+        }
+        return item;
+      })
+    );
+    if (key === "1" || key === "10" || key === "11") {
+      setOpenKeys([]);
+    } else {
+      setOpenKeys(["2"]);
+    }
+    _setKey(key);
+  };
+
+  const handleSelectMenu = ({ key }: any) => {
+    setKey(key);
+    return false;
+  };
+
+  const switchRouter = () => {
+    switch (key) {
+      case "1":
+        return <Project setKey={setKey} />;
+      case "3":
+        return <Upload setKey={setKey}/>;
+      case "4":
+        return <FieldFiltering setKey={setKey}/>;
+      case "5":
+        return <PriorKnowledge setKey={setKey}/>;
+      case "6":
+        return <CausalDiscovery setKey={setKey}/>;
+      case "7":
+        return <RelationshipConfirmation setKey={setKey} />;
+      case "8":
+        return <Rebuttal setKey={setKey}/>;
+      case "9":
+        return <ModelLearning setKey={setKey}/>;
+      case "10":
+        return <ScenarioGeneration setKey={setKey}/>;
+      case "11":
+        return <FuzzyTest setKey={setKey}/>;
+      default:
+        return <Project setKey={setKey} />;
+    }
+  };
+
   return (
     <>
       <WorkspaceModal
@@ -86,7 +158,14 @@ export default function CausalBayesianGenerationFuzzyTest(): ReactElement {
       />
       <Layout style={{ minHeight: "100vh" }}>
         <Layout className="bayesian">
-          <Header style={{ padding: "5px 10px", background: "#e8e8e8", height: '140px' }} className="flex items-center flex-col">
+          <Header
+            style={{
+              padding: "5px 10px",
+              background: "#e8e8e8",
+              height: "140px",
+            }}
+            className="flex items-center flex-col"
+          >
             <Title level={3} className="text-center">
               基于因果贝叶斯的自动驾驶场景生成与模糊测试平台
             </Title>
@@ -102,20 +181,28 @@ export default function CausalBayesianGenerationFuzzyTest(): ReactElement {
             >
               <Menu
                 theme="dark"
-                defaultSelectedKeys={["1"]}
                 mode="inline"
                 items={items}
-                selectable={false}
+                onSelect={handleSelectMenu}
+                onOpenChange={(keys) => setOpenKeys(keys)}
+                openKeys={openKeys}
+                selectedKeys={
+                  key === "1" || key === "10" || key === "11"
+                    ? [key]
+                    : ["2", key]
+                }
               />
             </Sider>
-            <Content style={{ overflow: 'auto', height: 'calc(100vh - 140px)' }}>
+            <Content
+              style={{ overflow: "auto", height: "calc(100vh - 140px)" }}
+            >
               <div
                 style={{
                   padding: 24,
                   minHeight: 360,
                 }}
               >
-                <Rebuttal />
+                {switchRouter()}
               </div>
             </Content>
           </Layout>
