@@ -1,18 +1,20 @@
 import { Button, Card } from "antd";
 import { ReactElement } from "react";
+import { defaultProjectData } from ".";
 
 export default function Project({
-  setKey
+  setKey,
+  setProjectData,
 }: {
   setKey: (key: string) => void;
+  setProjectData: (data: any) => void;
 }): ReactElement {
-  const handleNew = () => {
-
-  }
+  const handleNew = () => {};
 
   const handleOpen = () => {
+    setProjectData(defaultProjectData());
     setKey("3");
-  }
+  };
   return (
     <>
       <div
@@ -35,8 +37,12 @@ export default function Project({
           <div className="flex flex-col items-center">
             <div className="font-bold text-lg mb-3">项目名称</div>
             <div className="flex w-full justify-center gap-5">
-              <Button type="primary" onClick={handleNew}>新建</Button>
-              <Button type="primary" onClick={handleOpen}>打开</Button>
+              <Button type="primary" onClick={handleNew}>
+                新建
+              </Button>
+              <Button type="primary" onClick={handleOpen}>
+                打开
+              </Button>
             </div>
           </div>
         </Card>

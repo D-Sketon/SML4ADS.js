@@ -1,10 +1,15 @@
 import { Button, Card, Select } from "antd";
 import { ReactElement } from "react";
+import { ProjectType } from ".";
 
 export default function Rebuttal({
-  setKey
+  setKey,
+  projectData,
+  setProjectData,
 }: {
   setKey: (key: string) => void;
+  projectData: ProjectType;
+  setProjectData: (data: any) => void;
 }): ReactElement {
   return (
     <div className="flex flex-col gap-10">
@@ -13,6 +18,12 @@ export default function Rebuttal({
           选择算法
           <Select
             style={{ width: 150 }}
+            value={projectData.rebuttal}
+            onChange={(e) =>
+              setProjectData((data: ProjectType) => {
+                return { ...data, rebuttal: e };
+              })
+            }
             options={[
               { value: "PTR", label: "PTR" },
               { value: "RCC", label: "RCC" },

@@ -60,9 +60,89 @@ const ITEMS = [
     getItem("反驳", "8", true),
     getItem("模型学习", "9", true),
   ]),
-  getItem("场景生成", "10", false, <ExperimentOutlined />),
+  getItem("基于CBN的场景生成", "10", false, <ExperimentOutlined />),
   getItem("模糊测试", "11", false, <ExperimentOutlined />),
 ];
+
+export interface ProjectType {
+  csvPath: string;
+  csvArray: string[][];
+  selectedColumns: string[];
+  discovery: {
+    algorithm: string;
+    test: string;
+    score: string;
+    gfci: {
+      conditioningSet: number;
+      graphDegree: number;
+      discriminatingLength: number;
+      timeLag: number;
+      FCIRuleSetUsed: boolean;
+      discriminatingRuleDone: boolean;
+      msepSearchDone: boolean;
+      verboseOutputPrinted: boolean;
+    };
+    bdeuScore: {
+      sampleSize: number;
+      coefficient: number;
+    };
+    gSquareTest: {
+      values: number;
+    };
+    bootStrapping: {
+      bootstrapsNumber: number;
+      resampleSizePercentage: number;
+      seed: number;
+      addingOriginalDataset: boolean;
+      samplingWithReplacement: boolean;
+      individualBootstrappingSaved: boolean;
+    };
+  };
+  rebuttal: string;
+  knowledgeEdge: any[];
+  confirmationEdge: any[];
+}
+
+export const defaultProjectData = () => {
+  return {
+    csvPath: "点击上传csv文件",
+    csvArray: [],
+    selectedColumns: [],
+    discovery: {
+      algorithm: "GFCI",
+      test: "CG-LRT",
+      score: "BDeu Score",
+      gfci: {
+        conditioningSet: -1,
+        graphDegree: 1000,
+        discriminatingLength: -1,
+        timeLag: 0,
+        FCIRuleSetUsed: true,
+        discriminatingRuleDone: true,
+        msepSearchDone: true,
+        verboseOutputPrinted: true,
+      },
+      bdeuScore: {
+        sampleSize: 10,
+        coefficient: 1,
+      },
+      gSquareTest: {
+        values: 0.01,
+      },
+      bootStrapping: {
+        bootstrapsNumber: 0,
+        resampleSizePercentage: 100,
+        seed: -1,
+        addingOriginalDataset: true,
+        samplingWithReplacement: true,
+        individualBootstrappingSaved: true,
+      },
+    },
+    rebuttal: "PTR",
+    knowledgeEdge: [],
+    confirmationEdge: [],
+  };
+};
 
 export default function CausalBayesianGenerationFuzzyTest(): ReactElement {
   const [items, setItems] = useState(ITEMS);
@@ -73,6 +153,10 @@ export default function CausalBayesianGenerationFuzzyTest(): ReactElement {
   const [collapsed, setCollapsed] = useState(false);
   const [workspaceModalVisible, setWorkspaceModalVisible] = useState(false);
   const [workspacePath, setWorkspacePath] = useState("");
+
+  const [projectData, setProjectData] = useState<ProjectType>(
+    defaultProjectData()
+  );
 
   useEffect(() => {
     // setWorkspaceModalVisible(true);
@@ -124,27 +208,63 @@ export default function CausalBayesianGenerationFuzzyTest(): ReactElement {
   const switchRouter = () => {
     switch (key) {
       case "1":
-        return <Project setKey={setKey} />;
+        return <Project setKey={setKey} setProjectData={setProjectData} />;
       case "3":
-        return <Upload setKey={setKey}/>;
+        return (
+          <Upload
+            setKey={setKey}
+            projectData={projectData}
+            setProjectData={setProjectData}
+          />
+        );
       case "4":
-        return <FieldFiltering setKey={setKey}/>;
+        return (
+          <FieldFiltering
+            setKey={setKey}
+            projectData={projectData}
+            setProjectData={setProjectData}
+          />
+        );
       case "5":
-        return <PriorKnowledge setKey={setKey}/>;
+        return (
+          <PriorKnowledge
+            setKey={setKey}
+            projectData={projectData}
+            setProjectData={setProjectData}
+          />
+        );
       case "6":
-        return <CausalDiscovery setKey={setKey}/>;
+        return (
+          <CausalDiscovery
+            setKey={setKey}
+            projectData={projectData}
+            setProjectData={setProjectData}
+          />
+        );
       case "7":
-        return <RelationshipConfirmation setKey={setKey} />;
+        return (
+          <RelationshipConfirmation
+            setKey={setKey}
+            projectData={projectData}
+            setProjectData={setProjectData}
+          />
+        );
       case "8":
-        return <Rebuttal setKey={setKey}/>;
+        return (
+          <Rebuttal
+            setKey={setKey}
+            projectData={projectData}
+            setProjectData={setProjectData}
+          />
+        );
       case "9":
-        return <ModelLearning setKey={setKey}/>;
+        return <ModelLearning setKey={setKey} projectData={projectData} />;
       case "10":
-        return <ScenarioGeneration setKey={setKey}/>;
+        return <ScenarioGeneration setKey={setKey} />;
       case "11":
-        return <FuzzyTest setKey={setKey}/>;
+        return <FuzzyTest setKey={setKey} />;
       default:
-        return <Project setKey={setKey} />;
+        return <Project setKey={setKey} setProjectData={setProjectData}/>;
     }
   };
 
@@ -167,7 +287,7 @@ export default function CausalBayesianGenerationFuzzyTest(): ReactElement {
             className="flex items-center flex-col"
           >
             <Title level={3} className="text-center">
-              基于因果贝叶斯的自动驾驶场景生成与模糊测试平台
+              基于因果贝叶斯的自动驾驶场景生成与模糊测试
             </Title>
             <Paragraph>
               RGFuzzer是一个基于因果贝叶斯网络（CBN）的自动驾驶风险场景生成和模糊测试工具。该工具支持CBN的构建、自动驾驶风险场景生成、以及对用户自定义的自动驾驶系统进行测试

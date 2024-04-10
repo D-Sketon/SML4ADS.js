@@ -2,16 +2,18 @@ import { Button } from "antd";
 import { ReactElement, useState } from "react";
 import VisGraph, {
   GraphData,
-  GraphEvents,
   Options,
 } from "react-vis-graph-wrapper";
+import { ProjectType } from ".";
 
 export default function ModelLearning({
-  setKey
+  setKey,
+  projectData,
 }: {
   setKey: (key: string) => void;
+  projectData: ProjectType;
 }): ReactElement {
-  const [graph, setGraph] = useState<GraphData>({
+  const [graph] = useState<GraphData>({
     nodes: [
       { id: 1, label: "Node 1", title: "I have a popup!" },
       { id: 2, label: "Node 2", title: "I have a popup!" },

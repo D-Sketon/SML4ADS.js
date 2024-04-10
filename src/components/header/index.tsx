@@ -288,6 +288,10 @@ export default function HeaderMenu(): ReactElement {
                     label: "Import data from file",
                     key: "import-data",
                   },
+                  {
+                    label: "CBN-Based",
+                    key: "cbn-basic",
+                  },
                 ],
               },
               {
