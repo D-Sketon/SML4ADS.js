@@ -42,6 +42,7 @@ echarts.use([
 ]);
 
 interface DataType {
+  key: any;
   index: string;
   factorA: string;
   factorB: string;
@@ -189,68 +190,13 @@ export default function TimeSeriesAnalysis(): ReactElement {
     },
   ];
 
-  const tableData: DataType[] = [
-    {
-      index: "1",
-      factorA: "1",
-      factorB: "2",
-      factorC: "3",
-    },
-    {
-      index: "2",
-      factorA: "1",
-      factorB: "2",
-      factorC: "3",
-    },
-    {
-      index: "3",
-      factorA: "1",
-      factorB: "2",
-      factorC: "3",
-    },
-    {
-      index: "4",
-      factorA: "1",
-      factorB: "2",
-      factorC: "3",
-    },
-    {
-      index: "5",
-      factorA: "1",
-      factorB: "2",
-      factorC: "3",
-    },
-    {
-      index: "6",
-      factorA: "1",
-      factorB: "2",
-      factorC: "3",
-    },
-    {
-      index: "7",
-      factorA: "1",
-      factorB: "2",
-      factorC: "3",
-    },
-    {
-      index: "8",
-      factorA: "1",
-      factorB: "2",
-      factorC: "3",
-    },
-    {
-      index: "9",
-      factorA: "1",
-      factorB: "2",
-      factorC: "3",
-    },
-    {
-      index: "10",
-      factorA: "1",
-      factorB: "2",
-      factorC: "3",
-    },
-  ];
+  const tableData: DataType[] = Array.from({ length: 10 }, (_, index) => ({
+    key: index + 1,
+    index: (index + 1).toString(),
+    factorA: "1",
+    factorB: "2",
+    factorC: "3",
+  }));
 
   const handleDownloadModel = () => {
     

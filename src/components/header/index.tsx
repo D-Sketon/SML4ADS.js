@@ -380,6 +380,9 @@ export default function HeaderMenu(): ReactElement {
       case "logical":
         navigate("/home/logical");
         break;
+      case "cbn-basic":
+        navigate("/causalBayesianGenerationFuzzyTest");
+        break;
       default:
     }
   };
